@@ -1,0 +1,3 @@
+# no CodeIgniter files to be checked in, unless editted
+CodeIgniter/*
+!CodeIgniter/README.md
