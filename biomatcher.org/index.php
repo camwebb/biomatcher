@@ -174,6 +174,8 @@ if (defined('ENVIRONMENT'))
 
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
+    
+    define('CI_BASE', '../CodeIgniter/');
 
 
 	// The path to the "application" folder
