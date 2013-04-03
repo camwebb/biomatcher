@@ -1,0 +1,86 @@
+*{
+    border: 0;
+    margin: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    display: block;
+    margin: 8px;
+}
+
+form {
+    margin:0px;
+    padding: 0px;
+    border: none;
+    text-align:left;
+}
+
+img{
+    border: 0px; 
+}
+
+h1{
+    font-size: 4em;
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.button{
+    width: 100px;
+    height: 30px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#page_title{
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+}
+
+#loginbox{
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 400px;
+    height:305px;
+    background-color: rgba(95, 50, 0, 0.5);
+    color: rgba(95, 50, 0, 0.5);
+    -webkit-border-radius: 25px;
+    border-radius: 25px;
+}
+
+#loginform{
+    padding:5px 25px;
+}
+
+.labelinput{
+    float:left;
+    font-size: 2em;
+}
+
+.inputtext{
+    float:right;
+    height:30px;
+    width:200px;
+    font-size: 1.3em;
+    margin: 3px 0px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    padding: 0 4px;
+}
+
+.inputbox{
+    width: 350px;
+    height: 37px;
+    padding-bottom: 15px;
+}
+
+#button_login{
+    float:right;
+}

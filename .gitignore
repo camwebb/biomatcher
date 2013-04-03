@@ -3,8 +3,8 @@ CodeIgniter/application/.htaccess
 CodeIgniter/application/cache
 CodeIgniter/application/cache/.htaccess
 CodeIgniter/application/cache/index.html
-CodeIgniter/application/config/autoload.php
-CodeIgniter/application/config/config.php
+!CodeIgniter/application/config/autoload.php
+!CodeIgniter/application/config/config.php
 CodeIgniter/application/config/constants.php
 CodeIgniter/application/config/database.php
 CodeIgniter/application/config/doctypes.php
@@ -41,7 +41,7 @@ CodeIgniter/application/libraries
 CodeIgniter/application/libraries/index.html
 CodeIgniter/application/logs
 CodeIgniter/application/logs/index.html
-CodeIgniter/application/models
+!CodeIgniter/application/models/m_pages.php
 CodeIgniter/application/models/index.html
 CodeIgniter/application/third_party
 CodeIgniter/application/third_party/index.html
