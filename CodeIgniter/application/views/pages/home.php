@@ -1,10 +1,10 @@
 <div id="page_title">
     <h1>Biomatcher</h1>
-    <p style="font-size: 2em; text-align: center; margin: 20px 0; position: relative;">Biomatcher : a tool for matching digital images</p>
+    <p style="font-size: 25px; text-align: center; margin: 20px 0; position: relative;">Biomatcher : a tool for matching digital images</p>
 </div>
 
 <div id="loginbox">
-    <p style="font-size: 3em; text-align: center; padding: 15px 0; position: relative;">Login Here</p>
+    <p style="font-size: 2em; text-align: center; padding: 15px 0; position: relative;">Login Here</p>
     
     <div id="loginform">
         <form id="login" action="<?php echo base_url(); ?>index.php/pages/login" method="POST">
@@ -21,7 +21,7 @@
             </div>
         </form>
     </div>
-    <p style="font-size: 2em; text-align: center; padding: 0 0 15px 0; position: relative;"><a href="#">Register</a></p>
+    <p style="font-size: 2em; text-align: center; padding: 0 0 15px 0; position: relative;"><a href="<?php echo base_url(); ?>index.php/pages/register">Register</a></p>
     
 </div>
 

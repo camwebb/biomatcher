@@ -27,6 +27,25 @@ class M_pages extends CI_Model {
         return $hasil;
         //return $query->num_rows();
     }
+    
+    function register_user()
+    {
+        $id = "";
+        $username = $this->input->post('username');
+        $password = $this->input->post('password');
+        $type = $this->input->post('type');
+        
+        
+       $data = array (
+                    'id' => $id,
+                    'username'=> $username,
+                    'password' => $password,
+                    'type' => $type
+                    );
+    
+        $this->db->insert('users',$data);    
+    
+    }
 
 }
 
