@@ -19,7 +19,7 @@ class Pages extends CI_Controller {
 
     }
     
-    public function login_success($page = 'login_success')
+    public function page_login($page = 'login')
 	{
 
 	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
@@ -42,20 +42,22 @@ class Pages extends CI_Controller {
         $login =$this->m_pages->login_user();
         if ($login['sukses'] == 1 )
         {
+            //login success
             $this->session->set_userdata(array('username' => $login['username'], 'id_user' => $login['id']));
         }
         else 
         {
+            //login failed
             $this->session->set_userdata(array('username' => "", 'id_user' => ""));
         }
     
-        redirect('pages/login_success', 'refresh');
+        redirect('', 'refresh');
     }
     
-    public function logout($page = 'login_success')
+    public function logout()
 	{
 	    $this->session->unset_userdata(array('username'=>'','cartid'=>'','id_user'=>''));
-        redirect('', 'refresh');
+        redirect('pages/page_login', 'refresh');
 	}
     
     function register($page = 'register')
