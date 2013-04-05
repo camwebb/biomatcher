@@ -1,6 +1,6 @@
 <?php
 if ($this->session->userdata('username') ==""){
-    redirect(base_url().'index.php/pages/page_login', 'refresh');
+    redirect(base_url().'index.php/pages/login', 'refresh');
 }
 ?>
 <h1>Biomatcher</h1>

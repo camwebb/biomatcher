@@ -7,7 +7,7 @@
     <p style="font-size: 2em; text-align: center; padding: 15px 0; position: relative;">Login Here</p>
     
     <div id="loginform">
-        <form id="login" action="<?php echo base_url(); ?>index.php/pages/login" method="POST">
+        <form id="login" action="<?php echo base_url(); ?>index.php/pages/do_login" method="POST">
             <div class="inputbox">
                 <label class="labelinput" for="input_username">Username</label>
                 <input class="inputtext" id="input_username" type="text" name="username"/><br />

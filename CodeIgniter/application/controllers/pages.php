@@ -19,7 +19,7 @@ class Pages extends CI_Controller {
 
     }
     
-    public function page_login($page = 'login')
+    public function login($page = 'login')
 	{
 
 	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
@@ -36,14 +36,33 @@ class Pages extends CI_Controller {
 
     }
   
-    public function login()
+    public function do_login()
     {
+		$this->load->helper('cookie');
         $this->load->model('m_pages');
         $login =$this->m_pages->login_user();
         if ($login['sukses'] == 1 )
         {
             //login success
             $this->session->set_userdata(array('username' => $login['username'], 'id_user' => $login['id']));
+			$cookieUsername = array(
+				'name'   => 'user',
+				'value'  => $login['username'],
+				'expire' => time()+1000,
+				'path'   => '/',
+				'secure' => FALSE
+			);
+
+			$cookiePassword = array(
+				'name'   => 'pass',
+				'value'  => $login['password'],
+				'expire' => time()+1000,
+				'path'   => '/',
+				'secure' => FALSE
+			);
+		//set cookie to browser
+		$this->input->set_cookie($cookieUsername);
+		$this->input->set_cookie($cookiePassword);
         }
         else 
         {
@@ -56,8 +75,10 @@ class Pages extends CI_Controller {
     
     public function logout()
 	{
-	    $this->session->unset_userdata(array('username'=>'','cartid'=>'','id_user'=>''));
-        redirect('pages/page_login', 'refresh');
+		//$this->load->helper('cookie');
+
+	    $this->session->unset_userdata(array('username' => "", 'id_user' => ""));
+        redirect('pages/login', 'refresh');
 	}
     
     function register($page = 'register')
