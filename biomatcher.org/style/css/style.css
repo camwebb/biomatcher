@@ -44,16 +44,32 @@ h1{
     width: 600px;
 }
 
-#loginbox, #registerbox{
+#loginbox{
     position: relative;
     margin-left: auto;
     margin-right: auto;
     width: 400px;
-    height:305px;
     background-color: rgba(95, 50, 0, 0.5);
     color: rgba(95, 50, 0, 0.5);
     -webkit-border-radius: 25px;
     border-radius: 25px;
+}
+
+#registerbox{
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
+    background-color: rgba(95, 50, 0, 0.5);
+    color: rgba(95, 50, 0, 0.5);
+    -webkit-border-radius: 25px;
+    border-radius: 25px;
+}
+
+.errorbox{
+    padding-bottom:10px;
+    color:red;
+    font-family: sans-serif;
 }
 
 #loginform, #registerform{
@@ -62,7 +78,7 @@ h1{
 
 .labelinput{
     float:left;
-    font-size: 25px;
+    font-size: 20px;
 }
 
 .inputtext{
@@ -70,7 +86,6 @@ h1{
     height:30px;
     width:200px;
     font-size: 12px;
-    margin: 3px 0px;
     -webkit-border-radius: 7px;
     border-radius: 7px;
     padding: 0 4px;
@@ -95,6 +110,12 @@ h1{
 
 .inputbox{
     width: 350px;
+    height: 37px;
+    padding-bottom: 15px;
+}
+
+.inputbox_reg{
+    width: 400px;
     height: 37px;
     padding-bottom: 15px;
 }

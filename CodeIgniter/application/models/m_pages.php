@@ -29,24 +29,16 @@ class M_pages extends CI_Model {
     
     function register_user()
     {
-        $id = "";
-        $username = $this->input->post('username');
-        $password = $this->input->post('password');
-        $type = $this->input->post('type');
-        
-        
-       $data = array (
-                    'id' => $id,
-                    'username'=> $username,
-                    'password' => $password,
-                    'type' => $type
-                    );
-
-        $this->db->insert('users',$data);    
-    
-    }
+        $data=array(
+        'username'=>$this->input->post('username'),
+        'type'=>$this->input->post('type'),
+        'password'=>md5($this->input->post('password'))
+        );
+        $this->db->insert('users',$data);
+ }
 
 }
+
 
 /* End of file m_pages.php */
 /* Location: ./application/models/m_pages.php */

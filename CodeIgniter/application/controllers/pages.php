@@ -83,23 +83,37 @@ class Pages extends CI_Controller {
     
     function register($page = 'register')
     {
-        $data['title'] = ucfirst($page); // Capitalize the first letter
-        $this->load->view('templates/header', $data);
+        if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
+    	{
+    		// Whoops, we don't have a page for that!
+    		show_404();
+    	}
+    
+    	$data['title'] = ucfirst($page); // Capitalize the first letter
+    	
+    	$this->load->view('templates/header', $data);
     	$this->load->view('pages/'.$page, $data);
-    	$this->load->view('templates/footer', $data);
+    	$this->load->view('templates/footer', $data);      
+    }
+    
+    function do_register()
+    {
+        $this->load->library('form_validation');
+        // field name, error message, validation rules
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|xss_clean');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
+        $this->form_validation->set_rules('conpassword', 'Password Confirmation', 'trim|required|matches[password]');
         
-        $this->session->unset_userdata('error');
-        if ($this->input->post('password')!="" and $this->input->post('username')!="" and $this->input->post('type')!="")
-            {
-                $this->load->model('m_pages');
-                $this->load->view('pages/register');
-                $register = $this->m_pages->register_user();
-                redirect('/pages/register_success','refresh');
-                
-            }
-        else {
-            $this->session->set_userdata(array('error' => "Make sure you fill all the required information"));
-        }       
+        if($this->form_validation->run() == FALSE)
+        {
+        $this->register();
+        }
+        else
+        {
+        $this->load->model('m_pages');
+        $this->m_pages->register_user();
+        $this->register_success();
+        }
     }
     
     public function register_success($page = 'register_success')
