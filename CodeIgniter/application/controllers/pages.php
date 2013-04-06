@@ -1,6 +1,9 @@
 <?php
 
 class Pages extends CI_Controller {
+    public function index(){
+        
+    }
 
 	public function view($page = 'home')
 	{
@@ -38,39 +41,74 @@ class Pages extends CI_Controller {
   
     public function do_login()
     {
-		$this->load->helper('cookie');
-        $this->load->model('m_pages');
-        $login =$this->m_pages->login_user();
-        if ($login['sukses'] == 1 )
+        $this->load->library(array('encrypt', 'form_validation', 'session'));
+        $this->load->helper(array('form', 'url'));
+        // field name, error message, validation rules
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required');
+        $this->form_validation->set_error_delimiters('<div class="errorbox">', '</div>');
+        
+        if($this->form_validation->run() == FALSE)
         {
-            //login success
-            $this->session->set_userdata(array('username' => $login['username'], 'id_user' => $login['id']));
-			$cookieUsername = array(
-				'name'   => 'user',
-				'value'  => $login['username'],
-				'expire' => time()+1000,
-				'path'   => '/',
-				'secure' => FALSE
-			);
-
-			$cookiePassword = array(
-				'name'   => 'pass',
-				'value'  => $login['password'],
-				'expire' => time()+1000,
-				'path'   => '/',
-				'secure' => FALSE
-			);
-		//set cookie to browser
-		$this->input->set_cookie($cookieUsername);
-		$this->input->set_cookie($cookiePassword);
+            $this->login();
+        }else{
+            $this->load->helper('cookie');
+            $this->load->model('m_pages');
+            $login =$this->m_pages->login_user();
+            if ($login['sukses'] == 1 )
+            {
+                $username = $this->input->post('username');
+                $password = $this->input->post('password');
+                $user_credentials = array();
+        		$user_credentials[$username] = array(
+        			'username' => $login['username'],
+        			'password' => $login['password']
+        		);
+                if(array_key_exists($username, $user_credentials))
+                {
+                    if(md5($password) == $user_credentials[$username]['password'])
+                    {
+                        //die("USER LOGGED IN!");
+                        //login success
+                        $this->session->set_userdata(array('username' => $login['username'], 'id_user' => $login['id']));
+            			$cookieUsername = array(
+            				'name'   => 'user',
+            				'value'  => $login['username'],
+            				'expire' => time()+1000,
+            				'path'   => '/',
+            				'secure' => FALSE
+            			);
+            
+            			$cookiePassword = array(
+            				'name'   => 'pass',
+            				'value'  => $login['password'],
+            				'expire' => time()+1000,
+            				'path'   => '/',
+            				'secure' => FALSE
+            			);
+                		//set cookie to browser
+                		$this->input->set_cookie($cookieUsername);
+                		$this->input->set_cookie($cookiePassword);
+                        redirect('', 'refresh');
+                    }
+                    else
+                    {
+                        //incorrect password
+                        $this->session->set_userdata(array('username' => "", 'id_user' => ""));
+                        $this->session->set_flashdata('message', 'Incorrect password.');
+                        redirect('pages/login');
+                    }
+                }
+            }
+            else
+            {
+                //login failed
+                $this->session->set_userdata(array('username' => "", 'id_user' => ""));
+                $this->session->set_flashdata('message', 'A user does not exist for the username specified.');
+                redirect('pages/login');
+            }
         }
-        else 
-        {
-            //login failed
-            $this->session->set_userdata(array('username' => "", 'id_user' => ""));
-        }
-    
-        redirect('', 'refresh');
+		
     }
     
     public function logout()

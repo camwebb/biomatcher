@@ -11,7 +11,7 @@ class M_pages extends CI_Model {
     {
         $username=$this->input->post('username');
         $password=md5($this->input->post('password'));
-        $query = $this->db->query("SELECT * FROM users where username='$username' and password='$password' limit 1;");
+        $query = $this->db->query("SELECT * FROM users where username='$username' limit 1;");
 
         $data=$query->result();
         $hasil['sukses']=$query->num_rows();
