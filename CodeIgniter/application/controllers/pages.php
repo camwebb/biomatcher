@@ -75,9 +75,11 @@ class Pages extends CI_Controller {
     
     public function logout()
 	{
-		//$this->load->helper('cookie');
+		$this->load->helper('cookie');
 
 	    $this->session->unset_userdata(array('username' => "", 'id_user' => ""));
+		delete_cookie("user");
+		delete_cookie("pass");
         redirect('pages/login', 'refresh');
 	}
     
