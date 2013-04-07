@@ -117,7 +117,7 @@ h1{
 .inputbox_reg{
     width: 400px;
     height: 37px;
-    padding-bottom: 15px;
+    padding-top: 15px;
 }
 
 #button_login, #button_register{

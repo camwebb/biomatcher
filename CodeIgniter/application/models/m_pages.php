@@ -33,7 +33,20 @@ class M_pages extends CI_Model {
         'password'=>md5($this->input->post('password'))
         );
         $this->db->insert('users',$data);
- }
+    }
+    
+    function username_exists($key)
+    {
+        $this->db->where('username',$key);
+        $query = $this->db->get('users');
+        if ($query->num_rows() > 0){
+    
+            return true;
+        }
+        else{
+            return false;
+        }
+    } 
 
 }
 
