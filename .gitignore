@@ -60,3 +60,5 @@ CodeIgniter/license.txt
 CodeIgniter/system
 CodeIgniter/user_guide
 !CodeIgniter/README.md
+tmp/*
+data/*
