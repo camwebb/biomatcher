@@ -65,11 +65,24 @@
     table is replaced by a text input, prefilled with the label
     contents. A `[Save]` button allows the data to be saved.
 
-## 4. Matching
+## Phase 4. Matching
 
-## 5. Statistics
+Choose matches from random projects.
 
-## 6. External JavaScript popup, with Captcha
+## Phase 5. Statistics
+
+## Phase 6. Quality control
+
+Maintain several sets of images that have been pre-matched.  As the
+matcher looks at images, every ca. 15 matches (randomize), insert a
+pre-known set (match or not at ca. 50% frequency) and record the
+result. The payment rate to the matcher is dependent on the % of known
+matches that they correctly record.  This will prevent the matcher
+simply clicking randomly without actually assessing the image. It is
+important there are no indications that the known pairs are actually
+QC pairs, or else the user can learn to cheat.
+
+## Phase 7. External JavaScript popup, with Captcha
 
 ----
 
