@@ -48,5 +48,123 @@
  7. After upload return to project page, reporting errors or success in
     the message <DIV/> and the table of uploaded images.
  8. At bottom of page, there is a button “Delete selected images” -
-    this will remove selected images from the database and fromthe
+    this will remove selected images from the database and from the
     filesystem.
+
+## Phase 3: Add labels
+
+ 1. If the `Add labels` button is clicked, a textbox appears
+    (Javascript)
+ 2. A two-column, comma-delimited list is pasted in: Filename (exact),
+    Label string
+ 3. On submit, this list is parsed and if the Filename matches
+    `image.nameOri`, the label is written into `image.label`
+    (overwriting existing entries)
+ 4. Alternatively, the edit button next to an image in the table can
+    be selected and `[Edit]` pressed, and the Label name cell in the
+    table is replaced by a text input, prefilled with the label
+    contents. A `[Save]` button allows the data to be saved.
+
+## 4. Matching
+
+## 5. Statistics
+
+## 6. External JavaScript popup, with Captcha
+
+----
+
+## GUI Design
+
+ * (Convention: `[xxxx]` is a input element)
+
+### Frontpage
+
+      +-------------------------------+
+      | Biomatcher         [Log in]   |
+      |                               |
+      | texttexttexttext              |
+      | texttexttexttext              |
+      | texttexttexttext              |
+      |                               |
+      +-------------------------------+
+      
+### Register
+
+      +-------------------------------+
+      | Biomatcher : Register         |
+      |                               |
+      | data1: _________              |
+      | data2: _________              |
+      | data3: _________   [Submit]   |
+      |                               |
+      +-------------------------------+
+
+### Frontpage after login
+
+      +-------------------------------+
+      | Biomatcher         [Log in]   |
+      |                               |
+      | texttexttexttext              |
+      | texttexttexttext              |
+      |                               |
+      | [My projects]   [Match now!]  |
+      +-------------------------------+
+
+### Projects page
+
+      +-------------------------------+
+      | Your projects          <user> |
+      |                               |
+      |   1. Fish of Borneo [Go]      |
+      |   2. Flies of Java  [Go]      |
+      |                               |
+      | [Add project]                 |
+      +-------------------------------+
+
+### Project page
+
+      +-------------------------------+
+      | Fish of Borneo         <user> |
+      |                               |
+      | ( Message area )              |
+      |                               |
+      | Filename Label Thumb Edit Del |
+      | IMG1.jpg       XXX    [R] [C] |  <- [R]=radio button, [C]=checkbox
+      | IMG3.jpg Fish1 XXX    [R] [C] |
+      | IMG5.jpg       XXX    [R] [C] |
+      |                 [next] [last] |
+      |                               |
+      | [Upload Images] [Add Labels]  |
+      | [Edit]  [Delete]  [Settings]  |
+      | [Matching Stats]
+      +-------------------------------+
+
+`[Upload Images]` opens file selection box (with `Submit`),
+`[Add labels]` opens textbox for pasting CSV (with `Submit`): 
+
+      IMG1.jpg,Fish2
+      IMG3.jpg,Fish8
+
+### Project seetings page
+
+      +-------------------------------+
+      | Fish of Borneo         <user> |
+      |                               |
+      | Matching type:                |
+      |   Label <-> unlabeled  [R]    |
+      |   All files random     [R]    |
+      +-------------------------------+
+
+### Statistics page
+
+      +-------------------------------+
+      | Fish of Borneo         <user> |
+      |                               |
+      | Total matches : 2300          |
+      |                               |
+      | FilenameA FilenameB Same Diff |
+      | IMG1.jpg  IMG23.jpg    2   30 |
+      | IMG1.jpg  IMG25.jpg   42    3 |
+      | IMG2.jpg  IMG23.jpg   10   20 |
+      | ...                           |
+      +-------------------------------+
