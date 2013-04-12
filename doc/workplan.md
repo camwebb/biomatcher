@@ -102,7 +102,7 @@
 ### Frontpage after login
 
       +-------------------------------+
-      | Biomatcher         [Log in]   |
+      | Biomatcher            <user>  |
       |                               |
       | texttexttexttext              |
       | texttexttexttext              |
