@@ -11,7 +11,7 @@ class M_pages extends CI_Model {
     {
         $username=$this->input->post('username');
         $password=md5($this->input->post('password'));
-        $query = $this->db->query("SELECT * FROM users where username='$username' limit 1;");
+        $query = $this->db->query("SELECT * FROM user where username='$username' limit 1;");
 
         $data=$query->result();
         $hasil['sukses']=$query->num_rows();
@@ -32,13 +32,13 @@ class M_pages extends CI_Model {
         'type'=>$this->input->post('type'),
         'password'=>md5($this->input->post('password'))
         );
-        $this->db->insert('users',$data);
+        $this->db->insert('user',$data);
     }
     
     function username_exists($key)
     {
         $this->db->where('username',$key);
-        $query = $this->db->get('users');
+        $query = $this->db->get('user');
         if ($query->num_rows() > 0){
     
             return true;
@@ -46,7 +46,7 @@ class M_pages extends CI_Model {
         else{
             return false;
         }
-    } 
+    }
 
 }
 
