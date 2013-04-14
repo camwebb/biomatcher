@@ -140,7 +140,7 @@ class Pages extends CI_Controller {
     {
         $this->load->library('form_validation');
         // field name, error message, validation rules
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|callback_username_exists|callback_username_character|xss_clean');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|callback_username_exists|alpha_numeric|xss_clean');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
         $this->form_validation->set_rules('conpassword', 'Password Confirmation', 'trim|required|matches[password]');
         
@@ -193,6 +193,23 @@ class Pages extends CI_Controller {
 	$data['title'] = ucfirst($page); // Capitalize the first letter
 	
 	$this->load->view('templates/header', $data);
+	$this->load->view('pages/'.$page, $data);
+	$this->load->view('templates/footer', $data);
+
+    }
+    
+    public function home2($page = 'home2')
+	{
+
+	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
+	{
+		// Whoops, we don't have a page for that!
+		show_404();
+	}
+
+	$data['title'] = ucfirst($page); // Capitalize the first letter
+	
+	$this->load->view('templates/header2', $data);
 	$this->load->view('pages/'.$page, $data);
 	$this->load->view('templates/footer', $data);
 
