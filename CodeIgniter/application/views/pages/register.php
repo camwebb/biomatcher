@@ -8,11 +8,21 @@
     
     <div id="registerform">
         <?php echo form_open('pages/do_register'); ?>
+            
+            <div class="inputbox_reg">
+                <label class="labelinput" for="input_name">Name</label>
+                <input class="inputtext" id="input_name" type="text" name="name" value="<?php echo set_value('name'); ?>"/><br />
+            </div>
             <div class="inputbox_reg">
                 <label class="labelinput" for="input_username">Username</label>
                 <input class="inputtext" id="input_username" type="text" name="username" value="<?php echo set_value('username'); ?>"/><br />
             </div>
-            <?php echo form_error('username', '<div class="errorbox">', '</div>'); ?>         
+            <?php echo form_error('username', '<div class="errorbox">', '</div>'); ?> 
+            <div class="inputbox_reg">
+                <label class="labelinput" for="input_email">Email</label>
+                <input class="inputtext" id="input_email" type="text" name="email" value="<?php echo set_value('email'); ?>"/><br />
+            </div>
+            <?php echo form_error('email', '<div class="errorbox">', '</div>'); ?>        
             <div class="inputbox_reg">
                 <label class="labelinput" for="option_type">Type</label>
                 <select class="inputoption" size="1" name="type" id="type">

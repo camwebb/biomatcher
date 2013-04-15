@@ -28,7 +28,9 @@ class M_pages extends CI_Model {
     function register_user()
     {
         $data=array(
+        'name'=>$this->input->post('name'),
         'username'=>$this->input->post('username'),
+        'email'=>$this->input->post('email'),
         'type'=>$this->input->post('type'),
         'password'=>md5($this->input->post('password'))
         );

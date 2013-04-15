@@ -141,6 +141,7 @@ class Pages extends CI_Controller {
         $this->load->library('form_validation');
         // field name, error message, validation rules
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|callback_username_exists|alpha_numeric|xss_clean');
+        $this->form_validation->set_rules('email', 'Your Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
         $this->form_validation->set_rules('conpassword', 'Password Confirmation', 'trim|required|matches[password]');
         
@@ -169,17 +170,6 @@ class Pages extends CI_Controller {
             return TRUE;
         }     
     }
-    
-    function username_character($char)
-    {
-        if (preg_match('/^[a-zA-Z0-9]+$/', $char)) {
-            return true;
-        }
-        else{
-            $this->form_validation->set_message('username_character', 'Username must contain A-Z a-z 0-9 only.');
-            return false;
-        }
-    } 
     
     public function register_success($page = 'register_success')
 	{
