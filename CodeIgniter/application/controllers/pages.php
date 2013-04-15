@@ -205,5 +205,22 @@ class Pages extends CI_Controller {
 
     }
     
+    public function project($page = 'project')
+	{
+
+	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
+	{
+		// Whoops, we don't have a page for that!
+		show_404();
+	}
+
+	$data['title'] = ucfirst($page); // Capitalize the first letter
+	
+	$this->load->view('templates/header2', $data);
+	$this->load->view('pages/'.$page, $data);
+	$this->load->view('templates/footer', $data);
+
+    }            
+    
 
 }

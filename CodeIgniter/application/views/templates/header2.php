@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<?php $selected = $title;?>
+
 <div id="header">
     <div class="wrapper">
         <div id="page_title">
@@ -14,13 +16,13 @@
         </div>
         
         <div id="page_menu">
-            <div style="float: left;"><p>Welcome, TestPage</p></div>
-        
+            <div style="float: left;"><p>Welcome, TestPage </p></div>
+            
             <div id="menu">
                 <ul class="tabs">
-                  <li><a href="<?php echo base_url(); ?>index.php/pages/match">Match Now!</a></li>
-                  <li><a href="<?php echo base_url(); ?>index.php/pages/project">My Project(s)</a></li>
-                  <li><a href="<?php echo base_url(); ?>index.php/pages/home2">Home</a></li>
+                  <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/match">Match Now!</a></li>
+                  <li class="<?php echo $selected == 'Project'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/project">My Project(s)</a></li>
+                  <li class="<?php echo $selected == 'Home2'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/home2">Home</a></li>
                 </ul>
             </div>
         </div>
