@@ -1,26 +1,19 @@
-<div style="font-size: 2em; text-align: center; margin: 20px 0; position: relative;">
-    <h1>Biomatcher</h1>
-    <p style="font-size: 25px; text-align: center; margin: 20px 0; position: relative;">Biomatcher : a tool for matching digital images</p>
-</div>
-
 <div id="registerbox">
-    <p style="font-size: 2em; text-align: center; padding: 15px 0; position: relative;">Register</p>
-    
     <div id="registerform">
         <?php echo form_open('pages/do_register'); ?>
             
             <div class="inputbox_reg">
                 <label class="labelinput" for="input_name">Name</label>
-                <input class="inputtext" id="input_name" type="text" name="name" value="<?php echo set_value('name'); ?>"/><br />
+                <input class="inputtext-reg" id="input_name" type="text" name="name" value="<?php echo set_value('name'); ?>"/><br />
             </div>
             <div class="inputbox_reg">
                 <label class="labelinput" for="input_username">Username</label>
-                <input class="inputtext" id="input_username" type="text" name="username" value="<?php echo set_value('username'); ?>"/><br />
+                <input class="inputtext-reg" id="input_username" type="text" name="username" value="<?php echo set_value('username'); ?>"/><br />
             </div>
             <?php echo form_error('username', '<div class="errorbox">', '</div>'); ?> 
             <div class="inputbox_reg">
                 <label class="labelinput" for="input_email">Email</label>
-                <input class="inputtext" id="input_email" type="text" name="email" value="<?php echo set_value('email'); ?>"/><br />
+                <input class="inputtext-reg" id="input_email" type="text" name="email" value="<?php echo set_value('email'); ?>"/><br />
             </div>
             <?php echo form_error('email', '<div class="errorbox">', '</div>'); ?>        
             <div class="inputbox_reg">
@@ -32,16 +25,16 @@
             </div>
             <div class="inputbox_reg">
                 <label class="labelinput" for="input_password">Password</label>
-                <input class="inputtext" id="input_password" type="password" name="password" value="<?php echo set_value('password'); ?>"/><br />
+                <input class="inputtext-reg" id="input_password" type="password" name="password" value="<?php echo set_value('password'); ?>"/><br />
             </div>
             <?php echo form_error('password', '<div class="errorbox">', '</div>'); ?>             
             <div class="inputbox_reg">
                 <label class="labelinput" for="input_password">Confirm Password</label>
-                <input class="inputtext" id="input_conpassword" type="password" name="conpassword" value="<?php echo set_value('conpassword'); ?>"/><br />
+                <input class="inputtext-reg" id="input_conpassword" type="password" name="conpassword" value="<?php echo set_value('conpassword'); ?>"/><br />
             </div>
             <?php echo form_error('conpassword', '<div class="errorbox">', '</div>'); ?>             
             <div class="inputbox_reg">
-                <input id="button_register" type="submit" name="Submit" class="button" value="Register" />
+                <input id="button_register" type="submit" name="Submit" class="box-button" value="Register" />
             </div>
         <?php echo form_close(); ?>
     </div>

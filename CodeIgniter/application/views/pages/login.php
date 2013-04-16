@@ -17,7 +17,7 @@
                 <label class="labelinput" for="input_username">Username</label>
                 <input class="inputtext" id="input_username" type="text" name="username" value="<?php echo set_value('username'); ?>"/><br />
             </div>
-            <?php echo form_error('username'); ?>
+            <script type="text/javascript"> alert(<?php echo form_error('username'); ?>); </script>
             <div class="inputbox">
                 <label class="labelinput" for="input_password">Password</label>
                 <input class="inputtext" id="input_password" type="password" name="password" value="<?php echo set_value('password'); ?>"/><br />

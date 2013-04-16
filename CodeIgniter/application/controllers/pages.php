@@ -21,36 +21,30 @@ class Pages extends CI_Controller {
 	$this->load->view('templates/footer', $data);
 
     }
-    
-    public function login($page = 'login')
-	{
-
-	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
-	{
-		// Whoops, we don't have a page for that!
-		show_404();
-	}
-
-	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
-	$this->load->view('templates/header', $data);
-	$this->load->view('pages/'.$page, $data);
-	$this->load->view('templates/footer', $data);
-
-    }
   
     public function do_login()
     {
         $this->load->library(array('encrypt', 'form_validation', 'session'));
         $this->load->helper(array('form', 'url'));
         // field name, error message, validation rules
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required');
-        $this->form_validation->set_error_delimiters('<div class="errorbox">', '</div>');
+        $config = array(
+               array(
+                     'field'   => 'username', 
+                     'label'   => 'Username', 
+                     'rules'   => 'trim|required|xss_clean'
+                  ),
+               array(
+                     'field'   => 'password', 
+                     'label'   => 'Password', 
+                     'rules'   => 'trim|required'
+                  )
+            );
+        $this->form_validation->set_rules($config);
+        //$this->form_validation->set_error_delimiters('<div id="login-box" class="popup" style="display: block;"><a href="#" class="close"><img src="close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>', '</div>');
         
         if($this->form_validation->run() == FALSE)
         {
-            $this->login();
+            $this->view();
         }else{
             $this->load->helper('cookie');
             $this->load->model('m_pages');
@@ -96,7 +90,7 @@ class Pages extends CI_Controller {
                         //incorrect password
                         $this->session->set_userdata(array('username' => "", 'id_user' => ""));
                         $this->session->set_flashdata('message', 'Incorrect password.');
-                        redirect('pages/login');
+                        redirect('');
                     }
                 }
             }
@@ -105,7 +99,7 @@ class Pages extends CI_Controller {
                 //login failed
                 $this->session->set_userdata(array('username' => "", 'id_user' => ""));
                 $this->session->set_flashdata('message', 'A user does not exist for the username specified.');
-                redirect('pages/login');
+                redirect('');
             }
         }
 		
@@ -183,23 +177,6 @@ class Pages extends CI_Controller {
 	$data['title'] = ucfirst($page); // Capitalize the first letter
 	
 	$this->load->view('templates/header', $data);
-	$this->load->view('pages/'.$page, $data);
-	$this->load->view('templates/footer', $data);
-
-    }
-    
-    public function home2($page = 'home2')
-	{
-
-	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
-	{
-		// Whoops, we don't have a page for that!
-		show_404();
-	}
-
-	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
-	$this->load->view('templates/header2', $data);
 	$this->load->view('pages/'.$page, $data);
 	$this->load->view('templates/footer', $data);
 
