@@ -77,7 +77,8 @@ a:hover {
 
 #page_title{
     float: left;
-    width: 400px;    
+    width: 400px;
+    padding-top: 20px;   
 }
 
 #page_title h1{
@@ -86,7 +87,7 @@ a:hover {
 }
 
 #header {
-    height: 95px;
+    height: 115px;
     margin:0;
     position:relative;  
     /*background-color: rgba(95, 50, 0, 0.5);*/
@@ -100,8 +101,9 @@ a:hover {
 
 #page_menu{
     float: right;
-    width: 468px;
-    padding-top:20px;
+    width: 428px;
+    padding-top:30px;
+    position: relative;
 }
 
 #menu{
@@ -184,17 +186,6 @@ ul.tabs li.selected{
     border-bottom: 1px solid #f1f1f1;
 }
 
-#loginbox{
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    width: 400px;
-    background-color: rgba(95, 50, 0, 0.5);
-    color: rgba(95, 50, 0, 0.5);
-    -webkit-border-radius: 25px;
-    border-radius: 25px;
-}
-
 #registerbox{
     position: relative;
     margin-left: auto;
@@ -213,7 +204,25 @@ ul.tabs li.selected{
 }
 
 #loginform, #registerform{
-    padding:5px 25px;
+    padding: 15px 0px;
+    float: right;
+}
+
+.inputbox{
+    float: left;
+    padding-left: 10px;
+}
+
+.inputtext{
+    float:left;
+    height: 36px;
+    width: 140px;
+    font-size: 18px;
+    padding: 0 4px;
+    border: 1px solid #999999;
+    -moz-box-shadow: 0px 0px 6px #000000;
+    -webkit-box-shadow: 0px 0px 6px #000000;
+    box-shadow: 0px 0px 6px #000000;
 }
 
 .labelinput{
@@ -221,7 +230,7 @@ ul.tabs li.selected{
     font-size: 20px;
 }
 
-.inputtext{
+.inputtext-reg{
     float:right;
     height:30px;
     width:200px;
@@ -248,12 +257,6 @@ ul.tabs li.selected{
     padding: 0 4px;
 }
 
-.inputbox{
-    width: 350px;
-    height: 37px;
-    padding-top: 15px;
-}
-
 .inputbox_reg{
     width: 400px;
     height: 37px;
@@ -263,4 +266,39 @@ ul.tabs li.selected{
 #button_login, #button_register{
     float:right;
     cursor:pointer;
+}
+
+#register_link {
+    padding-left: 10px;
+    margin-top: 43px;
+}
+
+#mask {
+	display: none;
+	background: #000; 
+	position: fixed; left: 0; top: 0; 
+	z-index: 10;
+	width: 100%; height: 100%;
+	opacity: 0.8;
+	z-index: 999;
+}
+
+.popup{
+	display:none;
+    width: 288px;
+	background: #333;
+	padding: 10px; 	
+	border: 2px solid #ddd;
+	float: left;
+	font-size: 1.2em;
+    color: white;
+	position: fixed;
+	top: 40%; left: 38%;
+	z-index: 99999;
+	box-shadow: 0px 0px 20px #999;
+	-moz-box-shadow: 0px 0px 20px #999; /* Firefox */
+    -webkit-box-shadow: 0px 0px 20px #999; /* Safari, Chrome */
+	border-radius:3px 3px 3px 3px;
+    -moz-border-radius: 3px; /* Firefox */
+    -webkit-border-radius: 3px; /* Safari, Chrome */
 }
