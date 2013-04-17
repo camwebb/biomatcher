@@ -31,7 +31,7 @@
             <p style="font-size: 20px; text-align: left; position: relative;">A tool for matching digital images</p>
         </div>
         <?php
-        if ($this->session->userdata('username') ==""){
+        if ($this->session->userdata('username') =="" && $title != 'Register'){
             //session is empty, show login box.
         ?>
         <div id="page_menu">
@@ -67,6 +67,7 @@
         </div>
         
         <?php
+        }elseif ($this->session->userdata('username') =="" && $title == 'Register'){
         }else{
         ?>
         <div id="page_menu">
