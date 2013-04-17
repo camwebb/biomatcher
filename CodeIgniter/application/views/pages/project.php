@@ -1,34 +1,85 @@
 <div id="content">
 <div id="welcome">
     
-    <h1>Your Projects</h1>
+    <h2>Fish of Borneo</h2>
     <div class="separator"></div>
-    
-    <ol>
+
         <table style="width: 100%;">
-            <tr>
-                <td style="width: 90%;">
-                    <li>Project 1</li>
-                </td>
-                <td>
-                    <a href="#" class="box-button">Go</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <li>Project 2</li>
-                </td>
-                <td>
-                    <a href="#" class="box-button">Go</a>
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <td>
+                        <p>Filename</p>
+                    </td>
+                    <td>
+                        <p>Label</p>
+                    </td>
+                    <td>
+                        <p>Thumbnail</p>
+                    </td>
+                    <td>
+                        <p>Edit</p>
+                    </td>
+                    <td>
+                        <p>Delete</p>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>IMG1.JPG</p>
+                    </td>
+                    <td></td>
+                    <td>
+                        <p>XXX</p>
+                    </td>
+                    <td>
+                        <input type="radio" />
+                    </td>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>IMG1.JPG</p>
+                    </td>
+                    <td>
+                        <p>Fish</p>    
+                    </td>
+                    <td>
+                        <p>XXX</p>
+                    </td>
+                    <td>
+                        <input type="radio" />
+                    </td>
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        <button class="box-button" id="upl_img">Upload Image</button>
+                    </td>
+                    <td>
+                        <button class="box-button" id="add_label">Add Label</button>  
+                    </td>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        <button class="box-button" id="edit">Edit</button>
+                    </td>
+                    <td>
+                        <button class="box-button" id="delete">Delete</button>
+                    </td>
+                </tr>
+            </tfoot>
+    
         </table>
-    </ol>
-    
-    <br />
-    
-    <a href="#" class="box-button">Add Project</a>
-    <br /><br />
+   <br /><br />
     
 </div>
 

@@ -51,6 +51,9 @@ a:hover {
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
+    cursor:pointer;
+    font-family: arial;
+    font-size: 13px;
 }
 
 .box-button:hover{
@@ -230,13 +233,13 @@ ul.tabs li.selected{
     font-size: 20px;
 }
 
-.labelinput-reg{
+.labelinput-reg,.labelinput-addProject{
     float:left;
     font-size: 20px;
     padding-top: 5px;
 }
 
-.inputtext-reg{
+.inputtext-reg,.inputtext-addProject{
     float:right;
     height: 36px;
     width: 200px;
@@ -267,13 +270,13 @@ ul.tabs li.selected{
     cursor:pointer;
 }
 
-.inputbox_reg{
+.inputbox_reg,.inputbox_addProject{
     width: 400px;
     height: 37px;
     padding-top: 15px;
 }
 
-#button_login, #button_register{
+#button_login, #button_register, #button_addProject,#button_cancelProject{
     float:right;
     cursor:pointer;
 }
@@ -312,3 +315,44 @@ ul.tabs li.selected{
     -moz-border-radius: 3px; /* Firefox */
     -webkit-border-radius: 3px; /* Safari, Chrome */
 }
+
+/* FOR POPUP JS */
+
+#toppanel-disable {
+	display:block;
+    position:absolute;
+    top:0px;
+    bottom:0px;
+    opacity:0.4;
+    filter:alpha(opacity=40);
+    background-color: black;
+    height:expression(parentElement.scrollHeight + 'px');
+    width:100%;
+    z-index:27;
+}
+
+#panel {
+	width: 300px;
+	position: relative;
+	top: 0px;
+	height: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 10;
+	overflow: hidden;
+	text-align: left;
+}
+
+#addProject_panel{
+    position: absolute;
+    display:none;
+    margin:-30px 0 0 -22%;
+    top:50%;
+    left:50%;
+    background: #eee;
+    border: 10px solid #515151;
+    padding:10px;
+    z-index: 30;
+}
+
+/* END POPUP JS/*

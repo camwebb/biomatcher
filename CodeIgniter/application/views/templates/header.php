@@ -5,6 +5,7 @@
     <link href='http://fonts.googleapis.com/css?family=Noto+Serif' rel='stylesheet' type='text/css'/>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>style/js/popup.js"></script>
     
     <script type="text/javascript">
     function show_mask(){
@@ -21,7 +22,7 @@
     </script> 
 </head>
 <body>
-
+<div id="toppanel-disable"> </div>
 <?php $selected = $title;?>
 
 <div id="header">
@@ -76,7 +77,7 @@
             <div id="menu">
                 <ul class="tabs">
                   <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
-                  <li class="<?php echo $selected == 'Project'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/project">My Project(s)</a></li>
+                  <li class="<?php echo $selected == 'Projects'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/projects">My Project(s)</a></li>
                   <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
                 </ul>
             </div>
