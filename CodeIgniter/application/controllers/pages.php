@@ -40,7 +40,6 @@ class Pages extends CI_Controller {
                   )
             );
         $this->form_validation->set_rules($config);
-        //$this->form_validation->set_error_delimiters('<div id="login-box" class="popup" style="display: block;"><a href="#" class="close"><img src="close_pop.png" class="btn_close" title="Close Window" alt="Close" /></a>', '</div>');
         
         if($this->form_validation->run() == FALSE)
         {
@@ -62,7 +61,6 @@ class Pages extends CI_Controller {
                 {
                     if(md5($password) == $user_credentials[$username]['password'])
                     {
-                        //die("USER LOGGED IN!");
                         //login success
                         $this->session->set_userdata(array('username' => $login['username'], 'id_user' => $login['id']));
             			$cookieUsername = array(
@@ -112,7 +110,7 @@ class Pages extends CI_Controller {
 	    $this->session->unset_userdata(array('username' => "", 'id_user' => ""));
 		delete_cookie("user");
 		delete_cookie("pass");
-        redirect('pages/login', 'refresh');
+        redirect('', 'refresh');
 	}
     
     function register($page = 'register')
@@ -134,10 +132,35 @@ class Pages extends CI_Controller {
     {
         $this->load->library('form_validation');
         // field name, error message, validation rules
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|callback_username_exists|alpha_numeric|xss_clean');
-        $this->form_validation->set_rules('email', 'Your Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
-        $this->form_validation->set_rules('conpassword', 'Password Confirmation', 'trim|required|matches[password]');
+        
+        $config = array(
+               array(
+                     'field'   => 'name', 
+                     'label'   => 'Name', 
+                     'rules'   => 'trim|required|min_length[4]|xss_clean'
+                  ),
+               array(
+                     'field'   => 'username', 
+                     'label'   => 'Username', 
+                     'rules'   => 'trim|required|min_length[4]|callback_username_exists|alpha_numeric|xss_clean'
+                  ),
+               array(
+                     'field'   => 'email', 
+                     'label'   => 'Email', 
+                     'rules'   => 'trim|required|valid_email'
+                  ),
+               array(
+                     'field'   => 'password', 
+                     'label'   => 'Password', 
+                     'rules'   => 'trim|required|min_length[4]|max_length[32]'
+                  ),
+               array(
+                     'field'   => 'conpassword', 
+                     'label'   => 'Password Confirmation', 
+                     'rules'   => 'trim|required|matches[password]'
+                  )
+            );
+        $this->form_validation->set_rules($config);
         
         if($this->form_validation->run() == FALSE)
         {
@@ -147,6 +170,7 @@ class Pages extends CI_Controller {
         {
         $this->load->model('m_pages');
         $this->m_pages->register_user();
+        
         $this->register_success();
         }
     }

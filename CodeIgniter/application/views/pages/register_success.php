@@ -1,5 +1,15 @@
-<div id="page_title">
-    <h1>Biomatcher</h1>
-    <p style="font-size: 2em; text-align: center; margin: 20px 0; position: relative;">Biomatcher : a tool for matching digital images</p>
-    <p style="font-size: 2em; text-align: center; padding: 0 0 15px 0; position: relative;"><a href="<?php echo base_url(); ?>index.php">&lt;&lt; Login</a></p>
+<div class="wrapper">
+<div id="content">
+    <div style="float: right;">
+        <span>
+            <a href="<?php echo base_url(); ?>" style="float: right;">
+                <img style="height: 36px; float:left" src="<?php echo base_url(); ?>style/img/arrow-left.png" />
+                <p style="float: right; margin-top: 7px;">Back to login page</p>
+            </a>
+        </span>
+    </div>
+    <div class="separator" style="float: left;"></div>
+    <div class="clear"></div>
+    <p id="welcome">Thank You!.</p>
+</div>
 </div>

@@ -26,13 +26,21 @@
 <?php $selected = $title;?>
 
 <div id="header">
-    <div class="wrapper">
+<div class="wrapper">
+    <div id="wrap-header">
         <div id="page_title">
-            <h1 style="font-size: 2.9em; text-align: left; position: relative;">Biomatcher</h1>
-            <p style="font-size: 20px; text-align: left; position: relative;">A tool for matching digital images</p>
+            <h1 style="font-size: 2.9em; text-align: left;">Biomatcher</h1>
+            <p style="font-size: 20px; text-align: left;">A tool for matching digital images</p>
         </div>
         <?php
-        if ($this->session->userdata('username') =="" && $title != 'Register'){
+        if ($this->session->userdata('username') ==""){
+            if($title == 'Register'){
+        ?>
+        <div id="page_reg">
+            <h1 style="float: right;">Register</h1>
+        </div>        
+        <?php
+            }elseif($title == 'Home'){
             //session is empty, show login box.
         ?>
         <div id="page_menu">
@@ -61,18 +69,36 @@
                     </div>
                 <?php echo form_close(); ?>
                 <div id="register_link">
-                    <a>Do not have an Account?</a>&nbsp;<a href="<?php echo base_url(); ?>index.php/pages/register">Register</a>
+                    <a>Do not have an Account?</a>&nbsp;<a href="<?php echo base_url(); ?>index.php/pages/view/register">Register</a>
                 </div>
             </div>
             
         </div>
         
         <?php
-        }elseif ($this->session->userdata('username') =="" && $title == 'Register'){
-        }else{
+        }elseif($title == 'Register_success'){
+
+        }elseif ($title != 'Register' && $title != 'Home' && $title != 'Register_success'){
+            $this->session->set_flashdata('message', 'Please login first.');
+            redirect('');
+        }
+        }elseif ($this->session->userdata('username') !=""){
         ?>
         <div id="page_menu">
-            <div style="float: left;"><p>Welcome, <?php echo $this->session->userdata('username'); ?></p></div>
+            <div style="float: left; padding-top: 10px;">
+            <p>Welcome, <?php echo $this->session->userdata('username'); ?></p>
+            </div>
+            <div id="cmenu">
+            <!-- menu -->
+                <ul class="dropdown2">
+                    <li><a href="javascript:void(0)"><span><img style="padding: 8px 10px;" src="<?php echo base_url(); ?>style/img/arrow.png"/></span></a>
+                    <ul class="sub_menu">
+                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+                    </ul>
+                    </li>
+                </ul>
+            <!-- close menu -->
+            </div>
             
             <div id="menu">
                 <ul class="tabs">
@@ -86,5 +112,5 @@
         }
         ?>
     </div>
-
+</div>
 </div>

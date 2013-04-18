@@ -1,5 +1,5 @@
+<div class="wrapper">
 <div id="content">
-<div id="welcome">
     
     <h1>Your Projects</h1>
     <div class="separator"></div>
@@ -52,6 +52,8 @@
             </div>
         <?php echo form_close(); ?>
     </div>
+    
+    <div class="separator"></div>
     
 </div>
 

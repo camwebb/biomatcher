@@ -1,8 +1,17 @@
+<div class="wrapper">
 <div id="content">
-<div id="welcome">
     
-    <h2>Fish of Borneo</h2>
-    <div class="separator"></div>
+    <h2 style="float: left;">Fish of Borneo</h2>
+    <div style="float: right;">
+        <span>
+            <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">
+                <img style="height: 36px; float:left" src="<?php echo base_url(); ?>style/img/arrow-left.png" />
+                <p style="float: right; margin-top: 7px;">Back to project</p>
+            </a>
+        </span>
+    </div>
+    
+    <div class="separator" style="float: left;"></div>
 
         <table style="width: 100%;">
             <thead>
@@ -80,7 +89,8 @@
     
         </table>
    <br /><br />
-    
+   
+    <div class="separator"></div>
 </div>
 
 </div>
