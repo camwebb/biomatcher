@@ -32,6 +32,16 @@ a:hover {
     text-decoration:none;
 }
 
+* { outline: 0 none; }
+
+input:hover, input:focus, textarea:hover, textarea:focus, select:hover, select:focus {
+	border-color: #ccc;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+	}
+
 .button{
     width: 100px;
     height: 30px;
@@ -486,3 +496,27 @@ ul.dropdown2 li:hover > ul {
 }
 
 /* ----------------END DROPDOWN ------------------- */
+
+.project_table{
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.project_table thead{
+    background-color: #e6e6e6;
+    color: #515151;
+    font-size: 18px;
+}
+
+.project_table td{
+    padding: 5px;
+    border: 1px solid #e6e6e6;
+}
+
+.project_table tfoot{
+    margin: 5px 0 0 0;
+}
+
+.project_table tfoot td{
+    border: none;
+    padding: 0;
+}

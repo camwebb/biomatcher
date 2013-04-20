@@ -2,7 +2,7 @@ $(document).ready(function() {
     $("div#toppanel-disable").hide();
     
     function addProject(){
-        $("div#addProject_panel").show("slow");
+        $("div#addProject_panel").fadeIn("normal");
         $("div#toppanel-disable").show();
         $("div#panel").animate({
 			height: "0px"
@@ -10,7 +10,7 @@ $(document).ready(function() {
     }
     
     function cancelProject(){
-        $("div#addProject_panel").hide("slow"); 
+        $("div#addProject_panel").fadeOut("normal"); 
         $("div#toppanel-disable").hide();       
     }
     

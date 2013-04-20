@@ -13,23 +13,24 @@
     
     <div class="separator" style="float: left;"></div>
 
+    <div class="project_table">
         <table style="width: 100%;">
             <thead>
                 <tr>
                     <td>
-                        <p>Filename</p>
+                        <p>FILENAME</p>
                     </td>
                     <td>
-                        <p>Label</p>
+                        <p>LABEL</p>
                     </td>
                     <td>
-                        <p>Thumbnail</p>
+                        <p>THUMBNAIL</p>
                     </td>
-                    <td>
-                        <p>Edit</p>
+                    <td style="width: 42px; text-align: center;">
+                        <p>EDIT</p>
                     </td>
-                    <td>
-                        <p>Delete</p>
+                    <td style="width: 60px; text-align: center;">
+                        <p>DELETE</p>
                     </td>
                 </tr>
             </thead>
@@ -42,10 +43,10 @@
                     <td>
                         <p>XXX</p>
                     </td>
-                    <td>
-                        <input type="radio" />
+                    <td style="text-align: center;">
+                        <input type="radio" value="1" name="edit"/>
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <input type="checkbox" />
                     </td>
                 </tr>
@@ -59,16 +60,16 @@
                     <td>
                         <p>XXX</p>
                     </td>
-                    <td>
-                        <input type="radio" />
+                    <td style="text-align: center;">
+                        <input type="radio" value="0" name="edit"/>							
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         <input type="checkbox" />
                     </td>
                 </tr>
             </tbody>
             <tfoot>
-                <tr>
+                <tr style="height: 50px;">
                     <td>
                         <button class="box-button" id="upl_img">Upload Image</button>
                     </td>
@@ -85,9 +86,9 @@
                         <button class="box-button" id="delete">Delete</button>
                     </td>
                 </tr>
-            </tfoot>
-    
+            </tfoot>    
         </table>
+    </div>
    <br /><br />
    
     <div class="separator"></div>
