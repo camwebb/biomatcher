@@ -49,6 +49,25 @@ class M_pages extends CI_Model {
             return false;
         }
     }
+    
+    function list_project(){
+        $id_user = $this->session->userdata('id_user');
+        $query=$this->db->query("SELECT * FROM project where userID='$id_user'");
+        return $query->result();
+    }
+    
+    function list_image(){
+        $project_id = $this->uri->segment(4, 0);
+        $query=$this->db->query("SELECT * FROM image where projectID='$project_id'");
+        return $query->result();
+    }
+    
+    function project_title(){
+        $project_id = $this->uri->segment(4, 0);
+        $query=$this->db->query("SELECT * FROM project where id='$project_id'");
+        return $query->result();
+            
+    }        
 
 }
 

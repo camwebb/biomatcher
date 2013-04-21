@@ -14,7 +14,7 @@ $(document).ready(function() {
         $("div#toppanel-disable").hide();       
     }
     
-    $("#addProject").bind("click",addProject);
-    $("#button_cancelProject").bind("click",cancelProject);	
+    $("#addProject, #upl_img").bind("click",addProject);
+    $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);	
     
 });

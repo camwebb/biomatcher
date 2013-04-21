@@ -262,13 +262,13 @@ ul.tabs li.selected{
     font-size: 20px;
 }
 
-.labelinput-addProject{
+.labelinput-addProject, .labelinput-upload{
     float:left;
     font-size: 20px;
     padding-top: 5px;
 }
 
-.inputtext-reg, .inputtext-addProject{
+.inputtext-reg, .inputtext-addProject, .inputtext-upload{
     float:right;
     height: 36px;
     width: 250px;
@@ -304,13 +304,13 @@ ul.tabs li.selected{
     height: 53px;
 }
 
-.inputbox_addProject{
+.inputbox_addProject, .inputbox_Upload{
     width: 450px;
     height: 37px;
     padding-top: 15px;
 }
 
-#button_login, #button_register, #button_addProject,#button_cancelProject{
+#button_login, #button_register, #button_addProject,#button_cancelProject, #button_Upload{
     float:right;
     cursor:pointer;
 }

@@ -6,22 +6,20 @@
     
     <ol>
         <table style="width: 100%;">
+            <?php
+            foreach($list_project as $list){
+            ?>
             <tr>
                 <td style="width: 90%;">
-                    <li>Project 1</li>
+                    <li><?php echo $list->name; ?></li>
                 </td>
                 <td>
-                    <a href="<?php echo base_url(); ?>index.php/pages/view/project" class="box-button">Go</a>
+                    <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->id; ?>" class="box-button">Go</a>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <li>Project 2</li>
-                </td>
-                <td>
-                    <a href="<?php echo base_url(); ?>index.php/pages/view/project" class="box-button">Go</a>
-                </td>
-            </tr>
+            <?php
+            }
+            ?>
         </table>
     </ol>
     

@@ -15,7 +15,12 @@ class Pages extends CI_Controller {
 	}
 
 	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
+    
+    $this->load->model('m_pages');
+    $data['list_project'] = $this->m_pages->list_project();
+	$data['list_images'] = $this->m_pages->list_image();
+    $data['project_title'] = $this->m_pages->project_title();
+    
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
 	$this->load->view('templates/footer', $data);
@@ -125,7 +130,7 @@ class Pages extends CI_Controller {
     	
     	$this->load->view('templates/header', $data);
     	$this->load->view('pages/'.$page, $data);
-    	$this->load->view('templates/footer', $data);     
+    	$this->load->view('templates/footer', $data);
     }
     
     function do_register()
@@ -189,40 +194,6 @@ class Pages extends CI_Controller {
         }     
     }
     
-    public function register_success($page = 'register_success')
-	{
-
-	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
-	{
-		// Whoops, we don't have a page for that!
-		show_404();
-	}
-
-	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
-	$this->load->view('templates/header', $data);
-	$this->load->view('pages/'.$page, $data);
-	$this->load->view('templates/footer', $data);
-
-    }
-    
-    public function projects($page = 'projects')
-	{
-
-	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
-	{
-		// Whoops, we don't have a page for that!
-		show_404();
-	}
-
-	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
-	$this->load->view('templates/header', $data);
-	$this->load->view('pages/'.$page, $data);
-	$this->load->view('templates/footer', $data);
-
-    }   
-    
     function do_addProject($page = 'project')
     {
         if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
@@ -236,7 +207,6 @@ class Pages extends CI_Controller {
     	$this->load->view('templates/header', $data);
     	$this->load->view('pages/'.$page, $data);
     	$this->load->view('templates/footer', $data);     
-    }         
-    
+    }    
 
 }

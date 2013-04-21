@@ -1,7 +1,12 @@
 <div class="wrapper">
 <div id="content">
-    
-    <h2 style="float: left;">Fish of Borneo</h2>
+    <?php
+    foreach($project_title as $p_title){
+    ?>
+    <h2 style="float: left;"><?php echo $p_title->name; ?></h2>
+    <?php
+    }
+    ?>
     <div style="float: right;">
         <span>
             <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">
@@ -34,40 +39,33 @@
                     </td>
                 </tr>
             </thead>
+
             <tbody>
+            <?php
+            foreach ($list_images as $images){
+            ?>
+                
                 <tr>
                     <td>
-                        <p>IMG1.JPG</p>
+                        <p><?php echo $images->nameOri; ?></p>
                     </td>
-                    <td></td>
+                    <td><?php echo $images->label; ?></td>
                     <td>
                         <p>XXX</p>
                     </td>
                     <td style="text-align: center;">
-                        <input type="radio" value="1" name="edit"/>
+                        <input type="radio" name="edit"/>
                     </td>
                     <td style="text-align: center;">
                         <input type="checkbox" />
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <p>IMG1.JPG</p>
-                    </td>
-                    <td>
-                        <p>Fish</p>    
-                    </td>
-                    <td>
-                        <p>XXX</p>
-                    </td>
-                    <td style="text-align: center;">
-                        <input type="radio" value="0" name="edit"/>							
-                    </td>
-                    <td style="text-align: center;">
-                        <input type="checkbox" />
-                    </td>
-                </tr>
+                
+            <?php
+            }
+            ?>
             </tbody>
+
             <tfoot>
                 <tr style="height: 50px;">
                     <td>
@@ -90,6 +88,21 @@
         </table>
     </div>
    <br /><br />
+   
+   <div id="addProject_panel">
+        <?php echo form_open_multipart('pages/do_upload'); ?>
+            
+            <div class="inputbox_Upload">
+                <label class="labelinput-upload" for="zipped_file">Zipped File</label>
+                <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file" value="<?php echo set_value('zipped_file'); ?>"/><br />
+            </div>
+            <?php echo form_error('zipped_file', '<div class="errorbox">', '</div>'); ?>            
+            <div class="inputbox_Upload">
+                <input id="button_Upload" type="submit" name="Submit" class="box-button" value="Upload" />
+                <a class="box-button" id="button_cancelUpload" style="margin-right: 5px;">Cancel</a>
+            </div>
+        <?php echo form_close(); ?>
+    </div>
    
     <div class="separator"></div>
 </div>
