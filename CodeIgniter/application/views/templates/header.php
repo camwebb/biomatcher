@@ -7,6 +7,8 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/popup.js"></script>
+    <script src="<?php echo base_url()?>style/js/upload.js"></script>
+	<script src="<?php echo base_url()?>style/js/ajaxfileupload.js"></script>
     
     <script type="text/javascript">
     function show_mask(){
@@ -14,12 +16,6 @@
 		$('body').append('<div id="mask"></div>');
 		$('#mask').fadeIn(300);
     }
-    $('a#close, #mask').live('click', function() { 
-        $('#mask , .popup').fadeOut(300 , function() {
-            $('#mask').remove();  
-        });
-        return false;
-	});
     </script> 
 </head>
 <body>

@@ -88,19 +88,20 @@
         </table>
     </div>
    <br /><br />
-   
+
    <div id="addProject_panel">
-        <?php echo form_open_multipart('pages/do_upload'); ?>
+        <?php echo form_open_multipart('pages/do_upload',array('id'=>'upload_file')); ?>
             
             <div class="inputbox_Upload">
                 <label class="labelinput-upload" for="zipped_file">Zipped File</label>
                 <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file" value="<?php echo set_value('zipped_file'); ?>"/><br />
             </div>
-            <?php echo form_error('zipped_file', '<div class="errorbox">', '</div>'); ?>            
+            <?php //echo form_error('zipped_file', '<div class="errorbox">', '</div>'); ?>            
             <div class="inputbox_Upload">
-                <input id="button_Upload" type="submit" name="Submit" class="box-button" value="Upload" />
+                <input id="button_Upload" type="submit" name="submit" class="box-button" value="Upload" />
                 <a class="box-button" id="button_cancelUpload" style="margin-right: 5px;">Cancel</a>
             </div>
+            <div id="files"></div>
         <?php echo form_close(); ?>
     </div>
    
