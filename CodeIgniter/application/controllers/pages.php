@@ -71,7 +71,7 @@ class Pages extends CI_Controller {
             			$cookieUsername = array(
             				'name'   => 'user',
             				'value'  => $login['username'],
-            				'expire' => time()+1000,
+            				'expire' => time()+36000,
             				'path'   => '/',
             				'secure' => FALSE
             			);
@@ -79,7 +79,7 @@ class Pages extends CI_Controller {
             			$cookiePassword = array(
             				'name'   => 'pass',
             				'value'  => $login['password'],
-            				'expire' => time()+1000,
+            				'expire' => time()+36000,
             				'path'   => '/',
             				'secure' => FALSE
             			);
@@ -249,7 +249,7 @@ class Pages extends CI_Controller {
     		}
     		@unlink($_FILES[$file_element_name]);
     	}
-    	echo json_encode(array('status' => $status, 'msg' => $msg, 'orig_name' => $orig_name));
+    	echo json_encode(array('status' => $status, 'msg' => $msg));
     }
 
 }

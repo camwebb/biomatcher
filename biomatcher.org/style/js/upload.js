@@ -14,7 +14,8 @@ $(function() {
 					$('#files').html('<p>Reloading files...</p>');
 					refresh_files();
 				}
-				alert(data.msg);
+				//alert(data.msg);
+                $('.errorbox').html(data.msg);
 			}
 		});
 		return false;
