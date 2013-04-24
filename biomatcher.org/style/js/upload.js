@@ -2,7 +2,7 @@ $(function() {
 	$('#upload_file').submit(function(e) {
 		e.preventDefault();
 		$.ajaxFileUpload({
-			url 			:'./pages/do_upload/', 
+			url 			:'../../upload_file/', 
 			secureuri		:false,
 			fileElementId	:'zipped_file',
 			dataType		: 'json',

@@ -4,7 +4,7 @@
 }
 
 html {
-    height: 100%;
+
 }
 
 body {
@@ -353,8 +353,7 @@ ul.tabs li.selected{
 /* FOR POPUP JS */
 
 #toppanel-disable {
-	display:block;
-    position:absolute;
+    position:fixed;
     top:0px;
     bottom:0px;
     opacity:0.4;

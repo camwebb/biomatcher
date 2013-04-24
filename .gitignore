@@ -13,7 +13,7 @@ CodeIgniter/application/config/foreign_chars.php
 CodeIgniter/application/config/hooks.php
 CodeIgniter/application/config/index.html
 CodeIgniter/application/config/migration.php
-CodeIgniter/application/config/mimes.php
+!CodeIgniter/application/config/mimes.php
 CodeIgniter/application/config/profiler.php
 !CodeIgniter/application/config/routes.php
 CodeIgniter/application/config/smileys.php

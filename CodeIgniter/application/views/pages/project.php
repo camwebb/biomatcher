@@ -90,11 +90,11 @@
    <br /><br />
 
    <div id="addProject_panel">
-        <?php echo form_open_multipart('pages/do_upload',array('id'=>'upload_file')); ?>
+        <?php echo form_open_multipart('pages/upload_file',array('id'=>'upload_file')); ?>
             
             <div class="inputbox_Upload">
                 <label class="labelinput-upload" for="zipped_file">Zipped File</label>
-                <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file" value="<?php echo set_value('zipped_file'); ?>"/><br />
+                <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file" size="50"/><br />
             </div>
             <?php //echo form_error('zipped_file', '<div class="errorbox">', '</div>'); ?>            
             <div class="inputbox_Upload">

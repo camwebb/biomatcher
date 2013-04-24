@@ -211,14 +211,15 @@ class Pages extends CI_Controller {
     
     public function upload_file()
     {
+        $this->load->helper('url');
     	$status = "";
     	$msg = "";
-    	$file_element_name = 'userfile';
+    	$file_element_name = 'zipped_file'; /*zipped_file*/
     	
     	if ($status != "error")
     	{
-    		$config['upload_path'] = './tmp/';
-    		$config['allowed_types'] = 'gif|jpg|png|doc|txt';
+    		$config['upload_path'] = '../tmp/';
+    		$config['allowed_types'] = 'zip|rar';
     		$config['max_size']	= 1024 * 8;
     		$config['encrypt_name'] = TRUE;
     
