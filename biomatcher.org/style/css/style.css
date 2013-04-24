@@ -262,18 +262,35 @@ ul.tabs li.selected{
     font-size: 20px;
 }
 
-.labelinput-addProject, .labelinput-upload{
+.labelinput-addProject{
     float:left;
     font-size: 20px;
     padding-top: 5px;
 }
 
-.inputtext-reg, .inputtext-addProject, .inputtext-upload{
+.inputtext-reg, .inputtext-addProject{
     float:right;
     height: 36px;
     width: 250px;
     font-size: 18px;
     padding: 0 4px;
+    border: 1px solid #999999;
+    -moz-box-shadow: 0px 0px 6px #000000;
+    -webkit-box-shadow: 0px 0px 6px #000000;
+    box-shadow: 0px 0px 6px #000000;
+}
+
+.labelinput-upload{
+    float:left;
+    font-size: 20px;
+    padding-top: 1px;
+}
+
+.inputtext-upload{
+    float:right;
+    height: 30px;
+    width: 330px;
+    font-size: 18px;
     border: 1px solid #999999;
     -moz-box-shadow: 0px 0px 6px #000000;
     -webkit-box-shadow: 0px 0px 6px #000000;

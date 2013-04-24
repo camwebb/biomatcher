@@ -176,7 +176,7 @@ class Pages extends CI_Controller {
         $this->load->model('m_pages');
         $this->m_pages->register_user();
         
-        $this->register_success();
+        $this->view($page = 'register_success');
         }
     }
     
@@ -218,6 +218,7 @@ class Pages extends CI_Controller {
     	
     	if ($status != "error")
     	{
+    	    //$orig_name = $_FILES['zipped_file'];
     		$config['upload_path'] = '../tmp/';
     		$config['allowed_types'] = 'zip|rar';
     		$config['max_size']	= 1024 * 8;
@@ -248,7 +249,7 @@ class Pages extends CI_Controller {
     		}
     		@unlink($_FILES[$file_element_name]);
     	}
-    	echo json_encode(array('status' => $status, 'msg' => $msg));
+    	echo json_encode(array('status' => $status, 'msg' => $msg, 'orig_name' => $orig_name));
     }
 
 }
