@@ -220,7 +220,7 @@ class Pages extends CI_Controller {
     	{
     	    //$orig_name = $_FILES['zipped_file'];
     		$config['upload_path'] = '../tmp/';
-    		$config['allowed_types'] = 'zip|rar';
+    		$config['allowed_types'] = 'zip';
     		$config['max_size']	= 1024 * 8;
     		$config['encrypt_name'] = TRUE;
     
@@ -234,18 +234,32 @@ class Pages extends CI_Controller {
     		else
     		{
     			$data = $this->upload->data();
-    			/*$file_id = $this->files_model->insert_file($data['file_name'], $_POST['title']);
-    			if($file_id)
-    			{
-    				$status = "success";
-    				$msg = "File successfully uploaded";
-    			}
-    			else
-    			{
-    				unlink($data['full_path']);
-    				$status = "error";
-    				$msg = "Something went wrong when saving the file, please try again.";
-    			}*/
+            	$zip = new ZipArchive;
+            	$file = $data['full_path'];
+                $file_name = $data['raw_name'];
+                //$path_extract = $data['file_path'].$file_name;
+                $path_data = '../data/';
+                $path_move_files = $path_data.$file_name;
+
+            	//chmod($path_extract,0777);
+            	if ($zip->open($file) === TRUE) {
+            		//$zip->extractTo($path_extract);
+                    mkdir($path_move_files, 0777);
+                    for($i = 0; $i < $zip->numFiles; $i++) {
+                        $image_name = $zip->getNameIndex($i);
+                        if(preg_match('#\.(jpg|jpeg)$#i', $image_name))
+                        {
+                            $image_name_encrypt = md5($image_name);
+                            copy("zip://".$file."#".$image_name, $path_move_files.'/'.$image_name);
+                        }
+                    }
+            		$zip->close();
+                    unlink($file);
+            	} else {
+                    $status = 'error';
+            		$msg = 'extract failed';
+                    unlink($file);
+                }
     		}
     		@unlink($_FILES[$file_element_name]);
     	}
