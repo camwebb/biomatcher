@@ -234,31 +234,23 @@ class Pages extends CI_Controller {
     		else
     		{
     			$data = $this->upload->data();
+                //$data = array('upload_data' => $this->upload->data());
             	$zip = new ZipArchive;
             	$file = $data['full_path'];
                 $file_name = $data['raw_name'];
-                //$path_extract = $data['file_path'].$file_name;
-                $path_data = '../data/';
-                $path_move_files = $path_data.$file_name;
+                $path_extract = $data['file_path'].$file_name;
 
-            	//chmod($path_extract,0777);
             	if ($zip->open($file) === TRUE) {
-            		//$zip->extractTo($path_extract);
-                    mkdir($path_move_files, 0777);
-                    for($i = 0; $i < $zip->numFiles; $i++) {
-                        $image_name = $zip->getNameIndex($i);
-                        if(preg_match('#\.(jpg|jpeg)$#i', $image_name))
-                        {
-                            $image_name_encrypt = md5($image_name);
-                            copy("zip://".$file."#".$image_name, $path_move_files.'/'.$image_name);
-                        }
-                    }
+            	    //extract to folder path
+                    mkdir($path_extract, 0777);
+            	    chmod($path_extract,0777);      	   
+            		$zip->extractTo($path_extract);
             		$zip->close();
                     unlink($file);
+            		$msg = 'extract success';
             	} else {
-                    $status = 'error';
+        	        unlink($file);
             		$msg = 'extract failed';
-                    unlink($file);
                 }
     		}
     		@unlink($_FILES[$file_element_name]);
