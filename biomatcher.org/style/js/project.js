@@ -14,6 +14,15 @@ $(document).ready(function() {
         $("div#toppanel-disable").hide();       
     }
     
+    function editLabel(){
+        $("#draggable").fadeIn("normal");
+        $( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});
+    }
+    
+    function cancelLabel(){
+        $("#draggable").fadeOut("normal");
+    }
+    
     $('a#close, #mask').bind('click', function() { 
         $('#mask , .popup').fadeOut(300 , function() {
             $('#mask').remove();  
@@ -23,5 +32,7 @@ $(document).ready(function() {
     
     $("#addProject, #upl_img").bind("click",addProject);
     $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);	
+    $("#editLabel").bind("click",editLabel);
+    $("#cancelLabel").bind("click",cancelLabel);	
     
 });

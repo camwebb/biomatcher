@@ -6,9 +6,10 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'/>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-ui-1.8.21.custom.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>style/js/popup.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>style/js/project.js"></script>
     <script src="<?php echo base_url()?>style/js/upload.js"></script>
 	<script src="<?php echo base_url()?>style/js/ajaxfileupload.js"></script>
+    <script src="<?php echo base_url()?>style/js/jqueryUI/jquery.ui.draggable.js"></script>
     
     <script type="text/javascript">
     function show_mask(){
@@ -16,7 +17,8 @@
 		$('body').append('<div id="mask"></div>');
 		$('#mask').fadeIn(300);
     }
-    </script> 
+    </script>
+
 </head>
 <body>
 <div id="toppanel-disable"> </div>

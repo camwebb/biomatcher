@@ -40,7 +40,7 @@
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody id="test">
             <?php
             foreach ($list_images as $images){
             ?>
@@ -78,7 +78,7 @@
                         
                     </td>
                     <td>
-                        <button class="box-button" id="edit">Edit</button>
+                        <button class="box-button" id="editLabel">Edit</button>
                     </td>
                     <td>
                         <button class="box-button" id="delete">Delete</button>
@@ -88,8 +88,16 @@
         </table>
     </div>
    <br /><br />
-
-   <div id="addProject_panel">
+   <div id="draggable">
+        <?php echo form_open_multipart('pages/editLabel'); ?>
+            <textarea style="margin-bottom: 5px;" id="labelProject" rows="5" cols="35"></textarea>
+            <input style="float: right;" id="buttonLabel" type="submit" name="submit" class="box-button" value="Submit" />
+            <a style="float: right;" class="box-button" id="cancelLabel" style="margin-right: 5px;">Cancel</a>
+            <div class="clear"></div>
+        <?php echo form_close(); ?>
+   </div>
+   
+  <div id="addProject_panel">
         <?php echo form_open_multipart('pages/upload_file',array('id'=>'upload_file')); ?>
             
             <div class="inputbox_Upload">

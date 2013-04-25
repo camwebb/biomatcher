@@ -536,3 +536,17 @@ ul.dropdown2 li:hover > ul {
     border: none;
     padding: 0;
 }
+
+#draggable {
+    display: none;
+    background: #353535; 
+    width: 300px;
+    padding: 5px;
+    cursor: move;
+    left:33%;
+}
+
+#labelProject{
+    max-width: 300px;
+    min-width: 300px;
+}
