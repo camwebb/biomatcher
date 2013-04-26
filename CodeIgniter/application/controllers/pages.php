@@ -67,7 +67,7 @@ class Pages extends CI_Controller {
                     if(md5($password) == $user_credentials[$username]['password'])
                     {
                         //login success
-                        $this->session->set_userdata(array('username' => $login['username'], 'id_user' => $login['id']));
+                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id']));
             			$cookieUsername = array(
             				'name'   => 'user',
             				'value'  => $login['username'],
@@ -91,7 +91,7 @@ class Pages extends CI_Controller {
                     else
                     {
                         //incorrect password
-                        $this->session->set_userdata(array('username' => "", 'id_user' => ""));
+                        $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
                         $this->session->set_flashdata('message', 'Incorrect password.');
                         redirect('');
                     }
@@ -100,7 +100,7 @@ class Pages extends CI_Controller {
             else
             {
                 //login failed
-                $this->session->set_userdata(array('username' => "", 'id_user' => ""));
+                $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
                 $this->session->set_flashdata('message', 'A user does not exist for the username specified.');
                 redirect('');
             }
@@ -235,12 +235,32 @@ class Pages extends CI_Controller {
     		{
     			$data = $this->upload->data();
                 //$data = array('upload_data' => $this->upload->data());
-            	$zip = new ZipArchive;
+            	//$zip = new ZipArchive;
             	$file = $data['full_path'];
                 $file_name = $data['raw_name'];
                 $path_extract = $data['file_path'].$file_name;
-
-            	if ($zip->open($file) === TRUE) {
+                // or specify a destination directory
+                chmod($file,0777);
+                mkdir($path_extract, 0777);
+           	    chmod($path_extract,0777);
+                
+                $this->load->library('unzip');
+                // Optional: Only take out these files, anything else is ignored
+                $this->unzip->allow(array('jpeg', 'jpg'));                
+                $this->unzip->extract($file, $path_extract.'/');
+				if(fopen($file, 'r') == TRUE){
+					fclose(fopen($file, 'r'));
+					chmod($file,0777);
+					unlink($file);
+				}else{
+					chmod($file,0777);
+					unlink($file);
+				}
+                /*while(is_file($file) == TRUE)
+                {
+                    unlink($file);
+                }*/
+            	/*if ($zip->open($file) === TRUE) {
             	    //extract to folder path
                     mkdir($path_extract, 0777);
             	    chmod($path_extract,0777);      	   
@@ -251,11 +271,24 @@ class Pages extends CI_Controller {
             	} else {
         	        unlink($file);
             		$msg = 'extract failed';
-                }
+                }*/
     		}
     		@unlink($_FILES[$file_element_name]);
     	}
     	echo json_encode(array('status' => $status, 'msg' => $msg));
+    }
+    
+    public function thumb() { 
+        $config['image_library'] = 'gd2'; 
+        $config['source_image'] = '../data/fitri/1/img/aa5998d9be7c003ea824fb71d9327f47';
+        $config['new_image'] = '../data/fitri/1/img/thumb/';
+        $config['create_thumb'] = TRUE; 
+        $config['maintain_ratio'] = TRUE; 
+        $config['width'] = 100; 
+        $config['height'] = 100; 
+        
+        $this->load->library('image_lib', $config); 
+        if(!$this->image_lib->resize()) echo $this->image_lib->display_errors(); 
     }
 
 }

@@ -9,7 +9,7 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/project.js"></script>
     <script src="<?php echo base_url()?>style/js/upload.js"></script>
 	<script src="<?php echo base_url()?>style/js/ajaxfileupload.js"></script>
-    <script src="<?php echo base_url()?>style/js/jqueryUI/jquery.ui.draggable.js"></script>
+    <script src="<?php echo base_url()?>style/js/jquery.ui.draggable.js"></script>
     
     <script type="text/javascript">
     function show_mask(){
@@ -85,7 +85,7 @@
         ?>
         <div id="page_menu">
             <div style="float: left; padding-top: 10px;">
-            <p>Welcome, <?php echo $this->session->userdata('username'); ?></p>
+            <p>Welcome, <?php echo $this->session->userdata('name'); ?></p>
             </div>
             <div id="cmenu">
             <!-- menu -->
