@@ -9,7 +9,6 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/project.js"></script>
     <script src="<?php echo base_url()?>style/js/upload.js"></script>
 	<script src="<?php echo base_url()?>style/js/ajaxfileupload.js"></script>
-    <script src="<?php echo base_url()?>style/js/jquery.ui.draggable.js"></script>
     
     <script type="text/javascript">
     function show_mask(){
