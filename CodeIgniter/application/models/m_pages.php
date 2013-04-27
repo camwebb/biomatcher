@@ -79,10 +79,12 @@ class M_pages extends CI_Model {
     
     function test_csv(){
         $this->load->dbutil();
-        $query = $this->db->query("SELECT * FROM image");
+        $query = $this->db->query("SELECT label FROM image WHERE id='7'");
         $delimiter = ",";
         $newline = "\r\n";
         echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
+      
+   // return $query = $this->db->get('user');
     }        
     
 

@@ -300,8 +300,10 @@ class Pages extends CI_Controller {
     function create_csv(){
         $this->load->model('m_pages');
         $report = $this->m_pages->test_csv();
-       
-
+      //  $this->load->helper('file');
+      //  $this->load->dbutil();
+     //   $new_report = $this->dbutil->csv_from_result($report);
+     //   write_file('csv_file.csv',$new_report);
         }
 
 }
