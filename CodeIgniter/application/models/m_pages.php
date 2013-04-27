@@ -66,9 +66,25 @@ class M_pages extends CI_Model {
     function project_title(){
         $project_id = $this->uri->segment(4, 0);
         $query=$this->db->query("SELECT * FROM project where id='$project_id'");
+        return $query->result();            
+    }
+    
+    function list_edit_label(){
+        $image_id = $this->input->post('id');
+        //$image_id = '2';
+        echo $image_id;
+        $query=$this->db->query("SELECT * FROM image where id='$image_id'");
         return $query->result();
-            
+    }
+    
+    function test_csv(){
+        $this->load->dbutil();
+        $query = $this->db->query("SELECT * FROM image");
+        $delimiter = ",";
+        $newline = "\r\n";
+        echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
     }        
+    
 
 }
 

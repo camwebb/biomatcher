@@ -54,7 +54,7 @@
                         <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'../data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/thumb/'.$images->md5sum.'_thumb'; ?>" /></p>
                     </td>
                     <td style="text-align: center;">
-                        <input type="radio" name="edit"/>
+                        <input type="radio" name="edit" value="<?php echo $images->id; ?>"/>
                     </td>
                     <td style="text-align: center;">
                         <input type="checkbox" />
@@ -72,7 +72,7 @@
                         <button class="box-button" id="upl_img">Upload Image</button>
                     </td>
                     <td>
-                        <button class="box-button" id="add_label">Add Label</button>  
+                        <button class="box-button" id="addLabel">Add Label</button>  
                     </td>
                     <td>
                         
@@ -88,14 +88,22 @@
         </table>
     </div>
    <br /><br />
-   <div id="draggable">
-        <?php echo form_open_multipart('pages/editLabel'); ?>
-            <textarea style="margin-bottom: 5px;" id="labelProject" rows="5" cols="35"></textarea>
+    
+   <div id="draggable">           
+   
+        <?php echo form_open_multipart('pages/...'); ?>
+            <?php
+                foreach ($list_edit_label as $edit_label){
+            ?>
+            <textarea style="margin-bottom: 5px;" id="labelProject" rows="5" cols="35"><?php echo $edit_label->label; ?></textarea>
             <input style="float: right;" id="buttonLabel" type="submit" name="submit" class="box-button" value="Submit" />
             <a style="float: right;" class="box-button" id="cancelLabel" style="margin-right: 5px;">Cancel</a>
             <div class="clear"></div>
+            <?php } ?>    
         <?php echo form_close(); ?>
+                                        
    </div>
+     
    
   <div id="addProject_panel">
         <?php echo form_open_multipart('pages/upload_file',array('id'=>'upload_file')); ?>

@@ -84,7 +84,7 @@
         ?>
         <div id="page_menu">
             <div style="float: left; padding-top: 10px;">
-            <p>Welcome, <?php echo $this->session->userdata('name'); ?></p>
+            <p>Welcome, <?php echo $this->session->userdata('username'); ?></p>
             </div>
             <div id="cmenu">
             <!-- menu -->

@@ -15,8 +15,20 @@ $(document).ready(function() {
     }
     
     function editLabel(){
-        $("#draggable").fadeIn("normal");
-        $( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});
+        var id = $('input[@name="for_editLabel"]:checked').val();
+        var dataString = 'id='+id;
+      //  alert(id);
+        $.ajax({
+            url: '../../editLabel/', //This is the current doc
+            type: "POST",
+            data: dataString,
+            success: function(data){ 
+                alert(data);
+              //  $("#draggable").fadeIn("normal");
+              //  $( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});
+            }           
+            });
+        
     }
     
     function cancelLabel(){
@@ -31,8 +43,11 @@ $(document).ready(function() {
 	});
     
     $("#addProject, #upl_img").bind("click",addProject);
-    $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);	
+    $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);
+    
+    /*editLabel function*/	
     $("#editLabel").bind("click",editLabel);
     $("#cancelLabel").bind("click",cancelLabel);	
-    
+
+        
 });

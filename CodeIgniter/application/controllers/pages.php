@@ -20,6 +20,7 @@ class Pages extends CI_Controller {
     $data['list_project'] = $this->m_pages->list_project();
 	$data['list_images'] = $this->m_pages->list_image();
     $data['project_title'] = $this->m_pages->project_title();
+    $data['list_edit_label'] = $this->m_pages->list_edit_label();
     
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
@@ -290,5 +291,17 @@ class Pages extends CI_Controller {
         $this->load->library('image_lib', $config); 
         if(!$this->image_lib->resize()) echo $this->image_lib->display_errors(); 
     }
+    
+    function editLabel(){
+        $this->load->model('m_pages');
+        $data['list_edit_label'] = $this->m_pages->list_edit_label();
+    }
+    
+    function create_csv(){
+        $this->load->model('m_pages');
+        $report = $this->m_pages->test_csv();
+       
+
+        }
 
 }
