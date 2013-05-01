@@ -240,39 +240,15 @@ class Pages extends CI_Controller {
             	$file = $data['full_path'];
                 $file_name = $data['raw_name'];
                 $path_extract = $data['file_path'].$file_name;
-                // or specify a destination directory
-                chmod($file,0777);
+                $path_data = '../data/';
+                $path_move_files = $path_data.$file_name;
+
                 mkdir($path_extract, 0777);
-           	    chmod($path_extract,0777);
                 
-                $this->load->library('unzip');
-                // Optional: Only take out these files, anything else is ignored
-                $this->unzip->allow(array('jpeg', 'jpg'));                
-                $this->unzip->extract($file, $path_extract.'/');
-				if(fopen($file, 'r') == TRUE){
-					fclose(fopen($file, 'r'));
-					chmod($file,0777);
-					unlink($file);
-				}else{
-					chmod($file,0777);
-					unlink($file);
-				}
-                /*while(is_file($file) == TRUE)
-                {
-                    unlink($file);
-                }*/
-            	/*if ($zip->open($file) === TRUE) {
-            	    //extract to folder path
-                    mkdir($path_extract, 0777);
-            	    chmod($path_extract,0777);      	   
-            		$zip->extractTo($path_extract);
-            		$zip->close();
-                    unlink($file);
-            		$msg = 'extract success';
-            	} else {
-        	        unlink($file);
-            		$msg = 'extract failed';
-                }*/
+                shell_exec("chmod 777 $path_extract");                
+                shell_exec("unzip -jo $file  -d $path_extract");
+                unlink($file);
+                
     		}
     		@unlink($_FILES[$file_element_name]);
     	}
