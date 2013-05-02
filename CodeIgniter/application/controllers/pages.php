@@ -195,19 +195,10 @@ class Pages extends CI_Controller {
         }     
     }
     
-    function do_addProject($page = 'project')
+    function do_addProject()
     {
-        if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
-    	{
-    		// Whoops, we don't have a page for that!
-    		show_404();
-    	}
-    
-    	$data['title'] = ucfirst($page); // Capitalize the first letter
-    	
-    	$this->load->view('templates/header', $data);
-    	$this->load->view('pages/'.$page, $data);
-    	$this->load->view('templates/footer', $data);     
+        //function add project
+        //redirect
     }
     
     public function upload_file()
@@ -217,6 +208,10 @@ class Pages extends CI_Controller {
     	$msg = "";
     	$file_element_name = 'zipped_file'; /*zipped_file*/
     	
+        $project_id = $this->input->post('project_id');
+        
+        if (!empty($project_id)){
+        
     	if ($status != "error")
     	{
     	    //$orig_name = $_FILES['zipped_file'];
@@ -235,24 +230,70 @@ class Pages extends CI_Controller {
     		else
     		{
     			$data = $this->upload->data();
-                //$data = array('upload_data' => $this->upload->data());
-            	//$zip = new ZipArchive;
             	$file = $data['full_path'];
                 $file_name = $data['raw_name'];
                 $path_extract = $data['file_path'].$file_name;
                 $path_data = '../data/';
-                $path_move_files = $path_data.$file_name;
-
+                $path_user = $path_data.$this->session->userdata('username');
+                $path_project = $path_user.'/'.$project_id;
+                $path_img = $path_project.'/img';
+                
                 mkdir($path_extract, 0777);
                 
                 shell_exec("chmod 777 $path_extract");                
                 shell_exec("unzip -jo $file  -d $path_extract");
                 unlink($file);
                 
+                if ($handle = opendir($path_extract)) {
+                    /* loop over the directory. */
+                    while (false !== ($entry = readdir($handle))) {
+                        if(preg_match('#\.(jpg|jpeg)$#i', $entry))
+                        {
+                            $image_name_encrypt = md5($entry);
+                            if (!is_dir($path_user)){
+                                mkdir($path_user, 0777);
+                                shell_exec("chmod 777 $path_user");
+                            }
+                            if (!is_dir($path_project)){
+                                mkdir($path_project, 0777);
+                                shell_exec("chmod 777 $path_project");
+                            }
+                            if (!is_dir($path_img)){
+                                mkdir($path_img, 0777);
+                                shell_exec("chmod 777 $path_img");
+                            }
+                            copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt);
+                            if(!@ copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt))
+                            {
+                                $errors= error_get_last();
+                                $status = "error";
+                                $msg = "COPY ERROR: ".$errors['type']."<br />\n".$errors['message'];
+                            } else {
+                                $status = $entry;
+                                $msg = $image_name_encrypt;
+                                /*
+                                $status = "success";
+    				            $msg = "File successfully uploaded";
+                                */
+                                shell_exec("chmod 777 $path_img/$image_name_encrypt");
+                            }
+                            $msg = $path_project;
+                        }
+                    }
+                    
+                    shell_exec("rm -r $path_extract");
+                
+                    closedir($handle);
+                }
+                
     		}
     		@unlink($_FILES[$file_element_name]);
     	}
-    	echo json_encode(array('status' => $status, 'msg' => $msg));
+    	
+        }else{
+            $status ="error";                    
+        }
+        echo json_encode(array('status' => $status, 'msg' => $msg));
     }
     
     public function thumb() { 

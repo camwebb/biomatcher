@@ -111,6 +111,7 @@
             <div class="inputbox_Upload">
                 <label class="labelinput-upload" for="zipped_file">Zipped File</label>
                 <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file" size="50"/><br />
+                <input class="inputtext-upload" id="project_id" type="hidden" name="project_id" value="<?php echo $this->uri->segment(4, 0); ?>"/>
             </div>
             <div class="errorbox" style="padding: 0 !important;"></div>            
             <div class="inputbox_Upload">

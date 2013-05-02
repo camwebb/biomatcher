@@ -6,6 +6,9 @@ $(function() {
 			secureuri		:false,
 			fileElementId	:'zipped_file',
 			dataType		: 'json',
+            data            : {
+                'project_id'     : $('#project_id').val()
+            },
             
 			success	: function (data, status)
 			{
