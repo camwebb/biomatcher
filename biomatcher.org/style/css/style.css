@@ -543,7 +543,9 @@ ul.dropdown2 li:hover > ul {
     width: 300px;
     padding: 5px;
     cursor: move;
-    left:33%;
+   /* left:33%;*/
+    text-align: left;
+    text-indent: 0;        
 }
 
 #labelProject{

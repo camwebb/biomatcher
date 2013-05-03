@@ -69,17 +69,19 @@ class M_pages extends CI_Model {
         return $query->result();            
     }
     
-    function list_edit_label(){
-        $image_id = $this->input->post('id');
-        //$image_id = '2';
-        echo $image_id;
-        $query=$this->db->query("SELECT * FROM image where id='$image_id'");
-        return $query->result();
+    function getIdLabel(){
+        $query=$this->db->query("SELECT * FROM image where id='7'");
+        return $query->result();   
+    }
+    
+    function insertcsv(){
+        $query = $this->db->query("UPDATE image SET nameOri='$data[0]'");
     }
     
     function test_csv(){
         $this->load->dbutil();
-        $query = $this->db->query("SELECT label FROM image WHERE id='7'");
+        $query = $this->db->query("SELECT nameOri,label FROM image");
+        //return $query->result();  
         $delimiter = ",";
         $newline = "\r\n";
         echo $this->dbutil->csv_from_result($query, $delimiter, $newline);

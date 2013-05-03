@@ -15,24 +15,25 @@ $(document).ready(function() {
     }
     
     function editLabel(){
-        var id = $('input[@name="for_editLabel"]:checked').val();
-        var dataString = 'id='+id;
-      //  alert(id);
+        var id = $('input[@name="id_label"]:checked').val();
         $.ajax({
-            url: '../../editLabel/', //This is the current doc
+            url: '../../do_getIdLabel/',
             type: "POST",
-            data: dataString,
+            dataType: "json",
+            data: 'id='+id,
+            cache:false,
             success: function(data){ 
-                alert(data);
-              //  $("#draggable").fadeIn("normal");
-              //  $( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});
-            }           
+                alert(data);            }           
             });
-        
     }
     
     function cancelLabel(){
         $("#draggable").fadeOut("normal");
+    }
+    
+    function editAll(){
+        $("#draggable").fadeIn("normal");
+        $( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});
     }
     
     $('a#close, #mask').bind('click', function() { 
@@ -47,6 +48,7 @@ $(document).ready(function() {
     
     /*editLabel function*/	
     $("#editLabel").bind("click",editLabel);
+   /* $("#editAll").bind("click",editAll);*/
     $("#cancelLabel").bind("click",cancelLabel);	
 
         
