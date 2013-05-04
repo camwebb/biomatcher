@@ -48,7 +48,7 @@ $(document).ready(function() {
     
     /*editLabel function*/	
     $("#editLabel").bind("click",editLabel);
-   /* $("#editAll").bind("click",editAll);*/
+    $("#editAll").bind("click",editAll);
     $("#cancelLabel").bind("click",cancelLabel);	
 
         

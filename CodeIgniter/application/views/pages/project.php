@@ -74,7 +74,7 @@
                         <button class="box-button" id="upl_img">Upload Image</button>
                     </td>
                     <td>
-                        <button class="box-button" id="editAll" onclick="window.location = '<?php echo base_url(); ?>index.php/pages/create_csv'">Edit All</button>  
+                        <button class="box-button" id="editAll">Edit All</button>  
                     </td>
                     <td>
                         
@@ -95,9 +95,7 @@
     
    <div id="draggable">           
     <?php echo form_open('pages/do_editAllLabel');?>
-        <textarea style="margin-bottom: 5px;" id="labelProject" rows="5" cols="35">
-        "nameOri","label",
-        <?php foreach ($test_csv as $csv){ 
+        <textarea style="margin-bottom: 5px;" id="labelProject" name="csv" rows="5" cols="35"> "nameOri","label",<?php foreach ($get_csv as $csv){ 
                 echo '"'.$csv->nameOri.'"'.",".'"'.$csv->label.'"'.','; 
                 
                 }?>

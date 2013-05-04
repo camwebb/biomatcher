@@ -20,7 +20,7 @@ class Pages extends CI_Controller {
     $data['list_project'] = $this->m_pages->list_project();
 	$data['list_images'] = $this->m_pages->list_image();
     $data['project_title'] = $this->m_pages->project_title();
-    $data['test_csv'] = $this->m_pages->test_csv();    
+    $data['get_csv'] = $this->m_pages->get_csv();    
     
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
@@ -309,24 +309,15 @@ class Pages extends CI_Controller {
         if(!$this->image_lib->resize()) echo $this->image_lib->display_errors(); 
     }
     
-    function do_getIdLabel(){
+  /*  function do_getIdLabel(){
         $id_label = $this->input->post('id_label');
         $this->load->model('m_pages');
         $this->m_pages->getIdLabel();        
-    }
+    }*/
     
     function do_editAllLabel(){
-        $this->load->model('m_pages');
-        $report = $this->m_pages->insertcsv();
+        $csv = $this->input->post('csv');
+        $this->load->helper('file');
+        write_file('../codeigniter/data/csv_tmp/csv_file.csv',$csv);
     }
-    
-    function create_csv(){
-        $this->load->model('m_pages');
-        $report = $this->m_pages->test_csv();
-      //  $this->load->helper('file');
-      //  $this->load->dbutil();
-     //   $new_report = $this->dbutil->csv_from_result($report);
-     //   write_file('csv_file.csv',$new_report);
-        }
-
 }
