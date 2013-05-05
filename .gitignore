@@ -67,6 +67,7 @@ CodeIgniter/system/libraries/Cache
 CodeIgniter/system/libraries/javascript
 CodeIgniter/system/libraries/Calendar.php
 CodeIgniter/system/libraries/Cart.php
+CodeIgniter/system/libraries/Csv.php
 CodeIgniter/system/libraries/Driver.php
 CodeIgniter/system/libraries/Email.php
 CodeIgniter/system/libraries/Encrypt.php

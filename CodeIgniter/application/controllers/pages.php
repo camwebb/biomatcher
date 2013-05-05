@@ -320,4 +320,13 @@ class Pages extends CI_Controller {
         $this->load->helper('file');
         write_file('../codeigniter/data/csv_tmp/csv_file.csv',$csv);
     }
+    
+    function import_data(){
+        $params = array(
+            'file_name' => '../codeigniter/data/csv_tmp/test.csv',
+            'delimiter' => ',',
+            'parse_header' => false,);
+        $this->load->library('csv', $params);
+        var_dump($this->csv->parse());
+    }
 }
