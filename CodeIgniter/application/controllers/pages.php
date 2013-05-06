@@ -170,7 +170,7 @@ class Pages extends CI_Controller {
         
         if($this->form_validation->run() == FALSE)
         {
-        $this->register();
+        $this->register($page = 'projects');
         }
         else
         {
@@ -198,7 +198,34 @@ class Pages extends CI_Controller {
     function do_addProject()
     {
         //function add project
-        //redirect
+        $this->load->library('form_validation');
+        // field name, error message, validation rules
+        $config = array(
+               array(
+                     'field'   => 'nameProject', 
+                     'label'   => 'Project Name', 
+                     'rules'   => 'trim|required|min_length[4]|callback_project_exists|alpha_numeric|xss_clean'
+                  ),
+               array(
+                     'field'   => 'type', 
+                     'label'   => 'Type', 
+                     'rules'   => 'trim|required|xss_clean'
+                  )
+            );
+        $this->form_validation->set_rules($config);
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->view($page = 'projects');
+        }
+        else
+        {
+        $this->load->model('m_pages');
+        $this->m_pages->add_project();
+        
+        $this->view($page = 'projects');
+        }
+        //redirect redirect('', 'refresh');
     }
     
     public function upload_file()
@@ -237,10 +264,12 @@ class Pages extends CI_Controller {
                 $path_user = $path_data.$this->session->userdata('username');
                 $path_project = $path_user.'/'.$project_id;
                 $path_img = $path_project.'/img';
+                $path_thumb = $path_img.'/thumb';                                
                 
-                mkdir($path_extract, 0777);
+                mkdir($path_extract, 0755);
                 
-                shell_exec("chmod 777 $path_extract");                
+                shell_exec("chmod 755 $path_extract");
+                //extract and delete zip file             
                 shell_exec("unzip -jo $file  -d $path_extract");
                 unlink($file);
                 
@@ -251,33 +280,64 @@ class Pages extends CI_Controller {
                         {
                             $image_name_encrypt = md5($entry);
                             if (!is_dir($path_user)){
-                                mkdir($path_user, 0777);
-                                shell_exec("chmod 777 $path_user");
+                                mkdir($path_user, 0755);
+                                shell_exec("chmod 755 $path_user");
                             }
                             if (!is_dir($path_project)){
-                                mkdir($path_project, 0777);
-                                shell_exec("chmod 777 $path_project");
+                                mkdir($path_project, 0755);
+                                shell_exec("chmod 755 $path_project");
                             }
                             if (!is_dir($path_img)){
-                                mkdir($path_img, 0777);
-                                shell_exec("chmod 777 $path_img");
+                                mkdir($path_img, 0755);
+                                shell_exec("chmod 755 $path_img");
                             }
+                            if (!is_dir($path_thumb)){
+                                mkdir($path_thumb, 0755);
+                                shell_exec("chmod 755 $path_thumb");
+                            }
+                            
+                            //copy extract file image
                             copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt);
                             if(!@ copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt))
                             {
                                 $errors= error_get_last();
                                 $status = "error";
                                 $msg = "COPY ERROR: ".$errors['type']."<br />\n".$errors['message'];
-                            } else {
-                                $status = $entry;
-                                $msg = $image_name_encrypt;
-                                /*
+                            } else {                                                                
+                                // add file info to database
+                                $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
+                                $this->load->model('m_pages');
+                                $this->m_pages->upload_image($data_image);
+                                
+                                // create thumbnail for each image
+                                $config['image_library'] = 'gd2'; 
+                                $config['source_image'] = $path_img.'/'.$image_name_encrypt;
+                                $config['new_image'] = $path_thumb.'/';
+                                $config['create_thumb'] = TRUE; 
+                                $config['maintain_ratio'] = TRUE; 
+                                $config['width'] = 100; 
+                                $config['height'] = 100; 
+                                
+                                $this->load->library('image_lib');
+                                $this->image_lib->resize();
+                                $this->image_lib->clear();
+                                $this->image_lib->initialize($config); 
+                                if(!$this->image_lib->resize()) echo $this->image_lib->display_errors();                                                                                                                                
+                                
                                 $status = "success";
     				            $msg = "File successfully uploaded";
-                                */
-                                shell_exec("chmod 777 $path_img/$image_name_encrypt");
+                                
+                                $image_thumb = $path_thumb.'/'.$image_name_encrypt.'_thumb';
+                                
+                                //shell_exec("chmod 644 $image_thumb");
+                                shell_exec("chmod 644 $path_img/$image_name_encrypt");
                             }
-                            $msg = $path_project;
+                            $msg = $image_thumb;
+                        }
+                        else{
+                            $status = 'error';                            
+                            $msg = "The Zip file does not contain image file";
+                                                    
                         }
                     }
                     
@@ -287,26 +347,12 @@ class Pages extends CI_Controller {
                 }
                 
     		}
-    		@unlink($_FILES[$file_element_name]);
     	}
     	
         }else{
-            $status ="error";                    
+            $status ="error";
         }
         echo json_encode(array('status' => $status, 'msg' => $msg));
-    }
-    
-    public function thumb() { 
-        $config['image_library'] = 'gd2'; 
-        $config['source_image'] = '../data/fitri/1/img/aa5998d9be7c003ea824fb71d9327f47';
-        $config['new_image'] = '../data/fitri/1/img/thumb/';
-        $config['create_thumb'] = TRUE; 
-        $config['maintain_ratio'] = TRUE; 
-        $config['width'] = 100; 
-        $config['height'] = 100; 
-        
-        $this->load->library('image_lib', $config); 
-        if(!$this->image_lib->resize()) echo $this->image_lib->display_errors(); 
     }
     
   /*  function do_getIdLabel(){
@@ -330,3 +376,5 @@ class Pages extends CI_Controller {
         var_dump($this->csv->parse());
     }
 }
+
+?>

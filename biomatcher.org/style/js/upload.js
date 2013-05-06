@@ -23,4 +23,12 @@ $(function() {
 		});
 		return false;
 	});
+    
+    /*function refresh_files()
+    {
+       $.get('./upload/file/')
+       .success(function (data){
+          $('#files').html(data);
+       });
+    }*/
 });

@@ -69,6 +69,20 @@ class M_pages extends CI_Model {
         return $query->result();            
     }
     
+    function add_project(){
+        $id_user = $this->session->userdata('id_user');
+        $data=array(
+        'userID' => $id_user,
+        'name'=>$this->input->post('nameProject'),
+        'qcSet'=>$this->input->post('type'),
+        );
+        $this->db->insert('project',$data);
+    }
+    
+    function upload_image($data_image){
+        $this->db->insert('image', $data_image);
+    }
+    
   /*  function getIdLabel(){
         $query=$this->db->query("SELECT * FROM image where id='7'");
         return $query->result();   
@@ -81,7 +95,7 @@ class M_pages extends CI_Model {
         $delimiter = ",";
         $newline = "\r\n";
       // echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
-    }        
+    }    
     
 
 }

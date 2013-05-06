@@ -18,7 +18,7 @@
     
     <div class="separator" style="float: left;"></div>
 
-    <div class="project_table">
+    <div class="project_table" id="files">
         <table style="width: 100%;">
             <thead>
                 <tr>
@@ -120,7 +120,6 @@
                 <input id="button_Upload" type="submit" name="submit" class="box-button" value="Upload" />
                 <a class="box-button" id="button_cancelUpload" style="margin-right: 5px;">Cancel</a>
             </div>
-            <div id="files"></div>
         <?php echo form_close(); ?>
     </div>
    
