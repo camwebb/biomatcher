@@ -244,7 +244,7 @@ class Pages extends CI_Controller {
     	    //$orig_name = $_FILES['zipped_file'];
     		$config['upload_path'] = '../tmp/';
     		$config['allowed_types'] = 'zip';
-    		$config['max_size']	= 1024 * 8;
+    		$config['max_size']	= 500000;
     		$config['encrypt_name'] = TRUE;
     
     		$this->load->library('upload', $config);
@@ -296,43 +296,58 @@ class Pages extends CI_Controller {
                                 shell_exec("chmod 755 $path_thumb");
                             }
                             
-                            //copy extract file image
-                            copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt);
-                            if(!@ copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt))
-                            {
-                                $errors= error_get_last();
+                            $fileinfo = getimagesize($path_extract."/".$entry);
+                            if(!$fileinfo) {
                                 $status = "error";
-                                $msg = "COPY ERROR: ".$errors['type']."<br />\n".$errors['message'];
-                            } else {                                                                
-                                // add file info to database
-                                $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
-                                $this->load->model('m_pages');
-                                $this->m_pages->upload_image($data_image);
-                                
-                                // create thumbnail for each image
-                                $config['image_library'] = 'gd2'; 
-                                $config['source_image'] = $path_img.'/'.$image_name_encrypt;
-                                $config['new_image'] = $path_thumb.'/';
-                                $config['create_thumb'] = TRUE; 
-                                $config['maintain_ratio'] = TRUE; 
-                                $config['width'] = 100; 
-                                $config['height'] = 100; 
-                                
-                                $this->load->library('image_lib');
-                                $this->image_lib->resize();
-                                $this->image_lib->clear();
-                                $this->image_lib->initialize($config); 
-                                if(!$this->image_lib->resize()) echo $this->image_lib->display_errors();                                                                                                                                
-                                
-                                $status = "success";
-    				            $msg = "File successfully uploaded";
-                                
-                                $image_thumb = $path_thumb.'/'.$image_name_encrypt.'_thumb';
-                                
-                                //shell_exec("chmod 644 $image_thumb");
-                                shell_exec("chmod 644 $path_img/$image_name_encrypt");
+                                $msg = "No file type info";
+                            }else{
+                        
+                            $valid_types = array(IMAGETYPE_JPEG);
+                        
+                            if(in_array($fileinfo[2],  $valid_types)) {
+                                //copy extract file image
+                                copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt);
+                                if(!@ copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt))
+                                {
+                                    $errors= error_get_last();
+                                    $status = "error";
+                                    $msg = "COPY ERROR: ".$errors['type']."<br />\n".$errors['message'];
+                                } else {                                                                
+                                    // add file info to database
+                                    $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
+                                    $this->load->model('m_pages');
+                                    $this->m_pages->upload_image($data_image);
+                                    
+                                    // create thumbnail for each image
+                                    $config['image_library'] = 'gd2'; 
+                                    $config['source_image'] = $path_img.'/'.$image_name_encrypt;
+                                    $config['new_image'] = $path_thumb.'/';
+                                    $config['create_thumb'] = TRUE; 
+                                    $config['maintain_ratio'] = TRUE; 
+                                    $config['width'] = 100; 
+                                    $config['height'] = 100; 
+                                    
+                                    $this->load->library('image_lib');
+                                    $this->image_lib->resize();
+                                    $this->image_lib->clear();
+                                    $this->image_lib->initialize($config); 
+                                    if(!$this->image_lib->resize()) echo $this->image_lib->display_errors();                                                                                                                                
+                                    
+                                    $status = "success";
+        				            $msg = "File successfully uploaded";
+                                    
+                                    $image_thumb = $path_thumb.'/'.$image_name_encrypt.'_thumb';
+                                    
+                                    //shell_exec("chmod 644 $image_thumb");
+                                    shell_exec("chmod 644 $path_img/$image_name_encrypt");
+                                }
                             }
-                            $msg = $image_thumb;
+                            
+                            else{
+                                $status = "error";
+                                $msg = "File type error";
+                            }
+                            }                              
                         }
                         else{
                             $status = 'error';                            
@@ -340,10 +355,8 @@ class Pages extends CI_Controller {
                                                     
                         }
                     }
-                    
-                    shell_exec("rm -r $path_extract");
-                
                     closedir($handle);
+                    shell_exec("rm -r $path_extract");
                 }
                 
     		}
@@ -351,6 +364,7 @@ class Pages extends CI_Controller {
     	
         }else{
             $status ="error";
+            $msg = "No Project id";
         }
         echo json_encode(array('status' => $status, 'msg' => $msg));
     }

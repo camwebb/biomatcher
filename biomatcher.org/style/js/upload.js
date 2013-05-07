@@ -24,11 +24,11 @@ $(function() {
 		return false;
 	});
     
-    /*function refresh_files()
+    function refresh_files()
     {
-       $.get('./upload/file/')
+       $.get('../../upload_file/')
        .success(function (data){
           $('#files').html(data);
        });
-    }*/
+    }
 });
