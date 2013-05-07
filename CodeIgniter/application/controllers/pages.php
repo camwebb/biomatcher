@@ -204,7 +204,8 @@ class Pages extends CI_Controller {
                array(
                      'field'   => 'nameProject', 
                      'label'   => 'Project Name', 
-                     'rules'   => 'trim|required|min_length[4]|callback_project_exists|alpha_numeric|xss_clean'
+                     'rules'   => 'trim|required|min_length[4]|callback_project_exists|xss_clean'
+                     // fungsi callback_project_exist belom dibuat
                   ),
                array(
                      'field'   => 'type', 
@@ -260,11 +261,11 @@ class Pages extends CI_Controller {
             	$file = $data['full_path'];
                 $file_name = $data['raw_name'];
                 $path_extract = $data['file_path'].$file_name;
+                //$path_extract = $data['file_path'].'a/';
                 $path_data = '../data/';
                 $path_user = $path_data.$this->session->userdata('username');
                 $path_project = $path_user.'/'.$project_id;
-                $path_img = $path_project.'/img';
-                $path_thumb = $path_img.'/thumb';                                
+                $path_img = $path_project.'/img';                                
                 
                 mkdir($path_extract, 0755);
                 
@@ -291,10 +292,6 @@ class Pages extends CI_Controller {
                                 mkdir($path_img, 0755);
                                 shell_exec("chmod 755 $path_img");
                             }
-                            if (!is_dir($path_thumb)){
-                                mkdir($path_thumb, 0755);
-                                shell_exec("chmod 755 $path_thumb");
-                            }
                             
                             $fileinfo = getimagesize($path_extract."/".$entry);
                             if(!$fileinfo) {
@@ -305,40 +302,64 @@ class Pages extends CI_Controller {
                             $valid_types = array(IMAGETYPE_JPEG);
                         
                             if(in_array($fileinfo[2],  $valid_types)) {
-                                //copy extract file image
-                                copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt);
-                                if(!@ copy($path_extract."/".$entry, $path_img.'/'.$image_name_encrypt))
-                                {
-                                    $errors= error_get_last();
-                                    $status = "error";
-                                    $msg = "COPY ERROR: ".$errors['type']."<br />\n".$errors['message'];
-                                } else {                                                                
+                                //Set config for img library
+                                $config['image_library'] = 'ImageMagick';
+                                $config['library_path'] = '/usr/bin/';
+                                $config['quality'] = "100%";
+                                $config['source_image'] = $path_extract."/".$entry;
+                                $config['new_image'] = $path_extract.'/'.$image_name_encrypt.'.jpg';
+                                $config['maintain_ratio'] = false;
+                                
+                                //Set cropping for y or x axis, depending on image orientation
+                                if ($fileinfo[0] > $fileinfo[1]) {
+                                    $config['width'] = $fileinfo[1];
+                                    $config['height'] = $fileinfo[1];
+                                    $config['x_axis'] = (($fileinfo[0] / 2) - ($config['width'] / 2));
+                                }
+                                else {
+                                    $config['height'] = $fileinfo[0];
+                                    $config['width'] = $fileinfo[0];
+                                    $config['y_axis'] = (($fileinfo[1] / 2) - ($config['height'] / 2));
+                                }
+                                
+                                //Load image library and crop
+                                $this->load->library('image_lib', $config);
+                                $this->image_lib->initialize($config);
+                                if ($this->image_lib->crop()) {
+                                    $error = $this->image_lib->display_errors();
+                                }
+                                
+                                //Clear image library settings
+                                $this->image_lib->clear();
+                                unset($config);
+                                
+                                // resize image after cropping to square
+                                $config['image_library'] = 'gd2';
+                                $config['quality'] = "100%";
+                                $config['source_image'] = $path_extract."/".$image_name_encrypt.'.jpg';
+                                $config['new_image'] = $path_img.'/'.$image_name_encrypt.'.jpg';
+                                //$config['create_thumb'] = TRUE; 
+                                $config['maintain_ratio'] = TRUE; 
+                                $config['master_dim'] = 'width';
+                                $config['width'] = 500; 
+                                $config['height'] = 500; 
+                                
+                                $this->load->library('image_lib');
+                                $this->image_lib->resize();
+                                $this->image_lib->clear();
+                                $this->image_lib->initialize($config); 
+                                if(!$this->image_lib->resize()){
+                                    echo $this->image_lib->display_errors();
+                                }
+                                else{
                                     // add file info to database
                                     $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
                                     $this->load->model('m_pages');
                                     $this->m_pages->upload_image($data_image);
                                     
-                                    // create thumbnail for each image
-                                    $config['image_library'] = 'gd2'; 
-                                    $config['source_image'] = $path_img.'/'.$image_name_encrypt;
-                                    $config['new_image'] = $path_thumb.'/';
-                                    $config['create_thumb'] = TRUE; 
-                                    $config['maintain_ratio'] = TRUE; 
-                                    $config['width'] = 100; 
-                                    $config['height'] = 100; 
-                                    
-                                    $this->load->library('image_lib');
-                                    $this->image_lib->resize();
-                                    $this->image_lib->clear();
-                                    $this->image_lib->initialize($config); 
-                                    if(!$this->image_lib->resize()) echo $this->image_lib->display_errors();                                                                                                                                
-                                    
                                     $status = "success";
-        				            $msg = "File successfully uploaded";
+    				                $msg = "File successfully uploaded";
                                     
-                                    $image_thumb = $path_thumb.'/'.$image_name_encrypt.'_thumb';
-                                    
-                                    //shell_exec("chmod 644 $image_thumb");
                                     shell_exec("chmod 644 $path_img/$image_name_encrypt");
                                 }
                             }
