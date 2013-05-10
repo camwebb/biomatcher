@@ -90,12 +90,32 @@ class M_pages extends CI_Model {
     
     function get_csv(){
         $this->load->dbutil();
-        $query = $this->db->query("SELECT nameOri,label FROM image");
+        $project_id = $this->uri->segment(4, 0);
+        $query = $this->db->query("SELECT nameOri,label FROM image where projectID='$project_id'");
         return $query->result();  
         $delimiter = ",";
         $newline = "\r\n";
       // echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
     }    
+    
+    function update_csv(){
+        $this->load->dbforge();
+        $fields = array(
+                        'nameOri' => array(
+                                                 'type' => 'VARCHAR',
+                                                 'constraint' => '200',
+                                          ),
+                        'label' => array(
+                                                 'type' => 'VARCHAR',
+                                                 'constraint' => '100',
+                                        ),
+                );
+        $this->dbforge->add_field($fields);
+        $this->dbforge->create_table('tmp_image');
+        $query= $this->db->query("LOAD DATA INFILE '../../htdocs/biomatcher/codeigniter/data/csv_tmp/csv_file.csv' INTO TABLE tmp_image FIELDS TERMINATED BY ',' (nameOri,label); ");
+        $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = tmp_image.label;");
+        $this->dbforge->drop_table('tmp_image');
+    }
     
 
 }

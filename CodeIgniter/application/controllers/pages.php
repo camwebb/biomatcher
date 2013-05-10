@@ -390,26 +390,17 @@ class Pages extends CI_Controller {
         echo json_encode(array('status' => $status, 'msg' => $msg));
     }
     
-  /*  function do_getIdLabel(){
-        $id_label = $this->input->post('id_label');
-        $this->load->model('m_pages');
-        $this->m_pages->getIdLabel();        
-    }*/
-    
     function do_editAllLabel(){
         $csv = $this->input->post('csv');
+        $id = $this->input->post('project_address');
         $this->load->helper('file');
         write_file('../codeigniter/data/csv_tmp/csv_file.csv',$csv);
+        $this->load->model('m_pages');
+        $this->m_pages->update_csv();
+      //  $this->load->view('pages/project', $id);
+        redirect('pages/view/project/'.$id, 'refresh');
     }
     
-    function import_data(){
-        $params = array(
-            'file_name' => '../codeigniter/data/csv_tmp/test.csv',
-            'delimiter' => ',',
-            'parse_header' => false,);
-        $this->load->library('csv', $params);
-        var_dump($this->csv->parse());
-    }
 }
 
 ?>
