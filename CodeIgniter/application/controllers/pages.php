@@ -394,11 +394,19 @@ class Pages extends CI_Controller {
     function do_editAllLabel(){
         $csv = $this->input->post('csv');
         $id = $this->input->post('project_address');
+        $path = $this->input->post('folder-name');
+        $path_csv = $_SERVER['DOCUMENT_ROOT']."/biomatcher/codeIgniter/data/csv_tmp/".$this->session->userdata('username');
+        if(!is_dir($path_csv)) //create the folder if it's not already exists
+        {
+         mkdir($path_csv, 0755,true);
+        } 
         $this->load->helper('file');
-        write_file('../codeigniter/data/csv_tmp/csv_file.csv',$csv);
+        write_file('../codeigniter/data/csv_tmp/'.$this->session->userdata('username').'/csv_file.csv',$csv);
         $this->load->model('m_pages');
         $this->m_pages->update_csv();
-      //  $this->load->view('pages/project', $id);
+        delete_files('../codeigniter/data/csv_tmp/'.$this->session->userdata('username'), true);
+        rmdir('../codeigniter/data/csv_tmp/kartika');
+        $this->load->view('pages/project', $id);
         redirect('pages/view/project/'.$id, 'refresh');
     }
     
