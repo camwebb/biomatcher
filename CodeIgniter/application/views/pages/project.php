@@ -52,7 +52,7 @@
                     </td>
                     <td><?php echo $images->label; ?></td>
                     <td>
-                        <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'../data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/'.$images->md5sum; ?>" /></p>
+                        <p><img style="width: 100px; height: 100px;" src="<?php echo '../../../../../data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/'.$images->md5sum; ?>" /></p>
                     </td>
                     <td style="text-align: center;">
                                                                 
@@ -109,14 +109,17 @@
      
    
   <div id="addProject_panel">
-        <?php echo form_open_multipart('pages/upload_file',array('id'=>'upload_file')); ?>
+        <?php echo form_open_multipart('pages/upload_file/?pid='.$this->uri->segment(4, 0).'&unid='.uniqid(),array('id'=>'upload_file')); ?>
             
             <div class="inputbox_Upload">
                 <label class="labelinput-upload" for="zipped_file">Zipped File</label>
-                <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file" size="50"/><br />
+                <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file"/><br />
                 <input class="inputtext-upload" id="project_id" type="hidden" name="project_id" value="<?php echo $this->uri->segment(4, 0); ?>"/>
+                <input type="hidden" id="unid" value="<?php echo uniqid(); ?>"/>
             </div>
-            <div class="errorbox" style="padding: 0 !important; width:450px;"></div>            
+            <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
+            <div id="progressbar"></div>
+            <div id="statustxt">0%</div >          
             <div class="inputbox_Upload">
                 <input id="button_Upload" type="submit" name="submit" class="box-button" value="Upload" />
                 <a class="box-button" id="button_cancelUpload" style="margin-right: 5px;">Cancel</a>

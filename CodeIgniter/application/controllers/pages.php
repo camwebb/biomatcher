@@ -236,7 +236,7 @@ class Pages extends CI_Controller {
     	$msg = "";
     	$file_element_name = 'zipped_file'; /*zipped_file*/
     	
-        $project_id = $this->input->post('project_id');
+        $project_id = $this->input->get('pid');
         
         if (!empty($project_id)){
         
@@ -245,10 +245,11 @@ class Pages extends CI_Controller {
     	    //$orig_name = $_FILES['zipped_file'];
     		$config['upload_path'] = '../tmp/';
     		$config['allowed_types'] = 'zip';
-    		$config['max_size']	= 500000;
+    		$config['max_size']	= '500000';
     		$config['encrypt_name'] = TRUE;
     
     		$this->load->library('upload', $config);
+            
     
     		if (!$this->upload->do_upload($file_element_name))
     		{
@@ -272,10 +273,10 @@ class Pages extends CI_Controller {
                 shell_exec("chmod 755 $path_extract");
                 //extract and delete zip file             
                 shell_exec("unzip -jo $file  -d $path_extract");
-                unlink($file);
+                unlink($file);        
                 
                 if ($handle = opendir($path_extract)) {
-                    /* loop over the directory. */
+                    // loop over the directory. 
                     while (false !== ($entry = readdir($handle))) {
                         if(preg_match('#\.(jpg|jpeg)$#i', $entry))
                         {
@@ -385,7 +386,7 @@ class Pages extends CI_Controller {
     	
         }else{
             $status ="error";
-            $msg = "No Project id";
+            $msg = "No Project id".$project_id;
         }
         echo json_encode(array('status' => $status, 'msg' => $msg));
     }
