@@ -4,9 +4,7 @@
     foreach($project_title as $p_title){
     ?>
     <h2 style="float: left;"><?php echo $p_title->name; ?></h2>
-    <?php
-    }
-    ?>
+    
     <div style="float: right;">
         <span>
             <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">
@@ -101,6 +99,8 @@
                 }?>
         </textarea> 
         <input class="inputtext-upload" type="hidden" name="project_address" value="<?php echo $this->uri->segment(4, 0); ?>"/>
+        <input class="inputtext-upload" id="project_name" type="hidden" name="project_name" value="<?php echo $p_title->name; ?>"/>
+        <input class="inputtext-upload" id="user_id" type="hidden" name="user_id" value="<?php echo $p_title->userID; ?>"/>
         <input style="float: right;" id="buttonLabel" type="submit" name="submit" class="box-button" value="Submit" />
         <a style="float: right;" class="box-button" id="cancelLabel" style="margin-right: 5px;">Cancel</a>
         <div class="clear"></div>
@@ -114,7 +114,7 @@
             <div class="inputbox_Upload">
                 <label class="labelinput-upload" for="zipped_file">Zipped File</label>
                 <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file"/><br />
-                <input class="inputtext-upload" id="project_id" type="hidden" name="project_id" value="<?php echo $this->uri->segment(4, 0); ?>"/>
+                <input class="inputtext-upload" id="project_id" type="hidden" name="project_id" value="<?php echo $this->uri->segment(4, 0); ?>"/>                
                 <input type="hidden" id="unid" value="<?php echo uniqid(); ?>"/>
             </div>
             <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
@@ -129,5 +129,7 @@
    
     <div class="separator"></div>
 </div>
-
+<?php
+    }
+    ?>
 </div>

@@ -99,6 +99,9 @@ class M_pages extends CI_Model {
     }    
     
     function update_csv(){
+        $u_id = $this->input->post('user_id');
+        $p_id = $this->input->post('project_address'); 
+        $p_name = $this->input->post('project_name');
         $this->load->dbforge();
         $fields = array(
                         'nameOri' => array(
@@ -112,11 +115,10 @@ class M_pages extends CI_Model {
                 );
         $this->dbforge->add_field($fields);
         $this->dbforge->create_table('tmp_image');
-        $query= $this->db->query("LOAD DATA INFILE '../../htdocs/biomatcher/codeigniter/data/csv_tmp/".$this->session->userdata('username')."/csv_file.csv' INTO TABLE tmp_image FIELDS TERMINATED BY ',' (nameOri,label); ");
+        $query= $this->db->query("LOAD DATA INFILE '../../htdocs/biomatcher/codeigniter/data/csv_tmp/".$this->session->userdata('username')."/".$u_id."-".$this->session->userdata('username')."_".$p_id."-".$p_name.".csv' INTO TABLE tmp_image FIELDS TERMINATED BY ',' (nameOri,label); ");
         $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = tmp_image.label;");
         $this->dbforge->drop_table('tmp_image');
     }
-    
 
 }
 
