@@ -273,26 +273,34 @@ class Pages extends CI_Controller {
                 shell_exec("chmod 755 $path_extract");
                 //extract and delete zip file             
                 shell_exec("unzip -jo $file  -d $path_extract");
-                unlink($file);        
+                unlink($file);
+                //create folder if not exist
+                if (!is_dir($path_user)){
+                    mkdir($path_user, 0755);
+                    shell_exec("chmod 755 $path_user");
+                }
+                if (!is_dir($path_project)){
+                    mkdir($path_project, 0755);
+                    shell_exec("chmod 755 $path_project");
+                }
+                if (!is_dir($path_img)){
+                    mkdir($path_img, 0755);
+                    shell_exec("chmod 755 $path_img");
+                }
                 
+                $list = count(glob($path_extract.'/'. "*.{jpg,jpeg}",GLOB_BRACE));
+
                 if ($handle = opendir($path_extract)) {
-                    // loop over the directory. 
+                    // loop over the directory.
+                    $num = 0;
                     while (false !== ($entry = readdir($handle))) {
+                        
+                        //print_r($entry);
                         if(preg_match('#\.(jpg|jpeg)$#i', $entry))
                         {
+                            $num +=1;
+                            //echo json_encode(array('list' => $list, 'num' => $num.$entry));
                             $image_name_encrypt = md5($entry);
-                            if (!is_dir($path_user)){
-                                mkdir($path_user, 0755);
-                                shell_exec("chmod 755 $path_user");
-                            }
-                            if (!is_dir($path_project)){
-                                mkdir($path_project, 0755);
-                                shell_exec("chmod 755 $path_project");
-                            }
-                            if (!is_dir($path_img)){
-                                mkdir($path_img, 0755);
-                                shell_exec("chmod 755 $path_img");
-                            }
                             
                             $fileinfo = getimagesize($path_extract."/".$entry);
                             if(!$fileinfo) {

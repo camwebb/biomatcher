@@ -552,3 +552,7 @@ ul.dropdown2 li:hover > ul {
     max-width: 300px;
     min-width: 300px;
 }
+
+#progressbox{
+    display:none;
+}

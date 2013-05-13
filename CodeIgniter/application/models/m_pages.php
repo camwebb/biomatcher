@@ -119,6 +119,7 @@ class M_pages extends CI_Model {
         $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = tmp_image.label;");
         $this->dbforge->drop_table('tmp_image');
     }
+    
 
 }
 

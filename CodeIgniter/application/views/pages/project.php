@@ -118,8 +118,10 @@
                 <input type="hidden" id="unid" value="<?php echo uniqid(); ?>"/>
             </div>
             <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
-            <div id="progressbar"></div>
-            <div id="statustxt">0%</div >          
+            <div id="progressbox">
+                <div id="progressbar"></div>
+                <div id="statustxt">0%</div >
+            </div>         
             <div class="inputbox_Upload">
                 <input id="button_Upload" type="submit" name="submit" class="box-button" value="Upload" />
                 <a class="box-button" id="button_cancelUpload" style="margin-right: 5px;">Cancel</a>
