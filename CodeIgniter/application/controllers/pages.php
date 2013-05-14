@@ -15,24 +15,13 @@ class Pages extends CI_Controller {
 	}
 
 	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
-	$this->load->view('templates/header', $data);
-	$this->load->view('pages/'.$page, $data);
-	$this->load->view('templates/footer', $data);
-
-    }
     
-    public function login($page = 'login')
-	{
-
-	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
-	{
-		// Whoops, we don't have a page for that!
-		show_404();
-	}
-
-	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
+    $this->load->model('m_pages');
+    $data['list_project'] = $this->m_pages->list_project();
+	$data['list_images'] = $this->m_pages->list_image();
+    $data['project_title'] = $this->m_pages->project_title();
+    $data['get_csv'] = $this->m_pages->get_csv();    
+    
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
 	$this->load->view('templates/footer', $data);
@@ -44,13 +33,23 @@ class Pages extends CI_Controller {
         $this->load->library(array('encrypt', 'form_validation', 'session'));
         $this->load->helper(array('form', 'url'));
         // field name, error message, validation rules
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required');
-        $this->form_validation->set_error_delimiters('<div class="errorbox">', '</div>');
+        $config = array(
+               array(
+                     'field'   => 'username', 
+                     'label'   => 'Username', 
+                     'rules'   => 'trim|required|xss_clean'
+                  ),
+               array(
+                     'field'   => 'password', 
+                     'label'   => 'Password', 
+                     'rules'   => 'trim|required'
+                  )
+            );
+        $this->form_validation->set_rules($config);
         
         if($this->form_validation->run() == FALSE)
         {
-            $this->login();
+            $this->view();
         }else{
             $this->load->helper('cookie');
             $this->load->model('m_pages');
@@ -68,13 +67,12 @@ class Pages extends CI_Controller {
                 {
                     if(md5($password) == $user_credentials[$username]['password'])
                     {
-                        //die("USER LOGGED IN!");
                         //login success
-                        $this->session->set_userdata(array('username' => $login['username'], 'id_user' => $login['id']));
+                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id']));
             			$cookieUsername = array(
             				'name'   => 'user',
             				'value'  => $login['username'],
-            				'expire' => time()+1000,
+            				'expire' => time()+36000,
             				'path'   => '/',
             				'secure' => FALSE
             			);
@@ -82,7 +80,7 @@ class Pages extends CI_Controller {
             			$cookiePassword = array(
             				'name'   => 'pass',
             				'value'  => $login['password'],
-            				'expire' => time()+1000,
+            				'expire' => time()+36000,
             				'path'   => '/',
             				'secure' => FALSE
             			);
@@ -94,18 +92,18 @@ class Pages extends CI_Controller {
                     else
                     {
                         //incorrect password
-                        $this->session->set_userdata(array('username' => "", 'id_user' => ""));
+                        $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
                         $this->session->set_flashdata('message', 'Incorrect password.');
-                        redirect('pages/login');
+                        redirect('');
                     }
                 }
             }
             else
             {
                 //login failed
-                $this->session->set_userdata(array('username' => "", 'id_user' => ""));
+                $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
                 $this->session->set_flashdata('message', 'A user does not exist for the username specified.');
-                redirect('pages/login');
+                redirect('');
             }
         }
 		
@@ -118,7 +116,7 @@ class Pages extends CI_Controller {
 	    $this->session->unset_userdata(array('username' => "", 'id_user' => ""));
 		delete_cookie("user");
 		delete_cookie("pass");
-        redirect('pages/login', 'refresh');
+        redirect('', 'refresh');
 	}
     
     function register($page = 'register')
@@ -133,26 +131,53 @@ class Pages extends CI_Controller {
     	
     	$this->load->view('templates/header', $data);
     	$this->load->view('pages/'.$page, $data);
-    	$this->load->view('templates/footer', $data);      
+    	$this->load->view('templates/footer', $data);
     }
     
     function do_register()
     {
         $this->load->library('form_validation');
         // field name, error message, validation rules
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]|callback_username_exists|xss_clean');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
-        $this->form_validation->set_rules('conpassword', 'Password Confirmation', 'trim|required|matches[password]');
+        
+        $config = array(
+               array(
+                     'field'   => 'name', 
+                     'label'   => 'Name', 
+                     'rules'   => 'trim|required|min_length[4]|xss_clean'
+                  ),
+               array(
+                     'field'   => 'username', 
+                     'label'   => 'Username', 
+                     'rules'   => 'trim|required|min_length[4]|callback_username_exists|alpha_numeric|xss_clean'
+                  ),
+               array(
+                     'field'   => 'email', 
+                     'label'   => 'Email', 
+                     'rules'   => 'trim|required|valid_email'
+                  ),
+               array(
+                     'field'   => 'password', 
+                     'label'   => 'Password', 
+                     'rules'   => 'trim|required|min_length[4]|max_length[32]'
+                  ),
+               array(
+                     'field'   => 'conpassword', 
+                     'label'   => 'Password Confirmation', 
+                     'rules'   => 'trim|required|matches[password]'
+                  )
+            );
+        $this->form_validation->set_rules($config);
         
         if($this->form_validation->run() == FALSE)
         {
-        $this->register();
+        $this->register($page = 'projects');
         }
         else
         {
         $this->load->model('m_pages');
         $this->m_pages->register_user();
-        $this->register_success();
+        
+        $this->view($page = 'register_success');
         }
     }
     
@@ -170,22 +195,229 @@ class Pages extends CI_Controller {
         }     
     }
     
-    public function register_success($page = 'register_success')
-	{
-
-	if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
-	{
-		// Whoops, we don't have a page for that!
-		show_404();
-	}
-
-	$data['title'] = ucfirst($page); // Capitalize the first letter
-	
-	$this->load->view('templates/header', $data);
-	$this->load->view('pages/'.$page, $data);
-	$this->load->view('templates/footer', $data);
-
+    function do_addProject()
+    {
+        //function add project
+        $this->load->library('form_validation');
+        // field name, error message, validation rules
+        $config = array(
+               array(
+                     'field'   => 'nameProject', 
+                     'label'   => 'Project Name', 
+                     'rules'   => 'trim|required|min_length[4]|callback_project_exists|xss_clean'
+                     // fungsi callback_project_exist belom dibuat
+                  ),
+               array(
+                     'field'   => 'type', 
+                     'label'   => 'Type', 
+                     'rules'   => 'trim|required|xss_clean'
+                  )
+            );
+        $this->form_validation->set_rules($config);
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->view($page = 'projects');
+        }
+        else
+        {
+        $this->load->model('m_pages');
+        $this->m_pages->add_project();
+        
+        $this->view($page = 'projects');
+        }
+        //redirect redirect('', 'refresh');
     }
     
+    public function upload_file()
+    {
+        $this->load->helper('url');
+    	$status = "";
+    	$msg = "";
+    	$file_element_name = 'zipped_file'; /*zipped_file*/
+    	
+        $project_id = $this->input->get('pid');
+        
+        if (!empty($project_id)){
+        
+    	if ($status != "error")
+    	{
+    	    //$orig_name = $_FILES['zipped_file'];
+    		$config['upload_path'] = '../tmp/';
+    		$config['allowed_types'] = 'zip';
+    		$config['max_size']	= '500000';
+    		$config['encrypt_name'] = TRUE;
+    
+    		$this->load->library('upload', $config);
+            
+    
+    		if (!$this->upload->do_upload($file_element_name))
+    		{
+    			$status = 'error';
+    			$msg = $this->upload->display_errors('', '');
+    		}
+    		else
+    		{
+    			$data = $this->upload->data();
+            	$file = $data['full_path'];
+                $file_name = $data['raw_name'];
+                $path_extract = $data['file_path'].$file_name;
+                //$path_extract = $data['file_path'].'a/';
+                $path_data = '../data/';
+                $path_user = $path_data.$this->session->userdata('username');
+                $path_project = $path_user.'/'.$project_id;
+                $path_img = $path_project.'/img';                                
+                
+                mkdir($path_extract, 0755);
+                
+                shell_exec("chmod 755 $path_extract");
+                //extract and delete zip file             
+                shell_exec("unzip -jo $file  -d $path_extract");
+                unlink($file);
+                //create folder if not exist
+                if (!is_dir($path_user)){
+                    mkdir($path_user, 0755);
+                    shell_exec("chmod 755 $path_user");
+                }
+                if (!is_dir($path_project)){
+                    mkdir($path_project, 0755);
+                    shell_exec("chmod 755 $path_project");
+                }
+                if (!is_dir($path_img)){
+                    mkdir($path_img, 0755);
+                    shell_exec("chmod 755 $path_img");
+                }
+                
+                $list = count(glob($path_extract.'/'. "*.{jpg,jpeg}",GLOB_BRACE));
 
+                if ($handle = opendir($path_extract)) {
+                    // loop over the directory.
+                    $num = 0;
+                    while (false !== ($entry = readdir($handle))) {
+                        
+                        //print_r($entry);
+                        if(preg_match('#\.(jpg|jpeg)$#i', $entry))
+                        {
+                            $num +=1;
+                            //echo json_encode(array('list' => $list, 'num' => $num.$entry));
+                            $image_name_encrypt = md5($entry);
+                            
+                            $fileinfo = getimagesize($path_extract."/".$entry);
+                            if(!$fileinfo) {
+                                $status = "error";
+                                $msg = "No file type info";
+                            }else{
+                        
+                            $valid_types = array(IMAGETYPE_JPEG);
+                        
+                            if(in_array($fileinfo[2],  $valid_types)) {
+                                //Set config for img library
+                                $config['image_library'] = 'ImageMagick';
+                                $config['library_path'] = '/usr/bin/';
+                                $config['quality'] = "100%";
+                                $config['source_image'] = $path_extract."/".$entry;
+                                $config['new_image'] = $path_extract.'/'.$image_name_encrypt.'.jpg';
+                                $config['maintain_ratio'] = false;
+                                
+                                //Set cropping for y or x axis, depending on image orientation
+                                if ($fileinfo[0] > $fileinfo[1]) {
+                                    $config['width'] = $fileinfo[1];
+                                    $config['height'] = $fileinfo[1];
+                                    $config['x_axis'] = (($fileinfo[0] / 2) - ($config['width'] / 2));
+                                }
+                                else {
+                                    $config['height'] = $fileinfo[0];
+                                    $config['width'] = $fileinfo[0];
+                                    $config['y_axis'] = (($fileinfo[1] / 2) - ($config['height'] / 2));
+                                }
+                                
+                                //Load image library and crop
+                                $this->load->library('image_lib', $config);
+                                $this->image_lib->initialize($config);
+                                if ($this->image_lib->crop()) {
+                                    $error = $this->image_lib->display_errors();
+                                }
+                                
+                                //Clear image library settings
+                                $this->image_lib->clear();
+                                unset($config);
+                                
+                                // resize image after cropping to square
+                                $config['image_library'] = 'gd2';
+                                $config['quality'] = "100%";
+                                $config['source_image'] = $path_extract."/".$image_name_encrypt.'.jpg';
+                                $config['new_image'] = $path_img.'/'.$image_name_encrypt.'.jpg';
+                                //$config['create_thumb'] = TRUE; 
+                                $config['maintain_ratio'] = TRUE; 
+                                $config['master_dim'] = 'width';
+                                $config['width'] = 500; 
+                                $config['height'] = 500; 
+                                
+                                $this->load->library('image_lib');
+                                $this->image_lib->resize();
+                                $this->image_lib->clear();
+                                $this->image_lib->initialize($config); 
+                                if(!$this->image_lib->resize()){
+                                    echo $this->image_lib->display_errors();
+                                }
+                                else{
+                                    // add file info to database
+                                    $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
+                                    $this->load->model('m_pages');
+                                    $this->m_pages->upload_image($data_image);
+                                    
+                                    $status = "success";
+    				                $msg = "File successfully uploaded";
+                                    
+                                    shell_exec("chmod 644 $path_img/$image_name_encrypt");
+                                }
+                            }
+                            
+                            else{
+                                $status = "error";
+                                $msg = "File type error";
+                            }
+                            }                              
+                        }
+                        else{
+                            $status = 'error';                            
+                            $msg = "The Zip file does not contain image file";
+                                                    
+                        }
+                    }
+                    closedir($handle);
+                    shell_exec("rm -r $path_extract");
+                }
+                
+    		}
+    	}
+    	
+        }else{
+            $status ="error";
+            $msg = "No Project id".$project_id;
+        }
+        echo json_encode(array('status' => $status, 'msg' => $msg));
+    }
+    
+    function do_editAllLabel(){
+        $csv = $this->input->post('csv');
+        $u_id = $this->input->post('user_id');
+        $p_id = $this->input->post('project_address'); 
+        $p_name = $this->input->post('project_name');
+        $path_csv = $_SERVER['DOCUMENT_ROOT']."/biomatcher/codeIgniter/data/csv_tmp/".$this->session->userdata('username');
+        if(!is_dir($path_csv)) //create the folder if it's not already exists
+        {
+         mkdir($path_csv, 0755,true);
+        }
+        write_file('../codeigniter/data/csv_tmp/'.$this->session->userdata('username').'/'.$u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name.'.csv',$csv);        
+        $this->load->model('m_pages');
+        $this->m_pages->update_csv();
+        delete_files('../codeigniter/data/csv_tmp/'.$this->session->userdata('username').'/', true);
+        rmdir('../codeigniter/data/csv_tmp/'.$this->session->userdata('username').'/');
+        $this->load->view('pages/project', $p_id);
+        redirect('pages/view/project/'.$p_id, 'refresh');
+    }
+    
 }
+
+?>
