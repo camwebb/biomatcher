@@ -383,11 +383,6 @@ class Pages extends CI_Controller {
                             }
                             }                              
                         }
-                        else{
-                            $status = 'error';                            
-                            $msg = "The Zip file does not contain image file";
-                                                    
-                        }
                     }
                     closedir($handle);
                     shell_exec("rm -r $path_extract");
