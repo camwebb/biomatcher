@@ -263,7 +263,8 @@ class Pages extends CI_Controller {
                 $file_name = $data['raw_name'];
                 $path_extract = $data['file_path'].$file_name;
                 //$path_extract = $data['file_path'].'a/';
-                $path_data = '../data/';
+                $path_data = 'data/';
+                //$path_data = base_url().'data/';
                 $path_user = $path_data.$this->session->userdata('username');
                 $path_project = $path_user.'/'.$project_id;
                 $path_img = $path_project.'/img';                                
@@ -277,6 +278,7 @@ class Pages extends CI_Controller {
                 //create folder if not exist
                 if (!is_dir($path_user)){
                     mkdir($path_user, 0755);
+                    //shell_exec("mkdir $path_user");
                     shell_exec("chmod 755 $path_user");
                 }
                 if (!is_dir($path_project)){
@@ -335,7 +337,8 @@ class Pages extends CI_Controller {
                                 $this->load->library('image_lib', $config);
                                 $this->image_lib->initialize($config);
                                 if ($this->image_lib->crop()) {
-                                    $error = $this->image_lib->display_errors();
+                                    $status = "error";
+                                    $msg = $this->image_lib->display_errors();
                                 }
                                 
                                 //Clear image library settings
@@ -358,7 +361,8 @@ class Pages extends CI_Controller {
                                 $this->image_lib->clear();
                                 $this->image_lib->initialize($config); 
                                 if(!$this->image_lib->resize()){
-                                    echo $this->image_lib->display_errors();
+                                    $status = "error";
+                                    $msg = $this->image_lib->display_errors();
                                 }
                                 else{
                                     // add file info to database
