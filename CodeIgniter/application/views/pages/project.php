@@ -50,7 +50,7 @@
                     </td>
                     <td><?php echo $images->label; ?></td>
                     <td>
-                        <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/'.$images->md5sum; ?>" /></p>
+                        <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/'.$images->md5sum.'.jpg'; ?>" /></p>
                     </td>
                     <td style="text-align: center;">
                                                                 
