@@ -35,10 +35,14 @@
     * Check the filetype of each file using the PHP equivalent of unix
       `file`
     * For all files that are type `JPEG image data`, use the PHP
-      eqivalent of **ImageMagick** to convert them to a jpeg file with
-      maximum dimensions 500x500 px,  
-      named `<md5sum>.jpg` where `<md5sum>` is the md5sum hash of the
-      original file.
+      eqivalent of **ImageMagick** to convert them to: 1) a jpeg file
+      with maximum dimensions 500x500 px, named `<md5sum>.500px.jpg`,
+      2) a
+      jpeg file with maximum dimensions 100x100 px, named
+      `<md5sum>.100px.jpg`,
+      and 3) a jpeg file, with same dimensions as the original,
+      named `<md5sum>.ori.jpg` (where `<md5sum>` is the
+      md5sum hash of the original file).
     * Save each of these files in a directory:
       `data/<username>/<projectID>/img/` where project ID is
       `project.id` from DB.
