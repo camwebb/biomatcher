@@ -46,7 +46,7 @@
             <?php echo form_error('qcSet', '<div class="errorbox">', '</div>'); ?>                
             <div class="inputbox_addProject">
                 <input id="button_addProject" type="submit" name="Submit" class="box-button" value="Add Project" />
-                <a class="box-button" id="button_cancelProject" style="margin-right: 5px;">Cancel</a>
+                <input class="box-button" type="button" id="button_cancelProject" style="margin-right: 5px;" value="Cancel" />
             </div>
         <?php echo form_close(); ?>
     </div>

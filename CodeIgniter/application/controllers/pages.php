@@ -289,13 +289,12 @@ class Pages extends CI_Controller {
 
                 if ($handle = opendir($path_extract)) {
                     // loop over the directory.
-                    $num = 0;
+                    //$num = 0;
                     while (false !== ($entry = readdir($handle))) {
-                        
                         //print_r($entry);
                         if(preg_match('#\.(jpg|jpeg)$#i', $entry))
                         {
-                            $num +=1;
+                            //$num +=1;
                             //echo json_encode(array('list' => $list, 'num' => $num.$entry));
                             $image_name_encrypt = md5($entry);
                             
@@ -350,8 +349,6 @@ class Pages extends CI_Controller {
                                 $config['image_library'] = 'gd2';
                                 $config['quality'] = "100%";
                                 $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
-                                //$config['new_image'] = $path_img.'/'.$image_name_encrypt.'.jpg';
-                                //$config['create_thumb'] = TRUE; 
                                 $config['maintain_ratio'] = TRUE; 
                                 $config['master_dim'] = 'width';
                                 $config['width'] = 500; 
@@ -370,12 +367,11 @@ class Pages extends CI_Controller {
                                 $this->image_lib->clear();
                                 unset($config);
                                 
-                                // resize image after cropping to square
+                                // create thumbnail
                                 $config['image_library'] = 'gd2';
                                 $config['quality'] = "100%";
                                 $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
                                 $config['new_image'] = $path_img_100px.'/'.$image_name_encrypt.'.100px.jpg';
-                                //$config['create_thumb'] = TRUE; 
                                 $config['maintain_ratio'] = TRUE; 
                                 $config['master_dim'] = 'width';
                                 $config['width'] = 100; 
