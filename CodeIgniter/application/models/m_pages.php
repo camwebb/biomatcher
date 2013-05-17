@@ -115,9 +115,11 @@ class M_pages extends CI_Model {
                 );
         $this->dbforge->add_field($fields);
         $this->dbforge->create_table('tmp_image');
-        $query= $this->db->query("LOAD DATA INFILE '../../htdocs/biomatcher/tmp/csv_tmp/".$this->session->userdata('username')."/".$u_id."-".$this->session->userdata('username')."_".$p_id."-".$p_name.".csv' INTO TABLE tmp_image FIELDS TERMINATED BY ',' (nameOri,label); ");
+        $this->load->library('csvreader');
+        $result = $this->csvreader->parse_file('../tmp/csv_tmp/'.$this->session->userdata('username').'/'.$u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name.'.csv');
+        $this->db->insert_batch('tmp_image', $result);
         $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = tmp_image.label WHERE image.projectID = $p_id;");
-        $this->dbforge->drop_table('tmp_image');
+        $this->dbforge->drop_table('tmp_image');        
     }
     
 
