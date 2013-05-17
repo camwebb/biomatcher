@@ -556,3 +556,13 @@ ul.dropdown2 li:hover > ul {
 #progressbox{
     display:none;
 }
+
+#statustxt{
+    position: absolute;
+    padding: 5px;
+}
+
+#progressbox p{
+    width: 438px;
+    text-align: center;
+}

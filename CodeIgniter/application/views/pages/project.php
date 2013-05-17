@@ -14,7 +14,7 @@
         </span>
     </div>
     
-    <div class="separator" style="float: left;"></div><br />
+    <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
     <div class="project_table" id="files">
         <table style="width: 100%;">
@@ -50,7 +50,7 @@
                     </td>
                     <td style="width: 248px; height: 112px;"><p><?php echo $images->label; ?></p></td>
                     <td style="width: 100px; height: 112px;">
-                        <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/'.$images->md5sum.'.jpg'; ?>" /></p>
+                        <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/100px/'.$images->md5sum.'.100px.jpg'; ?>" /></p>
                     </td>
                     <td style="text-align: center;">
                                                                 
@@ -119,12 +119,12 @@
             </div>
             <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
             <div id="progressbox">
-                <div id="progressbar"></div>
-                <div id="statustxt">0%</div >
+                <div id="progressbar"><div id="statustxt"><p>0%</p></div ></div>
+                
             </div>         
-            <div class="inputbox_Upload">
+            <div class="inputbox_Upload" id="box_button">
                 <input id="button_Upload" type="submit" name="submit" class="box-button" value="Upload" />
-                <a class="box-button" id="button_cancelUpload" style="margin-right: 5px;">Cancel</a>
+                <input class="box-button" type="button" id="button_cancelUpload" style="margin-right: 5px;" value="Cancel" />
             </div>
         <?php echo form_close(); ?>
     </div>

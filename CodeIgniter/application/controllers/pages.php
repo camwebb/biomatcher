@@ -262,32 +262,27 @@ class Pages extends CI_Controller {
             	$file = $data['full_path'];
                 $file_name = $data['raw_name'];
                 $path_extract = $data['file_path'].$file_name;
-                //$path_extract = $data['file_path'].'a/';
                 $path_data = 'data/';
-                //$path_data = base_url().'data/';
                 $path_user = $path_data.$this->session->userdata('username');
                 $path_project = $path_user.'/'.$project_id;
-                $path_img = $path_project.'/img';                                
+                $path_img = $path_project.'/img';
+                $path_img_ori = $path_img.'/ori';
+                $path_img_500px = $path_img.'/500px';
+                $path_img_100px = $path_img.'/100px';
                 
                 mkdir($path_extract, 0755);
-                
-                shell_exec("chmod 755 $path_extract");
+
                 //extract and delete zip file             
                 shell_exec("unzip -jo $file  -d $path_extract");
                 unlink($file);
+                
                 //create folder if not exist
-                if (!is_dir($path_user)){
-                    mkdir($path_user, 0755);
-                    //shell_exec("mkdir $path_user");
-                    shell_exec("chmod 755 $path_user");
-                }
-                if (!is_dir($path_project)){
-                    mkdir($path_project, 0755);
-                    shell_exec("chmod 755 $path_project");
-                }
-                if (!is_dir($path_img)){
-                    mkdir($path_img, 0755);
-                    shell_exec("chmod 755 $path_img");
+                $toCreate = array($path_user, $path_project, $path_img, $path_img_ori, $path_img_500px, $path_img_100px);
+                $permissions = 0755;
+                foreach ($toCreate as $dir) {
+                    if (!is_dir($dir)){
+                        mkdir($dir, $permissions, TRUE);
+                    }
                 }
                 
                 $list = count(glob($path_extract.'/'. "*.{jpg,jpeg}",GLOB_BRACE));
@@ -309,16 +304,22 @@ class Pages extends CI_Controller {
                                 $status = "error";
                                 $msg = "No file type info";
                             }else{
-                        
                             $valid_types = array(IMAGETYPE_JPEG);
                         
                             if(in_array($fileinfo[2],  $valid_types)) {
+                                copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg');
+                                if(!@ copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg'))
+                                {
+                                    $status = "error";
+                                    $msg= error_get_last();
+                                }
+                                else{
                                 //Set config for img library
                                 $config['image_library'] = 'ImageMagick';
                                 $config['library_path'] = '/usr/bin/';
                                 $config['quality'] = "100%";
-                                $config['source_image'] = $path_extract."/".$entry;
-                                $config['new_image'] = $path_extract.'/'.$image_name_encrypt.'.jpg';
+                                $config['source_image'] = $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg';
+                                $config['new_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
                                 $config['maintain_ratio'] = false;
                                 
                                 //Set cropping for y or x axis, depending on image orientation
@@ -348,13 +349,37 @@ class Pages extends CI_Controller {
                                 // resize image after cropping to square
                                 $config['image_library'] = 'gd2';
                                 $config['quality'] = "100%";
-                                $config['source_image'] = $path_extract."/".$image_name_encrypt.'.jpg';
-                                $config['new_image'] = $path_img.'/'.$image_name_encrypt.'.jpg';
+                                $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
+                                //$config['new_image'] = $path_img.'/'.$image_name_encrypt.'.jpg';
                                 //$config['create_thumb'] = TRUE; 
                                 $config['maintain_ratio'] = TRUE; 
                                 $config['master_dim'] = 'width';
                                 $config['width'] = 500; 
                                 $config['height'] = 500; 
+                                
+                                $this->load->library('image_lib');
+                                $this->image_lib->resize();
+                                $this->image_lib->clear();
+                                $this->image_lib->initialize($config); 
+                                if(!$this->image_lib->resize()){
+                                    $status = "error";
+                                    $msg = $this->image_lib->display_errors();
+                                }
+                                
+                                //Clear image library settings
+                                $this->image_lib->clear();
+                                unset($config);
+                                
+                                // resize image after cropping to square
+                                $config['image_library'] = 'gd2';
+                                $config['quality'] = "100%";
+                                $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
+                                $config['new_image'] = $path_img_100px.'/'.$image_name_encrypt.'.100px.jpg';
+                                //$config['create_thumb'] = TRUE; 
+                                $config['maintain_ratio'] = TRUE; 
+                                $config['master_dim'] = 'width';
+                                $config['width'] = 100; 
+                                $config['height'] = 100; 
                                 
                                 $this->load->library('image_lib');
                                 $this->image_lib->resize();
@@ -373,7 +398,10 @@ class Pages extends CI_Controller {
                                     $status = "success";
     				                $msg = "File successfully uploaded";
                                     
-                                    shell_exec("chmod 644 $path_img/$image_name_encrypt");
+                                    shell_exec("chmod 644 $path_img_ori/$image_name_encrypt.ori.jpg");
+                                    shell_exec("chmod 644 $path_img_500px/$image_name_encrypt.500px.jpg");
+                                    shell_exec("chmod 644 $path_img_100px/$image_name_encrypt.100px.jpg");
+                                }
                                 }
                             }
                             
@@ -395,7 +423,7 @@ class Pages extends CI_Controller {
             $status ="error";
             $msg = "No Project id".$project_id;
         }
-        echo json_encode(array('status' => $status, 'msg' => $msg));
+        echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done'));
     }
     
     function do_editAllLabel(){
