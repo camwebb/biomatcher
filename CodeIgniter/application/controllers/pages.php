@@ -431,16 +431,16 @@ class Pages extends CI_Controller {
         $u_id = $this->input->post('user_id');
         $p_id = $this->input->post('project_address'); 
         $p_name = $this->input->post('project_name');
-        $path_csv = $_SERVER['DOCUMENT_ROOT']."/biomatcher/codeIgniter/data/csv_tmp/".$this->session->userdata('username');
+        $path_csv = $_SERVER['DOCUMENT_ROOT']."/biomatcher/tmp/csv_tmp/".$this->session->userdata('username');
         if(!is_dir($path_csv)) //create the folder if it's not already exists
         {
          mkdir($path_csv, 0755,true);
         }
-        write_file('../codeigniter/data/csv_tmp/'.$this->session->userdata('username').'/'.$u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name.'.csv',$csv);        
+        write_file('../tmp/csv_tmp/'.$this->session->userdata('username').'/'.$u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name.'.csv',$csv);        
         $this->load->model('m_pages');
         $this->m_pages->update_csv();
-        delete_files('../codeigniter/data/csv_tmp/'.$this->session->userdata('username').'/', true);
-        rmdir('../codeigniter/data/csv_tmp/'.$this->session->userdata('username').'/');
+        delete_files('../tmp/csv_tmp/'.$this->session->userdata('username').'/', true);
+        rmdir('../tmp/csv_tmp/'.$this->session->userdata('username').'/');
         $this->load->view('pages/project', $p_id);
         redirect('pages/view/project/'.$p_id, 'refresh');
     }
