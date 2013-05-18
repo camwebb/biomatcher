@@ -446,11 +446,15 @@ class Pages extends CI_Controller {
         {
          mkdir($path_csv, 0755,true);
         }
-        write_file('../tmp/csv_tmp/'.$this->session->userdata('username').'/'.$u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name.'.csv',$csv);        
+        write_file($_SERVER['DOCUMENT_ROOT'].'/biomatcher/tmp/csv_tmp/'.$this->session->userdata('username').'/'.$u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name.'.csv',$csv);  
+        //$this->load->library('csvreader');
+        //$result =   $this->csvreader->parse_file('../tmp/csv_tmp/dhitatracker/7-dhitatracker_11-Sample Project.csv');
+        //echo '<pre>';
+        //print_r($result);
         $this->load->model('m_pages');
         $this->m_pages->update_csv();
-        delete_files('../tmp/csv_tmp/'.$this->session->userdata('username').'/', true);
-        rmdir('../tmp/csv_tmp/'.$this->session->userdata('username').'/');
+        delete_files($_SERVER['DOCUMENT_ROOT'].'/biomatcher/tmp/csv_tmp/'.$this->session->userdata('username').'/', true);
+        rmdir($_SERVER['DOCUMENT_ROOT'].'/biomatcher/tmp/csv_tmp/'.$this->session->userdata('username').'/');
         $this->load->view('pages/project', $p_id);
         redirect('pages/view/project/'.$p_id, 'refresh');
     }

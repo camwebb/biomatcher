@@ -93,9 +93,8 @@
     
    <div id="draggable">           
     <?php echo form_open('pages/do_editAllLabel');?>
-        <textarea style="margin-bottom: 5px;" id="labelProject" name="csv" rows="5" cols="35"><?php foreach ($get_csv as $csv){ 
-                echo $csv->nameOri.",".$csv->label.','.'&#10'; 
-                
+        <textarea style="margin-bottom: 5px;" id="labelProject" name="csv" rows="5" cols="35">nameOri,label,&#10;<?php foreach ($get_csv as $csv){ 
+                echo $csv->nameOri.",".$csv->label.','.'&#10';
                 }?>
         </textarea> 
         <input class="inputtext-upload" type="hidden" name="project_address" value="<?php echo $this->uri->segment(4, 0); ?>"/>
