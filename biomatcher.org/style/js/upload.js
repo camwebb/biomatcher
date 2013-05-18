@@ -9,6 +9,7 @@ var myform          = $("#upload_file");
 var output          = $(".errorbox");
 var input           = $("input");
 var button          = $('#box_button');
+var report          = $('#report');
 var completed       = '0%';
 progressbar.progressbar({value: 0});
 output.html("");
@@ -20,7 +21,7 @@ $(myform).ajaxForm({
         progressbox.slideDown();
         statustxt.html(completed); //set status text
         statustxt.css('color','#000'); //initial color of status text
-        $("input").prop('disabled', true);
+        input.prop('disabled', true);
         button.hide();
     },
     uploadProgress: function(event, position, total, percentComplete) { //on progress
@@ -40,8 +41,9 @@ $(myform).ajaxForm({
         progressbar.progressbar({value: 100});
         output.html(message.msg); //update element with received data                                              
         statustxt.html('Done');
+        report.html(message.report);
         myform.resetForm();  // reset form
-        $("input").prop('disabled', false);
+        input.prop('disabled', false);
         button.slideDown();
         //refresh_files();
     },

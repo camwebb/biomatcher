@@ -83,6 +83,17 @@ class M_pages extends CI_Model {
         $this->db->insert('image', $data_image);
     }
     
+    function file_exist($list_file)
+    {
+        $query = $this->db->get_where('image', $list_file);
+        if ($query->num_rows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
   /*  function getIdLabel(){
         $query=$this->db->query("SELECT * FROM image where id='7'");
         return $query->result();   

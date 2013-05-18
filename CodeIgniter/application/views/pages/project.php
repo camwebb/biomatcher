@@ -120,7 +120,7 @@
             <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
             <div id="progressbox">
                 <div id="progressbar"><div id="statustxt"><p>0%</p></div ></div>
-                
+                <div id="report"></div>
             </div>         
             <div class="inputbox_Upload" id="box_button">
                 <input id="button_Upload" type="submit" name="submit" class="box-button" value="Upload" />

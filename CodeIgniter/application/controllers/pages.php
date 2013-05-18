@@ -306,98 +306,108 @@ class Pages extends CI_Controller {
                             $valid_types = array(IMAGETYPE_JPEG);
                         
                             if(in_array($fileinfo[2],  $valid_types)) {
-                                copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg');
-                                if(!@ copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg'))
+                                $this->load->model('m_pages');
+                                $list_file = array('projectID'=> $project_id, 'nameOri' => $entry);
+                                if($this->m_pages->file_exist($list_file))
                                 {
+                                    $list_file_exist = array();
+                                    $list_file_exist[] = $entry;
                                     $status = "error";
-                                    $msg= error_get_last();
-                                }
-                                else{
-                                //Set config for img library
-                                $config['image_library'] = 'ImageMagick';
-                                $config['library_path'] = '/usr/bin/';
-                                $config['quality'] = "100%";
-                                $config['source_image'] = $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg';
-                                $config['new_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
-                                $config['maintain_ratio'] = false;
-                                
-                                //Set cropping for y or x axis, depending on image orientation
-                                if ($fileinfo[0] > $fileinfo[1]) {
-                                    $config['width'] = $fileinfo[1];
-                                    $config['height'] = $fileinfo[1];
-                                    $config['x_axis'] = (($fileinfo[0] / 2) - ($config['width'] / 2));
-                                }
-                                else {
-                                    $config['height'] = $fileinfo[0];
-                                    $config['width'] = $fileinfo[0];
-                                    $config['y_axis'] = (($fileinfo[1] / 2) - ($config['height'] / 2));
-                                }
-                                
-                                //Load image library and crop
-                                $this->load->library('image_lib', $config);
-                                $this->image_lib->initialize($config);
-                                if ($this->image_lib->crop()) {
-                                    $status = "error";
-                                    $msg = $this->image_lib->display_errors();
-                                }
-                                
-                                //Clear image library settings
-                                $this->image_lib->clear();
-                                unset($config);
-                                
-                                // resize image after cropping to square
-                                $config['image_library'] = 'gd2';
-                                $config['quality'] = "100%";
-                                $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
-                                $config['maintain_ratio'] = TRUE; 
-                                $config['master_dim'] = 'width';
-                                $config['width'] = 500; 
-                                $config['height'] = 500; 
-                                
-                                $this->load->library('image_lib');
-                                $this->image_lib->resize();
-                                $this->image_lib->clear();
-                                $this->image_lib->initialize($config); 
-                                if(!$this->image_lib->resize()){
-                                    $status = "error";
-                                    $msg = $this->image_lib->display_errors();
-                                }
-                                
-                                //Clear image library settings
-                                $this->image_lib->clear();
-                                unset($config);
-                                
-                                // create thumbnail
-                                $config['image_library'] = 'gd2';
-                                $config['quality'] = "100%";
-                                $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
-                                $config['new_image'] = $path_img_100px.'/'.$image_name_encrypt.'.100px.jpg';
-                                $config['maintain_ratio'] = TRUE; 
-                                $config['master_dim'] = 'width';
-                                $config['width'] = 100; 
-                                $config['height'] = 100; 
-                                
-                                $this->load->library('image_lib');
-                                $this->image_lib->resize();
-                                $this->image_lib->clear();
-                                $this->image_lib->initialize($config); 
-                                if(!$this->image_lib->resize()){
-                                    $status = "error";
-                                    $msg = $this->image_lib->display_errors();
-                                }
-                                else{
-                                    // add file info to database
-                                    $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
-                                    $this->load->model('m_pages');
-                                    $this->m_pages->upload_image($data_image);
-                                    
-                                    $status = "success";
-    				                $msg = "File successfully uploaded";
-                                    
-                                    shell_exec("chmod 644 $path_img_ori/$image_name_encrypt.ori.jpg");
-                                    shell_exec("chmod 644 $path_img_500px/$image_name_encrypt.500px.jpg");
-                                    shell_exec("chmod 644 $path_img_100px/$image_name_encrypt.100px.jpg");
-                                }
+                                    $msg = "No image processed";
+                                }else{
+                                    copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg');
+                                    if(!@ copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg'))
+                                    {
+                                        $status = "error";
+                                        $msg= error_get_last();
+                                    }
+                                    else{
+                                        //Set config for img library
+                                        $config['image_library'] = 'ImageMagick';
+                                        $config['library_path'] = '/usr/bin/';
+                                        $config['quality'] = "100%";
+                                        $config['source_image'] = $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg';
+                                        $config['new_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
+                                        $config['maintain_ratio'] = false;
+                                        
+                                        //Set cropping for y or x axis, depending on image orientation
+                                        if ($fileinfo[0] > $fileinfo[1]) {
+                                            $config['width'] = $fileinfo[1];
+                                            $config['height'] = $fileinfo[1];
+                                            $config['x_axis'] = (($fileinfo[0] / 2) - ($config['width'] / 2));
+                                        }
+                                        else {
+                                            $config['height'] = $fileinfo[0];
+                                            $config['width'] = $fileinfo[0];
+                                            $config['y_axis'] = (($fileinfo[1] / 2) - ($config['height'] / 2));
+                                        }
+                                        
+                                        //Load image library and crop
+                                        $this->load->library('image_lib', $config);
+                                        $this->image_lib->initialize($config);
+                                        if ($this->image_lib->crop()) {
+                                            $status = "error";
+                                            $msg = $this->image_lib->display_errors();
+                                        }
+                                        
+                                        //Clear image library settings
+                                        $this->image_lib->clear();
+                                        unset($config);
+                                        
+                                        // resize image after cropping to square
+                                        $config['image_library'] = 'gd2';
+                                        $config['quality'] = "100%";
+                                        $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
+                                        $config['maintain_ratio'] = TRUE; 
+                                        $config['master_dim'] = 'width';
+                                        $config['width'] = 500; 
+                                        $config['height'] = 500; 
+                                        
+                                        $this->load->library('image_lib');
+                                        $this->image_lib->resize();
+                                        $this->image_lib->clear();
+                                        $this->image_lib->initialize($config); 
+                                        if(!$this->image_lib->resize()){
+                                            $status = "error";
+                                            $msg = $this->image_lib->display_errors();
+                                        }
+                                        
+                                        //Clear image library settings
+                                        $this->image_lib->clear();
+                                        unset($config);
+                                        
+                                        // create thumbnail
+                                        $config['image_library'] = 'gd2';
+                                        $config['quality'] = "100%";
+                                        $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
+                                        $config['new_image'] = $path_img_100px.'/'.$image_name_encrypt.'.100px.jpg';
+                                        $config['maintain_ratio'] = TRUE; 
+                                        $config['master_dim'] = 'width';
+                                        $config['width'] = 100; 
+                                        $config['height'] = 100; 
+                                        
+                                        $this->load->library('image_lib');
+                                        $this->image_lib->resize();
+                                        $this->image_lib->clear();
+                                        $this->image_lib->initialize($config); 
+                                        if(!$this->image_lib->resize()){
+                                            $status = "error";
+                                            $msg = $this->image_lib->display_errors();
+                                        }
+                                        else{
+                                            // add file info to database
+                                            $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
+                                            $this->load->model('m_pages');
+                                            $this->m_pages->upload_image($data_image);
+                                            
+                                            $status = "success";
+            				                $msg = "File successfully uploaded";
+                                            
+                                            shell_exec("chmod 644 $path_img_ori/$image_name_encrypt.ori.jpg");
+                                            shell_exec("chmod 644 $path_img_500px/$image_name_encrypt.500px.jpg");
+                                            shell_exec("chmod 644 $path_img_100px/$image_name_encrypt.100px.jpg");
+                                        }
+                                    }
                                 }
                             }
                             
@@ -417,9 +427,13 @@ class Pages extends CI_Controller {
     	
         }else{
             $status ="error";
-            $msg = "No Project id".$project_id;
+            $msg = "No Project id";
         }
-        echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done'));
+        $report_file_exist = "";
+        if(!empty($list_file_exist)){
+            $report_file_exist = "Some files can not be processed due to duplicate";
+        }
+        echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done', 'report' => $report_file_exist));
     }
     
     function do_editAllLabel(){
