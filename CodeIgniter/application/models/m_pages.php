@@ -114,7 +114,7 @@ class M_pages extends CI_Model {
         $u_id = $this->input->post('user_id');
         $p_id = $this->input->post('project_address'); 
         $p_name = $this->input->post('project_name');
-        $path_csv = $_SERVER['DOCUMENT_ROOT']."/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
+        $path_csv = "/home/bmatch/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
         $folder_encrypt = md5($u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name);                 
         $this->load->dbforge();
         $this->dbforge->drop_table('tmp_image'); 

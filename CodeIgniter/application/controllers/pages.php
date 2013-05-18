@@ -438,7 +438,7 @@ class Pages extends CI_Controller {
         $u_id = $this->input->post('user_id');
         $p_id = $this->input->post('project_address'); 
         $p_name = $this->input->post('project_name');
-        $path_csv = $_SERVER['DOCUMENT_ROOT']."/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
+        $path_csv = "/home/bmatch/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
         if(!is_dir($path_csv)) //create the folder if it's not already exists
         {
          mkdir($path_csv, 0755,true);
