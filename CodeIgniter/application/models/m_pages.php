@@ -85,6 +85,7 @@ class M_pages extends CI_Model {
     
     function file_exist($list_file)
     {
+        //checking file name
         $query = $this->db->get_where('image', $list_file);
         if ($query->num_rows() > 0){
             return true;
@@ -132,8 +133,6 @@ class M_pages extends CI_Model {
         $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = tmp_image.label WHERE image.projectID = $p_id;");
         $this->dbforge->drop_table('tmp_image');        
     }
-    
-
 }
 
 

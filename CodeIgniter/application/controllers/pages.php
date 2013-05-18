@@ -1,10 +1,7 @@
 <?php
 
 class Pages extends CI_Controller {
-    public function index(){
-        
-    }
-
+    
 	public function view($page = 'home')
 	{
 
