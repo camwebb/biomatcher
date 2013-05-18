@@ -29,7 +29,7 @@
     <br /><br />
     
     <div id="addProject_panel">
-        <?php echo form_open('pages/do_addProject',array('id'=>'addProject')); ?>
+        <?php echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>
             
             <div class="inputbox_addProject">
                 <label class="labelinput-addProject" for="input_nameProject">Name of Project</label>
