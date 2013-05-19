@@ -435,15 +435,15 @@ class Pages extends CI_Controller {
     
     function do_editAllLabel(){
         $csv = $this->input->post('csv');
-        $u_id = $this->input->post('user_id');
-        $p_id = $this->input->post('project_address'); 
-        $p_name = $this->input->post('project_name');
+        $user_id = $this->input->post('user_id');
+        $project_address = $this->input->post('project_address'); 
+        $project_name = $this->input->post('project_name');
         $path_csv = "/home/bmatch/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
         if(!is_dir($path_csv)) //create the folder if it's not already exists
         {
          mkdir($path_csv, 0755,true);
         }
-        $folder_encrypt = md5($u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name); 
+        $folder_encrypt = md5($user_id.'-'.$this->session->userdata('username').'_'.$project_address.'-'.$project_name); 
         write_file($path_csv.'/'.$folder_encrypt.'.csv',$csv);  
         //$this->load->library('csvreader');
         //$result =   $this->csvreader->parse_file('../tmp/csv_tmp/dhitatracker/7-dhitatracker_11-Sample Project.csv');
@@ -453,9 +453,9 @@ class Pages extends CI_Controller {
         $this->m_pages->update_csv();
         delete_files($path_csv.'/', true);
         rmdir($path_csv.'/');
-        $this->load->view('pages/project', $p_id);
-        redirect('pages/view/project/'.$p_id, 'refresh');
-        echo $path_csv; 
+        //$this->load->view('pages/project', $project_address);
+        //redirect('pages/view/project/'.$project_address, 'refresh');
+        echo 'Success but still need refresh to get the result';
     }
     
 }

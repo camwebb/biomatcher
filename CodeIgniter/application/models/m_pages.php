@@ -111,11 +111,11 @@ class M_pages extends CI_Model {
     }    
     
     function update_csv(){
-        $u_id = $this->input->post('user_id');
-        $p_id = $this->input->post('project_address'); 
-        $p_name = $this->input->post('project_name');
+        $user_id = $this->input->post('user_id');
+        $project_address = $this->input->post('project_address'); 
+        $project_name = $this->input->post('project_name');
         $path_csv = "/home/bmatch/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
-        $folder_encrypt = md5($u_id.'-'.$this->session->userdata('username').'_'.$p_id.'-'.$p_name);                 
+        $folder_encrypt = md5($user_id.'-'.$this->session->userdata('username').'_'.$project_address.'-'.$project_name);                 
         $this->load->dbforge();
         $this->dbforge->drop_table('tmp_image'); 
         $fields = array(
@@ -135,9 +135,9 @@ class M_pages extends CI_Model {
         $this->load->library('csvreader');
         $result = $this->csvreader->parse_file($path_csv.'/'.$folder_encrypt.'.csv');
         $this->db->insert_batch('tmp_image', $result);
-        $query1= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = NULL WHERE image.projectID = $p_id AND tmp_image.label='';");
+        $query1= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = NULL WHERE image.projectID = $project_address AND tmp_image.label='';");
         $this->db->insert_batch('tmp_image', $result);
-        $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = tmp_image.label WHERE image.projectID = $p_id AND tmp_image.label!='';");
+        $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = tmp_image.label WHERE image.projectID = $project_address AND tmp_image.label!='';");
         $this->dbforge->drop_table('tmp_image');        
     }
 }
