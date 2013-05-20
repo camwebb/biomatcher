@@ -65,6 +65,8 @@
             }
             ?>
             </tbody>
+            
+            <div> <?php echo $this->pagination->create_links(); ?> </div>
 
             <tfoot>
                 <tr style="height: 50px;">
@@ -78,8 +80,7 @@
                         
                     </td>
                     <td>
-                        <button class="box-button" id="editLabel">Edit</button>
-                        
+                        <!--</a><button class="box-button" id="editLabel">Edit</button>-->
                     </td>
                     <td>
                         <button class="box-button" id="delete">Delete</button>

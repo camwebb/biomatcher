@@ -14,10 +14,26 @@ class Pages extends CI_Controller {
 	$data['title'] = ucfirst($page); // Capitalize the first letter
     
     $this->load->model('m_pages');
+    
+    if ($page == 'project'){
+        $this->load->library('pagination');
+        //count the total rows of tb_book
+        $this->db->where('projectID',$this->uri->segment(4, 0));
+        $getData = $this->db->get('image');
+        $count_images = $getData->num_rows();
+        $config['base_url'] = base_url().'index.php/pages/view/project/'.$this->uri->segment(4, 0).'/';
+        $config['total_rows'] = $count_images; //total rows
+        $config['per_page'] = '10'; //the number of per page for pagination
+        $config['uri_segment'] = 5; //see from base_url. 3 for this case
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $this->pagination->initialize($config); //initialize pagination
+        
+       	$data['list_images'] = $this->m_pages->list_image($config['per_page'],$this->uri->segment(5));
+        $data['get_csv'] = $this->m_pages->get_csv(); 
+    }
     $data['list_project'] = $this->m_pages->list_project();
-	$data['list_images'] = $this->m_pages->list_image();
     $data['project_title'] = $this->m_pages->project_title();
-    $data['get_csv'] = $this->m_pages->get_csv();    
     
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
@@ -266,6 +282,7 @@ class Pages extends CI_Controller {
                 $path_img_ori = $path_img.'/ori';
                 $path_img_500px = $path_img.'/500px';
                 $path_img_100px = $path_img.'/100px';
+                $num = 0;                                
                 
                 mkdir($path_extract, 0755);
 
@@ -286,7 +303,6 @@ class Pages extends CI_Controller {
 
                 if ($handle = opendir($path_extract)) {
                     // loop over the directory.
-                    //$num = 0;
                     while (false !== ($entry = readdir($handle))) {
                         //print_r($entry);
                         if(preg_match('#\.(jpg|jpeg)$#i', $entry))
@@ -312,6 +328,8 @@ class Pages extends CI_Controller {
                                     $status = "error";
                                     $msg = "No image processed";
                                 }else{
+                                    $num += 1;
+                                    //echo json_encode(array('num_process' => $num));
                                     copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg');
                                     if(!@ copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg'))
                                     {

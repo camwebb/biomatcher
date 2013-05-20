@@ -13,6 +13,7 @@ var report          = $('#report');
 var completed       = '0%';
 progressbar.progressbar({value: 0});
 output.html("");
+report.html("");
 
 $(myform).ajaxForm({
     dataType:  'json',

@@ -11,7 +11,7 @@ class M_pages extends CI_Model {
     {
         $username=$this->input->post('username');
         $password=md5($this->input->post('password'));
-        $query = $this->db->query("SELECT * FROM user where username='$username' limit 1;");
+        $query = $this->db->query("SELECT * FROM user where username='$username' limit 1");
 
         $data=$query->result();
         $hasil['sukses']=$query->num_rows();
@@ -53,13 +53,17 @@ class M_pages extends CI_Model {
     
     function list_project(){
         $id_user = $this->session->userdata('id_user');
-        $query=$this->db->query("SELECT * FROM project where userID='$id_user'");
+        $query=$this->db->query("SELECT * FROM project where userID='$id_user' order by id ASC");
         return $query->result();
     }
     
-    function list_image(){
+    function list_image($perPage,$uri){
         $project_id = $this->uri->segment(4, 0);
-        $query=$this->db->query("SELECT * FROM image where projectID='$project_id'");
+
+        $this->db->where('projectID',$project_id);
+        $this->db->order_by('id','DESC');
+        $query = $this->db->get('image', $perPage, $uri);
+        
         return $query->result();
     }
     
@@ -103,7 +107,7 @@ class M_pages extends CI_Model {
     function get_csv(){
         $this->load->dbutil();
         $project_id = $this->uri->segment(4, 0);
-        $query = $this->db->query("SELECT nameOri,label FROM image where projectID='$project_id'");
+        $query = $this->db->query("SELECT nameOri,label FROM image where projectID='$project_id' order by id DESC");
         return $query->result();  
         $delimiter = ",";
         $newline = "\r\n";

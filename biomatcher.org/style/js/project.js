@@ -4,6 +4,8 @@ $(document).ready(function() {
     function addProject(){
         $("div#addProject_panel").fadeIn("normal");
         $("div#toppanel-disable").show();
+        $("div#progressbox").hide();
+        $("div.errorbox").empty();
         $("div#panel").animate({
 			height: "0px"
 		}, "fast");

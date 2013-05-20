@@ -96,5 +96,5 @@ CodeIgniter/system/libraries/Xmlrpcs.php
 CodeIgniter/system/libraries/Zip.php
 CodeIgniter/user_guide
 !CodeIgniter/README.md
-!tmp/*
+tmp/*
 data/*
