@@ -476,6 +476,31 @@ class Pages extends CI_Controller {
         echo 'Success but still need refresh to get the result';
     }
     
+    function deleteImage(){
+        $img_id = $this->input->post('id_image');
+        $pid = $this->input->post('pid');
+        $this->load->model('m_pages');
+        foreach ($img_id as $id){
+            $this->db->where('id',$id);
+            $query="id='$id' AND projectID='$pid'";
+            $this->db->where($query, NULL, FALSE);
+            $img_file = $this->db->get('image');
+            $file = $img_file->result();
+            foreach ($file as $md5sum)
+            $this->m_pages->delete_image($id,$pid);
+            
+            $ori = base_url().'data/'.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
+            $converted = base_url().'data/'.$this->session->userdata('username').'/'.$pid.'/img/500px/'.$md5sum->md5sum.'.500px.jpg';
+            $thumbnail = base_url().'data/'.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
+            
+            $toDelete = array($ori, $converted, $thumbnail);
+            foreach ($toDelete as $file_to_del) {
+                shell_exec("rm $file_to_del");
+                echo $file_to_del.'<br />';
+            }
+        }
+    }
+    
 }
 
 ?>

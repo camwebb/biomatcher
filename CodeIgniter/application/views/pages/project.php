@@ -53,11 +53,10 @@
                         <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/100px/'.$images->md5sum.'.100px.jpg'; ?>" /></p>
                     </td>
                     <td style="text-align: center;">
-                                                                
                         <input type="radio" name="id_label" value="<?php echo $images->id; ?>"/>
                     </td>
                     <td style="text-align: center;">
-                        <input type="checkbox" />
+                        <input type="checkbox" name="id_image" value="<?php echo $images->id; ?>"/>
                     </td>
                 </tr>
                 
@@ -83,6 +82,8 @@
                         <!--</a><button class="box-button" id="editLabel">Edit</button>-->
                     </td>
                     <td>
+                        <input class="inputtext-upload" id="pid" type="hidden" name="pid_del" value="<?php echo $this->uri->segment(4, 0); ?>"/>
+                        <input class="inputtext-upload" id="pagination" type="hidden" name="pagination" value="<?php echo $this->uri->segment(5, 0); ?>"/>
                         <button class="box-button" id="delete">Delete</button>
                     </td>
                 </tr>
