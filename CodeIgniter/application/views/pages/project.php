@@ -17,7 +17,7 @@
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
     <div class="project_table" id="files">
-        <table style="width: 100%;">
+        <table style="width: 100%;" id="projectTable">
             <thead>
                 <tr>
                     <td>
@@ -48,7 +48,7 @@
                     <td style="width: 398px; height: 112px;">
                         <p><?php echo $images->nameOri; ?></p>
                     </td>
-                    <td style="width: 248px; height: 112px;"><p><?php echo $images->label; ?></p></td>
+                    <td style="width: 248px; height: 112px;"><p id="label"><?php echo $images->label; ?></p></td>
                     <td style="width: 100px; height: 112px;">
                         <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/100px/'.$images->md5sum.'.100px.jpg'; ?>" /></p>
                     </td>

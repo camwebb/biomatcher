@@ -99,11 +99,6 @@ class M_pages extends CI_Model {
         }
     }
     
-  /*  function getIdLabel(){
-        $query=$this->db->query("SELECT * FROM image where id='7'");
-        return $query->result();   
-    }*/
-    
     function get_csv(){
         $this->load->dbutil();
         $project_id = $this->uri->segment(4, 0);

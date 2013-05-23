@@ -471,9 +471,6 @@ class Pages extends CI_Controller {
         $this->m_pages->update_csv();
         delete_files($path_csv.'/', true);
         rmdir($path_csv.'/');
-        //$this->load->view('pages/project', $project_address);
-        //redirect('pages/view/project/'.$project_address, 'refresh');
-        echo 'Success but still need refresh to get the result';
     }
     
     function deleteImage(){

@@ -16,19 +16,6 @@ $(document).ready(function() {
         $("div#toppanel-disable").hide();       
     }
     
-    function editLabel(){
-        var id = $('input[@name="id_label"]:checked').val();
-        $.ajax({
-            url: '../../do_getIdLabel/',
-            type: "POST",
-            dataType: "json",
-            data: 'id='+id,
-            cache:false,
-            success: function(data){ 
-                alert(data);            }           
-            });
-    }
-    
     function cancelLabel(){
         $("#draggable").fadeOut("normal");
     }
@@ -39,7 +26,7 @@ $(document).ready(function() {
     }
     
     function del_img(){
-        var arr_img = $.map($('input[name="id_image"]:checked'), function(e,i) {
+        var arr_img = $.map($("input[name='id_image']:checked"), function(e,i) {
             return +e.value;
         });
 
@@ -70,7 +57,6 @@ $(document).ready(function() {
     $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);
     
     /*editLabel function*/	
-    $("#editLabel").bind("click",editLabel);
     $("#editAll").bind("click",editAll);
     $("#cancelLabel").bind("click",cancelLabel);
     
@@ -94,9 +80,11 @@ $(function() {
     url: "../../do_editAllLabel",
     data: form_data,
     success: function(data){
-        alert(data);
-        //$('#form_source')[0].reset();
-    }
+        //alert(data); 
+        $("#draggable").fadeOut("normal");
+        //$("#label").html(data);
+        location.reload();
+        }
     });
     return false;
     });
