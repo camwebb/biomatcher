@@ -16,7 +16,7 @@ $(document).ready(function() {
         $("div#toppanel-disable").hide();       
     }
     
-    function cancelLabel(){
+    function cancelAllLabel(){
         $("#draggable").fadeOut("normal");
     }
     
@@ -58,7 +58,7 @@ $(document).ready(function() {
     
     /*editLabel function*/	
     $("#editAll").bind("click",editAll);
-    $("#cancelLabel").bind("click",cancelLabel);
+    $("#cancelLabel").bind("click",cancelAllLabel);
     
     $('#delete').click(function() {
         del_img();
@@ -89,3 +89,29 @@ $(function() {
     return false;
     });
     });
+    
+$(function(){
+   $("#editLabel").click(function(){
+    
+    var id_label = $("input[name='id_label']:checked").val();
+    var dataString = 'id_label='+ id_label;
+    
+    $.ajax({
+    type: "POST",
+    url: "../../do_editLabel",
+    data: dataString,
+    success: function(data){
+        //alert(data);
+        $("#label"+id_label).replaceWith('<form id="formLabel'+id_label+'" method="POST" action="test"><input name="edit_label" id="hide_cancelLabel'+id_label+'" type="text" value="'+data+'" /><a class="box-button" id="cancelLabel'+id_label+'">Cancel</a><button class="box-button" id="editOneLabel">Submit</button></form>');
+        $("#for_close_label"+id_label).css("background","#e6e6e6");
+        $("#cancelLabel"+id_label).click(function(){
+          $("#for_close_label"+id_label).children().remove();  
+          $("#for_close_label"+id_label).html('<p id="label'+id_label+'">'+data+'</p>');
+          $("input[name='id_label']").removeAttr("checked");
+          $("#for_close_label"+id_label).css("background","none");
+        });
+        }
+    });
+    return false;
+   }); 
+});

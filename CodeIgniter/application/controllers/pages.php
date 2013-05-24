@@ -473,6 +473,12 @@ class Pages extends CI_Controller {
         rmdir($path_csv.'/');
     }
     
+    function do_editLabel(){
+        $id_label = $this->input->post('id_label');
+        $this->load->model('m_pages');
+        $this->m_pages->edit_label();
+     }
+    
     function deleteImage(){
         $img_id = $this->input->post('id_image');
         $pid = $this->input->post('pid');

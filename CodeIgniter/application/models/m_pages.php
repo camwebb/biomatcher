@@ -140,6 +140,15 @@ class M_pages extends CI_Model {
         $this->dbforge->drop_table('tmp_image');        
     }
     
+    function edit_label(){
+        $id_label = $this->input->post('id_label');
+        $query=$this->db->query("SELECT * FROM image where id='$id_label'");
+        foreach ($query->result() as $row)
+        {
+           echo $row->label;
+        }
+    }
+    
     function delete_image($id,$pid){
 
     }

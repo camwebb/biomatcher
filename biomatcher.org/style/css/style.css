@@ -566,3 +566,20 @@ ul.dropdown2 li:hover > ul {
     width: 438px;
     text-align: center;
 }
+
+.edit_label{
+    width: 248px;
+    padding:5px;
+    height: 36px;
+}
+
+.edit_label input{
+    height:36px;
+    padding-left:5px;
+    width: 135px;
+}
+
+.edit_label button,a{
+    padding: 0 4px !important;
+    margin-left: 3px;
+}

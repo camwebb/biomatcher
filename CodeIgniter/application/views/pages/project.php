@@ -48,7 +48,7 @@
                     <td style="width: 398px; height: 112px;">
                         <p><?php echo $images->nameOri; ?></p>
                     </td>
-                    <td style="width: 248px; height: 112px;"><p id="label"><?php echo $images->label; ?></p></td>
+                    <td style="width: 248px; height: 112px;"><div class="edit_label" id="for_close_label<?php echo $images->id; ?>"><p id="label<?php echo $images->id; ?>"><?php echo $images->label; ?></p></div></td>
                     <td style="width: 100px; height: 112px;">
                         <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/100px/'.$images->md5sum.'.100px.jpg'; ?>" /></p>
                     </td>
@@ -79,7 +79,7 @@
                         
                     </td>
                     <td>
-                        <!--</a><button class="box-button" id="editLabel">Edit</button>-->
+                        <button class="box-button" id="editLabel">Edit</button>
                     </td>
                     <td>
                         <input class="inputtext-upload" id="pid" type="hidden" name="pid_del" value="<?php echo $this->uri->segment(4, 0); ?>"/>
@@ -128,9 +128,9 @@
                 <input class="box-button" type="button" id="button_cancelUpload" style="margin-right: 5px;" value="Cancel" />
             </div>
         <?php echo form_close(); ?>
-    </div>
-   
+    </div>   
     <div class="separator"></div>
+    
 </div>
 <?php
     }
