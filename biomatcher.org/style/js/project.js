@@ -40,8 +40,8 @@ $(document).ready(function() {
             dataType: "json",
             data: data_img,
             cache:false,
-            success: function(data){
-                $("#form_message").html(data.message).css({'background-color' : data.bg_color}).fadeIn('slow');
+            success: function(){
+                window.location.replace("test/");
             }
         });
     }

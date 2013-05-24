@@ -149,8 +149,9 @@ class M_pages extends CI_Model {
         }
     }
     
-    function delete_image($id,$pid){
-
+    function delete_image($img_id){
+        $this->db->where('id IN ('.implode(',',$img_id).')', NULL, FALSE);
+        $this->db->delete('image');
     }
 }
 
