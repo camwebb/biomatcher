@@ -102,7 +102,7 @@ $(function(){
     data: dataString,
     success: function(data){
         //alert(data);
-        $("#label"+id_label).replaceWith('<form id="formLabel'+id_label+'" method="POST" action="test"><input name="edit_label" id="hide_cancelLabel'+id_label+'" type="text" value="'+data+'" /><a class="box-button" id="cancelLabel'+id_label+'">Cancel</a><button class="box-button" id="editOneLabel">Submit</button></form>');
+        $("#label"+id_label).replaceWith('<form id="formLabel'+id_label+'" method="POST" action="test"><input name="edit_label" id="hide_cancelLabel'+id_label+'" type="text" value="'+data+'" /><a class="button_edit_label" id="cancelLabel'+id_label+'">Cancel</a><button class="button_edit_label" id="editOneLabel">Submit</button></form>');
         $("#for_close_label"+id_label).css("background","#e6e6e6");
         $("#cancelLabel"+id_label).click(function(){
           $("#for_close_label"+id_label).children().remove();  

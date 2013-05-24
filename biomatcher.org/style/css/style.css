@@ -579,7 +579,25 @@ ul.dropdown2 li:hover > ul {
     width: 135px;
 }
 
-.edit_label button,a{
+.button_edit_label{
+    background-color: #353535;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    line-height: 36px;
+    height: 36px;
+    display: inline-block;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    cursor:pointer;
+    font-family: arial;
+    font-size: 13px;
     padding: 0 4px !important;
     margin-left: 3px;
+}
+
+.button_edit_label:hover{
+    color:#515151;
+    background-color:#e6e6e6;
 }
