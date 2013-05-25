@@ -473,8 +473,15 @@ class Pages extends CI_Controller {
         rmdir($path_csv.'/');
     }
     
-    function do_editLabel(){
+    function find_IDLabel(){
         $id_label = $this->input->post('id_label');
+        $this->load->model('m_pages');
+        $this->m_pages->id_label();
+     }
+     
+     function do_editLabel(){
+        $id_label2 = $this->input->post('id_label2');
+        $new_label = $this->input->post('new_label');
         $this->load->model('m_pages');
         $this->m_pages->edit_label();
      }
