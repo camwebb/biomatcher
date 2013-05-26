@@ -84,7 +84,13 @@ $(function() {
         $("#draggable").fadeOut("normal");
         //$("#label").html(data);
         location.reload();
-        }
+        },
+    error:function (xhr, textStatus, thrownError, data) {
+            $('#error_msg_all').fadeIn(300);
+            $('#error_msg_all').html('<p style="font-size: 13px; color: red; font-style: italic;">Duplicated Label</p>');
+            console.log("Duplicated label");
+            console.log("Update Error Status: ", xhr.status, " Error Thrown: ", thrownError);
+            }                    
     });
     return false;
     });
@@ -102,14 +108,16 @@ $(function(){
     data: dataString,
     success: function(data){
         //alert(data);
+        $('html,body').animate({scrollTop:$("#slide_label"+id_label).offset().top},500);
         $("#label"+id_label).replaceWith('<form id="formLabel'+id_label+'" method="POST"><input id="hide_cancelLabel'+id_label+'" type="text" name="new_label" value="'+data+'" /><input type="hidden" id="label_id'+id_label+'" name="id_label2" value="'+id_label+'"/><a class="button_edit_label" id="cancelLabel'+id_label+'">Cancel</a><a class="button_edit_label" id="editOneLabel'+id_label+'">Submit</a></form>');
-        $("#for_close_label"+id_label).css("background","#e6e6e6");
+        $("#for_close_label"+id_label).css("background","#e6e6e6");       
         
         $("#cancelLabel"+id_label).click(function(){
           $("#for_close_label"+id_label).children().remove();  
           $("#for_close_label"+id_label).html('<p id="label'+id_label+'">'+data+'</p>');
           $("input[name='id_label']").removeAttr("checked");
           $("#for_close_label"+id_label).css("background","none");
+          $('#error_msg'+id_label).fadeOut(300);
         });
         
         $("#editOneLabel"+id_label).click(function(){
@@ -128,8 +136,14 @@ $(function(){
                 $("#for_close_label"+id_label).html('<p id="label'+id_label+'">'+data+'</p>');
                 $("input[name='id_label']").removeAttr("checked");
                 $("#for_close_label"+id_label).css("background","none");
+            },
+            error:function (xhr, textStatus, thrownError, data) {
+            $('#error_msg'+id_label).fadeIn(300);
+            $('#error_msg'+id_label).html('<p style="font-size: 13px; color: red; font-style: italic;">Duplicated Label</p>');
+            console.log("Duplicated label");
+            console.log("Update Error Status: ", xhr.status, " Error Thrown: ", thrownError);
             }
-            });
+        }); 
         });
         
         }
