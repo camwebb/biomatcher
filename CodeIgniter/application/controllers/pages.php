@@ -448,7 +448,7 @@ class Pages extends CI_Controller {
         if(!empty($list_file_exist)){
             $report_file_exist = "Some files can not be processed due to duplicate";
         }
-        echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done', 'report' => $report_file_exist));
+        echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done', 'report' => $report_file_exist, 'pID' => $project_id));
     }
     
     function do_editAllLabel(){
@@ -510,9 +510,10 @@ class Pages extends CI_Controller {
                 shell_exec("rm $file_to_del");
             }
         }
-        $this->m_pages->delete_image($img_id);
-        echo '<pre>';
-        print_r($img_id);
+        //$this->m_pages->delete_image($img_id);
+        if($this->m_pages->delete_image($img_id)){
+            echo json_encode(array('status' => "success"));
+        }       
     }
     
 }

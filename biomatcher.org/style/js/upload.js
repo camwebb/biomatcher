@@ -39,6 +39,7 @@ $(myform).ajaxForm({
     },
     complete: function(response) { // on complete
         var message = JSON.parse(response.responseText);
+        var project_url = message.pID;
         progressbar.progressbar({value: 100});
         output.html(message.msg); //update element with received data                                              
         statustxt.html('Done');
@@ -46,8 +47,18 @@ $(myform).ajaxForm({
         myform.resetForm();  // reset form
         input.prop('disabled', false);
         button.slideDown();
-        //refresh_files();
+        refresh_files(project_url);
     },
 });  
+
+function refresh_files(project_url)
+{
+   $.get(CI_ROOT+'index.php/pages/upload_file/')
+   .success(function (data){
+    setTimeout(function() {
+        window.location.href = CI_ROOT+"index.php/pages/view/project/"+project_url;
+    }, 5000);
+   });
+}
 
 });

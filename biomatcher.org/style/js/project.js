@@ -36,14 +36,27 @@ $(document).ready(function() {
         console.log(data_img);
         $.ajax({
             type: "POST",
-            url: "../../deleteImage",
+            url: CI_ROOT+"index.php/pages/deleteImage",
             dataType: "json",
             data: data_img,
             cache:false,
-            success: function(){
-                window.location.replace("test/");
+            success: function(status){
+                if(status != 'error')
+        		{
+                    if(pagination==0){
+                        pagination = "";
+                    }
+                    var url = CI_ROOT+"index.php/pages/view/project/"+pID+"/"+pagination;
+                    redirect(url);
+                }
             }
         });
+        
+    }
+    
+    function redirect(url)
+    {
+        window.location.href = url;
     }
     
     $('a#close, #mask').bind('click', function() { 

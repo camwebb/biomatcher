@@ -20,6 +20,8 @@
 		$('body').append('<div id="mask"></div>');
 		$('#mask').fadeIn(300);
     }
+
+    CI_ROOT = "<?=base_url() ?>";
     </script>
 
 </head>
