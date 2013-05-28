@@ -12,12 +12,12 @@ var button          = $('#box_button');
 var report          = $('#report');
 var completed       = '0%';
 progressbar.progressbar({value: 0});
-output.html("");
-report.html("");
 
 $(myform).ajaxForm({
     dataType:  'json',
     beforeSend: function() { //brfore sending form
+        output.empty();
+        report.empty();
         statustxt.empty();
         progressbox.slideDown();
         statustxt.html(completed); //set status text
@@ -47,7 +47,10 @@ $(myform).ajaxForm({
         myform.resetForm();  // reset form
         input.prop('disabled', false);
         button.slideDown();
-        refresh_files(project_url);
+        if(message.status != 'error')
+  		{
+            //refresh_files(project_url);
+        }
     },
 });  
 

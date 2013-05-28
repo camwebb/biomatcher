@@ -601,3 +601,16 @@ ul.dropdown2 li:hover > ul {
     color:#515151;
     background-color:#e6e6e6;
 }
+
+#match{
+    position:relative;
+    padding: 10px 0;
+}
+
+#image1{
+    float:left;
+}
+
+#image2{
+    float:right;
+}

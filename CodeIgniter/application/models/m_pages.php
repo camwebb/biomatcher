@@ -7,10 +7,8 @@ class M_pages extends CI_Model {
         parent::__construct();
     }
     
-    function login_user()
+    function login_user($username)
     {
-        $username=$this->input->post('username');
-        $password=md5($this->input->post('password'));
         $query = $this->db->query("SELECT * FROM user where username='$username' limit 1");
 
         $data=$query->result();

@@ -66,11 +66,13 @@ class Pages extends CI_Controller {
         }else{
             $this->load->helper('cookie');
             $this->load->model('m_pages');
-            $login =$this->m_pages->login_user();
+            
+            $username=$this->input->post('username');
+            $password=$this->input->post('password');
+            
+            $login =$this->m_pages->login_user($username);
             if ($login['sukses'] == 1 )
             {
-                $username = $this->input->post('username');
-                $password = $this->input->post('password');
                 $user_credentials = array();
         		$user_credentials[$username] = array(
         			'username' => $login['username'],
@@ -85,7 +87,7 @@ class Pages extends CI_Controller {
             			$cookieUsername = array(
             				'name'   => 'user',
             				'value'  => $login['username'],
-            				'expire' => time()+36000,
+            				'expire' => time()+2592000,
             				'path'   => '/',
             				'secure' => FALSE
             			);
@@ -93,7 +95,7 @@ class Pages extends CI_Controller {
             			$cookiePassword = array(
             				'name'   => 'pass',
             				'value'  => $login['password'],
-            				'expire' => time()+36000,
+            				'expire' => time()+2592000,
             				'path'   => '/',
             				'secure' => FALSE
             			);
@@ -120,6 +122,66 @@ class Pages extends CI_Controller {
             }
         }
 		
+    }
+    
+    function autoLogin()
+    {
+        $this->load->helper('cookie');
+        $this->load->model('m_pages');
+        
+        $username = $this->input->cookie('user');
+        $password = $this->input->cookie('pass');        
+                
+        $login =$this->m_pages->login_user($username);
+        if ($login['sukses'] == 1 )
+        {
+            $user_credentials = array();
+    		$user_credentials[$username] = array(
+    			'username' => $login['username'],
+    			'password' => $login['password']
+    		);
+            if(array_key_exists($username, $user_credentials))
+            {
+                if($password == $user_credentials[$username]['password'])
+                {
+                    //login success
+                    $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id']));
+        			$cookieUsername = array(
+        				'name'   => 'user',
+        				'value'  => $login['username'],
+        				'expire' => time()+2592000,
+        				'path'   => '/',
+        				'secure' => FALSE
+        			);
+        
+        			$cookiePassword = array(
+        				'name'   => 'pass',
+        				'value'  => $login['password'],
+        				'expire' => time()+2592000,
+        				'path'   => '/',
+        				'secure' => FALSE
+        			);
+            		//set cookie to browser
+            		$this->input->set_cookie($cookieUsername);
+            		$this->input->set_cookie($cookiePassword);
+                    redirect('', 'refresh');
+                }
+                else
+                {
+                    //incorrect password
+                    $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
+                    $this->session->set_flashdata('message', 'Incorrect password.');
+                    redirect('');
+                }
+            }
+        }
+        else
+        {
+            //login failed
+            $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
+            $this->session->set_flashdata('message', 'A user does not exist for the username specified.');
+            redirect('');
+        }
     }
     
     public function logout()
