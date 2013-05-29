@@ -71,7 +71,23 @@
 
 ## Phase 4. Matching
 
-Choose matches from random projects.
+ 1. From the Home page, after logging in, click ‘Match’ to show a
+    general image matching page.  Slect a project at random from all
+    the active projects; all subsequent iamges will come from this
+    project, untill the user re-visits the home page.
+ 2. The Match page is simple: one image on top, in landscape mode,
+    ca. 1/4 screen height tall, with one image on bottom, same size
+    and orientation, separated from the top image by a thin white strip.
+    On the right are two buttons, ‘same species’ and ‘different
+    species.’
+ 3. Each time the page is loaded: two random images are picked from the
+    project’s images (check they are not the same), and shown in the
+    image windows.  
+ 4. When either ‘same species’ or ‘different species’ is clicked, the
+    data are stored and the page reloads.
+ 5. The data written are `imageA` (id), `imageB` (id), `time`
+    (timestamp of data write), `matcher` (person id), `same` =
+    enum(‘no’,’yes’).
 
 ## Phase 5. Statistics
 
