@@ -24,13 +24,30 @@ class Pages extends CI_Controller {
         $config['base_url'] = base_url().'index.php/pages/view/project/'.$this->uri->segment(4, 0).'/';
         $config['total_rows'] = $count_images; //total rows
         $config['per_page'] = '10'; //the number of per page for pagination
-        $config['uri_segment'] = 5; //see from base_url. 3 for this case
+        $config['uri_segment'] = 5; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
         $config['full_tag_open'] = '<p>';
         $config['full_tag_close'] = '</p>';
         $this->pagination->initialize($config); //initialize pagination
         
        	$data['list_images'] = $this->m_pages->list_image($config['per_page'],$this->uri->segment(5));
         $data['get_csv'] = $this->m_pages->get_csv(); 
+    }
+    if ($page == 'match'){
+        if ($this->session->userdata('shuffled_pid_A') == "" && $this->session->userdata('shuffled_pid_B') == ""){
+            $this->db->select('id');
+            $project_query = $this->db->get('project');
+            $shuffled_project = $project_query->result_array();
+            shuffle ($shuffled_project);
+            
+            $pidA = $shuffled_project[0]['id'];
+            $pidB = $shuffled_project[1]['id'];
+            
+            $this->session->set_userdata(array('shuffled_pid_A' =>$pidA,'shuffled_pid_B' => $pidB));
+        }
+        echo $this->session->userdata('shuffled_pid_A');
+        echo $this->session->userdata('shuffled_pid_B');
+    }else{
+        $this->session->unset_userdata(array('shuffled_pid_A' => "", 'shuffled_pid_B' => ""));
     }
     $data['list_project'] = $this->m_pages->list_project();
     $data['project_title'] = $this->m_pages->project_title();
@@ -169,7 +186,7 @@ class Pages extends CI_Controller {
                 else
                 {
                     //incorrect password
-                    $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
+                    $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => "", 'shuffled_pid_A' => "", 'shuffled_pid_B' => ""));
                     $this->session->set_flashdata('message', 'Incorrect password.');
                     redirect('');
                 }
@@ -576,6 +593,86 @@ class Pages extends CI_Controller {
         if($this->m_pages->delete_image($img_id)){
             echo json_encode(array('status' => "success"));
         }       
+    }
+    
+    function selectRandom(){
+        $time_start = $this->microtime_float();
+        /*$this->db->select('id');
+        $project_query = $this->db->get('project');
+        $shuffled_project = $project_query->result_array();
+        shuffle ($shuffled_project);
+        echo '<pre>';
+        print_r($shuffled_project);
+        
+        $pidA = $shuffled_project[0]['id'];
+        $pidB = $shuffled_project[1]['id'];*/
+        
+        $pidA = $this->session->userdata('shuffled_pid_A');
+        $pidB = $this->session->userdata('shuffled_pid_B');
+        
+        $this->db->where('projectID',$pidA);
+        $image_query_A = $this->db->get('image');
+        $image_A = $image_query_A->result_array();
+        shuffle ($image_A);
+        $shuffled_image_A = $image_A[0];
+        
+        $this->db->where('projectID',$pidB);
+        $image_query_B = $this->db->get('image');
+        $image_B = $image_query_B->result_array();
+        shuffle ($image_B);
+        $shuffled_image_B = $image_B[0];
+        
+        $time_end = $this->microtime_float();
+        $time= $time_end - $time_start;
+        //0.0018830299377441
+        //0.0049850940704346
+        //average time
+        
+        print_r($shuffled_image_A);
+        print_r($shuffled_image_B);
+        
+        echo '<br />'.$time;
+        
+        /*
+        $time_start = $this->microtime_float();
+        $this->db->select('id');
+        $this->db->order_by('id', 'RANDOM');
+        $this->db->limit(2);
+        $query = $this->db->get('project');
+        $shuffled_project = $query->result_array();
+        print_r($shuffled_project);      
+
+        $pidA = $shuffled_project[0]['id'];
+        $pidB = $shuffled_project[1]['id'];
+        
+        $this->db->where('projectID',$pidA);
+        $image_query_A = $this->db->get('image');
+        $image_A = $image_query_A->result_array();
+        $shuffled_image_A = $image_A[0];
+        
+        $this->db->where('projectID',$pidB);
+        $image_query_B = $this->db->get('image');
+        $image_B = $image_query_B->result_array();
+        $shuffled_image_B = $image_B[0];
+        
+        print_r($shuffled_image_A);
+        print_r($shuffled_image_B);
+        
+        $time_end = $this->microtime_float();
+        $time= $time_end - $time_start;
+        //0.0023939609527588
+        //0.0049350261688232
+        //average time
+        
+        echo '<br />'.$time;
+        */
+        
+    }
+    
+    function microtime_float()
+    {
+       list($usec, $sec) = explode(" ", microtime());
+       return ((float)$usec + (float)$sec);
     }
     
 }
