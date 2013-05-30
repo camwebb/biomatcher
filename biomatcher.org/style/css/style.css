@@ -603,8 +603,15 @@ ul.dropdown2 li:hover > ul {
 }
 
 #match{
-    position:relative;
-    padding: 10px 0;
+    position: fixed;
+    display:none;
+    margin:0 auto;
+    top:0%;
+    left:0%;
+    background: #eee;
+    border: 10px solid #515151;
+    padding:10px;
+    z-index: 30;
 }
 
 #image1{

@@ -90,7 +90,7 @@ $(function() {
     
     $.ajax({
     type: "POST",
-    url: "../../do_editAllLabel",
+    url: CI_ROOT+"index.php/pages/do_editAllLabel",
     data: form_data,
     success: function(data){
         //alert(data); 
@@ -117,7 +117,7 @@ $(function(){
     
     $.ajax({
     type: "POST",
-    url: "../../find_IDLabel",
+    url: CI_ROOT+"index.php/pages/find_IDLabel",
     data: dataString,
     success: function(data){
         //alert(data);
@@ -141,7 +141,7 @@ $(function(){
             
             $.ajax({
             type: "POST",
-            url: "../../do_editLabel",
+            url: CI_ROOT+"index.php/pages/do_editLabel",
             data: form_data2,
             success: function(data){
                 //alert(data);
@@ -163,5 +163,12 @@ $(function(){
     });
     return false;
    }); 
+});
+
+$(function(){
+    $("#openMatch_panel").click(function(){
+        $("div#toppanel-disable").show();
+        $("div#match").show();
+    });
 });
 

@@ -33,6 +33,7 @@ class Pages extends CI_Controller {
         $data['get_csv'] = $this->m_pages->get_csv(); 
     }
     if ($page == 'match'){
+        $data['list_project'] = $this->m_pages->list_project();
         if ($this->session->userdata('shuffled_pid_A') == "" && $this->session->userdata('shuffled_pid_B') == ""){
             $this->db->select('id');
             $project_query = $this->db->get('project');
