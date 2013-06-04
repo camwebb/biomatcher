@@ -603,7 +603,10 @@ ul.dropdown2 li:hover > ul {
 }
 
 #match{
-    position: fixed;
+    position:relative;
+    padding: 10px 0;
+
+    /*position: fixed;
     display:none;
     margin:0 auto;
     top:0%;
@@ -611,7 +614,7 @@ ul.dropdown2 li:hover > ul {
     background: #eee;
     border: 10px solid #515151;
     padding:10px;
-    z-index: 30;
+    z-index: 30;*/
 }
 
 #image1{
@@ -620,4 +623,31 @@ ul.dropdown2 li:hover > ul {
 
 #image2{
     float:right;
+}
+
+#pagination p{
+    background-color:#e6e6e6;
+    /*background-color: #353535;*/
+}
+
+#pagination p a{
+    background-color: #353535;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    line-height: 36px;
+    height: 36px;
+    display: inline-block;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    cursor:pointer;
+    font-family: arial;
+    font-size: 13px;
+    padding: 0 8px;
+}
+
+#pagination p strong{
+    color:#515151;
+    padding: 0 8px;
 }

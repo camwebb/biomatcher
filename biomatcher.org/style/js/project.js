@@ -75,7 +75,7 @@ $(document).ready(function() {
     
     $('#delete').click(function() {
         del_img();
-    });	     
+    });  
 });
 
 $(function() {

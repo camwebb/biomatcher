@@ -159,6 +159,14 @@ class M_pages extends CI_Model {
         $this->db->delete('image');
         return true;
     }
+    
+    function get_user($id_project){
+        $this->db->select('username');
+        $this->db->where('id',$id_project);
+        $query = $this->db->get('user');
+        return $query->result();
+        //print_r($query->result());
+    }
 }
 
 
