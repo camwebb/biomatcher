@@ -22,6 +22,16 @@
     }
 
     CI_ROOT = "<?=base_url() ?>";
+    
+    var num = 100; //number of pixels before modifying styles
+
+    $(window).bind('scroll', function () {
+        if ($(window).scrollTop() > num) {
+            $('#menu').addClass('fixed');
+        } else {
+            $('#menu').removeClass('fixed');
+        }
+    });
     </script>
 
 </head>
@@ -93,7 +103,7 @@
         }elseif ($this->session->userdata('username') !=""){
         ?>
         <div id="page_menu">
-            <div style="float: left; padding-top: 10px;">
+            <div style="float: left; padding-top: 13px;">
             <p>Welcome, <?php echo $this->session->userdata('name'); ?></p>
             </div>
             <div id="cmenu">
@@ -107,15 +117,16 @@
                 </ul>
             <!-- close menu -->
             </div>
-            
-            <div id="menu">
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div id="menu">
                 <ul class="tabs">
                   <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
                   <li class="<?php echo $selected == 'Projects'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/projects">My Project(s)</a></li>
                   <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
                 </ul>
             </div>
-        </div>
         <?php
         }
         ?>

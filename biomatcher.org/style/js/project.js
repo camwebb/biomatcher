@@ -165,10 +165,3 @@ $(function(){
    }); 
 });
 
-$(function(){
-    $("#openMatch_panel").click(function(){
-        $("div#toppanel-disable").show();
-        $("div#match").show();
-    });
-});
-
