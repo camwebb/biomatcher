@@ -609,21 +609,22 @@ ul.dropdown2 li:hover > ul {
 }
 
 #match{
+    height: 641px;
     margin:0 auto;
     top:0%;
     left:0%;
-    padding:10px;
-    z-index: 30;
+    padding: 10px 140px;
 }
 
 #image1 img{
-    width: 400px;
-    height: 45%;
+    height: 310px;
+    width: 310px;
 }
 
 #image2 img{
-    width: 400px;
-    height: 45%;
+    /*width: 400px;*/
+    height: 310px;
+    width: 310px;
 }
 
 #pagination p a{
@@ -646,4 +647,21 @@ ul.dropdown2 li:hover > ul {
 #pagination p strong{
     color:#515151;
     padding: 0 8px;
+}
+
+#noActiveProject{
+    
+}
+
+#imageForMatch{
+    width: 310px;
+    float: left;
+    height: 631px;
+}
+
+#formMatch{
+    float:  right;
+    text-align: center;
+    top: 46%;
+    position: relative;
 }

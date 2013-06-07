@@ -167,6 +167,19 @@ class M_pages extends CI_Model {
         return $query->result();
         //print_r($query->result());
     }
+    
+    function activeProject($projectID)
+    {
+        //checking is project active
+        $this->db->where('projectID',$projectID);
+        $query = $this->db->get('image');
+        if ($query->num_rows() > 5){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
 
 
