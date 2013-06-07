@@ -180,6 +180,36 @@ class M_pages extends CI_Model {
             return false;
         }
     }
+    
+    function get_projectA(){
+        $this->load->dbutil();
+        $project_id = $this->uri->segment(4, 0);
+        $this->db->select('*');    
+        $this->db->from('matches');
+        $this->db->join('image', 'matches.imageA = image.id');
+        $this->db->where('projectID', $project_id); 
+        $query = $this->db->get();
+        return $query->result();        
+    }
+    
+    function get_projectB(){
+        $this->load->dbutil();
+        $project_id = $this->uri->segment(4, 0);
+        $this->db->select('*');    
+        $this->db->from('matches');
+        $this->db->join('image', 'matches.imageA = image.id');
+        $this->db->where('projectID', $project_id); 
+        $query = $this->db->get();  
+        foreach ($query->result() as $row)
+        {
+           $imageB= $row->imageB; 
+        }      
+        
+           $this->db->select('*');    
+           $this->db->from('image');
+           $this->db->where('id', $imageB);
+           $query2 = $this->db->get();
+    }
 }
 
 

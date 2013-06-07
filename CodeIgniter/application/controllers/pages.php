@@ -73,6 +73,8 @@ class Pages extends CI_Controller {
     }
     $data['list_project'] = $this->m_pages->list_project();
     $data['project_title'] = $this->m_pages->project_title();
+    $data['get_projectA'] = $this->m_pages->get_projectA();
+    $data['get_projectB'] = $this->m_pages->get_projectB();
     
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
