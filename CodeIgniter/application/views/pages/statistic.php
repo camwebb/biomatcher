@@ -38,7 +38,7 @@
                         <p><?php echo $projectA->nameOri; ?></p>
                     </td>
                     <td>
-                        <p><?php //echo $projectB->nameOri; ?></p>
+                        <p><?php //echo $projectB['nameOri']; ?></p>
                     </td>
                     <td>
                         <p>3</p>

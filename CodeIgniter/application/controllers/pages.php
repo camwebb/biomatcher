@@ -554,7 +554,7 @@ class Pages extends CI_Controller {
         echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done', 'report' => $report_file_exist, 'pID' => $project_id));
     }
     
-    function do_editAllLabel(){
+    function do_editAllLabel($user_id,$project_address,$project_name,$path_csv,$folder_encrypt){
         $csv = $this->input->post('csv');
         $user_id = $this->input->post('user_id');
         $project_address = $this->input->post('project_address'); 
@@ -571,7 +571,7 @@ class Pages extends CI_Controller {
         //echo '<pre>';
         //print_r($result);
         $this->load->model('m_pages');
-        $this->m_pages->update_csv();
+        $this->m_pages->update_csv($user_id,$project_address,$project_name,$path_csv,$folder_encrypt);
         delete_files($path_csv.'/', true);
         rmdir($path_csv.'/');
     }
@@ -579,14 +579,14 @@ class Pages extends CI_Controller {
     function find_IDLabel(){
         $id_label = $this->input->post('id_label');
         $this->load->model('m_pages');
-        $this->m_pages->id_label();
+        $this->m_pages->id_label($id_label);
      }
      
      function do_editLabel(){
         $id_label2 = $this->input->post('id_label2');
         $new_label = $this->input->post('new_label');
         $this->load->model('m_pages');
-        $this->m_pages->edit_label();
+        $this->m_pages->edit_label($id_label2,$new_label);
      }
     
     function deleteImage(){

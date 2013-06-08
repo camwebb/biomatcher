@@ -107,12 +107,7 @@ class M_pages extends CI_Model {
       // echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
     }    
     
-    function update_csv(){
-        $user_id = $this->input->post('user_id');
-        $project_address = $this->input->post('project_address'); 
-        $project_name = $this->input->post('project_name');
-        $path_csv = "/home/bmatch/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
-        $folder_encrypt = md5($user_id.'-'.$this->session->userdata('username').'_'.$project_address.'-'.$project_name);                 
+    function update_csv($user_id,$project_address,$project_name,$path_csv,$folder_encrypt){
         $this->load->dbforge();
         $this->dbforge->drop_table('tmp_image'); 
         $fields = array(
@@ -138,8 +133,7 @@ class M_pages extends CI_Model {
         $this->dbforge->drop_table('tmp_image');        
     }
     
-    function id_label(){
-        $id_label = $this->input->post('id_label');
+    function id_label($id_label){
         $query=$this->db->query("SELECT * FROM image where id='$id_label'");
         foreach ($query->result() as $row)
         {
@@ -147,9 +141,7 @@ class M_pages extends CI_Model {
         }
     }
     
-    function edit_label(){
-        $id_label2 = $this->input->post('id_label2');
-        $new_label = $this->input->post('new_label');
+    function edit_label($id_label2,$new_label){
         $query=$this->db->query("UPDATE image SET label='$new_label' WHERE id='$id_label2'");
         echo $new_label;
     }
@@ -182,33 +174,31 @@ class M_pages extends CI_Model {
     }
     
     function get_projectA(){
-        $this->load->dbutil();
         $project_id = $this->uri->segment(4, 0);
         $this->db->select('*');    
         $this->db->from('matches');
         $this->db->join('image', 'matches.imageA = image.id');
         $this->db->where('projectID', $project_id); 
         $query = $this->db->get();
-        return $query->result();        
+        return $query->result();       
     }
     
     function get_projectB(){
-        $this->load->dbutil();
         $project_id = $this->uri->segment(4, 0);
-        $this->db->select('*');    
+        $this->db->select('imageB');    
         $this->db->from('matches');
         $this->db->join('image', 'matches.imageA = image.id');
         $this->db->where('projectID', $project_id); 
-        $query = $this->db->get();  
-        foreach ($query->result() as $row)
+        $query = $this->db->get(); 
+        $a = $query->result_array();
+        foreach ($query->result_array() as $row)
         {
-           $imageB= $row->imageB; 
-        }      
-        
-           $this->db->select('*');    
-           $this->db->from('image');
-           $this->db->where('id', $imageB);
-           $query2 = $this->db->get();
+            $c = $row['imageB'];
+            $query2=$this->db->query("SELECT * FROM image where id='$c'"); 
+            $aaa = $query2->result_array();
+            echo '<pre>';
+            print_r($aaa);
+        }       
     }
 }
 
