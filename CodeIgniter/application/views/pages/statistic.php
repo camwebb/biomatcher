@@ -30,15 +30,15 @@
             
             <tbody id="test">
             <?php
-                foreach($get_projectA as $projectA){
-                    //foreach($get_projectB as $projectB){
+                foreach($get_projectB as $projectB){
+                foreach($get_projectA as $projectA) {           
             ?>
                 <tr>
                     <td>
-                        <p><?php echo $projectA->nameOri; ?></p>
+                        <p><?php echo $projectA->nameOri;?></p>
                     </td>
                     <td>
-                        <p><?php //echo $projectB['nameOri']; ?></p>
+                        <p><?php echo $projectB->nameOri; ?></p>
                     </td>
                     <td>
                         <p>3</p>
@@ -47,7 +47,7 @@
                         <p>4</p>
                     </td>
                 </tr> 
-             <?php } //} ?>   
+             <?php } } ?>   
             </tbody> 
         </table>
     </div>

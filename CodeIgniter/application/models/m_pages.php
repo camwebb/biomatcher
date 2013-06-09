@@ -179,27 +179,32 @@ class M_pages extends CI_Model {
         $this->db->from('matches');
         $this->db->join('image', 'matches.imageA = image.id');
         $this->db->where('projectID', $project_id); 
+        $this->db->group_by('matches.imageA');
         $query = $this->db->get();
         return $query->result();       
     }
     
     function get_projectB(){
         $project_id = $this->uri->segment(4, 0);
-        $this->db->select('imageB');    
+        $this->db->select('*');    
         $this->db->from('matches');
         $this->db->join('image', 'matches.imageA = image.id');
         $this->db->where('projectID', $project_id); 
         $query = $this->db->get(); 
         $a = $query->result_array();
-        foreach ($query->result_array() as $row)
-        {
-            $c = $row['imageB'];
-            $query2=$this->db->query("SELECT * FROM image where id='$c'"); 
-            $aaa = $query2->result_array();
-            echo '<pre>';
-            print_r($aaa);
-        }       
-    }
+        $b = array();
+        foreach($a as $c) {
+           $b[] = $c['imageB'];
+        }    
+        $d= $b;
+        //echo '<pre>';
+        //print_r($h);
+        $ids = join(',',$b);  
+        $query2=$this->db->query("SELECT * FROM image where id IN ($ids)"); 
+        return $query2->result();
+        
+        }
+    
 }
 
 

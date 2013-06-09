@@ -68,13 +68,17 @@ class Pages extends CI_Controller {
         }
         $imageRandom = $this->selectRandom();
         $data['imageformatch'] = $imageRandom;
-    }else{
+    }
+    if ($page == 'statistic'){
+        $data['get_projectA'] = $this->m_pages->get_projectA();
+        $data['get_projectB'] = $this->m_pages->get_projectB();
+    }
+    
+    else{
         $this->session->unset_userdata(array('shuffled_pid_A' => "", 'shuffled_pid_B' => "", 'username_A' => "", 'username_B' => ""));
     }
     $data['list_project'] = $this->m_pages->list_project();
     $data['project_title'] = $this->m_pages->project_title();
-    $data['get_projectA'] = $this->m_pages->get_projectA();
-    $data['get_projectB'] = $this->m_pages->get_projectB();
     
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
@@ -659,7 +663,6 @@ class Pages extends CI_Controller {
             echo $a->username;
         }
     }
-    
 }
 
 ?>
