@@ -30,24 +30,39 @@
             
             <tbody id="test">
             <?php
-                foreach($get_projectB as $projectB){
-                foreach($get_projectA as $projectA) {           
+                    $project_id = $this->uri->segment(4, 0);
+                    $this->db->distinct();
+                    $this->db->select('imageA,imageB');    
+                    $this->db->from('matches');
+                    $this->db->join('image', 'matches.imageA = image.id');
+                    $this->db->where('projectID', $project_id); 
+                    $query = $this->db->get();
+                    foreach ($query->result() as $row)
+                    {
+                       $imageA_id=$row->imageA;
+                       $imageB_id=$row->imageB;
+                       $query2=$this->db->query("SELECT same FROM matches WHERE imageA=$imageA_id and imageB=$imageB_id and same='yes'");
+                       $query3=$this->db->query("SELECT same FROM matches WHERE imageA=$imageA_id and imageB=$imageB_id and same='no'");
+                       $same= $query2->result_array();
+                       $diff= $query3->result_array();    
+                       $count_same = count($same); 
+                       $count_diff = count($diff);        
             ?>
                 <tr>
                     <td>
-                        <p><?php echo $projectA->nameOri;?></p>
+                        <p><?php echo $imageA_id;?></p>
                     </td>
                     <td>
-                        <p><?php echo $projectB->nameOri; ?></p>
+                        <p><?php echo $imageB_id; ?></p>
                     </td>
                     <td>
-                        <p>3</p>
+                        <p><?php echo $count_same; ?></p>
                     </td>
                     <td>
-                        <p>4</p>
+                        <p><?php echo $count_diff; ?></p>
                     </td>
                 </tr> 
-             <?php } } ?>   
+             <?php } //} ?>   
             </tbody> 
         </table>
     </div>

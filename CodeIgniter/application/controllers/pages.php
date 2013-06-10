@@ -36,6 +36,7 @@ class Pages extends CI_Controller {
     if ($page == 'statistic'){
         $data['get_projectA'] = $this->m_pages->get_projectA();
         $data['get_projectB'] = $this->m_pages->get_projectB();
+        $data['count_same'] = $this->m_pages->count_same();
     }
     
     if ($page == 'match'){

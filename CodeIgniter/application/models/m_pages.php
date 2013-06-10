@@ -175,13 +175,14 @@ class M_pages extends CI_Model {
     
     function get_projectA(){
         $project_id = $this->uri->segment(4, 0);
-        $this->db->select('*');    
+        $this->db->distinct();
+        $this->db->select('imageA,imageB');    
         $this->db->from('matches');
         $this->db->join('image', 'matches.imageA = image.id');
         $this->db->where('projectID', $project_id); 
-        $this->db->group_by('matches.imageA');
+        //$this->db->group_by('matches.imageA');
         $query = $this->db->get();
-        return $query->result();       
+        return $query->result();    
     }
     
     function get_projectB(){
@@ -202,8 +203,30 @@ class M_pages extends CI_Model {
         $ids = join(',',$b);  
         $query2=$this->db->query("SELECT * FROM image where id IN ($ids)"); 
         return $query2->result();
-        
+    }
+    
+    function count_same(){
+        $project_id = $this->uri->segment(4, 0);
+        $this->db->distinct();
+        $this->db->select('imageA,imageB');    
+        $this->db->from('matches');
+        $this->db->join('image', 'matches.imageA = image.id');
+        $this->db->where('projectID', $project_id); 
+        //$this->db->group_by('matches.imageA');
+        $query = $this->db->get();
+        foreach ($query->result() as $row)
+        {
+           $aa=$row->imageA;
+           $bb=$row->imageB;
+           $query2=$this->db->query("SELECT * FROM matches WHERE imageA=$aa and imageB=$bb");
+           $aa= $query2->result_array();     
+           $a = count($aa);
+           //echo '<pre>';
+           //print_r($a);
         }
+        
+        
+    }
     
 }
 
