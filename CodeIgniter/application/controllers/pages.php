@@ -32,6 +32,12 @@ class Pages extends CI_Controller {
        	$data['list_images'] = $this->m_pages->list_image($config['per_page'],$this->uri->segment(5));
         $data['get_csv'] = $this->m_pages->get_csv(); 
     }
+    
+    if ($page == 'statistic'){
+        $data['get_projectA'] = $this->m_pages->get_projectA();
+        $data['get_projectB'] = $this->m_pages->get_projectB();
+    }
+    
     if ($page == 'match'){
         if ($this->session->userdata('shuffled_pid_A') == "" && $this->session->userdata('shuffled_pid_B') == ""){
             $this->db->select('id, userID');
@@ -68,15 +74,10 @@ class Pages extends CI_Controller {
         }
         $imageRandom = $this->selectRandom();
         $data['imageformatch'] = $imageRandom;
-    }
-    if ($page == 'statistic'){
-        $data['get_projectA'] = $this->m_pages->get_projectA();
-        $data['get_projectB'] = $this->m_pages->get_projectB();
-    }
-    
-    else{
+    }else{
         $this->session->unset_userdata(array('shuffled_pid_A' => "", 'shuffled_pid_B' => "", 'username_A' => "", 'username_B' => ""));
     }
+    
     $data['list_project'] = $this->m_pages->list_project();
     $data['project_title'] = $this->m_pages->project_title();
     
@@ -290,7 +291,7 @@ class Pages extends CI_Controller {
         
         if($this->form_validation->run() == FALSE)
         {
-        $this->register($page = 'projects');
+        $this->register();
         }
         else
         {

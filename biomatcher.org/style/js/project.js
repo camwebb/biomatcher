@@ -54,10 +54,18 @@ $(document).ready(function() {
         
     }
     
+    function insert_match(){
+        
+    }
+    
     function redirect(url)
     {
         window.location.href = url;
     }
+    
+    $('#sameMatch').click(function(){
+        insert_match();
+    });
     
     $('a#close, #mask').bind('click', function() { 
         $('#mask , .popup').fadeOut(300 , function() {
