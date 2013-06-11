@@ -54,8 +54,25 @@ $(document).ready(function() {
         
     }
     
-    function insert_match(){
+    function insert_match(same){
+        var imageIDA = $("#imageIDA").val();
+        var imageIDB = $("#imageIDB").val();
+        var data = {'imageIDA' : imageIDA, 'imageIDB' : imageIDB, 'same' : same}
+        console.log(data);
         
+        $.ajax({
+            type: "POST",
+            url: CI_ROOT+"index.php/pages/insert_match",
+            dataType: "json",
+            data: data,
+            cache:false,
+            success: function(status){
+                if(status != 'error')
+        		{
+                    redirect('');
+                }
+            }
+        });
     }
     
     function redirect(url)
@@ -64,7 +81,13 @@ $(document).ready(function() {
     }
     
     $('#sameMatch').click(function(){
-        insert_match();
+        var same = 'yes';
+        insert_match(same);
+    });
+    
+    $('#differentMatch').click(function(){
+        var same = 'no';
+        insert_match(same);
     });
     
     $('a#close, #mask').bind('click', function() { 

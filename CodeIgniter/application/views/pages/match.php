@@ -16,13 +16,13 @@ $(document).ready(function() {
             $image_A = $imageformatch['shuffled_image_A']['md5sum'];
             $user_A = $this->session->userdata('username_A');
             $pid_A = $imageformatch['shuffled_image_A']['projectID'];
-            $imageA = $imageformatch['shuffled_image_A']['id'];
+            $imageIDA = $imageformatch['shuffled_image_A']['id'];
             
             //data for image B
             $image_B = $imageformatch['shuffled_image_B']['md5sum'];
             $user_B = $this->session->userdata('username_B');
             $pid_B = $imageformatch['shuffled_image_B']['projectID'];
-            $imageB = $imageformatch['shuffled_image_B']['id'];
+            $imageIDB = $imageformatch['shuffled_image_B']['id'];
         ?>
         <div id="imageForMatch">
             <div id="image1">
@@ -48,8 +48,8 @@ $(document).ready(function() {
         ?>
         
         <div id="formMatch">
-            <input type="hidden" name="imageA" value="<?php echo $imageA; ?>" />
-            <input type="hidden" name="imageB" value="<?php echo $imageB; ?>" />
+            <input id="imageIDA" type="hidden" name="imageA" value="<?php echo $imageIDA; ?>" />
+            <input id="imageIDB" type="hidden" name="imageB" value="<?php echo $imageIDB; ?>" />
             <button class="box-button" id="sameMatch">Same</button>
             <button class="box-button" id="differentMatch">Different</button>
         </div>               

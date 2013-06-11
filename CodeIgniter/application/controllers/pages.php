@@ -16,12 +16,18 @@ class Pages extends CI_Controller {
     $this->load->model('m_pages');
     
     if ($page == 'project'){
+        
+        $id_project = $this->uri->segment(4, 0);
+        if(!$this->m_pages->check_user_project($id_project)){
+            show_404();
+        }
+        
         $this->load->library('pagination');
-        //count the total rows of tb_book
-        $this->db->where('projectID',$this->uri->segment(4, 0));
+        //count the total rows of images
+        $this->db->where('projectID',$id_project);
         $getData = $this->db->get('image');
         $count_images = $getData->num_rows();
-        $config['base_url'] = base_url().'index.php/pages/view/project/'.$this->uri->segment(4, 0).'/';
+        $config['base_url'] = base_url().'index.php/pages/view/project/'.$id_project.'/';
         $config['total_rows'] = $count_images; //total rows
         $config['per_page'] = '10'; //the number of per page for pagination
         $config['uri_segment'] = 5; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
@@ -31,12 +37,6 @@ class Pages extends CI_Controller {
         
        	$data['list_images'] = $this->m_pages->list_image($config['per_page'],$this->uri->segment(5));
         $data['get_csv'] = $this->m_pages->get_csv(); 
-    }
-    
-    if ($page == 'statistic'){
-        $data['get_projectA'] = $this->m_pages->get_projectA();
-        $data['get_projectB'] = $this->m_pages->get_projectB();
-        $data['count_same'] = $this->m_pages->count_same();
     }
     
     if ($page == 'match'){
@@ -77,6 +77,37 @@ class Pages extends CI_Controller {
         $data['imageformatch'] = $imageRandom;
     }else{
         $this->session->unset_userdata(array('shuffled_pid_A' => "", 'shuffled_pid_B' => "", 'username_A' => "", 'username_B' => ""));
+    }
+    
+    if ($page == 'statistic'){
+        $project_id = $this->uri->segment(4, 0);
+
+        if(!$this->m_pages->check_user_project($project_id)){
+            show_404();
+        }
+        $matches = array();
+        $total = array();
+        
+        $images = $this->m_pages->match_images($project_id);
+        
+        foreach ($images as $id){
+            $A = $this->m_pages->get_name_image($id->imageA);
+            $B = $this->m_pages->get_name_image($id->imageB);
+            
+            $filenameA = $A[0]->nameOri;
+            $filenameB = $B[0]->nameOri;
+            
+            $same = $this->m_pages->same($id->imageA, $id->imageB, 'yes');
+            $different = $this->m_pages->same($id->imageA, $id->imageB, 'no');
+            
+            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $same, 'different' => $different);
+        }
+        
+        $matches_send = array_map("unserialize", array_unique(array_map("serialize", $matches)));
+        
+        $data['matches'] = $matches_send;
+        $data['totalMatches'] = count($matches);
+
     }
     
     $data['list_project'] = $this->m_pages->list_project();
@@ -664,6 +695,29 @@ class Pages extends CI_Controller {
         foreach ($te as $a){
             echo $a->username;
         }
+    }
+    
+    function insert_match(){
+        $this->load->model('m_pages');
+        
+        $imageIDA = $this->input->post('imageIDA');
+        $imageIDB = $this->input->post('imageIDB');
+        $same     = $this->input->post('same');
+        $matcher  = $this->session->userdata('id_user');
+        $date     = date("Y-m-d H:i:s");
+        
+        if (!empty($imageIDA) && !empty($imageIDB) && !empty($matcher)){
+            $data     = array('id' => '', 'imageA' => $imageIDA, 'imageB' => $imageIDB, 'time' => $date, 'matcher' => $matcher, 'same' => $same);
+            if($this->m_pages->insert_match($data)){
+                $status = 'success';
+            }else{
+                $status = 'error';
+            }
+        }else{
+            $status = 'error';
+        }
+        
+        echo json_encode(array('status' => $status));
     }
 }
 

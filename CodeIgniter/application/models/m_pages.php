@@ -152,12 +152,12 @@ class M_pages extends CI_Model {
         return true;
     }
     
-    function get_user($id_project){
+    function get_user($idUser){
+        //get one user data
         $this->db->select('username');
-        $this->db->where('id',$id_project);
+        $this->db->where('id',$idUser);
         $query = $this->db->get('user');
         return $query->result();
-        //print_r($query->result());
     }
     
     function activeProject($projectID)
@@ -173,59 +173,57 @@ class M_pages extends CI_Model {
         }
     }
     
-    function get_projectA(){
-        $project_id = $this->uri->segment(4, 0);
-        $this->db->distinct();
-        $this->db->select('imageA,imageB');    
-        $this->db->from('matches');
-        $this->db->join('image', 'matches.imageA = image.id');
-        $this->db->where('projectID', $project_id); 
-        //$this->db->group_by('matches.imageA');
-        $query = $this->db->get();
-        return $query->result();    
+    function insert_match($data){
+        $this->db->insert('match', $data);
     }
     
-    function get_projectB(){
-        $project_id = $this->uri->segment(4, 0);
-        $this->db->select('*');    
-        $this->db->from('matches');
-        $this->db->join('image', 'matches.imageA = image.id');
-        $this->db->where('projectID', $project_id); 
-        $query = $this->db->get(); 
-        $a = $query->result_array();
-        $b = array();
-        foreach($a as $c) {
-           $b[] = $c['imageB'];
-        }    
-        $d= $b;
-        //echo '<pre>';
-        //print_r($h);
-        $ids = join(',',$b);  
-        $query2=$this->db->query("SELECT * FROM image where id IN ($ids)"); 
-        return $query2->result();
+    function match_images($key){
+        $this->db->distinct();  
+        $this->db->from('match');
+        $this->db->join('image', 'match.imageA = image.id');
+        $this->db->where('projectID', $key);
+        $query = $this->db->get();
+        return $query->result();
     }
     
-    function count_same(){
-        $project_id = $this->uri->segment(4, 0);
-        $this->db->distinct();
-        $this->db->select('imageA,imageB');    
-        $this->db->from('matches');
-        $this->db->join('image', 'matches.imageA = image.id');
-        $this->db->where('projectID', $project_id); 
-        //$this->db->group_by('matches.imageA');
-        $query = $this->db->get();
-        foreach ($query->result() as $row)
-        {
-           $aa=$row->imageA;
-           $bb=$row->imageB;
-           $query2=$this->db->query("SELECT * FROM matches WHERE imageA=$aa and imageB=$bb");
-           $aa= $query2->result_array();     
-           $a = count($aa);
-           //echo '<pre>';
-           //print_r($a);
+    function get_name_image($id){
+        $this->db->select('nameOri');
+        $this->db->where('id',$id);
+        $query = $this->db->get('image');
+        return $query->result();
+    }
+    
+    function same($imageA, $imageB, $same){
+        $where = array('imageA'=> $imageA, 'imageB' => $imageB, 'same' => $same);
+        
+        $query = $this->db->get_where('match', $where);
+
+        return $query->num_rows();
+    }
+    
+    function total_matches($imageA){
+        $this->db->where('imageA IN ('.implode(',',$imageA).')', NULL, FALSE);
+        $query = $this->db->get('match');
+        return $query->num_rows();
+    }
+    
+    function check_user_project($id_project){
+        //get user id from project
+        $this->db->where('id',$id_project);
+        $this->db->select('userID');
+        $query = $this->db->get('project');
+        $result = $query->result();
+        
+        $userID = "";
+        foreach ($result as $user){
+            $userID = $user->userID;
         }
         
-        
+        if ($userID == $this->session->userdata('id_user')){
+            return true;
+        }else{
+            return false;
+        }
     }
     
 }

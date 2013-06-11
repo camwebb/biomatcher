@@ -10,12 +10,15 @@
             foreach($list_project as $list){
             ?>
             <tr>
-                <td style="width: 90%;">
+                <td style="width: 80%;">
                     <li><?php echo $list->name; ?></li>
                 </td>
                 <td>
                     <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->id; ?>" class="box-button">Go</a>
                 </td>
+                <td>
+                    <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->id; ?>" class="box-button">Statistic</a>
+                </td>                
             </tr>
             <?php
             }

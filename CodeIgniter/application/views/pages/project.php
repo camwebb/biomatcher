@@ -71,6 +71,7 @@
             </tbody>
             
             <div id="pagination" style="float: left;"> <?php echo $this->pagination->create_links(); ?> </div>
+            <div class="clear"></div>
             <div style="float: right;">
                 <span>
                     <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">

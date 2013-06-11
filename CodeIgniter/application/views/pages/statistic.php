@@ -4,20 +4,30 @@
     foreach($project_title as $p_title){
     ?>
     <h2 style="float: left;"><?php echo $p_title->name; ?></h2>  
+    
+    <div style="float: right;">
+        <span>
+            <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">
+                <img style="height: 36px; float:left" src="<?php echo base_url(); ?>style/img/arrow-left.png" />
+                <p style="float: right; margin-top: 7px;">Back to project</p>
+            </a>
+        </span>
+    </div>
+    
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
     
-    <h3 style="margin-top: 20px;">Total Matches : </h3>
+    <h3 style="margin-top: 20px;">Total Matches : <?php echo $totalMatches; ?></h3>
     
     <div class="project_table" id="files">
         <table style="width: 100%;" id="projectTable">
             <thead>
                 <tr>
                     <td>
-                        <p>Project A</p>
+                        <p>Image A</p>
                     </td>
                     <td>
-                        <p>Project B</p>
+                        <p>Image B</p>
                     </td>
                     <td>
                         <p>Same</p>
@@ -30,39 +40,25 @@
             
             <tbody id="test">
             <?php
-                    $project_id = $this->uri->segment(4, 0);
-                    $this->db->distinct();
-                    $this->db->select('imageA,imageB');    
-                    $this->db->from('matches');
-                    $this->db->join('image', 'matches.imageA = image.id');
-                    $this->db->where('projectID', $project_id); 
-                    $query = $this->db->get();
-                    foreach ($query->result() as $row)
-                    {
-                       $imageA_id=$row->imageA;
-                       $imageB_id=$row->imageB;
-                       $query2=$this->db->query("SELECT same FROM matches WHERE imageA=$imageA_id and imageB=$imageB_id and same='yes'");
-                       $query3=$this->db->query("SELECT same FROM matches WHERE imageA=$imageA_id and imageB=$imageB_id and same='no'");
-                       $same= $query2->result_array();
-                       $diff= $query3->result_array();    
-                       $count_same = count($same); 
-                       $count_diff = count($diff);        
+            foreach ($matches as $match){            
             ?>
                 <tr>
                     <td>
-                        <p><?php echo $imageA_id;?></p>
+                        <p><?php echo $match['filenameA']; ?></p>
                     </td>
                     <td>
-                        <p><?php echo $imageB_id; ?></p>
+                        <p><?php echo $match['filenameB']; ?></p>
                     </td>
                     <td>
-                        <p><?php echo $count_same; ?></p>
+                        <p><?php echo $match['same']; ?></p>
                     </td>
                     <td>
-                        <p><?php echo $count_diff; ?></p>
+                        <p><?php echo $match['different']; ?></p>
                     </td>
-                </tr> 
-             <?php } //} ?>   
+                </tr>
+            <?php
+            }
+            ?>
             </tbody> 
         </table>
     </div>
