@@ -33,7 +33,6 @@ $(document).ready(function() {
         var pID=$("#pid").val();
         var pagination=$("#pagination").val();
         var data_img = { 'id_image' : arr_img, 'pid' : pID, 'pagination' : pagination};
-        console.log(data_img);
         $.ajax({
             type: "POST",
             url: CI_ROOT+"index.php/pages/deleteImage",
@@ -80,6 +79,18 @@ $(document).ready(function() {
         window.location.href = url;
     }
     
+    function insertProject(){
+        alert('masuk function');
+    }
+    
+    $('#delete').click(function() {
+        del_img();
+    }); 
+    
+    /*$('#button_addProject').click(function(){
+        insertProject();
+    });*/
+    
     $('#sameMatch').click(function(){
         var same = 'yes';
         insert_match(same);
@@ -102,11 +113,7 @@ $(document).ready(function() {
     
     /*editLabel function*/	
     $("#editAll").bind("click",editAll);
-    $("#cancelLabel").bind("click",cancelAllLabel);
-    
-    $('#delete').click(function() {
-        del_img();
-    });  
+    $("#cancelLabel").bind("click",cancelAllLabel); 
 });
 
 $(function() {

@@ -40,7 +40,8 @@ class Pages extends CI_Controller {
     }
     
     if ($page == 'match'){
-        if ($this->session->userdata('shuffled_pid_A') == "" && $this->session->userdata('shuffled_pid_B') == ""){
+        if ($this->session->userdata('shuffled_pid') == ""){
+            $this->session->set_userdata(array('count_match' => 0));
             $this->db->select('id, userID');
             $project_query = $this->db->get('project');
             $result_project = $project_query->result();
@@ -58,25 +59,25 @@ class Pages extends CI_Controller {
             
             if(!empty($shuffled_project)){
                 $pidA = $shuffled_project[0]->id;
-                $pidB = $shuffled_project[1]->id;
                 $userID_A = $shuffled_project[0]->userID;
-                $userID_B = $shuffled_project[1]->userID;
                 
                 //get username of project
                 $get_username_A = $this->m_pages->get_user($userID_A);
-                $get_username_B = $this->m_pages->get_user($userID_B);
                 
                 $username_A = $get_username_A[0]->username;
-                $username_B = $get_username_B[0]->username;
                 
-                //set session for matching from 2 projects random
-                $this->session->set_userdata(array('shuffled_pid_A' =>$pidA,'shuffled_pid_B' => $pidB, 'username_A' => $username_A, 'username_B' => $username_B));
+                //set session for matching from a project random
+                $this->session->set_userdata(array('shuffled_pid' =>$pidA, 'username_pid' => $username_A));
             }
         }
+        $count_match = $this->session->userdata('count_match') + 1;
+        $this->session->set_userdata(array('count_match' =>$count_match));
         $imageRandom = $this->selectRandom();
         $data['imageformatch'] = $imageRandom;
+        $data['count_match'] = $count_match;
+        
     }else{
-        $this->session->unset_userdata(array('shuffled_pid_A' => "", 'shuffled_pid_B' => "", 'username_A' => "", 'username_B' => ""));
+        $this->session->unset_userdata(array('shuffled_pid' => "", 'username_pid' => ""));
     }
     
     if ($page == 'statistic'){
@@ -202,7 +203,7 @@ class Pages extends CI_Controller {
 		
     }
     
-    function autoLogin()
+    function userlog()
     {
         $this->load->helper('cookie');
         $this->load->model('m_pages');
@@ -247,7 +248,7 @@ class Pages extends CI_Controller {
                 else
                 {
                     //incorrect password
-                    $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => "", 'shuffled_pid_A' => "", 'shuffled_pid_B' => ""));
+                    $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => "", 'shuffled_pid' => ""));
                     $this->session->set_flashdata('message', 'Incorrect password.');
                     redirect('');
                 }
@@ -266,7 +267,8 @@ class Pages extends CI_Controller {
 	{
 		$this->load->helper('cookie');
 
-	    $this->session->unset_userdata(array('username' => "", 'id_user' => ""));
+	    //$this->session->unset_userdata(array('username' => "", 'id_user' => ""));
+        $this->session->sess_destroy();
 		delete_cookie("user");
 		delete_cookie("pass");
         redirect('', 'refresh');
@@ -658,23 +660,17 @@ class Pages extends CI_Controller {
     
     function selectRandom(){
         $time_start = $this->microtime_float();
-        if($this->session->userdata('username_A')!= "" && $this->session->userdata('username_B')!= ""){
+        if($this->session->userdata('username_pid')!= ""){
 
-            $pidA = $this->session->userdata('shuffled_pid_A');
-            $pidB = $this->session->userdata('shuffled_pid_B');
+            $pidA = $this->session->userdata('shuffled_pid');
             
             $this->db->where('projectID',$pidA);
             $image_query_A = $this->db->get('image');
             $image_A = $image_query_A->result_array();
             shuffle ($image_A);
             $shuffled_image_A = $image_A[0];
-            
-            $this->db->where('projectID',$pidB);
-            $image_query_B = $this->db->get('image');
-            $image_B = $image_query_B->result_array();
-            shuffle ($image_B);
-            $shuffled_image_B = $image_B[0];
-            
+            $shuffled_image_B = $image_A[1];
+
             $time_end = $this->microtime_float();
             $time= $time_end - $time_start;
     

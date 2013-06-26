@@ -653,7 +653,7 @@ ul.dropdown2 li:hover > ul {
 }
 
 #imageForMatch{
-    width: 310px;
+    width: auto;
     float: left;
     height: 631px;
 }

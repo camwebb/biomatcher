@@ -57,7 +57,7 @@
         <?php
             }elseif($title == 'Home'){
                 if($this->input->cookie('user') !== FALSE){
-                    redirect('pages/autoLogin');
+                    redirect('pages/userlog');
                 }
             //session is empty, show login box.
         ?>

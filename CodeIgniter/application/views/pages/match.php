@@ -11,23 +11,21 @@ $(document).ready(function() {
 
     <div id="match">
         <?php
-        if($this->session->userdata('username_A')!= "" && $this->session->userdata('username_B')!= ""){
-        //data for image A
-            $image_A = $imageformatch['shuffled_image_A']['md5sum'];
-            $user_A = $this->session->userdata('username_A');
-            $pid_A = $imageformatch['shuffled_image_A']['projectID'];
-            $imageIDA = $imageformatch['shuffled_image_A']['id'];
+        if($this->session->userdata('username_pid')!= ""){
+        //data for image matching
+            $user = $this->session->userdata('username_pid');
+            $pid = $imageformatch['shuffled_image_A']['projectID'];
             
-            //data for image B
+            $image_A = $imageformatch['shuffled_image_A']['md5sum'];
             $image_B = $imageformatch['shuffled_image_B']['md5sum'];
-            $user_B = $this->session->userdata('username_B');
-            $pid_B = $imageformatch['shuffled_image_B']['projectID'];
+            
+            $imageIDA = $imageformatch['shuffled_image_A']['id'];
             $imageIDB = $imageformatch['shuffled_image_B']['id'];
         ?>
         <div id="imageForMatch">
             <div id="image1">
                 <a href="">
-                    <img src="<?php echo base_url().'data/'.$user_A.'/'.$pid_A.'/img/500px/'.$image_A.'.500px.jpg' ?>" />
+                    <img src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_A.'.500px.jpg' ?>" />
                 </a>
             </div>
             
@@ -35,7 +33,7 @@ $(document).ready(function() {
             
             <div id="image2">
                 <a href="">
-                    <img src="<?php echo base_url().'data/'.$user_B.'/'.$pid_B.'/img/500px/'.$image_B.'.500px.jpg' ?>" />
+                    <img src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_B.'.500px.jpg' ?>" />
                 </a>
             </div>
         </div>
@@ -52,6 +50,7 @@ $(document).ready(function() {
             <input id="imageIDB" type="hidden" name="imageB" value="<?php echo $imageIDB; ?>" />
             <button class="box-button" id="sameMatch">Same</button>
             <button class="box-button" id="differentMatch">Different</button>
+            <p>Count matches : <?php echo $this->session->userdata('count_match'); ?></p>
         </div>               
     </div>
     
