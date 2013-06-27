@@ -79,24 +79,20 @@ $(document).ready(function() {
         window.location.href = url;
     }
     
-    function insertProject(){
-        alert('masuk function');
-    }
-    
     $('#delete').click(function() {
         del_img();
-    }); 
-    
-    /*$('#button_addProject').click(function(){
-        insertProject();
-    });*/
+    });
     
     $('#sameMatch').click(function(){
+        $('#sameMatch').attr("disabled", true);
+        $('#differentMatch').attr("disabled", true);
         var same = 'yes';
         insert_match(same);
     });
     
     $('#differentMatch').click(function(){
+        $('#sameMatch').attr("disabled", true);        
+        $('#differentMatch').attr("disabled", true);
         var same = 'no';
         insert_match(same);
     });

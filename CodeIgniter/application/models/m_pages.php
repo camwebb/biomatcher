@@ -41,7 +41,6 @@ class M_pages extends CI_Model {
         $this->db->where('username',$key);
         $query = $this->db->get('user');
         if ($query->num_rows() > 0){
-    
             return true;
         }
         else{
@@ -49,9 +48,27 @@ class M_pages extends CI_Model {
         }
     }
     
-    function list_project(){
+    function project_exists($nameProject)
+    {
         $id_user = $this->session->userdata('id_user');
-        $query=$this->db->query("SELECT * FROM project where userID='$id_user' order by id ASC");
+        $where = array('name'=> $nameProject, 'userID' => $id_user);
+        
+        $query = $this->db->get_where('project', $where);
+        
+        if ($query->num_rows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    function list_project($perPage,$uri){
+        $id_user = $this->session->userdata('id_user');
+        //$query=$this->db->query("SELECT * FROM project where userID='$id_user' order by id ASC");
+        $this->db->where('userID',$id_user);
+        $this->db->order_by('id','ASC');
+        $query = $this->db->get('project', $perPage, $uri);
         return $query->result();
     }
     

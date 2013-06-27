@@ -612,18 +612,17 @@ ul.dropdown2 li:hover > ul {
     margin:0 auto;
     top:0%;
     left:0%;
-    padding: 10px 140px;
+    padding: 10px 0px;
 }
 
 #image1 img{
     height: 310px;
-    width: 310px;
+    width: auto;
 }
 
 #image2 img{
-    /*width: 400px;*/
     height: 310px;
-    width: 310px;
+    width: auto;
 }
 
 #pagination p a{

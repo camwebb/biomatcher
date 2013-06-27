@@ -25,7 +25,7 @@ $(document).ready(function() {
         <div id="imageForMatch">
             <div id="image1">
                 <a href="">
-                    <img src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_A.'.500px.jpg' ?>" />
+                    <img src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/ori/'.$image_A.'.ori.jpg' ?>" />
                 </a>
             </div>
             
@@ -33,7 +33,7 @@ $(document).ready(function() {
             
             <div id="image2">
                 <a href="">
-                    <img src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_B.'.500px.jpg' ?>" />
+                    <img src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/ori/'.$image_B.'.ori.jpg' ?>" />
                 </a>
             </div>
         </div>
@@ -50,7 +50,7 @@ $(document).ready(function() {
             <input id="imageIDB" type="hidden" name="imageB" value="<?php echo $imageIDB; ?>" />
             <button class="box-button" id="sameMatch">Same</button>
             <button class="box-button" id="differentMatch">Different</button>
-            <p>Count matches : <?php echo $this->session->userdata('count_match'); ?></p>
+            <p>Dev. info : <?php if($this->session->userdata('count_match')=="16"){ echo "pre-known";}else{ echo $this->session->userdata('count_match');} ?></p>
         </div>               
     </div>
     

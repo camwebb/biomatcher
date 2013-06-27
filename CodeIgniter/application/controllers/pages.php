@@ -35,8 +35,28 @@ class Pages extends CI_Controller {
         $config['full_tag_close'] = '</p>';
         $this->pagination->initialize($config); //initialize pagination
         
+        $data['project_title'] = $this->m_pages->project_title();
        	$data['list_images'] = $this->m_pages->list_image($config['per_page'],$this->uri->segment(5));
         $data['get_csv'] = $this->m_pages->get_csv(); 
+    }
+    
+    if ($page == 'projects'){
+        $this->load->library('pagination');
+        //count the total rows of projects
+        $id_user = $this->session->userdata('id_user');
+        $this->db->where('userID',$id_user);
+        $getData = $this->db->get('project');
+        $count_images = $getData->num_rows();
+        $config['base_url'] = base_url().'index.php/pages/view/projects/';
+        $config['total_rows'] = $count_images; //total rows
+        $config['per_page'] = '10'; //the number of per page for pagination
+        $config['uri_segment'] = 4; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $this->pagination->initialize($config); //initialize pagination
+        
+       	$data['list_project'] = $this->m_pages->list_project($config['per_page'],$this->uri->segment(4));
+        //$data['list_project'] = $this->m_pages->list_project();
     }
     
     if ($page == 'match'){
@@ -69,6 +89,9 @@ class Pages extends CI_Controller {
                 //set session for matching from a project random
                 $this->session->set_userdata(array('shuffled_pid' =>$pidA, 'username_pid' => $username_A));
             }
+        }
+        if ($this->session->userdata('count_match') == 16){
+            $this->session->set_userdata(array('count_match' => 0));
         }
         $count_match = $this->session->userdata('count_match') + 1;
         $this->session->set_userdata(array('count_match' =>$count_match));
@@ -110,9 +133,6 @@ class Pages extends CI_Controller {
         $data['totalMatches'] = count($matches);
 
     }
-    
-    $data['list_project'] = $this->m_pages->list_project();
-    $data['project_title'] = $this->m_pages->project_title();
     
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
@@ -359,8 +379,7 @@ class Pages extends CI_Controller {
                array(
                      'field'   => 'nameProject', 
                      'label'   => 'Project Name', 
-                     'rules'   => 'trim|required|min_length[4]|callback_project_exists|xss_clean'
-                     // fungsi callback_project_exist belom dibuat
+                     'rules'   => 'trim|required|min_length[4]|alpha_numeric|callback_project_exists|xss_clean'
                   ),
                array(
                      'field'   => 'type', 
@@ -378,10 +397,22 @@ class Pages extends CI_Controller {
         {
         $this->load->model('m_pages');
         $this->m_pages->add_project();
-        
-        $this->view($page = 'projects');
+        redirect('pages/view/projects', 'refresh');
         }
-        //redirect redirect('', 'refresh');
+    }
+    
+    function project_exists($key)
+    {
+        $this->load->model('m_pages');
+        if($this->m_pages->project_exists($key))
+        {
+            $this->form_validation->set_message('project_exists', 'Project name already exists');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }     
     }
     
     public function upload_file()
