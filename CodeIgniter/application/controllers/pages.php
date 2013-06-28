@@ -53,10 +53,10 @@ class Pages extends CI_Controller {
         $config['uri_segment'] = 4; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
         $config['full_tag_open'] = '<p>';
         $config['full_tag_close'] = '</p>';
-        $this->pagination->initialize($config); //initialize pagination
-        
+        $this->pagination->initialize($config); //initialize pagination    
        	$data['list_project'] = $this->m_pages->list_project($config['per_page'],$this->uri->segment(4));
         //$data['list_project'] = $this->m_pages->list_project();
+        $this->load->library('user_agent');
     }
     
     if ($page == 'match'){
@@ -104,6 +104,7 @@ class Pages extends CI_Controller {
     }
     
     if ($page == 'statistic'){
+        $data['project_title'] = $this->m_pages->project_title();
         $project_id = $this->uri->segment(4, 0);
 
         if(!$this->m_pages->check_user_project($project_id)){
@@ -655,6 +656,7 @@ class Pages extends CI_Controller {
      function do_editLabel(){
         $id_label2 = $this->input->post('id_label2');
         $new_label = $this->input->post('new_label');
+        $new_label = $this->security->xss_clean($new_label);
         $this->load->model('m_pages');
         $this->m_pages->edit_label($id_label2,$new_label);
      }

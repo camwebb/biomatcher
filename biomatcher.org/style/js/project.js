@@ -156,7 +156,7 @@ $(function(){
     success: function(data){
         //alert(data);
         $('html,body').animate({scrollTop:$("#slide_label"+id_label).offset().top},500);
-        $("#label"+id_label).replaceWith('<form id="formLabel'+id_label+'" method="POST"><input id="hide_cancelLabel'+id_label+'" type="text" name="new_label" value="'+data+'" /><input type="hidden" id="label_id'+id_label+'" name="id_label2" value="'+id_label+'"/><a class="button_edit_label" id="cancelLabel'+id_label+'">Cancel</a><a class="button_edit_label" id="editOneLabel'+id_label+'">Submit</a></form>');
+        $("#label"+id_label).replaceWith('<form id="formLabel'+id_label+'" method="POST" style="min-width:246px"><input id="hide_cancelLabel'+id_label+'" type="text" name="new_label" value="'+data+'" /><input type="hidden" id="label_id'+id_label+'" name="id_label2" value="'+id_label+'"/><a class="button_edit_label" id="cancelLabel'+id_label+'">Cancel</a><a class="button_edit_label" id="editOneLabel'+id_label+'">Submit</a></form>');
         $("#for_close_label"+id_label).css("background","#e6e6e6");       
         
         $("#cancelLabel"+id_label).click(function(){

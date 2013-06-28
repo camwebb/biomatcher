@@ -8,33 +8,42 @@
     
     <?php echo form_error('nameProject', '<div class="errorbox">', '</div>'); ?>
     <?php echo form_error('qcSet', '<div class="errorbox">', '</div>'); ?>
-    
-    <ol>
-        <table style="width: 100%;">
-            <?php
+    <?php 
+        $page=$this->uri->segment(4, 0);
+        $number=$page+1;
+        if($this->agent->is_browser('Chrome')){
+            $top="-21px";
+        }
+        else{
+            $top="0";
+        }
+    ?>
+    <ol start="<?php echo $number;?>">
+        <?php
             foreach($list_project as $list){
-            ?>
-            <tr>
-                <td style="width: 80%;">
-                    <li><?php echo $list->name; ?></li>
-                </td>
-                <td>
-                    <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->id; ?>" class="box-button">Go</a>
-                </td>
-                <td>
-                    <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->id; ?>" class="box-button">Statistic</a>
-                </td>                
-            </tr>
+        ?>
+        <li style="height: 45px;">
+            <div class="projects" style="float: left; position: relative; top:<?php echo $top; ?>">
+                <p><?php echo $list->name; ?></p>
+            </div>
+            <div class="projects" style="float: right; position: relative; top:<?php echo $top; ?>">
+                <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 10px 0 20px;">Go</a>
+                <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 30px 0 10px;">Statistic</a>
+            </div>
+            <div class="clear"></div>
+        </li>
+        
             <?php
             }
             ?>
-        </table>
     </ol>
     
     <br />
     
     <button class="box-button" id="addProject">Add Project</button>
     <br /><br />
+
+    
     
     <div id="addProject_panel">
         <?php echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>

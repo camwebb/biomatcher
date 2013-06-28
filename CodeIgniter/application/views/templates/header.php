@@ -28,8 +28,12 @@
     $(window).bind('scroll', function () {
         if ($(window).scrollTop() > num) {
             $('#menu').addClass('fixed');
+            $('#scroll_logout').show();
+            $('#menu li').addClass('addLogout');
         } else {
             $('#menu').removeClass('fixed');
+            $('#scroll_logout').hide();
+            $('#menu li').removeClass('addLogout');
         }
     });
     </script>
@@ -122,6 +126,7 @@
         <div class="clear"></div>
         <div id="menu">
                 <ul class="tabs">
+                  <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
                   <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
                   <li class="<?php echo $selected == 'Projects'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/projects">My Project(s)</a></li>
                   <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>

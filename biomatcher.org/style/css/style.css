@@ -208,6 +208,17 @@ ul.tabs li.selected{
     width:305px;
 }
 
+#menu li.addLogout {
+    float:right;
+    text-shadow: 0 1px 0 white;
+    border-right: 1px solid #eee;
+    border-right-color: rgba(0,0,0,0.04);
+    border-left: 1px solid #fcfcfc;
+    border-left-color: rgba(255,255,255,0.7);
+    border-bottom: 2px solid #DADADA;
+    width:228px;
+}
+
 #content{
     margin-top: 30px;
     padding: 0 20px;
@@ -573,7 +584,6 @@ ul.dropdown2 li:hover > ul {
 }
 
 .edit_label{
-    width: 248px;
     padding:5px;
     height: 36px;
 }
