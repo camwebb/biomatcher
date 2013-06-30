@@ -128,11 +128,11 @@ class M_pages extends CI_Model {
         $this->load->dbforge();
         $this->dbforge->drop_table('tmp_image'); 
         $fields = array(
-                        'nameOri' => array(
+                        'FILENAME' => array(
                                                  'type' => 'VARCHAR',
                                                  'constraint' => '200',
                                           ),
-                        'label' => array(
+                        'LABEL' => array(
                                                  'type' => 'VARCHAR',
                                                  'constraint' => '100',
                                                  'null' => TRUE,
@@ -144,9 +144,9 @@ class M_pages extends CI_Model {
         $this->load->library('csvreader');
         $result = $this->csvreader->parse_file($path_csv.'/'.$folder_encrypt.'.csv');
         $this->db->insert_batch('tmp_image', $result);
-        $query1= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = NULL WHERE image.projectID = $project_address AND tmp_image.label='';");
+        $query1= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.FILENAME = image.nameOri SET image.label = NULL WHERE image.projectID = $project_address AND tmp_image.LABEL='';");
         $this->db->insert_batch('tmp_image', $result);
-        $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.nameOri = image.nameOri SET image.label = tmp_image.label WHERE image.projectID = $project_address AND tmp_image.label!='';");
+        $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.FILENAME = image.nameOri SET image.label = tmp_image.LABEL WHERE image.projectID = $project_address AND tmp_image.LABEL!='';");
         $this->dbforge->drop_table('tmp_image');        
     }
     

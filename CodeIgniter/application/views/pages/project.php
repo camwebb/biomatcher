@@ -1,4 +1,5 @@
 <div class="wrapper">
+
 <div id="content">
     <?php
     foreach($project_title as $p_title){
@@ -46,11 +47,11 @@
                 
                 <tr>
                     <td style="width: 398px; height: 112px;">
-                        <p><?php echo $images->nameOri; ?></p>
+                        <p class="nameImage"><?php echo $images->nameOri; ?></p>
                     </td>
                     <td id="slide_label<?php echo $images->id; ?>" style="width: 248px; height: 112px;">
                         <div class="edit_label" id="for_close_label<?php echo $images->id; ?>">
-                            <p id="label<?php echo $images->id; ?>"><?php echo $images->label; ?></p>
+                            <p id="label<?php echo $images->id; ?>" class="label"><?php echo $images->label; ?></p>
                         </div>
                         <div id="error_msg<?php echo $images->id; ?>" style="display: none;"></div>
                     </td>
@@ -110,7 +111,7 @@
    <div id="draggable">           
    <div id="error_msg_all" style="display: none;"></div>
     <?php echo form_open('pages/do_editAllLabel');?>
-        <textarea style="margin-bottom: 5px;" id="labelProject" name="csv" rows="5" cols="35">nameOri,label,&#10;<?php foreach ($get_csv as $csv){ 
+        <textarea style="margin-bottom: 5px;" id="labelProject" name="csv" rows="20" cols="35">FILENAME,LABEL,&#10;<?php foreach ($get_csv as $csv){ 
                 echo $csv->nameOri.",".$csv->label.','.'&#10;';
                 }?>
         </textarea> 
@@ -145,6 +146,7 @@
         <?php echo form_close(); ?>
     </div>   
     <div class="separator"></div>
+    
     
 </div>
 <?php

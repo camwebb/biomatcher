@@ -555,13 +555,16 @@ ul.dropdown2 li:hover > ul {
 
 #draggable {
     display: none;
+    position: absolute;
+    top: 10%;
+    left: 34%;
     background: #353535; 
     width: 300px;
     padding: 5px;
-    cursor: move;
-   /* left:33%;*/
+ /* cursor: move;
+    left:33%;*/
     text-align: left;
-    text-indent: 0;        
+    text-indent: 0;   
 }
 
 #labelProject{

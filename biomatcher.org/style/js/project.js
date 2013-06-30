@@ -22,7 +22,9 @@ $(document).ready(function() {
     
     function editAll(){
         $("#draggable").fadeIn("normal");
-        $( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});
+        $('html,body').animate({scrollTop:$("#content").offset().top},500);
+        
+        //$( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});       
     }
     
     function del_img(){
