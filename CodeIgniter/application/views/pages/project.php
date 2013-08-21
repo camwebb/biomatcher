@@ -1,5 +1,4 @@
 <div class="wrapper">
-
 <div id="content">
     <?php
     foreach($project_title as $p_title){
@@ -146,7 +145,6 @@
         <?php echo form_close(); ?>
     </div>   
     <div class="separator"></div>
-    
     
 </div>
 <?php

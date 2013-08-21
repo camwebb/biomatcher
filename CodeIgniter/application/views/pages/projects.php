@@ -33,17 +33,15 @@
             <div class="clear"></div>
         </li>
         
-            <?php
+        <?php
             }
-            ?>
+        ?>
     </ol>
     
     <br />
     
     <button class="box-button" id="addProject">Add Project</button>
     <br /><br />
-
-    
     
     <div id="addProject_panel">
         <?php echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>

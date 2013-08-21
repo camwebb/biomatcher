@@ -9,7 +9,13 @@ $(document).ready(function() {
 <div class="wrapper">
 <div id="content" style="margin-top: 5px;">
 
+    <h2>Match</h2>
+    
+    <div class="separator"></div>
+    <div class="clear"></div>
+
     <div id="match">
+    
         <?php
         if($this->session->userdata('username_pid')!= ""){
         //data for image matching
@@ -21,22 +27,19 @@ $(document).ready(function() {
             
             $imageIDA = $imageformatch['shuffled_image_A']['id'];
             $imageIDB = $imageformatch['shuffled_image_B']['id'];
-        ?>
-        <div id="imageForMatch">
-            <div id="image1">
-                <a href="">
-                    <img src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/ori/'.$image_A.'.ori.jpg' ?>" />
-                </a>
-            </div>
-            
-            <div class="separator"></div>
-            
-            <div id="image2">
-                <a href="">
-                    <img src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/ori/'.$image_B.'.ori.jpg' ?>" />
-                </a>
-            </div>
+        ?>        
+        
+        <div id="image1">
+            <a href="" style="float: left;">
+                <img style="height: 410px; width:410px;" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_A.'.500px.jpg' ?>" />
+            </a>
         </div>
+        <div id="image2">
+            <a href="" style="float: right;">
+                <img style="height: 410px; width:410px;" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_B.'.500px.jpg' ?>" />
+            </a>
+        </div>
+        
         <?php
         }else{
         ?>
@@ -44,15 +47,18 @@ $(document).ready(function() {
         <?php
         }
         ?>
+        <div class="clear"></div>
+        <br />
         
-        <div id="formMatch">
+        <div style="text-align: center;">
             <input id="imageIDA" type="hidden" name="imageA" value="<?php echo $imageIDA; ?>" />
             <input id="imageIDB" type="hidden" name="imageB" value="<?php echo $imageIDB; ?>" />
             <button class="box-button" id="sameMatch">Same</button>
             <button class="box-button" id="differentMatch">Different</button>
-            <p>Dev. info : <?php if($this->session->userdata('count_match')=="16"){ echo "pre-known";}else{ echo $this->session->userdata('count_match');} ?></p>
-        </div>               
-    </div>
+            <p>Dev. info : <?php if($this->session->userdata('count_match')=="15"){ echo "pre-known";}else{ echo $this->session->userdata('count_match');} ?></p>
+        </div>
+        
+    </div> 
     
 </div>
 </div>

@@ -53,7 +53,8 @@ class Pages extends CI_Controller {
         $config['uri_segment'] = 4; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
         $config['full_tag_open'] = '<p>';
         $config['full_tag_close'] = '</p>';
-        $this->pagination->initialize($config); //initialize pagination    
+        $this->pagination->initialize($config); //initialize pagination
+        
        	$data['list_project'] = $this->m_pages->list_project($config['per_page'],$this->uri->segment(4));
         //$data['list_project'] = $this->m_pages->list_project();
         $this->load->library('user_agent');
@@ -61,7 +62,7 @@ class Pages extends CI_Controller {
     
     if ($page == 'match'){
         if ($this->session->userdata('shuffled_pid') == ""){
-            $this->session->set_userdata(array('count_match' => 0));
+            $this->session->set_userdata(array('count_match' => 1));
             $this->db->select('id, userID');
             $project_query = $this->db->get('project');
             $result_project = $project_query->result();
@@ -91,20 +92,16 @@ class Pages extends CI_Controller {
             }
         }
         if ($this->session->userdata('count_match') == 16){
-            $this->session->set_userdata(array('count_match' => 0));
+            $this->session->set_userdata(array('count_match' => 1));
         }
-        $count_match = $this->session->userdata('count_match') + 1;
-        $this->session->set_userdata(array('count_match' =>$count_match));
         $imageRandom = $this->selectRandom();
         $data['imageformatch'] = $imageRandom;
-        $data['count_match'] = $count_match;
         
     }else{
         $this->session->unset_userdata(array('shuffled_pid' => "", 'username_pid' => ""));
     }
     
     if ($page == 'statistic'){
-        $data['project_title'] = $this->m_pages->project_title();
         $project_id = $this->uri->segment(4, 0);
 
         if(!$this->m_pages->check_user_project($project_id)){
@@ -130,6 +127,7 @@ class Pages extends CI_Controller {
         
         $matches_send = array_map("unserialize", array_unique(array_map("serialize", $matches)));
         
+        $data['project_title'] = $this->m_pages->project_title();
         $data['matches'] = $matches_send;
         $data['totalMatches'] = count($matches);
 
@@ -380,7 +378,7 @@ class Pages extends CI_Controller {
                array(
                      'field'   => 'nameProject', 
                      'label'   => 'Project Name', 
-                     'rules'   => 'trim|required|min_length[4]|alpha_numeric|callback_project_exists|xss_clean'
+                     'rules'   => 'trim|required|min_length[4]|callback_project_exists|xss_clean' //alpha_numeric|
                   ),
                array(
                      'field'   => 'type', 
@@ -737,11 +735,10 @@ class Pages extends CI_Controller {
         
         if (!empty($imageIDA) && !empty($imageIDB) && !empty($matcher)){
             $data     = array('id' => '', 'imageA' => $imageIDA, 'imageB' => $imageIDB, 'time' => $date, 'matcher' => $matcher, 'same' => $same);
-            if($this->m_pages->insert_match($data)){
-                $status = 'success';
-            }else{
-                $status = 'error';
-            }
+            $this->m_pages->insert_match($data);
+            $status = 'success';
+            $count_match = $this->session->userdata('count_match') + 1;
+            $this->session->set_userdata(array('count_match' =>$count_match));
         }else{
             $status = 'error';
         }

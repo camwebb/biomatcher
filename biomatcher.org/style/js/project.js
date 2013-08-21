@@ -24,7 +24,7 @@ $(document).ready(function() {
         $("#draggable").fadeIn("normal");
         $('html,body').animate({scrollTop:$("#content").offset().top},500);
         
-        //$( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});       
+        //$( "#draggable" ).draggable({containment: "#content-frame;",scroll: false});
     }
     
     function del_img(){
@@ -59,7 +59,6 @@ $(document).ready(function() {
         var imageIDA = $("#imageIDA").val();
         var imageIDB = $("#imageIDB").val();
         var data = {'imageIDA' : imageIDA, 'imageIDB' : imageIDB, 'same' : same}
-        console.log(data);
         
         $.ajax({
             type: "POST",

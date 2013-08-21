@@ -219,6 +219,7 @@ ul.tabs li.selected{
     width:228px;
 }
 
+
 #content{
     margin-top: 30px;
     padding: 0 20px;
@@ -561,10 +562,10 @@ ul.dropdown2 li:hover > ul {
     background: #353535; 
     width: 300px;
     padding: 5px;
- /* cursor: move;
+    /*cursor: move;
     left:33%;*/
     text-align: left;
-    text-indent: 0;   
+    text-indent: 0;        
 }
 
 #labelProject{
@@ -621,7 +622,6 @@ ul.dropdown2 li:hover > ul {
 }
 
 #match{
-    height: 641px;
     margin:0 auto;
     top:0%;
     left:0%;
