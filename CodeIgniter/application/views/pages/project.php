@@ -110,8 +110,8 @@
    <div id="draggable">           
    <div id="error_msg_all" style="display: none;"></div>
     <?php echo form_open('pages/do_editAllLabel');?>
-        <textarea style="margin-bottom: 5px;" id="labelProject" name="csv" rows="20" cols="35">FILENAME,LABEL,&#10;<?php foreach ($get_csv as $csv){ 
-                echo $csv->nameOri.",".$csv->label.','.'&#10;';
+        <textarea style="margin-bottom: 5px;" id="labelProject" name="csv" rows="20" cols="35">FILENAME,LABEL&#10;<?php foreach ($get_csv as $csv){ 
+                echo $csv->nameOri.",".$csv->label.'&#10;';
                 }?>
         </textarea> 
         <input class="inputtext-upload" type="hidden" id="project_address" name="project_address" value="<?php echo $this->uri->segment(4, 0); ?>"/>
