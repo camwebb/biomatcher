@@ -242,7 +242,7 @@ class M_pages extends CI_Model {
         }else{
             return false;
         }
-    }
+    }     
     
     function pair($project_id){
         $this->db->select('*');
@@ -267,6 +267,14 @@ class M_pages extends CI_Model {
         //echo '</hr>';
         
     }
+    
+    function match(){        
+        $this->db->where('imageA',"31");
+        $this->db->where('imageB',"2");
+        $this->db->where('same',"yes");        
+        $this->db->from('match');
+        echo $this->db->count_all_results();
+}   
     
 }
 

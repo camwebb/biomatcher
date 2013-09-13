@@ -135,6 +135,8 @@ class Pages extends CI_Controller {
     
     if($page == 'array_to_scv'){
         $project_id = $this->uri->segment(4, 0);
+        $this->load->model('m_pages');
+        $ln = $this->m_pages->match();        
 
         if(!$this->m_pages->check_user_project($project_id)){
             show_404();
@@ -143,6 +145,7 @@ class Pages extends CI_Controller {
         $total = array();
         
         $images = $this->m_pages->match_images($project_id);
+        
         foreach ($images as $id){
             $A = $this->m_pages->get_name_image($id->imageA);
             $B = $this->m_pages->get_name_image($id->imageB);

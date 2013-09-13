@@ -32,28 +32,24 @@ function array_to_scv($array, $header_row = true, $col_sep = ",", $row_sep = "\n
 	return $output;
 }
 
-
-
-
-    $A = array();
+    $unique = array();
     $idx = 1;
     foreach ($matches as $match){     
-    
-    $nameA[0] = '';
-    $nameA[] = $match['filenameB'];
-    $array[0] = $nameA;
-    $array[] = array($idx => $match['filenameA']);
-    $idx++;
+        $unique[0] = '';
+        $unique[] = $match['filenameA'];       
+        $imageAunique = array_unique($unique);       
+        $array[0] = $imageAunique;
+        $array[] = array($idx => $match['filenameB'],"match" => "1");      
+        $idx++;
 }
     
     
-    echo '<pre>';
+echo '<pre>';
 print_r($array);
 
 //Converting array to SCV.
 $csv_data = array_to_scv($array, false);
 print_r($csv_data);
-
 
 echo '</pre>';
     
