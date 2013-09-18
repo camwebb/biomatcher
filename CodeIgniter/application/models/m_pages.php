@@ -228,6 +228,77 @@ class M_pages extends CI_Model {
         return $query->num_rows();
     }
     
+    function proccess_csv($project_id){
+        $list_image_a = array();
+        $list_image_a[] = "kolom/baris";
+        $list_image_b = array();
+        //get all imageA with the same projectID
+        $q_a = "SELECT id,nameOri from `image` where projectID = '".$project_id."' order by id";
+        $get_image_a = $this->db->query($q_a)->result();
+        /*
+        foreach($get_image_a as $row_a){
+            $q_b = "SELECT imageB from `match` where imageA = '".$row_a->id."' and same = 'yes' order by imageA";
+            $get_image_b = $this->db->query($q_b)->result();
+            if(!empty($get_image_b)){
+                //print_r($get_image_b);
+                foreach($get_image_b as $row_b){
+                    if(!in_array($row_b->imageB,$list_image_b)){
+                        $list_image_b[]=$row_b->imageB;    
+                    }   
+                }
+            }
+        }
+        print_r($list_image_b);die();
+        */
+        for($i=0;$i<count($get_image_a);$i++){
+            //get imageB for every imageA
+            $q_b = "SELECT imageB from `match` where imageA = '".$get_image_a[$i]->id."' and same = 'yes' order by imageA";
+            $get_image_b = $this->db->query($q_b)->result();
+            if(!empty($get_image_b)){
+                //print_r($get_image_b);
+                for($j=0;$j<count($get_image_b);$j++){
+                    if(!in_array($get_image_b[$j]->imageB,$list_image_b)){
+                        $list_image_b[]=$get_image_b[$j]->imageB;    
+                    }   
+                }
+            }
+            $list_image_a[]=$get_image_a[$i]->id;
+        }
+        ksort($list_image_a);
+        sort($list_image_b);
+        //print_r($list_image_a);
+        //print_r($list_image_b);
+        $matching_image = array();
+        //get count
+        for($j=0;$j<count($list_image_b);$j++){
+            for($i=0;$i<count($get_image_a);$i++){
+                $q_hitung = "SELECT count(*) as hitung from `match` where imageA = '".$get_image_a[$i]->id."' and same = 'yes' and imageB ='".$list_image_b[$j]."'";
+                $get_hitung = $this->db->query($q_hitung)->result();
+                $matching_image[$list_image_b[$j]][$get_image_a[$i]->id] = $get_hitung[0]->hitung;
+        
+            }    
+        }
+        ksort($matching_image);
+        //print_r($matching_image);die();
+        $array[] = $list_image_a;
+        for($i=0;$i<count($list_image_b);$i++){
+            $ar_row = array();
+            $ar_row[0]=$list_image_b[$i];
+            $set_counter = 1;
+            foreach($matching_image[$list_image_b[$i]] as $key=>$val){
+                $ar_row[$set_counter] = $val;
+                $set_counter++;
+            }
+            $array[] = $ar_row;
+        }
+        //print_r($array);
+        $this->load->library('Convertcsv');
+        $csv_data = $this->convertcsv->array_to_csv($array, false);
+        echo '<pre>';
+        print_r($csv_data);
+        echo '</pre>';
+    }
+    
     function check_user_project($id_project){
         //get user id from project
         $this->db->where('id',$id_project);
@@ -270,14 +341,6 @@ class M_pages extends CI_Model {
         //echo '</hr>';
         
     }
-    
-    function match(){        
-        $this->db->where('imageA',"31");
-        $this->db->where('imageB',"2");
-        $this->db->where('same',"yes");        
-        $this->db->from('match');
-        echo $this->db->count_all_results();
-}   
     
 }
 
