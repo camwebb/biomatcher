@@ -130,52 +130,12 @@ class Pages extends CI_Controller {
         $data['project_title'] = $this->m_pages->project_title();
         $data['matches'] = $matches_send;
         $data['totalMatches'] = count($matches);
-
-    }
-    
-    if($page == 'array_to_scv'){
-        $project_id = $this->uri->segment(4, 0);
-        $this->load->model('m_pages');
-        $ln = $this->m_pages->match();        
-
-        if(!$this->m_pages->check_user_project($project_id)){
-            show_404();
-        }
-        $matches = array();
-        $total = array();
-        
-        $images = $this->m_pages->match_images($project_id);
-        
-        foreach ($images as $id){
-            $A = $this->m_pages->get_name_image($id->imageA);
-            $B = $this->m_pages->get_name_image($id->imageB);
-            
-            $filenameA = $A[0]->nameOri;
-            $filenameB = $B[0]->nameOri;
-            
-            $same = $this->m_pages->same($id->imageA, $id->imageB, 'yes');
-            $different = $this->m_pages->same($id->imageA, $id->imageB, 'no');
-            
-            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $same, 'different' => $different);
-            
-            $matches_send = array_map("unserialize", array_unique(array_map("serialize", $matches)));
-        
-        $data['project_title'] = $this->m_pages->project_title();
-        $data['matches'] = $matches_send;
-        $data['totalMatches'] = count($matches);
-
-            
-            //echo '<pre>';
-            //print_r($matches);
-            //echo '</hr>';
-        }
-        
     }
     
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
 	$this->load->view('templates/footer', $data);
-
+    
     }
   
     public function do_login()
@@ -660,6 +620,12 @@ class Pages extends CI_Controller {
             $report_file_exist = "Some files can not be processed due to duplicate";
         }
         echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done', 'report' => $report_file_exist, 'pID' => $project_id));
+    }
+    
+    function download_statistic($project_id) {
+        $project_id = $this->uri->segment(3, 0);
+        $this->load->model('m_pages');
+        $this->m_pages->proccess_csv($project_id);
     }
     
     function do_editAllLabel($user_id,$project_address,$project_name,$path_csv,$folder_encrypt){

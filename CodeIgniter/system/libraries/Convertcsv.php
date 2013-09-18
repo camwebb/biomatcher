@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class CSVReader2 {
+class Convertcsv {
 
     function array_to_csv($array, $header_row = true, $col_sep = ",", $row_sep = "\n", $qut = '"'){
     	if (!is_array($array) or !is_array($array[0])) return false;

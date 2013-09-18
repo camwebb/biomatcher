@@ -28,7 +28,8 @@
             </div>
             <div class="projects" style="float: right; position: relative; top:<?php echo $top; ?>">
                 <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 10px 0 20px;">Go</a>
-                <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 30px 0 10px;">Statistic</a>
+                <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 10px 0 10px;">Statistic</a>
+                <a href="<?php echo base_url(); ?>index.php/pages/download_statistic/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 10px 0 10px;">Download Statistic</a>
             </div>
             <div class="clear"></div>
         </li>
