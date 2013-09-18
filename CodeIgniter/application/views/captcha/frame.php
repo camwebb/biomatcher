@@ -1,8 +1,9 @@
-<div style="height: 700px; width:725px;">
+<div class="biomatcher">
+<div style="height: 700px; width:725px;" >
     
     <div id="match" style="padding: 10px;" ><!-- #match height = 641px -->
     
-    <h2>See images below, and choose Same or Different.</h2><br />
+    <h2 align="center">See images below, and choose Same or Different.</h2><br />
         <div class="clear"></div>
         <!--<div id="image1">
             <a href="" style="float: left;">
@@ -32,8 +33,8 @@
                 <img id="siimage" style="border: 1px solid #000; margin-right: 15px;" src="<?php echo base_url().'securimage_files/'; ?>securimage_show.php?sid=<?php echo md5(uniqid()) ?>" alt="CAPTCHA Image" />
                 
                 <a tabindex="-1" style="border-style: none;" href="#" title="Refresh Image" onclick="document.getElementById('siimage').src = '<?php echo base_url().'securimage_files/'; ?>securimage_show.php?sid=' + Math.random(); this.blur(); return false"><img src="<?php echo base_url().'securimage_files/'; ?>images/refresh.png" alt="Reload Image" height="32" width="32" onclick="this.blur()" align="top" border="0" /></a><br />
-                <input align="top" class="inputtext-reg" type="text" name="ct_captcha" size="12" maxlength="8" style="float:none; width:150px; height: 37px;" />
-                <button type="submit" class="box-button" id="sameMatch">Submit</button>
+                <input align="top" class="biomatcher-inputtext-reg" type="text" name="ct_captcha" size="12" maxlength="8" style="float:none; width:150px; height: 37px;" />
+                <button type="submit" class="biomatcher-box-button" id="sameMatch">Submit</button>
                                
                 
             </p>
@@ -41,4 +42,5 @@
         </div>
         
     </div>
+</div>
 </div>
