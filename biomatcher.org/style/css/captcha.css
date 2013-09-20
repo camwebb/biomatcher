@@ -37,14 +37,16 @@
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
-    cursor:pointer;
+    cursor: pointer;
     font-family: arial;
     font-size: 13px;
+    border: none;
 }
 
 .biomatcher-box-button:hover{
-    color:#515151;
-    background-color:#e6e6e6;
+    color: #515151;
+    background-color: #e6e6e6;
+    border: none;
 }
 
 .clear {
@@ -70,9 +72,9 @@
 }
 
 .biomatcher-inputtext-reg{
-    float:right;
-    height: 36px;
-    width: 250px;
+    float:none;
+    width:150px;
+    height: 37px;
     font-size: 18px;
     padding: 0 4px;
     border: 1px solid #999999;
@@ -96,19 +98,29 @@
 }
 
 .biomatcher{
-	background: #333;
+	background: #ddd;
 	padding: 10px; 	
-	border: 2px solid #ddd;
-	float: left;
+	/*border: 2px solid #333;*/
 	font-size: 1.2em;
-    color: white;
+    color: black;
 	position: relative;
     height: 700px; width:725px;
 	z-index: 99999;
-	box-shadow: 0px 0px 20px #999;
-	-moz-box-shadow: 0px 0px 20px #999; /* Firefox */
-    -webkit-box-shadow: 0px 0px 20px #999; /* Safari, Chrome */
-	border-radius:3px 3px 3px 3px;
-    -moz-border-radius: 3px; /* Firefox */
-    -webkit-border-radius: 3px; /* Safari, Chrome */
+	box-shadow: 0px 0px 5px #999;
+	-moz-box-shadow: 0px 0px 5px #999; /* Firefox */
+    -webkit-box-shadow: 0px 0px 5px #999; /* Safari, Chrome */
+	border-radius:15px 15px 15px 15px;
+    -moz-border-radius: 15px; /* Firefox */
+    -webkit-border-radius: 15px; /* Safari, Chrome */
+}
+
+.biomatcher-image{
+    height: 310px;
+    width:310px;
+}
+
+.biomatcher-ul-image{
+    list-style: none;
+    margin-right: 15px;
+    padding: 0;
 }

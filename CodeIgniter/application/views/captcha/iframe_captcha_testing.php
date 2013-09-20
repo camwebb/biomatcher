@@ -6,7 +6,7 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" charset='utf-8'>
     function biomatcher(){
-		$('#biomatcher').append('<iframe src="http://192.168.56.10/biomatcher/biomatcher.org/index.php/captcha/frame" height="700px" width="725px" frameborder="0" ></iframe>');
+		$('body').append('<iframe src="http://192.168.56.10/biomatcher/biomatcher.org/index.php/captcha/frame" height="750px" width="761px" frameborder="0" ></iframe>');
     }
     
     var RecaptchaOptions = {
@@ -19,11 +19,11 @@
 
 <form action="" method="post">
 
-    <!-- ... your form code here ... -->
+    <!-- ... your form code here ... 
 
     <script type="text/javascript"
        src="http://www.google.com/recaptcha/api/challenge?k=6LcqRuYSAAAAAPP6mZvCEUur8j_wVTIDAHPmmsZ-">
-    </script> 
+    </script> -->
     <!--<noscript>
        <iframe src="http://www.google.com/recaptcha/api/noscript?k=6LcqRuYSAAAAAPP6mZvCEUur8j_wVTIDAHPmmsZ-"
            height="300" width="500" frameborder="0"></iframe><br />
@@ -32,11 +32,7 @@
        <input type="hidden" name="recaptcha_response_field"
            value="manual_challenge" />
     </noscript>-->
-    <input type="button" value="Submit Message" onclick="biomatcher()" />
-    <input type="submit" />
-    
-    <div id="biomatcher"></div>
-    
+    <input type="button" value="Verify" onclick="biomatcher()" />    
 
 </form>
 
