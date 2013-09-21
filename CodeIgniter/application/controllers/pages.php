@@ -132,10 +132,35 @@ class Pages extends CI_Controller {
         $data['totalMatches'] = count($matches);
     }
     
+    if ($page == 'download_statistic'){
+        $project_id = $this->uri->segment(4, 0);
+        if(!$this->m_pages->check_user_project($project_id)){
+            show_404();
+        }
+        $data['project_title'] = $this->m_pages->project_title();
+    }
+    
 	$this->load->view('templates/header', $data);
 	$this->load->view('pages/'.$page, $data);
 	$this->load->view('templates/footer', $data);
     
+    }
+    
+    public function download_stats(){
+        $project_id = $this->uri->segment(3, 0);
+        $this->load->model('m_pages');
+        if(!$this->m_pages->check_user_project($project_id)){
+            show_404();
+        }
+        $check_match = $this->uri->segment(4, 0);
+        if($check_match == 'same'){
+            $same = 'yes';
+        }
+        else if($check_match == 'different'){
+            $same = 'no';
+        }
+        
+        $this->m_pages->download_statistic($project_id,$same);
     }
   
     public function do_login()
@@ -622,13 +647,7 @@ class Pages extends CI_Controller {
         echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done', 'report' => $report_file_exist, 'pID' => $project_id));
     }
     
-    function download_statistic($project_id) {
-        $project_id = $this->uri->segment(3, 0);
-        $this->load->model('m_pages');
-        $this->m_pages->proccess_csv($project_id);
-    }
-    
-    function do_editAllLabel($user_id,$project_address,$project_name,$path_csv,$folder_encrypt){
+    function do_editAllLabel(){
         $csv = $this->input->post('csv');
         $user_id = $this->input->post('user_id');
         $project_address = $this->input->post('project_address'); 

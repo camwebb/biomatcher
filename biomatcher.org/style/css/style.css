@@ -676,3 +676,24 @@ ul.dropdown2 li:hover > ul {
     top: 46%;
     position: relative;
 }
+
+#download_same,#download_different{
+    text-align: center;
+}
+
+#download_same{
+    float: left;
+}
+
+#download_different{
+    float: right;
+}
+
+#download_same img,#download_different img{
+    width: 128px;
+    margin-bottom: 10px;
+}
+
+#download_same p,#download_different p{
+    margin-bottom: 10px;
+}
