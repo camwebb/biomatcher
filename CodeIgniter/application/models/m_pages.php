@@ -215,16 +215,24 @@ class M_pages extends CI_Model {
     }
     
     function same($imageA, $imageB, $same){
-        $where = array('imageA'=> $imageA, 'imageB' => $imageB, 'same' => $same);
-        
+        $where = array('imageA'=> $imageA, 'imageB' => $imageB, 'same' => $same);        
         $query = $this->db->get_where('match', $where);
-
         return $query->num_rows();
     }
     
     function total_matches($imageA){
         $this->db->where('imageA IN ('.implode(',',$imageA).')', NULL, FALSE);
         $query = $this->db->get('match');
+        return $query->num_rows();
+    }
+    
+    function count_same($project_id){ 
+        $query = $this->db->query("SELECT * FROM `match` INNER JOIN `image` ON match.imageA=image.id WHERE image.projectID = '".$project_id."' AND match.same='yes';");
+        return $query->num_rows();
+    }
+    
+    function count_diff($project_id){ 
+        $query = $this->db->query("SELECT * FROM `match` INNER JOIN `image` ON match.imageA=image.id WHERE image.projectID = '".$project_id."' AND match.same='no';");
         return $query->num_rows();
     }
     
