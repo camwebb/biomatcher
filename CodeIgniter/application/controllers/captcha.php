@@ -50,6 +50,19 @@ class Captcha extends CI_Controller {
     	//$this->load->view('captcha/footer', $data);
     }
     
+    function form_no_ajax(){
+        $page = 'form_no_ajax';
+        if ( ! file_exists('../CodeIgniter/application/views/captcha/'.$page.'.php'))
+    	{
+    		// Whoops, we don't have a page for that!
+    		show_404();
+    	}
+    
+    	$data['title'] = ucfirst($page); // Capitalize the first letter
+    	
+    	$this->load->view('captcha/'.$page, $data);
+    }
+    
 }
 
 ?>

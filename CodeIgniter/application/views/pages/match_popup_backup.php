@@ -13,28 +13,8 @@
     </div>
     
     <div class="separator" style="float: left;"></div>
-    <ol>
-        <table style="width: 100%;">
-            <?php
-            foreach($list_project as $list){
-            ?>
-            <tr>
-                <td style="width: 90%;">
-                    <li><?php echo $list->name; ?></li>
-                </td>
-                <td>
-                    <button class="box-button" id="openMatch_panel">Match</button>
-                </td>
-            </tr>
-            <?php
-            }
-            ?>
-        </table>
-    </ol>
     
-    <br />
-    
-    <div id="match" style="display: none;">
+    <div id="match"><!-- #match height = 641px -->
         <div style="float: right;">
             <span>
                 <a href="<?php echo base_url(); ?>index.php/pages/view/match" style="float: right;">
@@ -45,7 +25,7 @@
         </div>
         <div class="clear"></div>
         <div id="image1">
-            <a href="" style="float: right;">
+            <a href="" style="float: left;">
                 <img style="height: 410px; width:410px;" src="" />
             </a>
         </div>
