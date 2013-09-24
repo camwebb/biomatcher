@@ -13,9 +13,14 @@
             </a>
         </span>
     </div>
-    
+        
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
+    
+    <?php if($this->session->flashdata('message')) : ?>
+    <div class="errorbox" style="padding: 0;"><?php echo $this->session->flashdata('message'); ?></div>
+    <?php endif; ?>
+    
     <div class="project_table" id="files">
         <table style="width: 100%;" id="projectTable">
             <thead>

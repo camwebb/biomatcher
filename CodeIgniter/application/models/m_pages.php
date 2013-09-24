@@ -102,6 +102,10 @@ class M_pages extends CI_Model {
         $this->db->insert('image', $data_image);
     }
     
+    function upload_imageQC($data_image){
+        $this->db->insert('qc_image', $data_image);
+    }
+    
     function file_exist($list_file)
     {
         //checking file name
@@ -164,6 +168,18 @@ class M_pages extends CI_Model {
     function edit_label($id_label2,$new_label){
         $query=$this->db->query("UPDATE image SET label='$new_label' WHERE id='$id_label2'");
         echo $new_label;
+    }
+    
+    function check_match($img_id){
+        $this->db->where('imageA =', $img_id);
+        $this->db->or_where('imageB =', $img_id); 
+        $query = $this->db->get('match');
+        if ($query->num_rows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     function delete_image($img_id){
@@ -339,6 +355,18 @@ class M_pages extends CI_Model {
         //print_r($test);
         //echo '</hr>';
         
+    }
+    
+    function check_QCSet($project_id){
+        $this->db->where('id',$project_id);
+        $this->db->select('qcSet');
+        $query = $this->db->get('project');
+        $result = $query->result();
+
+        foreach ($result as $QC){
+            $status = $QC->qcSet;
+        }
+        return $status;
     }
     
 }

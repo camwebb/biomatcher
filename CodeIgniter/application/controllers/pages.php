@@ -616,8 +616,16 @@ class Pages extends CI_Controller {
                                         }
                                         else{
                                             // add file info to database
-                                            $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
                                             $this->load->model('m_pages');
+                                            $statusQC = $this->m_pages->check_QCSet($project_id);
+                                            
+                                            /*if ($statusQC == "yes"){
+                                                $data_image=array('id'=>'', 'projectID'=> $project_id, 'image' => $image_name_encrypt);
+                                                $this->m_pages->upload_imageQC($data_image);
+                                            }*/
+                                            
+                                            $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
+                                            
                                             $this->m_pages->upload_image($data_image);
                                             
                                             $status = "success";
@@ -700,26 +708,39 @@ class Pages extends CI_Controller {
         $path = 'data/';
         
         foreach ($img_id as $id){
-            $this->db->where('id',$id);
-            $query="id='$id' AND projectID='$pid'";
-            $this->db->where($query, NULL, FALSE);
-            $img_file = $this->db->get('image');
-            $file = $img_file->result();
-            foreach ($file as $md5sum)
+            /* checking table match */
+            if(!$this->m_pages->check_match($id)){
+                $dbtoDelete[] = $id;
             
-            $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
-            $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/500px/'.$md5sum->md5sum.'.500px.jpg';
-            $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
-            
-            $toDelete = array($ori, $converted, $thumbnail);
-            foreach ($toDelete as $file_to_del) {
-                shell_exec("rm $file_to_del");
+                $this->db->where('id',$id);
+                $query="id='$id' AND projectID='$pid'";
+                $this->db->where($query, NULL, FALSE);
+                $img_file = $this->db->get('image');
+                $file = $img_file->result();
+                foreach ($file as $md5sum)
+                
+                $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
+                $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/500px/'.$md5sum->md5sum.'.500px.jpg';
+                $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
+                
+                $toDelete = array($ori, $converted, $thumbnail);
+                foreach ($toDelete as $file_to_del) {
+                    shell_exec("rm $file_to_del");
+                }
             }
         }
-        //$this->m_pages->delete_image($img_id);
-        if($this->m_pages->delete_image($img_id)){
+        
+        if (!empty($dbtoDelete)){
+        
+            if($this->m_pages->delete_image($dbtoDelete)){
+            //if($this->m_pages->delete_image($img_id)){  //image delete without confirm
+                echo json_encode(array('status' => "success"));
+            }
+        }else{
+            $this->session->set_flashdata('message', 'Found No file(s) to delete!');
             echo json_encode(array('status' => "success"));
-        }       
+        }
+        
     }
     
     function selectRandom(){
