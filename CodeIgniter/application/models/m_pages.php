@@ -254,26 +254,11 @@ class M_pages extends CI_Model {
     
     function download_statistic($project_id,$same){
         $list_image_a = array();
-        $list_image_a[] = "kolom/baris";
+        $list_image_a[] = "row/col";
         $list_image_b = array();
         //get all imageA with the same projectID
         $q_a = "SELECT id,nameOri from `image` where projectID = '".$project_id."' order by id";
         $get_image_a = $this->db->query($q_a)->result();
-        /*
-        foreach($get_image_a as $row_a){
-            $q_b = "SELECT imageB from `match` where imageA = '".$row_a->id."' and same = 'yes' order by imageA";
-            $get_image_b = $this->db->query($q_b)->result();
-            if(!empty($get_image_b)){
-                //print_r($get_image_b);
-                foreach($get_image_b as $row_b){
-                    if(!in_array($row_b->imageB,$list_image_b)){
-                        $list_image_b[]=$row_b->imageB;    
-                    }   
-                }
-            }
-        }
-        print_r($list_image_b);die();
-        */
         for($i=0;$i<count($get_image_a);$i++){
             //get imageB for every imageA
             $q_b = "SELECT imageB,imageA from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."' or imageB = '".$get_image_a[$i]->id."' and same = '".$same."' order by imageA";
@@ -289,34 +274,26 @@ class M_pages extends CI_Model {
                         if(!in_array($get_image_b[$j]->imageB,$list_image_b)){
                             $list_image_b[]=$get_image_b[$j]->imageB;    
                         }
-                    }
-                    
-                    //if(!in_array($get_image_b[$j]->imageB,$list_image_b)){
-                    //    $list_image_b[]=$get_image_b[$j]->imageB;    
-                    //}
-                    //else if(!in_array($get_image_b[$j]->imageA,$list_image_b)){
-                       // $list_image_b[]=$get_image_b[$j]->imageA;    
-                    //}   
+                    } 
                 }
             }
             $list_image_a[]=$get_image_a[$i]->id;
         }
         ksort($list_image_a);
         sort($list_image_b);
-        print_r($list_image_a);
-        print_r($list_image_b);
+        //print_r($list_image_b);
         $matching_image = array();
         //get count
         for($j=0;$j<count($list_image_b);$j++){
             for($i=0;$i<count($get_image_a);$i++){
-                $q_hitung = "SELECT count(*) as hitung from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."' and imageB ='".$list_image_b[$j]."'";
+                $q_hitung = "SELECT count(*) as hitung from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."' and imageB ='".$list_image_b[$j]."' or imageB = '".$get_image_a[$i]->id."' and same = '".$same."' and imageA ='".$list_image_b[$j]."'";
                 $get_hitung = $this->db->query($q_hitung)->result();
                 $matching_image[$list_image_b[$j]][$get_image_a[$i]->id] = $get_hitung[0]->hitung;
         
             }    
         }
         ksort($matching_image);
-        print_r($matching_image);
+        //print_r($matching_image);
         $array[] = $list_image_a;
         for($i=0;$i<count($list_image_b);$i++){
             $ar_row = array();
@@ -343,7 +320,8 @@ class M_pages extends CI_Model {
             }
                     
         }
-        //force_download($name, $data);
+        //print_r($data);
+        force_download($name, $data);
     }
     
     function check_user_project($id_project){
