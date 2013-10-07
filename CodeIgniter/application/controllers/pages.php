@@ -24,9 +24,21 @@ class Pages extends CI_Controller {
         
         $this->load->library('pagination');
         //count the total rows of images
-        $this->db->where('projectID',$id_project);
-        $getData = $this->db->get('image');
+        
+        $statusQC = $this->m_pages->check_QCSet($id_project);
+        if ($statusQC == "yes"){
+            $this->db->where('projectID',$id_project);
+            $getData = $this->db->get('qc_image');
+            $list_image = "list_image_qc";
+        }else{
+            $this->db->where('projectID',$id_project);
+            $getData = $this->db->get('image');
+            $list_image = "list_image";
+                    
+        }
+        
         $count_images = $getData->num_rows();
+        
         $config['base_url'] = base_url().'index.php/pages/view/project/'.$id_project.'/';
         $config['total_rows'] = $count_images; //total rows
         $config['per_page'] = '10'; //the number of per page for pagination
@@ -36,7 +48,7 @@ class Pages extends CI_Controller {
         $this->pagination->initialize($config); //initialize pagination
         
         $data['project_title'] = $this->m_pages->project_title();
-       	$data['list_images'] = $this->m_pages->list_image($config['per_page'],$this->uri->segment(5));
+       	$data['list_images'] = $this->m_pages->$list_image($config['per_page'],$this->uri->segment(5));
         $data['get_csv'] = $this->m_pages->get_csv(); 
     }
     
@@ -64,7 +76,7 @@ class Pages extends CI_Controller {
         if ($this->session->userdata('shuffled_pid') == ""){
             $this->session->set_userdata(array('count_match' => 1));
             $this->db->select('id, userID');
-            $project_query = $this->db->get('project');
+            $project_query = $this->db->get_where('project', array('QCSet' => 'no'));
             $result_project = $project_query->result();
             $shuffled_project = array();
             foreach ($result_project as $project){
@@ -619,14 +631,13 @@ class Pages extends CI_Controller {
                                             $this->load->model('m_pages');
                                             $statusQC = $this->m_pages->check_QCSet($project_id);
                                             
-                                            /*if ($statusQC == "yes"){
-                                                $data_image=array('id'=>'', 'projectID'=> $project_id, 'image' => $image_name_encrypt);
+                                            if ($statusQC == "yes"){
+                                                $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
                                                 $this->m_pages->upload_imageQC($data_image);
-                                            }*/
-                                            
-                                            $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
-                                            
-                                            $this->m_pages->upload_image($data_image);
+                                            }else{
+                                                $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
+                                                $this->m_pages->upload_image($data_image);
+                                            }
                                             
                                             $status = "success";
             				                $msg = "File successfully uploaded";
@@ -707,15 +718,16 @@ class Pages extends CI_Controller {
         
         $path = 'data/';
         
+        $statusQC = $this->m_pages->check_QCSet($pid);
+
         foreach ($img_id as $id){
-            /* checking table match */
-            if(!$this->m_pages->check_match($id)){
+            if ($statusQC == "yes"){
                 $dbtoDelete[] = $id;
-            
+                
                 $this->db->where('id',$id);
                 $query="id='$id' AND projectID='$pid'";
                 $this->db->where($query, NULL, FALSE);
-                $img_file = $this->db->get('image');
+                $img_file = $this->db->get('qc_image');
                 $file = $img_file->result();
                 foreach ($file as $md5sum)
                 
@@ -727,12 +739,39 @@ class Pages extends CI_Controller {
                 foreach ($toDelete as $file_to_del) {
                     shell_exec("rm $file_to_del");
                 }
+            }else{
+            /* checking table match */
+            
+                if(!$this->m_pages->check_match($id)){
+                    $dbtoDelete[] = $id;
+                
+                    $this->db->where('id',$id);
+                    $query="id='$id' AND projectID='$pid'";
+                    $this->db->where($query, NULL, FALSE);
+                    $img_file = $this->db->get('image');
+                    $file = $img_file->result();
+                    foreach ($file as $md5sum)
+                    
+                    $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
+                    $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/500px/'.$md5sum->md5sum.'.500px.jpg';
+                    $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
+                    
+                    $toDelete = array($ori, $converted, $thumbnail);
+                    foreach ($toDelete as $file_to_del) {
+                        shell_exec("rm $file_to_del");
+                    }
+                }
             }
         }
         
         if (!empty($dbtoDelete)){
+            if ($statusQC == "yes"){
+                $delete = $this->m_pages->delete_image_qc($dbtoDelete);
+            }else{
+                $delete = $this->m_pages->delete_image($dbtoDelete);
+            }
         
-            if($this->m_pages->delete_image($dbtoDelete)){
+            if($delete){
             //if($this->m_pages->delete_image($img_id)){  //image delete without confirm
                 echo json_encode(array('status' => "success"));
             }

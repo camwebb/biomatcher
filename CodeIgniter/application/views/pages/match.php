@@ -40,13 +40,6 @@ $(document).ready(function() {
             </a>
         </div>
         
-        <?php
-        }else{
-        ?>
-        <div id="noActiveProject"><p>No Active Project</p></div>
-        <?php
-        }
-        ?>
         <div class="clear"></div>
         <br />
         
@@ -57,6 +50,16 @@ $(document).ready(function() {
             <button class="box-button" id="differentMatch">Different</button>
             <p>Dev. info : <?php if($this->session->userdata('count_match')=="15"){ echo "pre-known";}else{ echo $this->session->userdata('count_match');} ?></p>
         </div>
+        
+        <?php
+        }else{
+        ?>
+        <div id="noActiveProject"><p>No Active Project</p></div>
+        <?php
+        }
+        ?>
+        <div class="clear"></div>
+        
         
     </div> 
     
