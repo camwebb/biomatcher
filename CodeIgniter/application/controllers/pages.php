@@ -525,7 +525,6 @@ class Pages extends CI_Controller {
                         if(preg_match('#\.(jpg|jpeg)$#i', $entry))
                         {
                             //$num +=1;
-                            //echo json_encode(array('list' => $list, 'num' => $num.$entry));
                             $image_name_encrypt = md5($entry);
                             
                             $fileinfo = getimagesize($path_extract."/".$entry);
@@ -537,13 +536,28 @@ class Pages extends CI_Controller {
                         
                             if(in_array($fileinfo[2],  $valid_types)) {
                                 $this->load->model('m_pages');
+                                $statusQC = $this->m_pages->check_QCSet($project_id);
+                                if ($statusQC == "yes"){
+                                    $file_exist = 'file_exist_qc';
+                                }else{
+                                    $file_exist = 'file_exist';
+                                }
                                 $list_file = array('projectID'=> $project_id, 'nameOri' => $entry);
-                                if($this->m_pages->file_exist($list_file))
+                                if($this->m_pages->$file_exist($list_file))
                                 {
-                                    $list_file_exist = array();
+                                    //$list_file_exist = array();
                                     $list_file_exist[] = $entry;
-                                    $status = "error";
-                                    $msg = "No image processed";
+                                    $count_file_exist = count($list_file_exist, COUNT_RECURSIVE);
+                                    //echo json_encode(array('list' => $list, 'num' => $count_file_exist));
+                                    
+                                    $file_processed = $list - $count_file_exist;
+                                    if($file_processed < 1){
+                                        $status = "error";
+                                        $msg = "No image processed";
+                                    }else{
+                                        $status = "success";
+                                        $msg = "File successfully uploaded";
+                                    }
                                 }else{
                                     $num += 1;
                                     //echo json_encode(array('num_process' => $num));
@@ -629,7 +643,6 @@ class Pages extends CI_Controller {
                                         else{
                                             // add file info to database
                                             $this->load->model('m_pages');
-                                            $statusQC = $this->m_pages->check_QCSet($project_id);
                                             
                                             if ($statusQC == "yes"){
                                                 $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);

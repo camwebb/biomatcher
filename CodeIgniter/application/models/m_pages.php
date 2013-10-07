@@ -128,6 +128,18 @@ class M_pages extends CI_Model {
         }
     }
     
+    function file_exist_qc($list_file)
+    {
+        //checking file name
+        $query = $this->db->get_where('qc_image', $list_file);
+        if ($query->num_rows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
     function get_csv(){
         $this->load->dbutil();
         $project_id = $this->uri->segment(4, 0);
