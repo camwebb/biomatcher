@@ -143,10 +143,21 @@ class M_pages extends CI_Model {
     function get_csv(){
         $this->load->dbutil();
         $project_id = $this->uri->segment(4, 0);
-        $query = $this->db->query("SELECT nameOri,label FROM image where projectID='$project_id' order by id DESC");
-        return $query->result();  
-        $delimiter = ",";
-        $newline = "\r\n";
+        $get_qc = $this->db->query("SELECT qcSet FROM project where id='$project_id'");
+        foreach($get_qc->result() as $qcset){
+        if($qcset->qcSet=="yes"){
+            $query = $this->db->query("SELECT nameOri,label FROM image where projectID='$project_id' order by id DESC");
+            return $query->result();
+            $delimiter = ",";
+            $newline = "\r\n";
+        }
+        else if($qcset->qcSet=='no'){
+            $query = $this->db->query("SELECT nameOri,label FROM qc_image where projectID='$project_id' order by id DESC");
+            return $query->result();
+            $delimiter = ",";
+            $newline = "\r\n";            
+        }}
+        
       // echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
     }    
     
