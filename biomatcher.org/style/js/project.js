@@ -132,13 +132,7 @@ $(function() {
         $("#draggable").fadeOut("normal");
         //$("#label").html(data);
         location.reload();
-        },
-    error:function (xhr, textStatus, thrownError, data) {
-            $('#error_msg_all').fadeIn(300);
-            $('#error_msg_all').html('<p style="font-size: 13px; color: red; font-style: italic;">Duplicated Label</p>');
-            console.log("Duplicated label");
-            console.log("Update Error Status: ", xhr.status, " Error Thrown: ", thrownError);
-            }                    
+        }                  
     });
     return false;
     });
@@ -165,7 +159,6 @@ $(function(){
           $("#for_close_label"+id_label).html('<p id="label'+id_label+'">'+data+'</p>');
           $("input[name='id_label']").removeAttr("checked");
           $("#for_close_label"+id_label).css("background","none");
-          $('#error_msg'+id_label).fadeOut(300);
         });
         
         $("#editOneLabel"+id_label).click(function(){
@@ -184,12 +177,6 @@ $(function(){
                 $("#for_close_label"+id_label).html('<p id="label'+id_label+'">'+data+'</p>');
                 $("input[name='id_label']").removeAttr("checked");
                 $("#for_close_label"+id_label).css("background","none");
-            },
-            error:function (xhr, textStatus, thrownError, data) {
-            $('#error_msg'+id_label).fadeIn(300);
-            $('#error_msg'+id_label).html('<p style="font-size: 13px; color: red; font-style: italic;">Duplicated Label</p>');
-            console.log("Duplicated label");
-            console.log("Update Error Status: ", xhr.status, " Error Thrown: ", thrownError);
             }
         }); 
         });

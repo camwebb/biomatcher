@@ -57,7 +57,6 @@
                         <div class="edit_label" id="for_close_label<?php echo $images->id; ?>">
                             <p id="label<?php echo $images->id; ?>" class="label"><?php echo $images->label; ?></p>
                         </div>
-                        <div id="error_msg<?php echo $images->id; ?>" style="display: none;"></div>
                     </td>
                     <td style="width: 100px; height: 112px;">
                         <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/100px/'.$images->md5sum.'.100px.jpg'; ?>" /></p>
@@ -113,7 +112,6 @@
    <br /><br />
     
    <div id="draggable">           
-   <div id="error_msg_all" style="display: none;"></div>
     <?php echo form_open('pages/do_editAllLabel');?>
         <textarea style="margin-bottom: 5px;" id="labelProject" name="csv" rows="20" cols="35">FILENAME,LABEL&#10;<?php foreach ($get_csv as $csv){ 
                 echo $csv->nameOri.",".$csv->label.'&#10;';

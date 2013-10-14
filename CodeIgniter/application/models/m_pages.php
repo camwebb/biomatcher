@@ -143,21 +143,11 @@ class M_pages extends CI_Model {
     function get_csv(){
         $this->load->dbutil();
         $project_id = $this->uri->segment(4, 0);
-        $get_qc = $this->db->query("SELECT qcSet FROM project where id='$project_id'");
-        foreach($get_qc->result() as $qcset){
-        if($qcset->qcSet=="yes"){
-            $query = $this->db->query("SELECT nameOri,label FROM image where projectID='$project_id' order by id DESC");
-            return $query->result();
-            $delimiter = ",";
-            $newline = "\r\n";
-        }
-        else if($qcset->qcSet=='no'){
-            $query = $this->db->query("SELECT nameOri,label FROM qc_image where projectID='$project_id' order by id DESC");
-            return $query->result();
-            $delimiter = ",";
-            $newline = "\r\n";            
-        }}
-        
+        $query = $this->db->query("SELECT nameOri,label FROM image where projectID='$project_id' order by id DESC");
+        return $query->result();  
+        $delimiter = ",";
+        $newline = "\r\n";
+
       // echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
     }    
     
@@ -181,9 +171,6 @@ class M_pages extends CI_Model {
         $this->load->library('csvreader');
         $result = $this->csvreader->parse_file($path_csv.'/'.$folder_encrypt.'.csv');
         $this->db->insert_batch('tmp_image', $result);
-        $data = array('label' => NULL);
-        $this->db->where('projectID', $project_address);
-        $this->db->update('image', $data); 
         $query1= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.FILENAME = image.nameOri SET image.label = NULL WHERE image.projectID = $project_address AND tmp_image.LABEL='';");
         $this->db->insert_batch('tmp_image', $result);
         $query2= $this->db->query("UPDATE image INNER JOIN tmp_image on tmp_image.FILENAME = image.nameOri SET image.label = tmp_image.LABEL WHERE image.projectID = $project_address AND tmp_image.LABEL!='';");
