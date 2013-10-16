@@ -82,16 +82,6 @@ class M_pages extends CI_Model {
         return $query->result();
     }
     
-    function list_image_qc($perPage,$uri){
-        $project_id = $this->uri->segment(4, 0);
-
-        $this->db->where('projectID',$project_id);
-        $this->db->order_by('id','DESC');
-        $query = $this->db->get('qc_image', $perPage, $uri);
-        
-        return $query->result();
-    }
-    
     function project_title(){
         $project_id = $this->uri->segment(4, 0);
         $query=$this->db->query("SELECT * FROM project where id='$project_id'");
@@ -112,26 +102,10 @@ class M_pages extends CI_Model {
         $this->db->insert('image', $data_image);
     }
     
-    function upload_imageQC($data_image){
-        $this->db->insert('qc_image', $data_image);
-    }
-    
     function file_exist($list_file)
     {
         //checking file name
         $query = $this->db->get_where('image', $list_file);
-        if ($query->num_rows() > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    
-    function file_exist_qc($list_file)
-    {
-        //checking file name
-        $query = $this->db->get_where('qc_image', $list_file);
         if ($query->num_rows() > 0){
             return true;
         }
@@ -205,12 +179,6 @@ class M_pages extends CI_Model {
     function delete_image($img_id){
         $this->db->where('id IN ('.implode(',',$img_id).')', NULL, FALSE);
         $this->db->delete('image');
-        return true;
-    }
-    
-    function delete_image_qc($img_id){
-        $this->db->where('id IN ('.implode(',',$img_id).')', NULL, FALSE);
-        $this->db->delete('qc_image');
         return true;
     }
     

@@ -25,17 +25,9 @@ class Pages extends CI_Controller {
         $this->load->library('pagination');
         //count the total rows of images
         
-        $statusQC = $this->m_pages->check_QCSet($id_project);
-        if ($statusQC == "yes"){
-            $this->db->where('projectID',$id_project);
-            $getData = $this->db->get('qc_image');
-            $list_image = "list_image_qc";
-        }else{
-            $this->db->where('projectID',$id_project);
-            $getData = $this->db->get('image');
-            $list_image = "list_image";
-                    
-        }
+        $this->db->where('projectID',$id_project);
+        $getData = $this->db->get('image');
+        $list_image = "list_image";
         
         $count_images = $getData->num_rows();
         
@@ -102,6 +94,9 @@ class Pages extends CI_Controller {
                 //set session for matching from a project random
                 $this->session->set_userdata(array('shuffled_pid' =>$pidA, 'username_pid' => $username_A));
             }
+        }
+        if ($this->session->userdata('count_match') == 15){
+            $this->session->set_userdata(array('count_match' => 1));
         }
         if ($this->session->userdata('count_match') == 16){
             $this->session->set_userdata(array('count_match' => 1));
@@ -536,14 +531,8 @@ class Pages extends CI_Controller {
                         
                             if(in_array($fileinfo[2],  $valid_types)) {
                                 $this->load->model('m_pages');
-                                $statusQC = $this->m_pages->check_QCSet($project_id);
-                                if ($statusQC == "yes"){
-                                    $file_exist = 'file_exist_qc';
-                                }else{
-                                    $file_exist = 'file_exist';
-                                }
                                 $list_file = array('projectID'=> $project_id, 'nameOri' => $entry);
-                                if($this->m_pages->$file_exist($list_file))
+                                if($this->m_pages->file_exist($list_file))
                                 {
                                     //$list_file_exist = array();
                                     $list_file_exist[] = $entry;
@@ -644,13 +633,8 @@ class Pages extends CI_Controller {
                                             // add file info to database
                                             $this->load->model('m_pages');
                                             
-                                            if ($statusQC == "yes"){
-                                                $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
-                                                $this->m_pages->upload_imageQC($data_image);
-                                            }else{
-                                                $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
-                                                $this->m_pages->upload_image($data_image);
-                                            }
+                                            $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
+                                            $this->m_pages->upload_image($data_image);
                                             
                                             $status = "success";
             				                $msg = "File successfully uploaded";
@@ -693,7 +677,7 @@ class Pages extends CI_Controller {
         $user_id = $this->input->post('user_id');
         $project_address = $this->input->post('project_address'); 
         $project_name = $this->input->post('project_name');
-        $path_csv = "/home/bmatch/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
+        $path_csv = "/var/www/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
         if(!is_dir($path_csv)) //create the folder if it's not already exists
         {
          mkdir($path_csv, 0755,true);
@@ -730,17 +714,17 @@ class Pages extends CI_Controller {
         $this->load->model('m_pages');
         
         $path = 'data/';
-        
-        $statusQC = $this->m_pages->check_QCSet($pid);
 
         foreach ($img_id as $id){
-            if ($statusQC == "yes"){
+            /* checking table match */
+            
+            if(!$this->m_pages->check_match($id)){
                 $dbtoDelete[] = $id;
-                
+            
                 $this->db->where('id',$id);
                 $query="id='$id' AND projectID='$pid'";
                 $this->db->where($query, NULL, FALSE);
-                $img_file = $this->db->get('qc_image');
+                $img_file = $this->db->get('image');
                 $file = $img_file->result();
                 foreach ($file as $md5sum)
                 
@@ -752,39 +736,12 @@ class Pages extends CI_Controller {
                 foreach ($toDelete as $file_to_del) {
                     shell_exec("rm $file_to_del");
                 }
-            }else{
-            /* checking table match */
-            
-                if(!$this->m_pages->check_match($id)){
-                    $dbtoDelete[] = $id;
-                
-                    $this->db->where('id',$id);
-                    $query="id='$id' AND projectID='$pid'";
-                    $this->db->where($query, NULL, FALSE);
-                    $img_file = $this->db->get('image');
-                    $file = $img_file->result();
-                    foreach ($file as $md5sum)
-                    
-                    $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
-                    $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/500px/'.$md5sum->md5sum.'.500px.jpg';
-                    $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
-                    
-                    $toDelete = array($ori, $converted, $thumbnail);
-                    foreach ($toDelete as $file_to_del) {
-                        shell_exec("rm $file_to_del");
-                    }
-                }
             }
         }
         
         if (!empty($dbtoDelete)){
-            if ($statusQC == "yes"){
-                $delete = $this->m_pages->delete_image_qc($dbtoDelete);
-            }else{
-                $delete = $this->m_pages->delete_image($dbtoDelete);
-            }
         
-            if($delete){
+            if($this->m_pages->delete_image($dbtoDelete)){
             //if($this->m_pages->delete_image($img_id)){  //image delete without confirm
                 echo json_encode(array('status' => "success"));
             }
@@ -814,6 +771,27 @@ class Pages extends CI_Controller {
             $shuffled_image = array('shuffled_image_A' => $shuffled_image_A, 'shuffled_image_B' => $shuffled_image_B);
             return $shuffled_image;
         }       
+    }
+    
+    function selectQC(){
+        $time_start = $this->microtime_float();
+        if($this->session->userdata('username_pid')!= ""){
+
+            $pidA = $this->session->userdata('shuffled_pid');
+            
+            $this->db->where('projectID',$pidA);
+            $image_query_A = $this->db->get('image');
+            $image_A = $image_query_A->result_array();
+            shuffle ($image_A);
+            $shuffled_image_A = $image_A[0];
+            $shuffled_image_B = $image_A[1];
+
+            $time_end = $this->microtime_float();
+            $time= $time_end - $time_start;
+    
+            $shuffled_image = array('shuffled_image_A' => $shuffled_image_A, 'shuffled_image_B' => $shuffled_image_B);
+            return $shuffled_image;
+        }
     }
     
     function microtime_float()
