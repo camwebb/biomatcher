@@ -96,7 +96,9 @@ class Pages extends CI_Controller {
             }
         }
         if ($this->session->userdata('count_match') == 15){
-            $this->session->set_userdata(array('count_match' => 1));
+            $project_pre_match = $this->selectQC(); // project id, user id
+            $image_pre_match = $this->selectImagePre($project_pre_match->id);
+            print_r($image_pre_match);
         }
         if ($this->session->userdata('count_match') == 16){
             $this->session->set_userdata(array('count_match' => 1));
@@ -774,24 +776,47 @@ class Pages extends CI_Controller {
     }
     
     function selectQC(){
-        $time_start = $this->microtime_float();
-        if($this->session->userdata('username_pid')!= ""){
-
-            $pidA = $this->session->userdata('shuffled_pid');
-            
-            $this->db->where('projectID',$pidA);
-            $image_query_A = $this->db->get('image');
-            $image_A = $image_query_A->result_array();
-            shuffle ($image_A);
-            $shuffled_image_A = $image_A[0];
-            $shuffled_image_B = $image_A[1];
-
-            $time_end = $this->microtime_float();
-            $time= $time_end - $time_start;
-    
-            $shuffled_image = array('shuffled_image_A' => $shuffled_image_A, 'shuffled_image_B' => $shuffled_image_B);
-            return $shuffled_image;
+        $this->load->model('m_pages');
+        $this->db->select('id, userID');
+        $project_query = $this->db->get_where('project', array('QCSet' => 'yes'));
+        $result_project = $project_query->result();
+        $shuffled_project = array();
+        foreach ($result_project as $project){
+            $projectID = $project->id;
+            //check if project contain min 5 images
+            //note: active project?
+            if($this->m_pages->activeProject($projectID)){
+                $shuffled_project[] = $project;
+            }
         }
+        //shuffle array from project
+        shuffle ($shuffled_project);
+        
+        if(!empty($shuffled_project)){
+            
+            return $shuffled_project[0];
+        }
+    }
+    
+    function selectImagePre($projectID){
+        $this->load->model('m_pages');
+        /*
+        SELECT *
+        FROM myTable
+        WHERE `transactionID` IN
+            (     SELECT `transactionID`
+                  FROM `myTable`
+                  GROUP BY `transactionID`
+                  HAVING COUNT(distinct DeliveryDate) > 1
+            )
+        ORDER BY `transactionID`
+        
+        http://ellislab.com/codeigniter/user-guide/database/active_record.html
+        */
+        $this->db->select('id, md5sum, label');
+        $project_query = $this->db->get_where('image', array('projectID' => $projectID));
+        $result_project = $project_query->result();
+        return $result_project;
     }
     
     function microtime_float()
