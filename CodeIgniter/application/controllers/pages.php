@@ -103,7 +103,7 @@ class Pages extends CI_Controller {
             echo "<pre>";
             $project_pre_match = $this->selectQC();
             shuffle($project_pre_match);
-            
+            //print_r($_SERVER['DOCUMENT_ROOT']);
             print_r($pair_mode[0]);
             //print_r($project_pre_match[0]);
             
@@ -693,7 +693,8 @@ class Pages extends CI_Controller {
         $user_id = $this->input->post('user_id');
         $project_address = $this->input->post('project_address'); 
         $project_name = $this->input->post('project_name');
-        $path_csv = "/../../biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
+        $server_root = $_SERVER['DOCUMENT_ROOT'];
+        $path_csv = $server_root."/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
         if(!is_dir($path_csv)) //create the folder if it's not already exists
         {
          mkdir($path_csv, 0755,true);
