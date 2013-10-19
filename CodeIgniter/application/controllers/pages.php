@@ -96,9 +96,23 @@ class Pages extends CI_Controller {
             }
         }
         if ($this->session->userdata('count_match') == 15){
-            $project_pre_match = $this->selectQC(); // project id, user id
-            $image_pre_match = $this->selectImagePre($project_pre_match->id);
-            print_r($image_pre_match);
+            $pair_mode[0] = "same";
+            $pair_mode[1] = "different";
+            
+            shuffle($pair_mode);
+            echo "<pre>";
+            $project_pre_match = $this->selectQC();
+            shuffle($project_pre_match);
+            
+            print_r($pair_mode[0]);
+            //print_r($project_pre_match[0]);
+            
+            if ($pair_mode[0] == "same"){
+                //print_r($project_pre_match);
+            }elseif ($pair_mode[0] == "different"){
+                $data['pair_match'] = array('shuffled_image_A' => $project_pre_match[0], 'shuffled_image_B' => $project_pre_match[1]);               
+                //print_r($data['pair_match']);
+            }
         }
         if ($this->session->userdata('count_match') == 16){
             $this->session->set_userdata(array('count_match' => 1));
@@ -679,7 +693,7 @@ class Pages extends CI_Controller {
         $user_id = $this->input->post('user_id');
         $project_address = $this->input->post('project_address'); 
         $project_name = $this->input->post('project_name');
-        $path_csv = "/var/www/biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
+        $path_csv = "/../../biomatcher/tmp/csv_tmp/".md5($this->session->userdata('username'));
         if(!is_dir($path_csv)) //create the folder if it's not already exists
         {
          mkdir($path_csv, 0755,true);
@@ -793,29 +807,17 @@ class Pages extends CI_Controller {
         shuffle ($shuffled_project);
         
         if(!empty($shuffled_project)){
-            
-            return $shuffled_project[0];
+            $image_pre = $this->selectImagePre($shuffled_project[0]);
+            return $image_pre;
         }
     }
     
     function selectImagePre($projectID){
         $this->load->model('m_pages');
-        /*
-        SELECT *
-        FROM myTable
-        WHERE `transactionID` IN
-            (     SELECT `transactionID`
-                  FROM `myTable`
-                  GROUP BY `transactionID`
-                  HAVING COUNT(distinct DeliveryDate) > 1
-            )
-        ORDER BY `transactionID`
         
-        http://ellislab.com/codeigniter/user-guide/database/active_record.html
-        */
-        $this->db->select('id, md5sum, label');
-        $project_query = $this->db->get_where('image', array('projectID' => $projectID));
-        $result_project = $project_query->result();
+        $query = $this->db->query("SELECT id, md5sum, label ,COUNT(label) as jumlah FROM image a WHERE projectID=4 GROUP BY projectID,label HAVING jumlah >1");
+        $result_project=$query->result_array();
+        
         return $result_project;
     }
     
