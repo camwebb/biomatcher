@@ -12,7 +12,7 @@ if (isset($_SESSION['ctform']['error']) &&  $_SESSION['ctform']['error'] == true
 <input type="hidden" name="do" value="contact" />
 
 <div class="biomatcher">
-    <div style="height: 700px; width:725px;" >
+    <div>
         
         <div id="match" style="padding: 10px;" >
         

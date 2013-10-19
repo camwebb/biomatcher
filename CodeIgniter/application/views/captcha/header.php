@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Biomatcher :: <?php echo $title ?></title>
-    <link href="<?php echo base_url(); ?>style/css/captcha.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url(); ?>captcha/style.css" rel="stylesheet" type="text/css" />
 
     
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-1.9.1.min.js"></script>
