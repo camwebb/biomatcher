@@ -8,9 +8,7 @@ h2{
 }
 
 #biomatcher_captcha{
-    margin: 0 auto;
-    width: 1000px;
-    z-index: 99999;    
+    margin: 0 auto;    
 }
 
 .overlay{
@@ -23,20 +21,19 @@ h2{
 }
 
 .popup{
-    width: 830px;
     height: auto;
     position: absolute;
     top: 27px;
     left: 216px;
     opacity: 1;
     overflow: visible;
-    z-index: 8030;
+    z-index: 8030;    
 }
 
 .popup_close{
     position: absolute;
     top: -15px;
-    right: 222px;
+    right: -15px;
     width: 36px;
     height: 36px;
     cursor: pointer;
@@ -166,6 +163,5 @@ h2{
 
 .biomatcher-ul-image{
     list-style: none;
-    margin-right: 15px;
     padding: 0;
 }
