@@ -19,6 +19,17 @@ $(document).ready(function() {
         <?php
         if($this->session->userdata('username_pid')!= ""){
         //data for image matching
+        if($this->session->userdata('count_match')=="15"){
+            $user = $pair_match['username_pre'];
+            $pid = $pair_match['projectID_pre'];
+            
+            $image_A = $pair_match['shuffled_image_pre_A']['md5sum'];
+            $image_B = $pair_match['shuffled_image_pre_B']['md5sum'];
+            
+            $imageIDA = $pair_match['shuffled_image_pre_A']['id'];
+            $imageIDB = $pair_match['shuffled_image_pre_B']['id'];
+        }
+        else{
             $user = $this->session->userdata('username_pid');
             $pid = $imageformatch['shuffled_image_A']['projectID'];
             
@@ -27,6 +38,7 @@ $(document).ready(function() {
             
             $imageIDA = $imageformatch['shuffled_image_A']['id'];
             $imageIDB = $imageformatch['shuffled_image_B']['id'];
+        }
         ?>        
         
         <div id="image1">

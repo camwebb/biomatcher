@@ -100,18 +100,24 @@ class Pages extends CI_Controller {
             $pair_mode[1] = "different";
             
             shuffle($pair_mode);
-            echo "<pre>";
+            
             $project_pre_match = $this->selectQC();
-            shuffle($project_pre_match);
-            //print_r($_SERVER['DOCUMENT_ROOT']);
+            
+            if(!empty($project_pre_match)){
+                $userID_pre = $project_pre_match[0]->userID;
+                $get_username_pre = $this->m_pages->get_user($userID_pre);
+                $username_pre = $get_username_pre[0]->username;
+                $image_pre = $this->selectImagePre($project_pre_match[0]);
+            }
+            
+            shuffle($image_pre);
             print_r($pair_mode[0]);
-            //print_r($project_pre_match[0]);
             
             if ($pair_mode[0] == "same"){
-                //print_r($project_pre_match);
+                echo "<pre>";
+                print_r($image_pre);
             }elseif ($pair_mode[0] == "different"){
-                $data['pair_match'] = array('shuffled_image_A' => $project_pre_match[0], 'shuffled_image_B' => $project_pre_match[1]);               
-                //print_r($data['pair_match']);
+                $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_pre[1]);             
             }
         }
         if ($this->session->userdata('count_match') == 16){
@@ -119,6 +125,7 @@ class Pages extends CI_Controller {
         }
         $imageRandom = $this->selectRandom();
         $data['imageformatch'] = $imageRandom;
+        $data['test'] = "apa";
         
     }else{
         $this->session->unset_userdata(array('shuffled_pid' => "", 'username_pid' => ""));
@@ -807,10 +814,8 @@ class Pages extends CI_Controller {
         //shuffle array from project
         shuffle ($shuffled_project);
         
-        if(!empty($shuffled_project)){
-            $image_pre = $this->selectImagePre($shuffled_project[0]);
-            return $image_pre;
-        }
+        return $shuffled_project;
+    
     }
     
     function selectImagePre($projectID){
