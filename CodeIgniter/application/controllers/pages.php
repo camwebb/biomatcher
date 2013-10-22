@@ -107,17 +107,17 @@ class Pages extends CI_Controller {
                 $userID_pre = $project_pre_match[0]->userID;
                 $get_username_pre = $this->m_pages->get_user($userID_pre);
                 $username_pre = $get_username_pre[0]->username;
-                $image_pre = $this->selectImagePre($project_pre_match[0]);
+                $image_pre = $this->selectImagePre($project_pre_match[0]->id);
             }
             
             shuffle($image_pre);
-            print_r($pair_mode[0]);
+            //print_r($pair_mode[0]);
             
-            if ($pair_mode[0] == "same"){
-                echo "<pre>";
-                print_r($image_pre);
-            }elseif ($pair_mode[0] == "different"){
-                $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_pre[1]);             
+            if ($pair_mode[0] == "same"){ // for same pair
+                $image_preB = $this->m_pages->getImagePre($project_pre_match[0]->id,$image_pre[0]['id'], $image_pre[0]['label']);
+                $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_preB[0]);
+            }elseif ($pair_mode[0] == "different"){ // for different pair
+                $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_pre[1]);
             }
         }
         if ($this->session->userdata('count_match') == 16){
@@ -125,7 +125,6 @@ class Pages extends CI_Controller {
         }
         $imageRandom = $this->selectRandom();
         $data['imageformatch'] = $imageRandom;
-        $data['test'] = "apa";
         
     }else{
         $this->session->unset_userdata(array('shuffled_pid' => "", 'username_pid' => ""));
@@ -818,10 +817,10 @@ class Pages extends CI_Controller {
     
     }
     
-    function selectImagePre($projectID){
+    function selectImagePre($projectID){ // select image for QCSet pair mode
         $this->load->model('m_pages');
         
-        $query = $this->db->query("SELECT id, md5sum, label ,COUNT(label) as jumlah FROM image a WHERE projectID=4 GROUP BY projectID,label HAVING jumlah >1");
+        $query = $this->db->query("SELECT id, md5sum, label ,COUNT(label) as jumlah FROM image a WHERE projectID=$projectID GROUP BY projectID,label HAVING jumlah >1");
         $result_project=$query->result_array();
         
         return $result_project;

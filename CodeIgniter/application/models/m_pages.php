@@ -374,6 +374,11 @@ class M_pages extends CI_Model {
         return $status;
     }
     
+    function getImagePre($projectID, $imageID, $label){
+        $query=$this->db->query("SELECT id, md5sum, label FROM image where projectID = '$projectID' AND id !='$imageID' AND label = '$label' ");
+        return $query->result_array();
+    }
+    
 }
 
 
