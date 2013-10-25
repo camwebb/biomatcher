@@ -39,7 +39,7 @@ CodeIgniter/application/index.html
 CodeIgniter/application/language
 CodeIgniter/application/language/english
 CodeIgniter/application/language/english/index.html
-CodeIgniter/application/libraries
+!CodeIgniter/application/libraries
 CodeIgniter/application/libraries/index.html
 CodeIgniter/application/logs
 CodeIgniter/application/logs/index.html
