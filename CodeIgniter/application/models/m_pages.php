@@ -374,9 +374,22 @@ class M_pages extends CI_Model {
         return $status;
     }
     
-    function getImagePre($projectID, $imageID, $label){
+    function getImagePreSame($projectID, $imageID, $label){
         $query=$this->db->query("SELECT id, md5sum, label FROM image where projectID = '$projectID' AND id !='$imageID' AND label = '$label' ");
         return $query->result_array();
+    }
+    
+    function selectQCProject(){
+        $this->db->select('id, userID');
+        $project_query = $this->db->get_where('project', array('QCSet' => 'yes'));
+        return $project_query->result();
+    }
+    
+    function selectImagePre($projectID){
+        $query = $this->db->query("SELECT id, md5sum, label ,COUNT(label) as jumlah FROM image a WHERE projectID=$projectID GROUP BY projectID,label HAVING jumlah >1");
+        $result_project=$query->result_array();
+        
+        return $result_project;
     }
     
 }

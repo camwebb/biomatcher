@@ -96,25 +96,26 @@ class Pages extends CI_Controller {
             }
         }
         if ($this->session->userdata('count_match') == 15){
+            $this->load->library('biomatcher_lib');
             $pair_mode[0] = "same";
             $pair_mode[1] = "different";
             
             shuffle($pair_mode);
             
-            $project_pre_match = $this->selectQC();
+            $project_pre_match = $this->biomatcher_lib->selectQC();
             
             if(!empty($project_pre_match)){
                 $userID_pre = $project_pre_match[0]->userID;
                 $get_username_pre = $this->m_pages->get_user($userID_pre);
                 $username_pre = $get_username_pre[0]->username;
-                $image_pre = $this->selectImagePre($project_pre_match[0]->id);
+                $image_pre = $this->m_pages->selectImagePre($project_pre_match[0]->id);
             }
             
             shuffle($image_pre);
             //print_r($pair_mode[0]);
             
             if ($pair_mode[0] == "same"){ // for same pair
-                $image_preB = $this->m_pages->getImagePre($project_pre_match[0]->id,$image_pre[0]['id'], $image_pre[0]['label']);
+                $image_preB = $this->m_pages->getImagePreSame($project_pre_match[0]->id,$image_pre[0]['id'], $image_pre[0]['label']);
                 $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_preB[0]);
             }elseif ($pair_mode[0] == "different"){ // for different pair
                 $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_pre[1]);
@@ -794,36 +795,6 @@ class Pages extends CI_Controller {
             $shuffled_image = array('shuffled_image_A' => $shuffled_image_A, 'shuffled_image_B' => $shuffled_image_B);
             return $shuffled_image;
         }       
-    }
-    
-    function selectQC(){
-        $this->load->model('m_pages');
-        $this->db->select('id, userID');
-        $project_query = $this->db->get_where('project', array('QCSet' => 'yes'));
-        $result_project = $project_query->result();
-        $shuffled_project = array();
-        foreach ($result_project as $project){
-            $projectID = $project->id;
-            //check if project contain min 5 images
-            //note: active project?
-            if($this->m_pages->activeProject($projectID)){
-                $shuffled_project[] = $project;
-            }
-        }
-        //shuffle array from project
-        shuffle ($shuffled_project);
-        
-        return $shuffled_project;
-    
-    }
-    
-    function selectImagePre($projectID){ // select image for QCSet pair mode
-        $this->load->model('m_pages');
-        
-        $query = $this->db->query("SELECT id, md5sum, label ,COUNT(label) as jumlah FROM image a WHERE projectID=$projectID GROUP BY projectID,label HAVING jumlah >1");
-        $result_project=$query->result_array();
-        
-        return $result_project;
     }
     
     function microtime_float()
