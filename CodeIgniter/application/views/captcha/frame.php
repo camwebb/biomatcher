@@ -1,65 +1,99 @@
 <?php
+    process_si_contact_form(); // Process the form, if it was submitted
+    if (isset($_SESSION['ctform']['error']) &&  $_SESSION['ctform']['error'] == true): /* The last form submission had 1 or more errors */ 
+?>
 
-process_si_contact_form(); // Process the form, if it was submitted
-
-if (isset($_SESSION['ctform']['error']) &&  $_SESSION['ctform']['error'] == true): /* The last form submission had 1 or more errors */ ?>
 <span class="error">There was a problem with your submission.  Errors are displayed below in red.</span><br /><br />
-<?php elseif (isset($_SESSION['ctform']['success']) && $_SESSION['ctform']['success'] == true): /* form was processed successfully */ ?>
+<?php 
+    elseif (isset($_SESSION['ctform']['success']) && $_SESSION['ctform']['success'] == true): /* form was processed successfully */ 
+?>
+
 <span class="success">The captcha was correct and the message has been sent!</span><br /><br />
+
 <?php endif; ?>
 
 <form method="post" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'] . $_SERVER['QUERY_STRING']) ?>" id="contact_form">
-<input type="hidden" name="do" value="contact" />
-
-<?php
-$user = $pair_match['username_pre'];
-$pid = $pair_match['projectID_pre'];
-
-$image_A = $pair_match['shuffled_image_pre_A']['md5sum'];
-$image_B = $pair_match['shuffled_image_pre_B']['md5sum'];
-
-$imageIDA = $pair_match['shuffled_image_pre_A']['id'];
-$imageIDB = $pair_match['shuffled_image_pre_B']['id'];
-?>
-
-<div class="biomatcher">
-        
-    <div id="match" style="padding: 10px 25px" >
+<!--<form method="post" action="" id="contact_form" onsubmit="return processForm()">-->
+    <input type="hidden" name="do" value="contact" />
     
-    <h2 align="center">See images below, and choose Same or Different.</h2>
-
-    <ul class="biomatcher-ul-image" style="float: left;">
-        <li><img class="biomatcher-image" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_A.'.500px.jpg' ?>" /></li>
-    </ul>
+    <?php
+    //$user = $pair_match['username_pre'];
+    //$pid = $pair_match['projectID_pre'];
     
-    <ul class="biomatcher-ul-image" style="float: right;">
-        <li><img class="biomatcher-image" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_B.'.500px.jpg' ?>" /></li>
-    </ul>
+    //$image_A = $pair_match['shuffled_image_pre_A']['md5sum'];
+    //$image_B = $pair_match['shuffled_image_pre_B']['md5sum'];
+    
+    //$imageIDA = $pair_match['shuffled_image_pre_A']['id'];
+    //$imageIDB = $pair_match['shuffled_image_pre_B']['id'];
+    ?>
+    
+    <div class="biomatcher">
+            
+        <div id="match" style="padding: 10px 25px" >
         
-    <div class="clear"></div>
+        <h2 align="center">See images below, and choose Same or Different.</h2>
+    
+        <ul class="biomatcher-ul-image" style="float: left;">
+            <li><img class="biomatcher-image" src="<?php //echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_A.'.500px.jpg' ?>" /></li>
+        </ul>
         
-    <div style="text-align: center;">
-        <input type="radio" name="match" value="Same" id="same" /><label for="same">Same</label>
-        <input type="radio" name="match" value="Different" id="different" /><label for="different">Different</label>
+        <ul class="biomatcher-ul-image" style="float: right;">
+            <li><img class="biomatcher-image" src="<?php //echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_B.'.500px.jpg' ?>" /></li>
+        </ul>
+            
+        <div class="clear"></div>
+            
+        <div style="text-align: center;">
+            <input type="radio" name="match" value="Same" id="same" /><label for="same">Same</label>
+            <input type="radio" name="match" value="Different" id="different" /><label for="different">Different</label>
+        </div>
+        
+        <div align="center">
+            <p>
+                <img id="siimage" style="border: 1px solid #000; margin-right: 15px;" src="<?php echo base_url().'securimage_files/'; ?>securimage_show.php?sid=<?php echo md5(uniqid()) ?>" alt="CAPTCHA Image" />
+                
+                <a tabindex="-1" style="border-style: none;" href="#" title="Refresh Image" onclick="document.getElementById('siimage').src = '<?php echo base_url().'securimage_files/'; ?>securimage_show.php?sid=' + Math.random(); this.blur(); return false"><img src="<?php echo base_url().'securimage_files/'; ?>images/refresh.png" alt="Reload Image" height="32" width="32" onclick="this.blur()" align="bottom" border="0" /></a><br />
+                
+                <input class="biomatcher-inputtext-reg" type="text" name="ct_captcha" size="12" maxlength="8" />            
+                <button type="submit" class="biomatcher-box-button" id="sameMatch">Send Information</button>               
+            </p>
+    
+        </div>       
+        </div>
+        
     </div>
-    
-    <div align="center">
-        <p>
-            <img id="siimage" style="border: 1px solid #000; margin-right: 15px;" src="<?php echo base_url().'securimage_files/'; ?>securimage_show.php?sid=<?php echo md5(uniqid()) ?>" alt="CAPTCHA Image" />
-            
-            <a tabindex="-1" style="border-style: none;" href="#" title="Refresh Image" onclick="document.getElementById('siimage').src = '<?php echo base_url().'securimage_files/'; ?>securimage_show.php?sid=' + Math.random(); this.blur(); return false"><img src="<?php echo base_url().'securimage_files/'; ?>images/refresh.png" alt="Reload Image" height="32" width="32" onclick="this.blur()" align="bottom" border="0" /></a><br />
-            
-            <input class="biomatcher-inputtext-reg" type="text" name="ct_captcha" size="12" maxlength="8" />
-            
-            
-            <button type="submit" class="biomatcher-box-button" id="sameMatch">Send Information</button>               
-        </p>
-
-    </div>       
-    </div>
-    
-</div>
 </form>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+    $.noConflict();
+
+    function reloadCaptcha()
+    {
+        jQuery('#siimage').src = './securimage_show.php?sid=' + Math.random();
+    }
+
+    function processForm()
+    {
+		jQuery.ajax({
+			url: '<?php echo htmlspecialchars($_SERVER['REQUEST_URI'] . $_SERVER['QUERY_STRING']) ?>',
+			type: 'POST',
+			data: jQuery('#contact_form').serialize(),
+			dataType: 'json',
+		}).done(function(data) {
+			if (data.error === 0) {
+				jQuery('#success_message').show();
+				jQuery('#contact_form')[0].reset();
+				reloadCaptcha();
+				setTimeout("jQuery('#success_message').fadeOut()", 30000);
+			} else {
+				alert("There was an error with your submission.\n\n" + data.message);
+			}
+		});
+
+        return false;
+    }
+</script>
 
 <?php
 
@@ -113,7 +147,7 @@ function process_si_contact_form()
     // Only try to validate the captcha if the form has no errors
     // This is especially important for ajax calls
     if (sizeof($errors) == 0) {
-      require_once $_SERVER['DOCUMENT_ROOT'] . '/biomatcher/biomatcher.org/securimage_files/securimage.php';
+      require_once $_SERVER['DOCUMENT_ROOT'] . '/biomatcher-localhost/biomatcher.org/securimage_files/securimage.php';
       $securimage = new Securimage();
 
       if ($securimage->check($captcha) == false) {
