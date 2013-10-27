@@ -379,6 +379,12 @@ class M_pages extends CI_Model {
         return $query->result_array();
     }
     
+    function selectProject(){
+        $this->db->select('id, userID');
+        $project_query = $this->db->get_where('project', array('QCSet' => 'no'));
+        return $project_query->result();
+    }
+    
     function selectQCProject(){
         $this->db->select('id, userID');
         $project_query = $this->db->get_where('project', array('QCSet' => 'yes'));

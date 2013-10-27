@@ -67,9 +67,7 @@ class Pages extends CI_Controller {
     if ($page == 'match'){
         if ($this->session->userdata('shuffled_pid') == ""){
             $this->session->set_userdata(array('count_match' => 1));
-            $this->db->select('id, userID');
-            $project_query = $this->db->get_where('project', array('QCSet' => 'no'));
-            $result_project = $project_query->result();
+            $result_project = $this->m_pages->selectProject();
             $shuffled_project = array();
             foreach ($result_project as $project){
                 $projectID = $project->id;

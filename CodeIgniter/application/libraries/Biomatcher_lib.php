@@ -27,6 +27,25 @@ class Biomatcher_lib {
         return $shuffled_project;
     
     }
+    
+    public function selectProjectCaptcha(){
+        $this->CI->load->model('m_pages');
+        $result_project = $this->CI->m_pages->selectProject();
+        $shuffled_project = array();
+        foreach ($result_project as $project){
+            $projectID = $project->id;
+            //check if project contain min 5 images
+            //note: active project?
+            if($this->CI->m_pages->activeProject($projectID)){
+                $shuffled_project[] = $project;
+            }
+        }
+        //shuffle array from project
+        shuffle ($shuffled_project);
+        
+        return $shuffled_project;
+    
+    }
 }
 
 /* End of file Biomatcher_lib.php */
