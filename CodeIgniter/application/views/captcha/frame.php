@@ -12,8 +12,8 @@
 
 <?php endif; ?>
 
-<form method="post" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'] . $_SERVER['QUERY_STRING']) ?>" id="contact_form">
-<!--<form method="post" action="" id="contact_form" onsubmit="return processForm()">-->
+<!--<form method="post" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI'] . $_SERVER['QUERY_STRING']) ?>" id="contact_form">-->
+<form method="post" action="" id="contact_form" onsubmit="return processForm()">
     <input type="hidden" name="do" value="contact" />
     
     <?php
@@ -57,6 +57,7 @@
                 <input class="biomatcher-inputtext-reg" type="text" name="ct_captcha" size="12" maxlength="8" />            
                 <button type="submit" class="biomatcher-box-button" id="sameMatch">Send Information</button>               
             </p>
+                                    
     
         </div>       
         </div>
@@ -75,21 +76,22 @@
 
     function processForm()
     {
-		jQuery.ajax({
-			url: '<?php echo htmlspecialchars($_SERVER['REQUEST_URI'] . $_SERVER['QUERY_STRING']) ?>',
+		if($('input:radio[name=match]').is(':checked')){
+        jQuery.ajax({
+			url: '<?php echo $_SERVER['PHP_SELF'] ?>',
 			type: 'POST',
 			data: jQuery('#contact_form').serialize(),
 			dataType: 'json',
-		}).done(function(data) {
-			if (data.error === 0) {
-				jQuery('#success_message').show();
-				jQuery('#contact_form')[0].reset();
-				reloadCaptcha();
-				setTimeout("jQuery('#success_message').fadeOut()", 30000);
-			} else {
-				alert("There was an error with your submission.\n\n" + data.message);
-			}
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+        alert('status:' + XMLHttpRequest.status + ', status text: ' + XMLHttpRequest.statusText);
+    },
+        success: function(data){}
 		});
+        }
+        
+        else{
+            alert('asdasd');
+        }
 
         return false;
     }
