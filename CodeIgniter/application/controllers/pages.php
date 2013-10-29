@@ -140,6 +140,9 @@ class Pages extends CI_Controller {
         
         $images = $this->m_pages->match_images($project_id);
         
+        //echo '<pre>';
+        //print_r($images);
+        
         foreach ($images as $id){
             $A = $this->m_pages->get_name_image($id->imageA);
             $B = $this->m_pages->get_name_image($id->imageB);
@@ -151,6 +154,8 @@ class Pages extends CI_Controller {
             $different = $this->m_pages->same($id->imageA, $id->imageB, 'no');
             
             $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $same, 'different' => $different);
+            //echo '<pre>';
+            //print_r($matches);
         }
         
         $matches_send = array_map("unserialize", array_unique(array_map("serialize", $matches)));
