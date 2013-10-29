@@ -90,7 +90,7 @@
         }
         
         else{
-            alert('asdasd');
+            alert('Choose same of different');
         }
 
         return false;
