@@ -139,9 +139,12 @@ class Pages extends CI_Controller {
         $total = array();
         
         $images = $this->m_pages->match_images($project_id);
+		
+		$tes = $this->m_pages->stat();
         
-        //echo '<pre>';
-        //print_r($images);
+        echo '<pre>';
+        print_r($tes);
+		exit;
         
         foreach ($images as $id){
             $A = $this->m_pages->get_name_image($id->imageA);

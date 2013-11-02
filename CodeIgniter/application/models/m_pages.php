@@ -399,69 +399,10 @@ class M_pages extends CI_Model {
     }
     
     function stat(){
-        /*
+        $query = $this->db->query("SELECT m.*, CONCAT (GREATEST(m.imageA,m.imageB),',',LEAST(m.imageA,m.imageB)) as pair_id FROM match m GROUP BY pair_id");
+        $stat=$query->result_array();
         
-        1. 
-        select *,
-          sum(case when same = 'no' then 1 else 0 end) as same_match,
-          sum(case when same = 'yes' then 1 else 0 end) as diff_match
-        from `match`
-        group by imageA, imageB
-
-        2.
-        select *,
-          sum(case when a.same = 'no' then 1 else 0 end) as same_match,
-          sum(case when a.same = 'yes' then 1 else 0 end) as diff_match
-        from `match` a
-        INNER JOIN `match` b  ON b.imageA = a.imageB AND b.imageB = a.imageA
-        group by b.imageA, b.imageB
-        
-        3.
-        select *,
-          sum(case when b.same = 'no' then 1 else 0 end) as same_match,
-          sum(case when b.same = 'yes' then 1 else 0 end) as diff_match
-        from `match` a
-        INNER JOIN `match` b  ON b.imageA = a.imageB AND b.imageB = a.imageA
-        group by b.imageA
-
-        4.
-        SELECT DISTINCT * FROM (`match`) JOIN `image` ON `match`.`imageA` = `image`.`id` WHERE `projectID` = '2' ORDER BY `image`.`id` asc
-        
-        5.
-        select a.id, a.imageA, a.imageB, c.imageA, c.imageB, b.projectID,
-          sum(case when a.same = 'no' then 1 else 0 end) as same_match,
-          sum(case when a.same = 'yes' then 1 else 0 end) as diff_match
-        from `match` a
-        INNER JOIN `match` c  ON c.imageA = a.imageB AND c.imageB = a.imageA
-        JOIN `image` b ON a.`imageA` = b.`id` WHERE b.`projectID` = '2'
-        group by a.imageA, a.imageB
-
-        6.
-        SELECT * FROM `match`
-        WHERE id IN
-        (
-            SELECT s.id
-            FROM `match` s
-            INNER JOIN
-            (
-                SELECT imageA, imageB
-                FROM `match`
-                GROUP BY imageA, imageB
-                HAVING COUNT(*) = 1 
-            ) t
-            ON s.imageA=t.imageB AND s.imageB=t.imageA
-         )
-        ORDER BY imageA
-        
-        7.
-        SELECT u1.imageA,  u1.imageB
-        FROM `match` u1
-        JOIN `match` u2
-        ON (u1.imageA=u2.imageB AND u1.imageB=u2.imageA)
-        WHERE u1.imageA <= u2.imageA
-        ORDER BY u1.imageA;
-        
-        */
+        return $stat;
     }
     
 }
