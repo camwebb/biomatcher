@@ -207,14 +207,16 @@ class M_pages extends CI_Model {
         $this->db->insert('match', $data);
     }
     
-    function match_images($key){
-        $this->db->distinct();  
-        $this->db->from('match');
-        $this->db->join('image', 'match.imageA = image.id');
-        $this->db->where('projectID', $key);
-        $this->db->order_by('image.id','asc');
-        $query = $this->db->get();
-        return $query->result();
+    function match_images($projectID){
+        $query = $this->db->query("SELECT m.imageA,m.imageB,projectID, CONCAT (GREATEST(m.imageA,m.imageB),',',LEAST(m.imageA,m.imageB)) as pair_id,
+sum(case when m.same = 'yes' then 1 else 0 end) as same_match,
+sum(case when m.same = 'no' then 1 else 0 end) as diff_match
+FROM `match` m
+JOIN `image` i ON m.`imageA` = i.`id` WHERE i.`projectID` = '$projectID'
+GROUP BY pair_id");
+        $stat=$query->result();
+        
+        return $stat;
     }
     
     function get_name_image($id){
@@ -396,13 +398,6 @@ class M_pages extends CI_Model {
         $result_project=$query->result_array();
         
         return $result_project;
-    }
-    
-    function stat(){
-        $query = $this->db->query("SELECT m.*, CONCAT (GREATEST(m.imageA,m.imageB),',',LEAST(m.imageA,m.imageB)) as pair_id FROM match m GROUP BY pair_id");
-        $stat=$query->result_array();
-        
-        return $stat;
     }
     
 }

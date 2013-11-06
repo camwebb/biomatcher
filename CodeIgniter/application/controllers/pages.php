@@ -139,24 +139,18 @@ class Pages extends CI_Controller {
         $total = array();
         
         $images = $this->m_pages->match_images($project_id);
-		
-		$tes = $this->m_pages->stat();
         
-        echo '<pre>';
-        print_r($tes);
-		exit;
-        
-        foreach ($images as $id){
-            $A = $this->m_pages->get_name_image($id->imageA);
-            $B = $this->m_pages->get_name_image($id->imageB);
+        foreach ($images as $image){
+            $A = $this->m_pages->get_name_image($image->imageA);
+            $B = $this->m_pages->get_name_image($image->imageB);
             
             $filenameA = $A[0]->nameOri;
             $filenameB = $B[0]->nameOri;
             
-            $same = $this->m_pages->same($id->imageA, $id->imageB, 'yes');
-            $different = $this->m_pages->same($id->imageA, $id->imageB, 'no');
+            $same = $this->m_pages->same($image->imageA, $image->imageB, 'yes');
+            $different = $this->m_pages->same($image->imageA, $image->imageB, 'no');
             
-            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $same, 'different' => $different);
+            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $image->same_match, 'different' => $image->diff_match);
             //echo '<pre>';
             //print_r($matches);
         }
