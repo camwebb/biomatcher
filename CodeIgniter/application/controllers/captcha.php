@@ -20,6 +20,7 @@ class Captcha extends CI_Controller {
     
     function frame()
     {
+        $this->load->helper('html');
         $page = 'frame';
         if ( ! file_exists('../CodeIgniter/application/views/captcha/'.$page.'.php'))
     	{

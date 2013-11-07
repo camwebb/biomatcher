@@ -11,10 +11,10 @@
 	</head>
 	<body>
 		<?php
-		echo form_open('captcha');
+		echo form_open('captcha/si_test');
 		echo img(array('src' => site_url('captcha/securimage'), 'alt' => 'captcha', 'id' => 'captcha'));
-		echo form_input(array('name' => 'something', 'value' => set_value('something')));
-		echo form_label('captcha', 'Type the captcha code');
+	//	echo form_input(array('name' => 'something', 'value' => set_value('something')));
+	//	echo form_label('captcha', 'Type the captcha code');
 		echo form_input(array('name' => 'captcha'));
 		echo form_error('captcha');
 
