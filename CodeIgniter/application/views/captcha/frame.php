@@ -1,6 +1,5 @@
 <?php
-    $attributes = array('id' => 'myform');
-    echo form_open('captcha/si_test',$attributes);
+    echo form_open('captcha/si_test',array('id'=>'testajax'));
     echo form_error('captcha');
 ?>
     <?php
@@ -41,7 +40,7 @@
                     echo img(array('src' => site_url('captcha/securimage'), 'alt' => 'captcha', 'id' => 'captcha'));
                     echo form_input(array('name' => 'captcha'));
                 ?>          
-                <button type="submit" class="biomatcher-box-button" id="sameMatch">Send Information</button>               
+                <button class="biomatcher-box-button" id="sameMatch">Send Information</button>               
             </p>
                                     
     
@@ -54,21 +53,23 @@ echo form_close();	?>
 
     <script type="text/javascript">
         $(document).ready(function(){
-    
-        $('#sameMatch').click(function(){
-            
-    		if($('input:radio[name=match]').is(':checked')){
+        
+        $('#testajax').submit(function(e){
+            if($('input:radio[name=match]').is(':checked')){
                 $.ajax({
-                  url: "test.html",
-                  context: document.body
-                }).done(function() {
-                  $( this ).addClass( "done" );
-                });
-            }
-            
+                    type: "POST",
+                    url: "http://localhost/biomatcher/biomatcher.org/index.php/captcha/si_test",
+                    data: $("#testajax").serialize(),
+                    success: function(response){
+                        alert(response);
+                        }                  
+                    });
+                }
             else{
                 alert('Choose same of different');
             }
+            
+            return false;
         });
         });
     </script>

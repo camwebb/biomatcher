@@ -121,14 +121,17 @@ class Captcha extends CI_Controller {
 			$val = $this->form_validation;
 			$val->set_rules('captcha', 'captcha', 'trim|required|callback__check_captcha');
 			$val->set_error_delimiters('<div class="error">','</div>');
-		
-			if($val->run())
+        
+			if($val->run()== TRUE)
 			{
 				echo 'Captcha OK';
 			}
-		}			
+            else{
+                echo 'The code you entered is invalid';
+            }
+		}		
 
-		$this->load->view('captcha/simagetest');
+		//$this->load->view('captcha/simagetest');
 	}	
 
 	public function securimage()
