@@ -39,7 +39,11 @@
                 <?php
                     echo img(array('src' => site_url('captcha/securimage'), 'alt' => 'captcha', 'id' => 'captcha'));
                     echo form_input(array('name' => 'captcha'));
-                ?>          
+                ?>
+                <object type="application/x-shockwave-flash" data="<?php echo base_url();?>captcha/securimage_audio" height="32" width="32">
+                <param name="movie" value="<?php echo base_url();?>captcha/securimage_audio" />
+                </object>
+    </object>          
                 <button class="biomatcher-box-button" id="sameMatch">Send Information</button>               
             </p>
                                     
@@ -60,8 +64,12 @@ echo form_close();	?>
                     type: "POST",
                     url: "http://localhost/biomatcher/biomatcher.org/index.php/captcha/si_test",
                     data: $("#testajax").serialize(),
-                    success: function(response){
-                        alert(response);
+                    success: function(status){
+                        if(status == 'invalid'){
+                            alert('The code you entered is invalid');
+                            $("#captcha").attr('src', '<?php echo site_url('captcha/securimage');?>');
+                        }
+                        
                         }                  
                     });
                 }

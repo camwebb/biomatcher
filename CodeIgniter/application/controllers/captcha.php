@@ -124,10 +124,10 @@ class Captcha extends CI_Controller {
         
 			if($val->run()== TRUE)
 			{
-				echo 'Captcha OK';
+				echo 'ok';
 			}
             else{
-                echo 'The code you entered is invalid';
+                echo 'invalid';
             }
 		}		
 
@@ -142,11 +142,24 @@ class Captcha extends CI_Controller {
 		$allsettings = array_merge($this->config->item($active), $this->config->item('si_general'));
 
 		$this->load->library('securimage/securimage');
-		$img = new Securimage($allsettings);
-		
-		//$img->captcha_type = Securimage::SI_CAPTCHA_MATHEMATIC;
-		
+		$img = new Securimage($allsettings);		
 		$img->show(APPPATH . 'libraries/securimage/backgrounds/bg3.png');
+        $img->outputAudioFile();
+	}
+    
+    public function securimage_audio()
+	{
+        $this->load->helper('html');
+		$this->load->config('csecurimage');
+		$settings['audio_path'] = APPPATH.'libraries/securimage/audio';// If you didn't configure this it will secureimage library path and follow by dir /audio/
+        $settings['audio_noise_path'] = APPPATH.'libraries/securimage/audio/noise';//save as above audio path
+        $settings['audio_use_noise'] = true; // true or false;
+        $settings['degrade_audio'] = true; // true or false; 
+        
+        // Then init the secureimage with the options 
+        $img = new Securimage($settings);
+        $img->show(); // this will show the image src 
+        $img->outputAudioFile(); // this will output the audio file to the browser
 	}
     
 }

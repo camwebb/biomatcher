@@ -14,8 +14,11 @@ $config['si_general'] = array(
 	'image_type'           => 'Securimage::SI_IMAGE_JPEG',	
 	'use_wordlist'         => false,
 	'text_transparency_percentage' => 90,
-	'use_transparent_text' => false
-
+	'use_transparent_text' => false,
+    'audio_path'           => APPPATH.'libraries/secuimage/audio',
+    'audio_noise_path'     => APPPATH.'libraries/secuimage/audio/noise',
+    'audio_use_noise'      => true,
+    'degrade_audio'        => true
 );
 
 $config['si_easy'] = array(
