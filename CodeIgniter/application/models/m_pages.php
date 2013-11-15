@@ -275,6 +275,15 @@ GROUP BY pair_id");
             }
             $list_image_a[]=$get_image_a[$i]->id;
         }
+        
+        
+        for($i=0;$i<count($list_image_b);$i++){
+        //$name_B = "SELECT nameOri from `image` where id = '".$list_image_b[$i]."'";
+        //$get_name = $this->db->query($name_B)->row_array();
+        
+        //print_r($get_name);    
+        }    
+        
         ksort($list_image_a);
         sort($list_image_b);
         //print_r($list_image_b);
@@ -284,7 +293,9 @@ GROUP BY pair_id");
             for($i=0;$i<count($get_image_a);$i++){
                 $q_hitung = "SELECT count(*) as hitung from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."' and imageB ='".$list_image_b[$j]."' or imageB = '".$get_image_a[$i]->id."' and same = '".$same."' and imageA ='".$list_image_b[$j]."'";
                 $get_hitung = $this->db->query($q_hitung)->result();
-                $matching_image[$list_image_b[$j]][$get_image_a[$i]->id] = $get_hitung[0]->hitung;
+                $name_B = "SELECT nameOri from `image` where id = '".$list_image_b[$j]."'";
+                $get_name = $this->db->query($name_B)->row_array();
+                $matching_image[$get_name['nameOri']][$get_image_a[$i]->nameOri] = $get_hitung[0]->hitung;
         
             }    
         }
@@ -295,12 +306,13 @@ GROUP BY pair_id");
             $ar_row = array();
             $ar_row[0]=$list_image_b[$i];
             $set_counter = 1;
-            foreach($matching_image[$list_image_b[$i]] as $key=>$val){
+            foreach($matching_image[$get_name['nameOri']] as $key=>$val){
                 $ar_row[$set_counter] = $val;
                 $set_counter++;
             }
             $array[] = $ar_row;
         }
+        
         $this->load->library('Convertcsv');
         $csv_data = $this->convertcsv->array_to_csv($array, false);
         $this->load->helper('download');
