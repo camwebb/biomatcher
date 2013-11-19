@@ -848,6 +848,56 @@ class Pages extends CI_Controller {
         echo json_encode(array('status' => $status));
     }
     
+    function install_auth($page = 'auth_register')
+    {
+        if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
+    	{
+    		// Whoops, we don't have a page for that!
+    		show_404();
+    	}
+        
+        $this->load->library('Auth');
+        
+        //$this->auth->install();
+        
+        $email = "widiw374@gmail.com";
+        $password = "asdasd";
+        $remember = true;
+        $user_id = '1';
+        
+        //register a user
+        //$this->auth->register($email, $password);
+        
+        /*
+        //get token activation
+        $token = $this->auth->get_activate_token($user_id);
+        echo $token;*/
+        
+        //activate user with token
+        /*$activate_token = "zio5J99JoT2utkMMaXQQha3rnIzODsQt2uy09ZOOz7ewaDUyjqk35qcfkswibOSe";
+        if($this->auth->activate_with_token($user_id, $activate_token)){
+            echo "Account Activated";
+        }else{
+            echo "Failed";
+        }*/
+        
+        //login a user
+        $login = $this->auth->login($email, $password, $remember);
+        print_r($login);
+        if($login){
+            echo "Login Berhasil";
+        }else{
+            echo "Login Gagal";
+        }
+        
+        
+    	$data['title'] = ucfirst($page); // Capitalize the first letter
+    	
+    	$this->load->view('templates/header', $data);
+    	$this->load->view('pages/'.$page, $data);
+    	$this->load->view('templates/footer', $data);
+    }
+    
 }
 
 ?>
