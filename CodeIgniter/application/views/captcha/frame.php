@@ -1,6 +1,6 @@
 <?php
-    echo form_open('captcha/si_test',array('id'=>'testajax'));
-    echo form_error('captcha');
+    //echo form_open('captcha/si_test',array('id'=>'testajax'));
+    //echo form_error('captcha');
 ?>
     <?php
     $user = $pair_match['username_pre'];
@@ -37,14 +37,21 @@
         <div align="center">
             <p>
                 <?php
-                    echo img(array('src' => site_url('captcha/securimage'), 'alt' => 'captcha', 'id' => 'captcha'));
-                    echo form_input(array('name' => 'captcha'));
+                    echo img(array('src' => site_url('captcha/securimage'), 'alt' => 'captcha', 'id' => 'captcha', 'style' => 'border: 1px solid #000; margin-right: 15px;'));
                 ?>
-                <object type="application/x-shockwave-flash" data="<?php echo base_url();?>captcha/securimage_audio" height="32" width="32">
-                <param name="movie" value="<?php echo base_url();?>captcha/securimage_audio" />
-                </object>
-    </object>          
-                <button class="biomatcher-box-button" id="sameMatch">Send Information</button>               
+                
+                <a tabindex="-1" style="border-style: none;" href="#" title="Refresh Image" onclick="document.getElementById('captcha').src = '<?php echo base_url();?>index.php/captcha/securimage?sid=' + Math.random(); this.blur(); return false"><img src="<?php echo base_url().'securimage_files/'; ?>images/refresh.png" alt="Reload Image" height="32" width="32" onclick="this.blur()" align="top" border="0" /></a>
+                
+                <object align="top" type="application/x-shockwave-flash" data="<?php echo base_url().'securimage_files/'; ?>securimage_play.swf?bgcol=#ffffff&amp;icon_file=<?php echo base_url().'securimage_files/'; ?>images/audio_icon.png&amp;audio_file=<?php echo base_url().'securimage_files/'; ?>securimage_play.php" height="32" width="32"></object>
+                
+                
+                <param name="movie" value="<?php base_url().'securimage_files/'; ?>securimage_play.swf?bgcol=#ffffff&amp;icon_file=<?php echo base_url().'securimage_files/'; ?>images/audio_icon.png&amp;audio_file=<?php echo base_url().'securimage_files/'; ?>securimage_play.php" /><br />
+                <?php
+                echo form_input(array('name' => 'captcha', 'class' => 'biomatcher-inputtext-reg', 'type' => 'text', 'maxlength' => '8', 'size' => '12'));
+                ?>
+         
+                <button class="biomatcher-box-button" id="sendMatch">Send Information</button>    
+                           
             </p>
                                     
     
@@ -53,19 +60,32 @@
         
     </div>
 <?php
-echo form_close();	?>
+//echo form_close();	?>
 
     <script type="text/javascript">
         $(document).ready(function(){
-        
-        $('#testajax').submit(function(e){
+            
+            //var url = 'http://localhost/biomatcher/biomatcher.org/index.php/captcha/si_test';
+            var url = 'http://192.168.56.10/biomatcher/biomatcher.org/index.php/captcha/si_test';
+            
+            
+        //$('#testajax').submit(function(e){
+        $('#sendMatch').bind( "click",function(e){
+            var match = $('input:radio[name="match"]').val();
+            var captcha = $('input:text[name="captcha"]').val();
+            
             if($('input:radio[name=match]').is(':checked')){
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/biomatcher/biomatcher.org/index.php/captcha/si_test",
-                    data: $("#testajax").serialize(),
+                    url: url,
+                    //data: $("#testajax").serialize(),
+                    data: 'match='+match+'&captcha='+captcha,
                     success: function(status){
-                        if(status == 'invalid'){
+                        console.log('match='+match+'&captcha='+captcha);
+                        if(status == 'ok'){
+                            //$(this).closest("form").submit();
+                            //console.log($('input:radio[name="match"]').parents('form:first'));
+                        }else{
                             alert('The code you entered is invalid');
                             $("#captcha").attr('src', '<?php echo site_url('captcha/securimage');?>');
                         }

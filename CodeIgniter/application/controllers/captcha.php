@@ -116,12 +116,15 @@ class Captcha extends CI_Controller {
 	{
         $this->load->library('form_validation');
         $this->load->helper('html');
+        
 		if($this->input->post())
 		{
+            $captcha = $this->input->post('captcha');
 			$val = $this->form_validation;
 			$val->set_rules('captcha', 'captcha', 'trim|required|callback__check_captcha');
 			$val->set_error_delimiters('<div class="error">','</div>');
-        
+            
+            //if($captcha)
 			if($val->run()== TRUE)
 			{
 				echo 'ok';
@@ -143,7 +146,7 @@ class Captcha extends CI_Controller {
 
 		$this->load->library('securimage/securimage');
 		$img = new Securimage($allsettings);		
-		$img->show(APPPATH . 'libraries/securimage/backgrounds/bg3.png');
+		$img->show(APPPATH . 'libraries/securimage/backgrounds/bg6.png');
         $img->outputAudioFile();
 	}
     

@@ -15,12 +15,20 @@
 </head>
 <body>
 
-<form action="" method="post">
-                
+<form action="test.php" method="post" id="myformid">
+
     <!-- ... your form code here ... -->
-    <input type="button" value="Verify" onclick="biomatcher()" />    
+    <input type="button" value="Verify" onclick="biomatcher('#myformid')" />    
 
 </form>
 
 </body>
 </html>
+<script>
+/*$(document).ready(function(){
+$('#sendMatch').bind( "click",function(e){
+    sendMatch();
+});
+});*/
+
+</script>
