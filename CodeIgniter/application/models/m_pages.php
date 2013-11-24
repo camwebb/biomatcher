@@ -273,7 +273,7 @@ GROUP BY pair_id");
                     } 
                 }
             }
-            $list_image_a[]=$get_image_a[$i]->id;
+            $list_image_a[]=$get_image_a[$i]->nameOri;
         }
         
         
@@ -300,18 +300,40 @@ GROUP BY pair_id");
             }    
         }
         ksort($matching_image);
-        //print_r($matching_image);
+        //print_r($matching_image);   
+        
+        
+        for($i=0;$i<count($list_image_a);$i++){
+        $name_A = "SELECT nameOri from `image` where id = '".$list_image_a[$i]."'";
+        $get_nameA = $this->db->query($name_A)->row_array();
+        
+        $list_image_a_name = array();
+        $list_image_a_name[] = "row/col";
+        
+        }
+        
+        //print_r($list_image_a);
         $array[] = $list_image_a;
+        
         for($i=0;$i<count($list_image_b);$i++){
+            $name_B = "SELECT nameOri from `image` where id = '".$list_image_b[$i]."'";
+            $get_name = $this->db->query($name_B)->row_array();
+             
+            
+        foreach($get_name as $key=>$val){    
+            
             $ar_row = array();
-            $ar_row[0]=$list_image_b[$i];
+            $ar_row[0]=$val;
+                        
             $set_counter = 1;
             foreach($matching_image[$get_name['nameOri']] as $key=>$val){
                 $ar_row[$set_counter] = $val;
                 $set_counter++;
             }
             $array[] = $ar_row;
-        }
+        }}
+        
+        //print_r($array);
         
         $this->load->library('Convertcsv');
         $csv_data = $this->convertcsv->array_to_csv($array, false);
