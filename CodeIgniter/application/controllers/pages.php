@@ -162,6 +162,50 @@ class Pages extends CI_Controller {
         $data['totalMatches'] = count($matches);
     }
     
+    /*if ($page == 'statistic'){
+        /*$project_id = $this->uri->segment(4, 0);
+        $same = 'yes';
+        $list_image_a = array();
+        $list_image_b = array();
+        //get all imageA with the same projectID
+        $q_a = "SELECT id,nameOri from `image` where projectID = '".$project_id."' order by id";
+        $get_image_a = $this->db->query($q_a)->result();
+        for($i=0;$i<count($get_image_a);$i++){
+            //get imageB for every imageA
+            $q_b = "SELECT imageB,imageA from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."' or imageB = '".$get_image_a[$i]->id."' and same = '".$same."' order by imageA";
+            $get_image_b = $this->db->query($q_b)->result();
+            if(!empty($get_image_b)){
+                for($j=0;$j<count($get_image_b);$j++){
+                    if($get_image_b[$j]->imageB == $get_image_a[$i]->id){
+                        if(!in_array($get_image_b[$j]->imageA,$list_image_b)){
+                            $list_image_b[]=$get_image_b[$j]->imageA;    
+                        } 
+                    }
+                    else if($get_image_b[$j]->imageA == $get_image_a[$i]->id){
+                        if(!in_array($get_image_b[$j]->imageB,$list_image_b)){
+                            $list_image_b[]=$get_image_b[$j]->imageB;    
+                        }
+                    } 
+                }
+            }
+            $list_image_a[]=$get_image_a[$i]->nameOri;
+        }
+        
+        ksort($list_image_a);
+        sort($list_image_b);-----------part1
+        
+        $project_id = $this->uri->segment(4, 0);
+        $same = 'yes';
+        $list_image_a = array();
+        $query = "SELECT match.imageA,match.imageB from `match` INNER JOIN `image` WHERE projectID = '13' and match.imageA=image.id or projectID = '13' and match.imageB = image.id ";
+        $get_query = $this->db->query($query)->result();
+        print_r($get_query);
+        
+        
+          
+    }*/
+    
+    
     if ($page == 'download_statistic'){
         $project_id = $this->uri->segment(4, 0);
         

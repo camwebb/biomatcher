@@ -239,12 +239,12 @@ GROUP BY pair_id");
     }
     
     function count_same($project_id){ 
-        $query = $this->db->query("SELECT * FROM `match` INNER JOIN `image` ON match.imageA=image.id WHERE image.projectID = '".$project_id."' AND match.same='yes';");
+        $query = $this->db->query("SELECT * FROM `match` INNER JOIN `image` ON match.imageA=image.id or match.imageB=image.id WHERE image.projectID = '".$project_id."' AND match.same='yes';");
         return $query->num_rows();
     }
     
     function count_diff($project_id){ 
-        $query = $this->db->query("SELECT * FROM `match` INNER JOIN `image` ON match.imageA=image.id WHERE image.projectID = '".$project_id."' AND match.same='no';");
+        $query = $this->db->query("SELECT * FROM `match` INNER JOIN `image` ON match.imageA=image.id or match.imageB=image.id WHERE image.projectID = '".$project_id."' AND match.same='no';");
         return $query->num_rows();
     }
     
