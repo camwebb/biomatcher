@@ -904,18 +904,18 @@ class Pages extends CI_Controller {
         
         //$this->auth->install();
         
-        $email = "widiw374@gmail.com";
+        $email = "fitri.njannah@gmail.com";
         $password = "asdasd";
         $remember = true;
-        $user_id = '1';
+        $user_id = '2';
         
         //register a user
         //$this->auth->register($email, $password);
         
-        /*
+        
         //get token activation
         $token = $this->auth->get_activate_token($user_id);
-        echo $token;*/
+        echo $token;
         
         //activate user with token
         /*$activate_token = "zio5J99JoT2utkMMaXQQha3rnIzODsQt2uy09ZOOz7ewaDUyjqk35qcfkswibOSe";
@@ -926,6 +926,7 @@ class Pages extends CI_Controller {
         }*/
         
         //login a user
+        /*
         $login = $this->auth->login($email, $password, $remember);
         print_r($login);
         if($login){
@@ -933,13 +934,44 @@ class Pages extends CI_Controller {
         }else{
             echo "Login Gagal";
         }
-        
+        */
         
     	$data['title'] = ucfirst($page); // Capitalize the first letter
     	
     	$this->load->view('templates/header', $data);
     	$this->load->view('pages/'.$page, $data);
     	$this->load->view('templates/footer', $data);
+    }
+    
+    function my_page($page = 'my_page'){
+        if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
+    	{
+    		// Whoops, we don't have a page for that!
+    		show_404();
+    	}
+        
+        $data['title'] = ucfirst($page); // Capitalize the first letter
+    	
+    	$this->load->view('templates/header', $data);
+    	$this->load->view('pages/'.$page, $data);
+    	$this->load->view('templates/footer', $data);
+    }
+    
+    function get_token(){
+        $this->load->library('Auth');
+        $this->load->model('m_pages');
+        //$email = $this->input->post('email');
+        $get_user_id = $this->m_pages->get_user_id('fitri.njannah@gmail.com');
+        
+        $token = $this->auth->get_activate_token($get_user_id);
+        echo $token;
+    }
+    
+    function get_auth(){
+        $this->load->library('Auth');
+        $token = 'ASgd5Jycdl9lXIK94QAaJe4FAsaEyrBEJ9G7rsXNDK0qlxQxIxLPFhYqBgs1Afp1';
+        $hasil = $this->auth->get_auth($token);
+        print_r($hasil);
     }
     
 }

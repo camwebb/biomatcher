@@ -434,6 +434,15 @@ GROUP BY pair_id");
         return $result_project;
     }
     
+    function get_user_id($email){
+        $this->db->select('id');
+        $user = $this->db->get_where('user', array('email' => $email));
+        $user_id = $user->result();
+        foreach ($user_id as $id){
+            $return_id = $id->id;
+        }
+        return $return_id;
+    }
 }
 
 

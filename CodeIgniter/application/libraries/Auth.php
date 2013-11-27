@@ -174,6 +174,35 @@ class Auth {
         // Alread taken
         return false;
     }
+    
+    /**
+     * Get authentication to access API
+     * 
+     * @param $token string 64 characters token from user 
+     * @return userID if valid, false if not valid
+     */
+    public function get_auth($token){
+        $this->CI->load->database();
+        $activate_token_hash = $this->get_sha256($token, 'activate');
+        
+        $query = $this->CI->db->query(
+            'SELECT
+                *
+            FROM '.$this->CI->db->dbprefix.'activate_tokens
+            WHERE activate_token_hash = ?',
+                $activate_token_hash
+        );
+
+        // Are given credentials valid?
+        if($query->num_rows() > 0) {
+            // If credentials are valid
+            $row = $query->row();
+            $user_id = $row->activate_token_user_id;
+            return $user_id;
+        }
+
+        return false;
+    }
 
     /**
      * Prepare token based account activation.
