@@ -257,19 +257,12 @@ GROUP BY pair_id");
         $get_image_a = $this->db->query($q_a)->result();
         for($i=0;$i<count($get_image_a);$i++){
             //get imageB for every imageA
-            $q_b = "SELECT imageB,imageA from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."' or imageB = '".$get_image_a[$i]->id."' and same = '".$same."' order by imageA";
+            $q_b = "SELECT imageB,imageA from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."'  order by imageA";
             $get_image_b = $this->db->query($q_b)->result();
             if(!empty($get_image_b)){
                 for($j=0;$j<count($get_image_b);$j++){
-                    if($get_image_b[$j]->imageB == $get_image_a[$i]->id){
-                        if(!in_array($get_image_b[$j]->imageA,$list_image_b)){
-                            $list_image_b[]=$get_image_b[$j]->imageA;    
-                        } 
-                    }
-                    else if($get_image_b[$j]->imageA == $get_image_a[$i]->id){
-                        if(!in_array($get_image_b[$j]->imageB,$list_image_b)){
-                            $list_image_b[]=$get_image_b[$j]->imageB;    
-                        }
+                    if(!in_array($get_image_b[$j]->imageA,$list_image_b)){
+                        $list_image_b[]=$get_image_b[$j]->imageA;    
                     } 
                 }
             }

@@ -71,8 +71,9 @@
             
         //$('#testajax').submit(function(e){
         $('#sendMatch').bind( "click",function(e){
-            var match = $('input:radio[name="match"]').val();
+            var match = $('input:radio[name="match"]:checked').val();
             var captcha = $('input:text[name="captcha"]').val();
+            
             
             if($('input:radio[name=match]').is(':checked')){
                 $.ajax({
@@ -85,6 +86,7 @@
                         if(status == 'ok'){
                             //$(this).closest("form").submit();
                             //console.log($('input:radio[name="match"]').parents('form:first'));
+                            window.parent.closeIframe();
                         }else{
                             alert('The code you entered is invalid');
                             $("#captcha").attr('src', '<?php echo site_url('captcha/securimage');?>');
