@@ -237,7 +237,7 @@ class Auth {
             )
         );
 
-        return $activate_token;
+        return $activate_token_hash;
     }
 
     /**
@@ -301,30 +301,6 @@ class Auth {
 
     public function install() {
         $this->CI->load->database();
-
-        $sql_users =
-        'CREATE TABLE IF NOT EXISTS '.$this->CI->db->dbprefix.'users (
-            user_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-            user_email VARCHAR(100) NOT NULL,
-            user_password_hash CHAR(64) NOT NULL,
-            user_activated TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
-            PRIMARY KEY(user_id),
-            UNIQUE KEY(user_email))
-            ENGINE=InnoDB DEFAULT CHARACTER SET utf8,
-            DEFAULT COLLATE utf8_general_ci;';
-
-        $sql_remember_tokens =
-        'CREATE TABLE IF NOT EXISTS '.$this->CI->db->dbprefix.'remember_tokens (
-            remember_token_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-            remember_token_user_id INT UNSIGNED NOT NULL,
-            remember_token_hash CHAR(64) NOT NULL,
-            PRIMARY KEY(remember_token_id),
-            FOREIGN KEY(remember_token_user_id)
-                REFERENCES '.$this->CI->db->dbprefix.'users(user_id)
-                    ON DELETE CASCADE ON UPDATE CASCADE)
-            ENGINE=InnoDB DEFAULT CHARACTER SET utf8,
-            DEFAULT COLLATE utf8_general_ci;';
-
         $sql_activate_tokens =
         'CREATE TABLE IF NOT EXISTS '.$this->CI->db->dbprefix.'activate_tokens (
             activate_token_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -333,16 +309,14 @@ class Auth {
             PRIMARY KEY(activate_token_id),
             UNIQUE KEY(activate_token_user_id),
             FOREIGN KEY(activate_token_user_id)
-                REFERENCES '.$this->CI->db->dbprefix.'users(user_id)
+                REFERENCES '.$this->CI->db->dbprefix.'user(id)
                     ON DELETE CASCADE ON UPDATE CASCADE)
-            ENGINE=InnoDB DEFAULT CHARACTER SET utf8,
+            DEFAULT CHARACTER SET utf8,
             DEFAULT COLLATE utf8_general_ci;';
 
-        if($this->CI->db->query($sql_users) &&
-                $this->CI->db->query($sql_remember_tokens) &&
-                $this->CI->db->query($sql_activate_tokens)) {
+        if($this->CI->db->query($sql_activate_tokens)) {
             return true;
-        }
+        }        
 
         return false;
     }

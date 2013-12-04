@@ -162,6 +162,32 @@ class Pages extends CI_Controller {
         $data['totalMatches'] = count($matches);
     }
     
+    if ($page == 'get_token') {
+        if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
+    	{
+    		// Whoops, we don't have a page for that!
+    		show_404();
+    	}
+        
+        $this->load->model('m_pages');
+        
+        $user_id = $this->session->userdata('id_user');
+        $get_token = $this->m_pages->get_token($user_id);
+        
+        if (!empty($get_token)){
+            $token = $get_token;
+        }else{
+            $token = $this->get_token();
+        }
+        
+        $data['token'] = $token;
+    	$data['title'] = ucfirst($page); // Capitalize the first letter
+    	
+        $this->load->library('Auth');
+        $this->load->model('m_pages');
+        
+    }
+    
     /*if ($page == 'statistic'){
         /*$project_id = $this->uri->segment(4, 0);
         $same = 'yes';
@@ -901,70 +927,18 @@ class Pages extends CI_Controller {
     	}
         
         $this->load->library('Auth');
+        $this->auth->install();
         
-        //$this->auth->install();
-        
-        $email = "fitri.njannah@gmail.com";
-        $password = "asdasd";
-        $remember = true;
-        $user_id = '2';
-        
-        //register a user
-        //$this->auth->register($email, $password);
-        
-        
-        //get token activation
-        $token = $this->auth->get_activate_token($user_id);
-        echo $token;
-        
-        //activate user with token
-        /*$activate_token = "zio5J99JoT2utkMMaXQQha3rnIzODsQt2uy09ZOOz7ewaDUyjqk35qcfkswibOSe";
-        if($this->auth->activate_with_token($user_id, $activate_token)){
-            echo "Account Activated";
-        }else{
-            echo "Failed";
-        }*/
-        
-        //login a user
-        /*
-        $login = $this->auth->login($email, $password, $remember);
-        print_r($login);
-        if($login){
-            echo "Login Berhasil";
-        }else{
-            echo "Login Gagal";
-        }
-        */
-        
-    	$data['title'] = ucfirst($page); // Capitalize the first letter
-    	
-    	$this->load->view('templates/header', $data);
-    	$this->load->view('pages/'.$page, $data);
-    	$this->load->view('templates/footer', $data);
-    }
-    
-    function my_page($page = 'my_page'){
-        if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
-    	{
-    		// Whoops, we don't have a page for that!
-    		show_404();
-    	}
-        
-        $data['title'] = ucfirst($page); // Capitalize the first letter
-    	
-    	$this->load->view('templates/header', $data);
-    	$this->load->view('pages/'.$page, $data);
-    	$this->load->view('templates/footer', $data);
     }
     
     function get_token(){
         $this->load->library('Auth');
         $this->load->model('m_pages');
-        //$email = $this->input->post('email');
-        $get_user_id = $this->m_pages->get_user_id('fitri.njannah@gmail.com');
         
-        $token = $this->auth->get_activate_token($get_user_id);
-        echo $token;
+        $user_id = $this->session->userdata('id_user');        
+        $token = $this->auth->get_activate_token($user_id);
+        
+        return $token;
     }
     
     function get_auth(){

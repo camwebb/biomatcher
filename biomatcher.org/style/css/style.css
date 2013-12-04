@@ -428,6 +428,7 @@ ul.tabs li.selected{
     position: relative;
     height:22px;
     padding-top: 13px;
+    z-index:100;
 }
 
 /*---------------    Dropdown   ---------------*/

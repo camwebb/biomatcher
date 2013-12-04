@@ -431,10 +431,41 @@ GROUP BY pair_id");
         $this->db->select('id');
         $user = $this->db->get_where('user', array('email' => $email));
         $user_id = $user->result();
-        foreach ($user_id as $id){
-            $return_id = $id->id;
+        if(!empty($user_id)){
+            foreach ($user_id as $id){
+                $return_id = $id->id;
+            }
+            return $return_id;
         }
-        return $return_id;
+    }
+    
+    function get_user_email($id){
+        $this->db->select('email');
+        $user = $this->db->get_where('user', array('id' => $id));
+        $user_email = $user->result();
+        if(!empty($user_email)){
+            foreach ($user_email as $userData){
+                $return_email = $userData->email;
+            }
+            return $return_email;
+        }
+    }
+    
+    /**
+     * @param $id_user = int id user
+     * @return token hash
+     */
+    function get_token($id_user){
+        $this->db->select('activate_token_hash');
+        $get = $this->db->get_where('activate_tokens', array('activate_token_user_id' => $id_user));
+
+        $get_token = $get->result();
+        if(!empty($get_token)){
+            foreach ($get_token as $token){
+                $return = $token->activate_token_hash;
+            }
+            return $return;
+        }
     }
 }
 
