@@ -2,33 +2,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-    <title>Iframe Captcha Testing</title>
-    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>-->
+    <title>Biomatcher Example Form</title>
+    <script type="text/javascript" src="http://192.168.56.10/biomatcher/biomatcher.org/style/js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="http://192.168.56.10/biomatcher/biomatcher.org/captcha/biomatcher.js"></script>
+    <script type="text/javascript">
+        window.addEventListener( "message",
+        function (e) {
+            if(e.data == 'closed'){ 
+                location.reload();
+                document.forms["myForm"].submit();    
+            } 
+        },
+        false);
+        var url = 'http://192.168.56.10/biomatcher/biomatcher.org/index.php/captcha/test_frame';
+    </script>
     
-    <link rel="stylesheet" href="<?php echo base_url(); ?>captcha/style.css" />
-    <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-2.0.3.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>captcha/biomatcher.js"></script>                        
+    <style>
+    body{
+        margin: 0;
+    }
+    </style>
     
-    
-    
-                            
 </head>
 <body>
 
-<form action="test.php" method="post" id="myformid">
+<fieldset>
+    <legend>Example Form</legend>  
+        
+    <p class="note">
+      This is an example PHP form that processes user information, checks for errors, and validates the captcha code.<br />
+      This example form also demonstrates how to submit a form to itself to display error messages.
+    </p>
 
-    <!-- ... your form code here ... -->
-    <input type="button" value="Verify" onclick="biomatcher('#myformid')" />    
-
-</form>
+    <form method="post" action="form.php" id="captcha_form" name="myForm">
+      <p>
+        <strong>Name*:</strong>&nbsp; &nbsp;<br />
+        <input type="text" name="name" size="35" value="" />
+      </p>
+    
+      <p>
+        <strong>Email*:</strong>&nbsp; &nbsp;<br />
+        <input type="text" name="email" size="35" value="" />
+      </p>
+    
+      <p>
+        <strong>Message*:</strong>&nbsp; &nbsp;<br />
+        <textarea name="message" rows="12" cols="60"></textarea>
+      </p>
+    
+      <p>
+        <br />
+        <!--<input type="submit" value="Submit Message" />-->
+        <input type="button" value="Verify" onclick="biomatcher(url)" /> 
+      </p>
+    
+    </form>
+</fieldset>
 
 </body>
 </html>
-<script>
-/*$(document).ready(function(){
-$('#sendMatch').bind( "click",function(e){
-    sendMatch();
-});
-});*/
-
-</script>

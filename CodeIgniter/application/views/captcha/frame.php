@@ -86,7 +86,7 @@
                         if(status == 'ok'){
                             //$(this).closest("form").submit();
                             //console.log($('input:radio[name="match"]').parents('form:first'));
-                            window.parent.closeIframe();
+                            top.postMessage('closed', window.name);
                         }else{
                             alert('The code you entered is invalid');
                             $("#captcha").attr('src', '<?php echo site_url('captcha/securimage');?>');
