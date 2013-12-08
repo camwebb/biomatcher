@@ -49,7 +49,7 @@ $(myform).ajaxForm({
         button.slideDown();
         if(message.status != 'error')
   		{
-            //refresh_files(project_url);
+            refresh_files(project_url);
         }
     },
 });  

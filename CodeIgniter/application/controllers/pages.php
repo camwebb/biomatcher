@@ -938,6 +938,10 @@ class Pages extends CI_Controller {
         $user_id = $this->session->userdata('id_user');        
         $token = $this->auth->get_activate_token($user_id);
         
+        if (!empty($_GET)){
+            echo $token;
+        }
+        
         return $token;
     }
     

@@ -178,7 +178,7 @@ $(function(){
                 $("input[name='id_label']").removeAttr("checked");
                 $("#for_close_label"+id_label).css("background","none");
             }
-        }); 
+            }); 
         });
         
         }
@@ -187,3 +187,13 @@ $(function(){
    }); 
 });
 
+function regenerate_token(){
+    $.ajax({
+        url: CI_ROOT+"index.php/pages/get_token",
+        cache: false,
+        success: function(data){
+            $('#myToken').html('');
+            $('#myToken').append(data);
+        }
+    });
+}
