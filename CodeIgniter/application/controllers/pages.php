@@ -918,6 +918,27 @@ class Pages extends CI_Controller {
         echo json_encode(array('status' => $status));
     }
     
+    function insert_match_byToken(){
+        $this->load->model('m_pages');
+        
+        $imageIDA = $this->input->post('imageIDA');
+        $imageIDB = $this->input->post('imageIDB');
+        $same     = $this->input->post('same');
+        $token    = $this->input->post('token');
+        $matcher  = $this->m_pages->get_id_byToken($token);
+        $date     = date("Y-m-d H:i:s");
+        
+        if (!empty($imageIDA) && !empty($imageIDB) && !empty($matcher)){
+            $data     = array('id' => '', 'imageA' => $imageIDA, 'imageB' => $imageIDB, 'time' => $date, 'matcher' => $matcher, 'same' => $same);
+            $this->m_pages->insert_match($data);
+            $status = 'success';
+        }else{
+            $status = 'error';
+        }
+        
+        echo json_encode($status);
+    }
+    
     function install_auth($page = 'auth_register')
     {
         if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))

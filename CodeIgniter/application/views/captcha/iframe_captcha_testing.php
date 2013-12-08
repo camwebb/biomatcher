@@ -15,6 +15,7 @@
         },
         false);
         var url = 'http://192.168.56.10/biomatcher/biomatcher.org/index.php/captcha/test_frame';
+        var token = 'd7dc1b45706edd6cfbd3a4743de3c391086b9629b11762840943285833fff984';
     </script>
     
     <style>
@@ -53,11 +54,12 @@
       <p>
         <br />
         <!--<input type="submit" value="Submit Message" />-->
-        <input type="button" value="Verify" onclick="biomatcher(url)" /> 
+        <input type="button" value="Verify" onclick="biomatcher(url,token)" /> 
       </p>
     
     </form>
 </fieldset>
+
 
 </body>
 </html>

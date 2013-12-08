@@ -26,12 +26,15 @@
         <ul class="biomatcher-ul-image" style="float: right;">
             <li><img class="biomatcher-image" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_B.'.500px.jpg' ?>" /></li>
         </ul>
+        
+        <input id="imageIDA" type="hidden" name="imageA" value="<?php echo $imageIDA; ?>" />
+        <input id="imageIDB" type="hidden" name="imageB" value="<?php echo $imageIDB; ?>" />
             
         <div class="clear"></div>
             
         <div style="text-align: center;">
-            <input type="radio" name="match" value="Same" id="same" /><label for="same">Same</label>
-            <input type="radio" name="match" value="Different" id="different" /><label for="different">Different</label>
+            <input type="radio" name="match" value="yes" id="same" /><label for="same">Same</label>
+            <input type="radio" name="match" value="no" id="different" /><label for="different">Different</label>
         </div>
         
         <div align="center">
@@ -73,20 +76,39 @@
         $('#sendMatch').bind( "click",function(e){
             var match = $('input:radio[name="match"]:checked').val();
             var captcha = $('input:text[name="captcha"]').val();
-            
+            var imageIDA = $("#imageIDA").val();
+            var imageIDB = $("#imageIDB").val();
+            var token = window.frameElement.getAttribute("title");
+            var dataMatching = {'imageIDA' : imageIDA, 'imageIDB' : imageIDB, 'same' : match, 'token' : token};
             
             if($('input:radio[name=match]').is(':checked')){
                 $.ajax({
                     type: "POST",
                     url: url,
-                    //data: $("#testajax").serialize(),
                     data: 'match='+match+'&captcha='+captcha,
                     success: function(status){
-                        console.log('match='+match+'&captcha='+captcha);
+                        //console.log('match='+match+'&captcha='+captcha);
                         if(status == 'ok'){
                             //$(this).closest("form").submit();
                             //console.log($('input:radio[name="match"]').parents('form:first'));
-                            top.postMessage('closed', window.name);
+                            
+                            
+                            $.ajax({
+                                type: "POST",
+                                url: "http://biomatcher.org/index.php/pages/insert_match_byToken",
+                                data: dataMatching,
+                                cache:false,
+                                success: function(status){
+                                    console.log(status);
+                                    if(status = "success")
+                            		{
+                                        top.postMessage('closed', window.frameElement.getAttribute("name"));
+                                    }
+                                }
+                            });
+                            
+                            
+                            
                         }else{
                             alert('The code you entered is invalid');
                             $("#captcha").attr('src', '<?php echo site_url('captcha/securimage');?>');

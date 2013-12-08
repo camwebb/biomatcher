@@ -467,6 +467,16 @@ GROUP BY pair_id");
             return $return;
         }
     }
+    
+    function get_id_byToken($token){
+        $this->db->select('activate_token_user_id');
+        $get = $this->db->get_where('activate_tokens', array('activate_token_hash' => $token));
+        $get_id = $get->result();
+        foreach ($get_id as $id){
+            $return = $id->activate_token_user_id;
+        }
+        return $return;
+    }
 }
 
 
