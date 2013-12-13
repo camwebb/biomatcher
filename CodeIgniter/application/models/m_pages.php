@@ -427,6 +427,13 @@ GROUP BY pair_id");
         return $result_project;
     }
     
+    function selectImage($projectID){
+        $query = $this->db->query("SELECT id, md5sum, label FROM image WHERE projectID=$projectID");
+        $result_project=$query->result_array();
+        
+        return $result_project;
+    }
+    
     function get_user_id($email){
         $this->db->select('id');
         $user = $this->db->get_where('user', array('email' => $email));
@@ -472,10 +479,23 @@ GROUP BY pair_id");
         $this->db->select('activate_token_user_id');
         $get = $this->db->get_where('activate_tokens', array('activate_token_hash' => $token));
         $get_id = $get->result();
-        foreach ($get_id as $id){
-            $return = $id->activate_token_user_id;
+        if(!empty($get_id)){
+            foreach ($get_id as $id){
+                $return = $id->activate_token_user_id;
+            }
+            return $return;
         }
-        return $return;
+    }
+    
+    function check_token($token){
+        $this->db->select('activate_token_user_id');
+        $get = $this->db->get_where('activate_tokens', array('activate_token_hash' => $token));
+        $get_id = $get->result();
+        if(!empty($get_id)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 

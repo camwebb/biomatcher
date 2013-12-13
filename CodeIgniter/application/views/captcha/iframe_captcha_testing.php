@@ -3,19 +3,22 @@
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <title>Biomatcher Example Form</title>
-    <script type="text/javascript" src="http://192.168.56.10/biomatcher/biomatcher.org/style/js/jquery-2.0.3.js"></script>
-    <script type="text/javascript" src="http://192.168.56.10/biomatcher/biomatcher.org/captcha/biomatcher.js"></script>
+    <script type="text/javascript" src="http://biomatcher.org/style/js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="http://biomatcher.org/captcha/biomatcher.js"></script>
     <script type="text/javascript">
         window.addEventListener( "message",
         function (e) {
-            if(e.data == 'closed'){ 
-                location.reload();
-                document.forms["myForm"].submit();    
+            if(e.data == 'verified'){
+                popup_close();
+                
+                //do something with your form ex. submit
+                //document.forms["myForm"].submit();    
             } 
         },
         false);
-        var url = 'http://192.168.56.10/biomatcher/biomatcher.org/index.php/captcha/test_frame';
-        var token = 'd7dc1b45706edd6cfbd3a4743de3c391086b9629b11762840943285833fff984';
+        var yourURL = 'http://localhost/biomatcher/';
+        var url = 'http://biomatcher.org/index.php/captcha/test_frame';
+        var token = '5327c165b5f74ae23d26847bf43b6a60843258ef83f3806c9bee56b4a3ccea06';
     </script>
     
     <style>
@@ -54,7 +57,7 @@
       <p>
         <br />
         <!--<input type="submit" value="Submit Message" />-->
-        <input type="button" value="Verify" onclick="biomatcher(url,token)" /> 
+        <input type="button" value="Verify" onclick="biomatcher(yourURL,url,token)" /> 
       </p>
     
     </form>

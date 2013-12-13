@@ -27,9 +27,15 @@ class Captcha extends CI_Controller {
     		// Whoops, we don't have a page for that!
     		show_404();
     	}
+        $this->load->model('m_pages');
+        $token = $_GET['token'];
+        $check = $this->m_pages->check_token($token);
+        if(!$check){
+            $page = 'invalid_token';
+        }
         
         $this->load->library('biomatcher_lib');
-        $pair_mode[0] = "same";
+        /*$pair_mode[0] = "same";
         $pair_mode[1] = "different";
         
         shuffle($pair_mode);
@@ -58,6 +64,22 @@ class Captcha extends CI_Controller {
                                     
         }else{
             show_404();
+        }
+        */
+        
+        //send image captcha (not a QC Set, random from 1 project)
+        $project_pre_match = $this->biomatcher_lib->selectProjectCaptcha();
+        
+        if(!empty($project_pre_match)){
+            $userID_pre = $project_pre_match[0]->userID;
+            $get_username_pre = $this->m_pages->get_user($userID_pre);
+            $username_pre = $get_username_pre[0]->username;
+            $image_pre = $this->m_pages->selectImage($project_pre_match[0]->id);
+            
+            if(!empty($image_pre)){
+                shuffle ($image_pre);
+                $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_pre[1]);
+            }
         }
     
     	$data['title'] = ucfirst($page); // Capitalize the first letter
