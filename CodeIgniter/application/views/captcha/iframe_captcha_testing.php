@@ -17,7 +17,6 @@
         },
         false);
         var yourURL = 'http://localhost/biomatcher/';
-        var url = 'http://biomatcher.org/index.php/captcha/test_frame';
         var token = '5327c165b5f74ae23d26847bf43b6a60843258ef83f3806c9bee56b4a3ccea06';
     </script>
     

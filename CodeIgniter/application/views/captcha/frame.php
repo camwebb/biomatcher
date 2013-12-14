@@ -78,7 +78,7 @@
             var captcha = $('input:text[name="captcha"]').val();
             var imageIDA = $("#imageIDA").val();
             var imageIDB = $("#imageIDB").val();
-            //var token = window.frameElement.getAttribute("title"); // ini ga bisa dipake.. kenapa ga pake get aja untuk token?
+            
             var token = "<?php echo $_GET['token']; ?>";
             var yourURL = "<?php echo $_GET['yoururl']; ?>";
             var dataMatching = {'imageIDA' : imageIDA, 'imageIDB' : imageIDB, 'same' : match, 'token' : token};
@@ -104,7 +104,6 @@
                                     console.log(status);
                                     if(status = "success")
                             		{
-                                        //top.postMessage('closed', window.frameElement.getAttribute("name"));
                                         top.postMessage('verified', yourURL);
                                     }
                                 }
