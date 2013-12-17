@@ -60,7 +60,6 @@ class Pages extends CI_Controller {
         $this->pagination->initialize($config); //initialize pagination
         
        	$data['list_project'] = $this->m_pages->list_project($config['per_page'],$this->uri->segment(4));
-        //$data['list_project'] = $this->m_pages->list_project();
         $this->load->library('user_agent');
     }
     
@@ -151,8 +150,7 @@ class Pages extends CI_Controller {
             $different = $this->m_pages->same($image->imageA, $image->imageB, 'no');
             
             $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $image->same_match, 'different' => $image->diff_match);
-            //echo '<pre>';
-            //print_r($matches);
+
         }
         
         $matches_send = array_map("unserialize", array_unique(array_map("serialize", $matches)));
@@ -418,8 +416,6 @@ class Pages extends CI_Controller {
     public function logout()
 	{
 		$this->load->helper('cookie');
-
-	    //$this->session->unset_userdata(array('username' => "", 'id_user' => ""));
         $this->session->sess_destroy();
 		delete_cookie("user");
 		delete_cookie("pass");
@@ -964,13 +960,6 @@ class Pages extends CI_Controller {
         }
         
         return $token;
-    }
-    
-    function get_auth(){
-        $this->load->library('Auth');
-        $token = 'ASgd5Jycdl9lXIK94QAaJe4FAsaEyrBEJ9G7rsXNDK0qlxQxIxLPFhYqBgs1Afp1';
-        $hasil = $this->auth->get_auth($token);
-        print_r($hasil);
     }
     
 }

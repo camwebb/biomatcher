@@ -65,7 +65,6 @@ class M_pages extends CI_Model {
     
     function list_project($perPage,$uri){
         $id_user = $this->session->userdata('id_user');
-        //$query=$this->db->query("SELECT * FROM project where userID='$id_user' order by id ASC");
         $this->db->where('userID',$id_user);
         $this->db->order_by('id','ASC');
         $query = $this->db->get('project', $perPage, $uri);

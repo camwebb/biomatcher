@@ -100,9 +100,7 @@ class Captcha extends CI_Controller {
     
     	$data['title'] = ucfirst($page); // Capitalize the first letter
     	
-    	//$this->load->view('captcha/header', $data);
     	$this->load->view('captcha/'.$page, $data);
-    	//$this->load->view('captcha/footer', $data);
     }
     
     function form_no_ajax(){
