@@ -2,7 +2,7 @@
 
 class Captcha extends CI_Controller {
     
-	function show()
+	function show_old()
     {
         $page = 'captcha_view';
         if ( ! file_exists('../CodeIgniter/application/views/captcha/'.$page.'.php'))

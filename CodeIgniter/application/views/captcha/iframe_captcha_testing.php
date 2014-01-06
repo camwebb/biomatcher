@@ -4,22 +4,8 @@
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <title>Biomatcher Example Form</title>
     <script type="text/javascript" src="http://biomatcher.org/style/js/jquery-2.0.3.js"></script>
-    <script type="text/javascript" src="http://biomatcher.org/captcha/biomatcher.js"></script>
-    <script type="text/javascript">
-        window.addEventListener( "message",
-        function (e) {
-            if(e.data == 'verified'){
-                popup_close();
-                
-                //do something with your form ex. submit
-                //document.forms["myForm"].submit();    
-            } 
-        },
-        false);
-        var yourURL = 'http://localhost/biomatcher/';
-        var token = '5327c165b5f74ae23d26847bf43b6a60843258ef83f3806c9bee56b4a3ccea06';
-    </script>
-    
+    <script type="text/javascript" src="http://biomatcher/biomatcher.org/captcha/biomatcher.js"></script>
+
     <style>
     body{
         margin: 0;
@@ -37,7 +23,7 @@
       This example form also demonstrates how to submit a form to itself to display error messages.
     </p>
 
-    <form method="post" action="form.php" id="captcha_form" name="myForm">
+    <form method="post" action="action.php" id="captcha_form" name="myForm">
       <p>
         <strong>Name*:</strong>&nbsp; &nbsp;<br />
         <input type="text" name="name" size="35" value="" />
@@ -56,7 +42,7 @@
       <p>
         <br />
         <!--<input type="submit" value="Submit Message" />-->
-        <input type="button" value="Verify" onclick="biomatcher(yourURL,url,token)" /> 
+        <input type="button" value="Verify" onclick="biomatcher(yourURL,token)" /> 
       </p>
     
     </form>
@@ -65,3 +51,21 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+    window.addEventListener( "message",
+    function (e) {
+        if(e.data == 'verified'){
+            //do something with your form ex. submit
+            document.forms["myForm"].submit();    
+        } 
+    },
+    false);
+    var yourURL = 'http://localhost/biomatcher/';
+    
+    //token lokal
+    var token = '5327c165b5f74ae23d26847bf43b6a60843258ef83f3806c9bee56b4a3ccea06';
+    
+    //token biomatcher
+    //var token = 'e56e68574f1e8e0412eda16985a1aee1b536eb881a9db981e2f5b2ba0ee4ea4b';
+</script>

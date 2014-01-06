@@ -139,9 +139,13 @@ class Pages extends CI_Controller {
         
         $images = $this->m_pages->match_images($project_id);
         
+        $totalMatches = 0;
+        
         foreach ($images as $image){
             $A = $this->m_pages->get_name_image($image->imageA);
             $B = $this->m_pages->get_name_image($image->imageB);
+            
+            $totalMatches += $image->match_sum;
             
             $filenameA = $A[0]->nameOri;
             $filenameB = $B[0]->nameOri;
@@ -157,7 +161,7 @@ class Pages extends CI_Controller {
         
         $data['project_title'] = $this->m_pages->project_title();
         $data['matches'] = $matches_send;
-        $data['totalMatches'] = count($matches);
+        $data['totalMatches'] = $totalMatches;
     }
     
     if ($page == 'get_token') {
@@ -312,7 +316,7 @@ class Pages extends CI_Controller {
                     if(md5($password) == $user_credentials[$username]['password'])
                     {
                         //login success
-                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id']));
+                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'type' => $login['type']));
             			$cookieUsername = array(
             				'name'   => 'user',
             				'value'  => $login['username'],
@@ -374,7 +378,7 @@ class Pages extends CI_Controller {
                 if($password == $user_credentials[$username]['password'])
                 {
                     //login success
-                    $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id']));
+                    $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'type' => $login['type']));
         			$cookieUsername = array(
         				'name'   => 'user',
         				'value'  => $login['username'],

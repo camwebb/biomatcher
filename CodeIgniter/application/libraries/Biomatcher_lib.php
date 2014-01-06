@@ -30,7 +30,7 @@ class Biomatcher_lib {
     
     public function selectProjectCaptcha(){
         $this->CI->load->model('m_pages');
-        $result_project = $this->CI->m_pages->selectProject();
+        $result_project = $this->CI->m_pages->selectRandomProject();
         $shuffled_project = array();
         foreach ($result_project as $project){
             $projectID = $project->id;

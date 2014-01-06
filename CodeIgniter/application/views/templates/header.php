@@ -111,6 +111,7 @@
             redirect('');
         }
         }elseif ($this->session->userdata('username') !=""){
+            if ($this->session->userdata('type') == 'supplier' ){
         ?>
         <div id="page_menu">
             <div style="float: left; padding-top: 13px;">
@@ -132,14 +133,47 @@
         </div>
         <div class="clear"></div>
         <div id="menu">
-                <ul class="tabs">
-                  <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
-                  <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
-                  <li class="<?php echo $selected == 'Projects'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/projects">My Project(s)</a></li>
-                  <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
-                </ul>
-            </div>
+            <ul class="tabs">
+              <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+              <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
+              <li class="<?php echo $selected == 'Projects'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/projects">My Project(s)</a></li>
+              <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
+            </ul>
+        </div>
         <?php
+            }
+            else{
+        ?>
+        
+        <div id="page_menu">
+            <div style="float: left; padding-top: 13px;">
+            <p>Welcome, <?php echo $this->session->userdata('name'); ?></p>
+            </div>
+            <div id="cmenu">
+            <!-- menu -->
+                <ul class="dropdown2">
+                    <li><a href="javascript:void(0)"><span><img style="padding: 8px 10px;" src="<?php echo base_url(); ?>style/img/arrow.png"/></span></a>
+                    <ul class="sub_menu">
+                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/view/get_token">Get Token</a></li>
+                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+                    </ul>
+                    </li>
+                </ul>
+            <!-- close menu -->
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+        <div id="menu">
+            <ul class="tabs">
+              <li class="consumer" id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+              <li class="<?php echo $selected == 'Match'?'selected':''; ?> consumer"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
+              <li class="<?php echo $selected == 'Home'?'selected':''; ?> consumer"><a href="<?php echo base_url(); ?>">Home</a></li>
+            </ul>
+        </div>
+        
+        <?php
+            }
         }
         ?>
     </div>

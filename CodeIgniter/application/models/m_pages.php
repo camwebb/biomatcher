@@ -20,6 +20,7 @@ class M_pages extends CI_Model {
             $hasil['username']=$data[0]->username;
 			$hasil['password']=$data[0]->password;
             $hasil['name']=$data[0]->name;
+            $hasil['type']=$data[0]->type;
         }
         return $hasil;
     }
@@ -209,7 +210,8 @@ class M_pages extends CI_Model {
     function match_images($projectID){
         $query = $this->db->query("SELECT m.imageA,m.imageB,projectID, CONCAT (GREATEST(m.imageA,m.imageB),',',LEAST(m.imageA,m.imageB)) as pair_id,
 sum(case when m.same = 'yes' then 1 else 0 end) as same_match,
-sum(case when m.same = 'no' then 1 else 0 end) as diff_match
+sum(case when m.same = 'no' then 1 else 0 end) as diff_match,
+COUNT(*) as match_sum
 FROM `match` m
 JOIN `image` i ON m.`imageA` = i.`id` WHERE i.`projectID` = '$projectID'
 GROUP BY pair_id");
@@ -416,6 +418,12 @@ GROUP BY pair_id");
     function selectQCProject(){
         $this->db->select('id, userID');
         $project_query = $this->db->get_where('project', array('QCSet' => 'yes'));
+        return $project_query->result();
+    }
+    
+    function selectRandomProject(){
+        $this->db->select('id, userID');
+        $project_query = $this->db->get('project');
         return $project_query->result();
     }
     

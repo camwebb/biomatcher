@@ -1,6 +1,6 @@
-function biomatcher(yourURL,url,token){
-    $('body').append('<div class="overlay"></div><div id="biomatcher_captcha" class="popup shadow"><a title="Close" class="popup_close" onclick="popup_close()"></a></div>');
-    $('#biomatcher_captcha').append('<iframe src="http://biomatcher.org/index.php/captcha/frame?token='+token+'&yoururl='+yourURL+'" height="630px" width="761px" frameborder="0" ></iframe>');
+function biomatcher(yourURL,token){
+    $('body').append('<div class="overlay"></div><div id="biomatcher_captcha" class="popup shadow"><a title="Close" class="popup_close" onclick="biomatcherClose()"></a></div>');
+    $('#biomatcher_captcha').append('<iframe src="http://biomatcher/biomatcher.org/index.php/captcha/frame?token='+token+'&yoururl='+yourURL+'" height="630px" width="761px" frameborder="0" ></iframe>');
     $('.overlay').css({
         position: "fixed",
         top: "0px",
@@ -28,9 +28,9 @@ function biomatcher(yourURL,url,token){
         cursor: "pointer",
         background: "url('http://biomatcher.org/captcha/img/sprite.png')" 
     });
-    }
+}
     
-function popup_close(){
+function biomatcherClose(){
     $('.overlay').remove();
     $('#biomatcher_captcha').remove();
 }

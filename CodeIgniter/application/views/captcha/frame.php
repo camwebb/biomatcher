@@ -15,7 +15,7 @@
     
     <div class="biomatcher">
             
-        <div id="match" style="padding: 10px 25px" >
+        <div id="match" style="padding: 10px 25px;" >
         
         <h2 align="center">See images below, and choose Same or Different.</h2>
     
@@ -69,7 +69,7 @@
         $(document).ready(function(){
             
             //var url = 'http://localhost/biomatcher/biomatcher.org/index.php/captcha/si_test';
-            var url = 'http://biomatcher.org/index.php/captcha/si_test';
+            var url = '<?php echo base_url(); ?>'+'index.php/captcha/si_test';
             
             
         //$('#testajax').submit(function(e){
@@ -91,13 +91,9 @@
                     success: function(status){
                         //console.log('match='+match+'&captcha='+captcha);
                         if(status == 'ok'){
-                            //$(this).closest("form").submit();
-                            //console.log($('input:radio[name="match"]').parents('form:first'));
-                            
-                            
                             $.ajax({
                                 type: "POST",
-                                url: "http://biomatcher.org/index.php/pages/insert_match_byToken",
+                                url: "<?php echo base_url(); ?>"+"index.php/pages/insert_match_byToken",
                                 data: dataMatching,
                                 cache:false,
                                 success: function(status){
@@ -108,9 +104,7 @@
                                     }
                                 }
                             });
-                            
-                            
-                            
+
                         }else{
                             alert('The code you entered is invalid');
                             $("#captcha").attr('src', '<?php echo site_url('captcha/securimage');?>');
