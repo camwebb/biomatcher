@@ -183,7 +183,33 @@ class Pages extends CI_Controller {
         }
         
         $data['token'] = $token;
-    	$data['title'] = ucfirst($page); // Capitalize the first letter
+    	$data['title'] = ucfirst("Get Token"); // Capitalize the first letter
+    	
+        $this->load->library('Auth');
+        $this->load->model('m_pages');
+        
+    }
+    
+    if ($page == 'my_website') {
+        if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
+    	{
+    		// Whoops, we don't have a page for that!
+    		show_404();
+    	}
+        
+        $this->load->model('m_pages');
+        
+        $user_id = $this->session->userdata('id_user');
+        $get_token = $this->m_pages->get_token($user_id);
+        
+        if (!empty($get_token)){
+            $token = $get_token;
+        }else{
+            $token = $this->get_token();
+        }
+        
+        $data['token'] = $token;
+    	$data['title'] = ucfirst("My Website"); // Capitalize the first letter
     	
         $this->load->library('Auth');
         $this->load->model('m_pages');

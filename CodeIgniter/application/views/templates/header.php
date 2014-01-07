@@ -155,6 +155,7 @@
                     <li><a href="javascript:void(0)"><span><img style="padding: 8px 10px;" src="<?php echo base_url(); ?>style/img/arrow.png"/></span></a>
                     <ul class="sub_menu">
                         <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/view/get_token">Get Token</a></li>
+                        
                         <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
                     </ul>
                     </li>
@@ -166,9 +167,10 @@
         <div class="clear"></div>
         <div id="menu">
             <ul class="tabs">
-              <li class="consumer" id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
-              <li class="<?php echo $selected == 'Match'?'selected':''; ?> consumer"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
-              <li class="<?php echo $selected == 'Home'?'selected':''; ?> consumer"><a href="<?php echo base_url(); ?>">Home</a></li>
+              <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+              <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
+              <li class="<?php echo $selected == 'My Website'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/my_website">My Website(s)</a></li>
+              <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
             </ul>
         </div>
         

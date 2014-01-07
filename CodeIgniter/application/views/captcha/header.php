@@ -6,6 +6,7 @@
     
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript">CI_ROOT = "<?=base_url() ?>";</script>
     <style type="text/css">
     
     .error { color: #f00; font-weight: bold; font-size: 1.2em; }
