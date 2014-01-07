@@ -17,10 +17,8 @@
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
     
-    <h3 style="margin-top: 20px;">Total Matches : <?php echo $totalMatches; ?></h3>
-    
     <div class="project_table" id="files">
-        <table style="width: 100%;" id="projectTable">
+        <table style="width: 100%;text-align: center;" id="projectTable">
             <thead>
                 <tr>
                     <td>
@@ -30,11 +28,20 @@
                         <p>Image B</p>
                     </td>
                     <td>
+                        <p>Total</p>
+                    </td>                    
+                    <td>
                         <p>Same</p>
                     </td>
                     <td>
+                        <p>(%) Same</p>
+                    </td>                    
+                    <td>
                         <p>Different</p>
                     </td>
+                    <td>
+                        <p>(%) Different</p>
+                    </td>                    
                 </tr>
             </thead>
             
@@ -50,15 +57,33 @@
                         <p><?php echo $match['filenameB']; ?></p>
                     </td>
                     <td>
-                        <p><?php echo $match['same']; ?></p>
+                        <p><?php echo $totalMatches; ?></p>
+                    </td>                    
+                    <td>
+                        <p><?php echo $match['same']; ?></p>                                                     
                     </td>
                     <td>
-                        <p><?php echo $match['different']; ?></p>
+                        <p>... %</p>                       
+                    </td>                    
+                    <td>
+                        <p><?php echo $match['different']; ?></p>                       
                     </td>
+                    <td>
+                        <p>... %</p>                       
+                    </td>                    
                 </tr>
             <?php
             }
             ?>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><a href="<?php echo base_url(); ?>index.php/pages/download_stats/<?php echo $project_id; ?>/same" ><img title="Download Same Statistic CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
+                    <td><a href="#"><img title="Download CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
+                    <td><a href="<?php echo base_url(); ?>index.php/pages/download_stats/<?php echo $project_id; ?>/different" ><img title="Download CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
+                    <td><a href="#"><img title="Download Different Statistic CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
+                </tr>
             </tbody> 
         </table>
     </div>
