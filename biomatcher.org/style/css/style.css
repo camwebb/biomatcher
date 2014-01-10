@@ -705,3 +705,7 @@ ul.dropdown2 li:hover > ul {
 #download_same p,#download_different p{
     margin-bottom: 10px;
 }
+
+.wide{
+    width:350px;
+}

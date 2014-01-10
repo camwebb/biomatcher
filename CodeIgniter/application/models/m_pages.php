@@ -64,6 +64,21 @@ class M_pages extends CI_Model {
         }
     }
     
+    function site_exists($site)
+    {
+        $id_user = $this->session->userdata('id_user');
+        $where = array('url'=> $site, 'userID' => $id_user);
+        
+        $query = $this->db->get_where('site', $where);
+        
+        if ($query->num_rows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
     function list_project($perPage,$uri){
         $id_user = $this->session->userdata('id_user');
         $this->db->where('userID',$id_user);
@@ -96,6 +111,15 @@ class M_pages extends CI_Model {
         'qcSet'=>$this->input->post('type'),
         );
         $this->db->insert('project',$data);
+    }
+    
+    function add_site(){
+        $id_user = $this->session->userdata('id_user');
+        $data=array(
+        'userID' => $id_user,
+        'url'=>$this->input->post('url'),
+        );
+        $this->db->insert('site',$data);
     }
     
     function upload_image($data_image){

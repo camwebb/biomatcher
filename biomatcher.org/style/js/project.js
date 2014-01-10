@@ -105,7 +105,7 @@ $(document).ready(function() {
         return false;
 	});
     
-    $("#addProject, #upl_img").bind("click",addProject);
+    $("#addProject, #upl_img, #site_reg").bind("click",addProject);
     $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);
     
     /*editLabel function*/	

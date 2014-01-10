@@ -949,6 +949,45 @@ class Pages extends CI_Controller {
         return $token;
     }
     
+    function add_site(){
+        //function add site
+        $this->load->library('form_validation');
+        // field name, error message, validation rules
+        $config = array(
+               array(
+                     'field'   => 'url', 
+                     'label'   => 'URL', 
+                     'rules'   => 'trim|required|min_length[4]|xss_clean|prep_url|urldecode|callback_site_exists' //alpha_numeric|
+                  )
+            );
+        $this->form_validation->set_rules($config);
+        
+        if($this->form_validation->run() == FALSE)
+        {
+            $this->view($page = 'my_website');
+        }
+        else
+        {
+        $this->load->model('m_pages');
+        $this->m_pages->add_site();
+        redirect('pages/view/my_website', 'refresh');
+        }
+    }
+    
+    function site_exists($key)
+    {
+        $this->load->model('m_pages');
+        if($this->m_pages->site_exists($key))
+        {
+            $this->form_validation->set_message('site_exists', 'URL already exists');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }     
+    }
+    
 }
 
 ?>
