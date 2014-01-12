@@ -63,13 +63,13 @@
                         <p><?php echo $match['same']; ?></p>                                                     
                     </td>
                     <td>
-                        <p>... %</p>                       
+                        <p><?php echo $match['same_probability']; ?> %</p>                       
                     </td>                    
                     <td>
                         <p><?php echo $match['different']; ?></p>                       
                     </td>
                     <td>
-                        <p>... %</p>                       
+                        <p><?php echo $match['different_probability']; ?> %</p>                       
                     </td>                    
                 </tr>
             <?php

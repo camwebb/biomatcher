@@ -152,8 +152,10 @@ class Pages extends CI_Controller {
             
             $same = $this->m_pages->same($image->imageA, $image->imageB, 'yes');
             $different = $this->m_pages->same($image->imageA, $image->imageB, 'no');
+            $same_probability = round(($image->same_match/($image->same_match+$image->diff_match))*100,2);
+            $different_probability = round(($image->diff_match/($image->same_match+$image->diff_match))*100,2);
             
-            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $image->same_match, 'different' => $image->diff_match);
+            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $image->same_match, 'different' => $image->diff_match, 'same_probability' => $same_probability, 'different_probability' => $different_probability);
 
         }
         

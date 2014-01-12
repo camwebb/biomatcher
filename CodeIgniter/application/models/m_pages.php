@@ -289,6 +289,7 @@ GROUP BY pair_id");
         sort($list_image_b);
         //print_r($list_image_b);
         $matching_image = array();
+        $probability_factor = array();
         //get count
         for($j=0;$j<count($list_image_b);$j++){
             for($i=0;$i<count($get_image_a);$i++){
@@ -297,12 +298,25 @@ GROUP BY pair_id");
                 $name_B = "SELECT nameOri from `image` where id = '".$list_image_b[$j]."'";
                 $get_name = $this->db->query($name_B)->row_array();
                 $matching_image[$get_name['nameOri']][$get_image_a[$i]->nameOri] = $get_hitung[0]->hitung;
-        
             }    
         }
+        
+        //get count for opposite factor
+        for($j=0;$j<count($list_image_b);$j++){
+            for($i=0;$i<count($get_image_a);$i++){
+                
+                $p_hitung = "SELECT count(*) as p_hitung from `match` where imageA = '".$get_image_a[$i]->id."' and same = 'no' and imageB ='".$list_image_b[$j]."'";
+                $get_p_hitung = $this->db->query($p_hitung)->result();
+                $name_B = "SELECT nameOri from `image` where id = '".$list_image_b[$j]."'";
+                $get_name = $this->db->query($name_B)->row_array();
+                $probability_factor[$get_name['nameOri']][$get_image_a[$i]->nameOri] = $get_p_hitung[0]->p_hitung;
+            }    
+        }
+        
+        
         ksort($matching_image);
         //print_r($matching_image);   
-        
+        //print_r($probability_factor);
         for($i=0;$i<count($list_image_a);$i++){
         $name_A = "SELECT nameOri from `image` where id = '".$list_image_a[$i]."'";
         $get_nameA = $this->db->query($name_A)->row_array();
