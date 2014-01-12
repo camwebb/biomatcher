@@ -141,34 +141,29 @@ class Auth {
      * @param string $password
      * @return mixed User ID if successful and false if email already taken
      */
-    public function register($email, $password) {
+    public function register($url, $userID) {
         $this->CI->load->database();
 
-        // Generate password hash
-        $password_hash = $this->get_sha256($password, 'password');
-
-        // Inserd credentials into database
+        // Insert site into database
         $query = $this->CI->db->query(
-            'INSERT INTO '.$this->CI->db->dbprefix.'users (
-                user_email,
-                user_password_hash,
-                user_activated
+            'INSERT INTO '.$this->CI->db->dbprefix.'site (
+                url,
+                userID,
+                url_activated
             ) VALUES (
                 ?,
                 ?,
                 0
-            ) ON DUPLICATE KEY UPDATE user_id = user_id',
+            ) ON DUPLICATE KEY UPDATE id = id',
             array (
-                $email,
-                $password_hash
+                $url,
+                $userID
             )
         );
 
         // Is email already taken or not?
         if($query && $this->CI->db->affected_rows() == 1) {
-            $user_id = $this->CI->db->insert_id();
-
-            return $user_id;
+            return true;            
         }
 
         // Alread taken
@@ -210,7 +205,7 @@ class Auth {
      * @param int $user_id User ID
      * @return string 64 characters token to be delivered to user by email etc.
      */
-    public function get_activate_token($user_id) {
+    public function get_activate_token($user_id, $site_id) {
         $this->CI->load->database();
         $this->CI->load->helper('string');
 
@@ -225,17 +220,22 @@ class Auth {
         $this->CI->db->query(
             'INSERT INTO '.$this->CI->db->dbprefix.'activate_tokens (
                 activate_token_user_id,
+                activate_token_site_id,
                 activate_token_hash
             ) VALUES (
+                ?,
                 ?,
                 ?
             ) ON DUPLICATE KEY UPDATE activate_token_hash = ?',
             array(
                 $user_id,
+                $site_id,
                 $activate_token_hash,
                 $activate_token_hash
             )
         );
+        
+        $this->activate_site($site_id);
 
         return $activate_token_hash;
     }
@@ -278,18 +278,18 @@ class Auth {
     }
 
     /**
-     * Activate account directly without token.
+     * Activate site directly when ask embeded captcha code.
      *
-     * @param int $user_id User ID
+     * @param int $site_id Site ID
      */
-    public function activate_without_token($user_id) {
+    public function activate_site($site_id) {
         $this->CI->load->database();
 
         $this->CI->db->query(
-            'UPDATE '.$this->CI->db->dbprefix.'users
-                SET user_activated = 1
-            WHERE user_id = ?',
-            $user_id
+            'UPDATE '.$this->CI->db->dbprefix.'site
+                SET url_activated = 1
+            WHERE id = ?',
+            $site_id
         );
     }
 
@@ -305,6 +305,7 @@ class Auth {
         'CREATE TABLE IF NOT EXISTS '.$this->CI->db->dbprefix.'activate_tokens (
             activate_token_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
             activate_token_user_id INT UNSIGNED NOT NULL,
+            activate_token_site_id INT NOT NULL,
             activate_token_hash CHAR(64) NOT NULL,
             PRIMARY KEY(activate_token_id),
             UNIQUE KEY(activate_token_user_id),

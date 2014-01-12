@@ -113,15 +113,6 @@ class M_pages extends CI_Model {
         $this->db->insert('project',$data);
     }
     
-    function add_site(){
-        $id_user = $this->session->userdata('id_user');
-        $data=array(
-        'userID' => $id_user,
-        'url'=>$this->input->post('url'),
-        );
-        $this->db->insert('site',$data);
-    }
-    
     function upload_image($data_image){
         $this->db->insert('image', $data_image);
     }
@@ -484,9 +475,9 @@ GROUP BY pair_id");
      * @param $id_user = int id user
      * @return token hash
      */
-    function get_token($id_user){
+    function get_token($id_user, $site_id){
         $this->db->select('activate_token_hash');
-        $get = $this->db->get_where('activate_tokens', array('activate_token_user_id' => $id_user));
+        $get = $this->db->get_where('activate_tokens', array('activate_token_user_id' => $id_user, 'activate_token_site_id' => $site_id));
 
         $get_token = $get->result();
         if(!empty($get_token)){
@@ -497,6 +488,10 @@ GROUP BY pair_id");
         }
     }
     
+    /**
+     * @param $token = token give to user per site
+     * @return id_user
+     */
     function get_id_byToken($token){
         $this->db->select('activate_token_user_id');
         $get = $this->db->get_where('activate_tokens', array('activate_token_hash' => $token));
@@ -518,6 +513,23 @@ GROUP BY pair_id");
         }else{
             return false;
         }
+    }
+    
+    function get_website($user_id){
+        $site = $this->db->get_where('site', array('userID' => $user_id));
+        $user_site = $site->result();
+        if(!empty($user_site)){
+            return $user_site;
+        }
+    }
+    
+    function activate_site($site_id) {
+        $query = $this->db->query(
+            'UPDATE '.$this->db->dbprefix.'site
+                SET site_activated = 1
+            WHERE id = ?',
+            $site_id
+        );
     }
 }
 

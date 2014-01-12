@@ -31,17 +31,20 @@
                 </thead>
                 
                 <tbody id="test">
-
+                    <?php if (!empty($site)){ ?>
+                    <?php foreach ($site as $user_site){ ?>
                     <tr>
                         <td style="width: 70%;" >
-                            <p>http://www.biomatcher.org/</p>
+                            <p><?php echo $user_site->url; ?></p>
                         </td>
                         <td>
                             <p align="center">
-                                <a href="<?php echo base_url(); ?>index.php/pages/view/get_token" class="box-button" align="center">Get Code</a>
+                                <a href="<?php echo base_url().'index.php/pages/view/get_token/'.$user_site->id; ?>" class="box-button" align="center">Get Code</a>
                             </p>
                         </td>
                     </tr>
+                    <?php } ?>
+                    <?php } ?>
                 </tbody> 
             </table>
         </div>

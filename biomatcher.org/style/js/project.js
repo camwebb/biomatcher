@@ -58,7 +58,7 @@ $(document).ready(function() {
     function insert_match(same){
         var imageIDA = $("#imageIDA").val();
         var imageIDB = $("#imageIDB").val();
-        var data = {'imageIDA' : imageIDA, 'imageIDB' : imageIDB, 'same' : same}
+        var data = {'imageIDA' : imageIDA, 'imageIDB' : imageIDB, 'same' : same};
         
         $.ajax({
             type: "POST",
@@ -187,9 +187,14 @@ $(function(){
    }); 
 });
 
-function regenerate_token(){
+function regenerate_token(site_id){
+    
+    var site_data = {'site_id' : site_id}
+    
     $.ajax({
+        type: "GET",
         url: CI_ROOT+"index.php/pages/get_token",
+        data: site_data,
         cache: false,
         success: function(data){
             $('#myToken').html('');

@@ -174,16 +174,22 @@ class Pages extends CI_Controller {
         
         $this->load->model('m_pages');
         
-        $user_id = $this->session->userdata('id_user');
-        $get_token = $this->m_pages->get_token($user_id);
-        
-        if (!empty($get_token)){
-            $token = $get_token;
+        $site_id = $this->uri->segment(4);
+        if($site_id){
+            $user_id = $this->session->userdata('id_user');
+            $get_token = $this->m_pages->get_token($user_id, $site_id);
+            
+            if (!empty($get_token)){
+                $token = $get_token;
+            }else{
+                $token = $this->get_token();
+            }
+            
+            $data['token'] = $token;
         }else{
-            $token = $this->get_token();
+            show_404();
         }
         
-        $data['token'] = $token;
     	$data['title'] = ucfirst("Get Token"); // Capitalize the first letter
     	
         $this->load->library('Auth');
@@ -201,15 +207,10 @@ class Pages extends CI_Controller {
         $this->load->model('m_pages');
         
         $user_id = $this->session->userdata('id_user');
-        $get_token = $this->m_pages->get_token($user_id);
         
-        if (!empty($get_token)){
-            $token = $get_token;
-        }else{
-            $token = $this->get_token();
-        }
+        $data_website = $this->m_pages->get_website($user_id);
         
-        $data['token'] = $token;
+        $data['site'] = $data_website;
     	$data['title'] = ucfirst("My Website"); // Capitalize the first letter
     	
         $this->load->library('Auth');
@@ -939,14 +940,24 @@ class Pages extends CI_Controller {
         $this->load->library('Auth');
         $this->load->model('m_pages');
         
+        $site_id_uri = $this->uri->segment(4);
+        if(!empty($site_id_uri)){
+            $site_id = $site_id_uri;
+        }else if (!empty($_GET['site_id'])){
+            $site_id = $_GET['site_id'];
+        }       
+        
         $user_id = $this->session->userdata('id_user');        
-        $token = $this->auth->get_activate_token($user_id);
+        $token = $this->auth->get_activate_token($user_id, $site_id);
         
         if (!empty($_GET)){
             echo $token;
         }
         
         return $token;
+            
+        //redirect('pages/view/my_website', 'refresh');
+          
     }
     
     function add_site(){
@@ -957,7 +968,7 @@ class Pages extends CI_Controller {
                array(
                      'field'   => 'url', 
                      'label'   => 'URL', 
-                     'rules'   => 'trim|required|min_length[4]|xss_clean|prep_url|urldecode|callback_site_exists' //alpha_numeric|
+                     'rules'   => 'trim|required|min_length[4]|url|xss_clean|prep_url|urldecode|callback_site_exists' //alpha_numeric|
                   )
             );
         $this->form_validation->set_rules($config);
@@ -968,9 +979,16 @@ class Pages extends CI_Controller {
         }
         else
         {
-        $this->load->model('m_pages');
-        $this->m_pages->add_site();
-        redirect('pages/view/my_website', 'refresh');
+            $this->load->library('Auth');
+            $this->load->model('m_pages');
+            
+            $url = $this->input->post('url');
+            $user_id = $this->session->userdata('id_user');        
+            $register_site = $this->auth->register($url, $user_id);
+            
+            if ($register_site){
+                redirect('pages/view/my_website', 'refresh');
+            }
         }
     }
     
