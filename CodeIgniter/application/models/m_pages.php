@@ -264,91 +264,82 @@ GROUP BY pair_id");
         return $query->num_rows();
     }
     
-    function download_statistic($project_id,$same){
+    function download_statistic($project_id,$same,$percent){
         $list_image_a = array();
         $list_image_a[] = "imageA/imageB";
         $list_image_b = array();
-        //get all imageA with the same projectID
+        //get all image with the same projectID
         $q_a = "SELECT id,nameOri from `image` where projectID = '".$project_id."' order by id";
-        $get_image_a = $this->db->query($q_a)->result();
-        for($i=0;$i<count($get_image_a);$i++){
-            //get imageB for every imageA
-            $q_b = "SELECT imageB,imageA from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."'  order by imageA";
-            $get_image_b = $this->db->query($q_b)->result();
-            if(!empty($get_image_b)){
-                for($j=0;$j<count($get_image_b);$j++){
-                    if(!in_array($get_image_b[$j]->imageB,$list_image_b)){
-                        $list_image_b[]=$get_image_b[$j]->imageB;    
-                    } 
-                }
-            }
-            $list_image_a[]=$get_image_a[$i]->nameOri;
+        $get_image = $this->db->query($q_a)->result();
+        for($i=0;$i<count($get_image);$i++){
+            //divide into 2 list images
+            $list_image_a[]=$get_image[$i]->nameOri;
+            $list_image_b[]=$get_image[$i]->nameOri;
         }    
-        
-        ksort($list_image_a);
-        sort($list_image_b);
+        //print_r($list_image_a);
         //print_r($list_image_b);
+        
         $matching_image = array();
-        $probability_factor = array();
         //get count
-        for($j=0;$j<count($list_image_b);$j++){
-            for($i=0;$i<count($get_image_a);$i++){
-                $q_hitung = "SELECT count(*) as hitung from `match` where imageA = '".$get_image_a[$i]->id."' and same = '".$same."' and imageB ='".$list_image_b[$j]."'";
-                $get_hitung = $this->db->query($q_hitung)->result();
-                $name_B = "SELECT nameOri from `image` where id = '".$list_image_b[$j]."'";
-                $get_name = $this->db->query($name_B)->row_array();
-                $matching_image[$get_name['nameOri']][$get_image_a[$i]->nameOri] = $get_hitung[0]->hitung;
-            }    
+        if($percent == 'no'){
+            for($j=0;$j<count($get_image);$j++){
+                for($i=0;$i<count($get_image);$i++){
+                    $q_hitung = "SELECT count(*) as hitung from `match` where imageA = '".$get_image[$i]->id."' and same = '".$same."' and imageB ='".$get_image[$j]->id."'";
+                    $get_hitung = $this->db->query($q_hitung)->result();
+                    $matching_image[$get_image[$j]->nameOri][$get_image[$i]->nameOri] = $get_hitung[0]->hitung;
+                }    
+            }
         }
-        
-        //get count for opposite factor
-        for($j=0;$j<count($list_image_b);$j++){
-            for($i=0;$i<count($get_image_a);$i++){
-                
-                $p_hitung = "SELECT count(*) as p_hitung from `match` where imageA = '".$get_image_a[$i]->id."' and same = 'no' and imageB ='".$list_image_b[$j]."'";
-                $get_p_hitung = $this->db->query($p_hitung)->result();
-                $name_B = "SELECT nameOri from `image` where id = '".$list_image_b[$j]."'";
-                $get_name = $this->db->query($name_B)->row_array();
-                $probability_factor[$get_name['nameOri']][$get_image_a[$i]->nameOri] = $get_p_hitung[0]->p_hitung;
-            }    
+        //get percent count
+        else if($percent == 'yes'){
+            for($j=0;$j<count($get_image);$j++){
+                for($i=0;$i<count($get_image);$i++){
+                    if($same == 'yes'){
+                        $comparison = 'no';
+                    }
+                    else if($same == 'no'){
+                        $comparison = 'yes';
+                    }
+                    $q_hitung = "SELECT count(*) as hitung from `match` where imageA = '".$get_image[$i]->id."' and same = '".$same."' and imageB ='".$get_image[$j]->id."'";
+                    $get_hitung = $this->db->query($q_hitung)->result();
+                    $c_hitung = "SELECT count(*) as hitung from `match` where imageA = '".$get_image[$i]->id."' and same = '".$comparison."' and imageB ='".$get_image[$j]->id."'";
+                    $get_hitung_comparison = $this->db->query($c_hitung)->result();
+                    
+                    $initial = $get_hitung[0]->hitung;
+                    $comparative = $get_hitung_comparison[0]->hitung;
+                    
+                    if($initial == 0){
+                        $percentage = 0;
+                    }
+                    else{
+                        $percentage = round(($initial /($initial + $comparative))*100,2);
+                    }
+                    
+                    
+                    $matching_image[$get_image[$j]->nameOri][$get_image[$i]->nameOri] = $percentage.'%';
+                }    
+            }
         }
-        
         
         ksort($matching_image);
-        //print_r($matching_image);   
-        //print_r($probability_factor);
-        for($i=0;$i<count($list_image_a);$i++){
-        $name_A = "SELECT nameOri from `image` where id = '".$list_image_a[$i]."'";
-        $get_nameA = $this->db->query($name_A)->row_array();
+        //print_r($matching_image); 
         
-        $list_image_a_name = array();
-        $list_image_a_name[] = "row/col";
         
-        }
-        
-        //print_r($list_image_a);
+        //array format for csv result
         $array[] = $list_image_a;
-        
-        for($i=0;$i<count($list_image_b);$i++){
-            $name_B = "SELECT nameOri from `image` where id = '".$list_image_b[$i]."'";
-            $get_name = $this->db->query($name_B)->row_array();
-             
-            
-        foreach($get_name as $key=>$val){    
-            
+        foreach($list_image_b as $key=>$val){    
             $ar_row = array();
             $ar_row[0]=$val;
-                        
             $set_counter = 1;
-            foreach($matching_image[$get_name['nameOri']] as $key=>$val){
+            foreach($matching_image[$val] as $key=>$val){
                 $ar_row[$set_counter] = $val;
                 $set_counter++;
             }
             $array[] = $ar_row;
-        }}
-        
+        }
         //print_r($array);
         
+        //CSV proccess
         $this->load->library('Convertcsv');
         $csv_data = $this->convertcsv->array_to_csv($array, false);
         $this->load->helper('download');
@@ -356,16 +347,22 @@ GROUP BY pair_id");
         $filename = "SELECT * from `project` where id = '".$project_id."' ";
         $get_filename = $this->db->query($filename)->result();
         foreach ($get_filename as $name){
-            if($same == 'yes'){
+            if($same == 'yes' && $percent == 'no'){
                 $name = $name->name.'-same.csv';               
             }
-            else if($same == 'no'){
+            else if($same == 'yes' && $percent == 'yes'){
+                $name = $name->name.'-same_percentage.csv';               
+            }
+            else if($same == 'no' && $percent == 'no'){
                 $name = $name->name.'-different.csv';               
+            }
+            else if($same == 'no' && $percent == 'yes'){
+                $name = $name->name.'-different_percentage.csv';               
             }
                     
         }
         //print_r($data);
-        force_download($name, $data);
+        force_download($name, $data); 
     }
     
     function check_user_project($id_project){

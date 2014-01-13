@@ -57,7 +57,7 @@
                         <p><?php echo $match['filenameB']; ?></p>
                     </td>
                     <td>
-                        <p><?php echo $totalMatches; ?></p>
+                        <p><?php echo $match['total_per_images']; ?></p>
                     </td>                    
                     <td>
                         <p><?php echo $match['same']; ?></p>                                                     
@@ -78,11 +78,11 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td><a href="<?php echo base_url(); ?>index.php/pages/download_stats/<?php echo $project_id; ?>/same" ><img title="Download Same Statistic CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
-                    <td><a href="#"><img title="Download CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
-                    <td><a href="<?php echo base_url(); ?>index.php/pages/download_stats/<?php echo $project_id; ?>/different" ><img title="Download CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
-                    <td><a href="#"><img title="Download Different Statistic CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
+                    <td><?php echo $totalMatches; ?></td>
+                    <td><a href="<?php echo base_url(); ?>index.php/pages/download_stats/<?php echo $project_id; ?>/same/no" ><img title="Download Same Statistic CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
+                    <td><a href="<?php echo base_url(); ?>index.php/pages/download_stats/<?php echo $project_id; ?>/same/yes"><img title="Download CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
+                    <td><a href="<?php echo base_url(); ?>index.php/pages/download_stats/<?php echo $project_id; ?>/different/no" ><img title="Download CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
+                    <td><a href="<?php echo base_url(); ?>index.php/pages/download_stats/<?php echo $project_id; ?>/different/yes"><img title="Download Different Statistic CSV" style="height: 25px;" src="<?php echo base_url(); ?>style/img/download.png" /></a></td>
                 </tr>
             </tbody> 
         </table>

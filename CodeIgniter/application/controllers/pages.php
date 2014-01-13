@@ -154,8 +154,9 @@ class Pages extends CI_Controller {
             $different = $this->m_pages->same($image->imageA, $image->imageB, 'no');
             $same_probability = round(($image->same_match/($image->same_match+$image->diff_match))*100,2);
             $different_probability = round(($image->diff_match/($image->same_match+$image->diff_match))*100,2);
+            $total_per_images = $image->same_match + $image->diff_match;
             
-            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $image->same_match, 'different' => $image->diff_match, 'same_probability' => $same_probability, 'different_probability' => $different_probability);
+            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $image->same_match, 'different' => $image->diff_match, 'same_probability' => $same_probability, 'different_probability' => $different_probability, 'total_per_images' => $total_per_images );
 
         }
         
@@ -245,6 +246,7 @@ class Pages extends CI_Controller {
     
     public function download_stats(){
         $project_id = $this->uri->segment(3, 0);
+        $percent = $this->uri->segment(5, 0);
         $this->load->model('m_pages');
         if(!$this->m_pages->check_user_project($project_id)){
             show_404();
@@ -257,7 +259,7 @@ class Pages extends CI_Controller {
             $same = 'no';
         }
         
-        $this->m_pages->download_statistic($project_id,$same);
+        $this->m_pages->download_statistic($project_id,$same,$percent);
     }
   
     public function do_login()
