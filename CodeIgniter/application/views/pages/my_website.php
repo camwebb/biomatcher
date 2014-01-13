@@ -39,7 +39,7 @@
                         </td>
                         <td>
                             <p align="center">
-                                <a href="<?php echo base_url().'index.php/pages/view/get_token/'.$user_site->id; ?>" class="box-button" align="center">Get Code</a>
+                                <a href="<?php echo base_url().'index.php/pages/view/get_code/'.$user_site->id; ?>" class="box-button" align="center">Get Code</a>
                             </p>
                         </td>
                     </tr>

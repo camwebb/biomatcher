@@ -167,7 +167,7 @@ class Pages extends CI_Controller {
         $data['totalMatches'] = $totalMatches;
     }
     
-    if ($page == 'get_token') {
+    if ($page == 'get_code') {
         if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
     	{
     		// Whoops, we don't have a page for that!

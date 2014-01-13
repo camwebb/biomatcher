@@ -7,12 +7,30 @@
     
     <link rel="stylesheet" href="<?php echo base_url(); ?>style/css/jquery-ui-1.10.3.css" />
     
+    <!-- syntax highlighter -->
+    <link href="<?php echo base_url(); ?>syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url(); ?>syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    <!-- syntax highlighter -->
+    
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/project.js"></script>
     <script src="<?php echo base_url()?>style/js/jquery.form.js"></script>
     <script src="<?php echo base_url()?>style/js/upload.js"></script>
 	<script src="<?php echo base_url()?>style/js/ajaxfileupload.js"></script>
+    
+    <!-- syntax highlighter -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shCore.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shLegacy.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shAutoloader.js"></script>
+    
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/src/shCore.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/src/shLegacy.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/src/shAutoloader.js"></script>
+    
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shBrushPhp.js"></script>
+    <!-- syntax highlighter -->
     
     <script type="text/javascript">
     function show_mask(){
@@ -122,7 +140,6 @@
                 <ul class="dropdown2">
                     <li><a href="javascript:void(0)"><span><img style="padding: 8px 10px;" src="<?php echo base_url(); ?>style/img/arrow.png"/></span></a>
                     <ul class="sub_menu">
-                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/view/get_token">Get Token</a></li>
                         <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
                     </ul>
                     </li>
@@ -154,8 +171,6 @@
                 <ul class="dropdown2">
                     <li><a href="javascript:void(0)"><span><img style="padding: 8px 10px;" src="<?php echo base_url(); ?>style/img/arrow.png"/></span></a>
                     <ul class="sub_menu">
-                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/view/get_token">Get Token</a></li>
-                        
                         <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
                     </ul>
                     </li>

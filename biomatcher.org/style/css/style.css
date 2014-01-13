@@ -709,3 +709,12 @@ ul.dropdown2 li:hover > ul {
 .wide{
     width:350px;
 }
+
+.group{
+    background-color: #e6e6e6;
+    padding: 5px;
+    border: 1px solid #e6e6e6;
+    color: #515151;
+    font-size: 18px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
