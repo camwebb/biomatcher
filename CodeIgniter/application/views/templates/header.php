@@ -130,6 +130,7 @@
         }
         }elseif ($this->session->userdata('username') !=""){
             if ($this->session->userdata('type') == 'supplier' ){
+                
         ?>
         <div id="page_menu">
             <div style="float: left; padding-top: 13px;">

@@ -45,9 +45,15 @@ class Pages extends CI_Controller {
     }
     
     if ($page == 'projects'){
+        //check user (supplier or consumer by id_user)
+        $id_user = $this->session->userdata('id_user');
+        $type = $this->m_pages->user_type($id_user);
+        if($type == "consumer"){
+            show_404();
+        }
+        
         $this->load->library('pagination');
         //count the total rows of projects
-        $id_user = $this->session->userdata('id_user');
         $this->db->where('userID',$id_user);
         $getData = $this->db->get('project');
         $count_images = $getData->num_rows();

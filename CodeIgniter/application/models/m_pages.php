@@ -560,6 +560,18 @@ GROUP BY pair_id");
             $site_id
         );
     }
+    
+    function user_type($id){
+        $this->db->select('type');
+        $user = $this->db->get_where('user', array('id' => $id));
+        $user_type = $user->result();
+        if(!empty($user_type)){
+            foreach ($user_type as $userData){
+                $return_type = $userData->type;
+            }
+            return $return_type;
+        }
+    }
 }
 
 

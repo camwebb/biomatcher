@@ -22,30 +22,35 @@
         
         <?php echo form_error('url', '<div class="errorbox">', '</div>'); ?>
         
-        <div class="group"><p>STEP 1</p></div>
-        <h2 id="myToken"><?php echo $token; ?></h2>
-        <pre class="brush: js">
-            <script type="text/javascript" src="http://biomatcher.org/style/js/jquery-2.0.3.js"></script>
-            <script type="text/javascript" src="http://biomatcher/biomatcher.org/captcha/biomatcher.js"></script>
-        </pre>
+        <div>
+            <div class="group"><p>STEP 1</p></div>
+            <h2 id="myToken"><?php echo $token; ?></h2>
+            <pre class="brush: js">
+                <script type="text/javascript" src="http://biomatcher.org/style/js/jquery-2.0.3.js"></script>
+                <script type="text/javascript" src="http://biomatcher/biomatcher.org/captcha/biomatcher.js"></script>
+            </pre>
+        </div>
+        <div>
+            <div class="group"><p>STEP 2</p></div>
+            <pre class="brush: js">
+                <script type="text/javascript">
+                    window.addEventListener( "message",
+                    function (e) {
+                        if(e.data == 'verified'){
+                            //do something with your form ex. submit
+                            document.forms["myForm"].submit();    
+                        } 
+                    },
+                    false);
+                    var yourURL = 'http://yourWebsite.com/';
+                    var token = '<?php echo $token; ?>';
+                </script>
+            </pre>
+        </div>
         
-        <div class="group"><p>STEP 2</p></div>
-        <pre class="brush: js">
-            <script type="text/javascript">
-                window.addEventListener( "message",
-                function (e) {
-                    if(e.data == 'verified'){
-                        //do something with your form ex. submit
-                        document.forms["myForm"].submit();    
-                    } 
-                },
-                false);
-                var yourURL = 'http://yourWebsite.com/';
-                var token = '<?php echo $token; ?>';
-            </script>
-        </pre>
-        
-        <div class="group"><p>STEP 3</p></div>
+        <div>
+            <div class="group"><p>STEP 3</p></div>
+        </div>
         
         
         <br /><br />
