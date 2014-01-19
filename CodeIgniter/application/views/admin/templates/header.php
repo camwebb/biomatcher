@@ -9,7 +9,8 @@
 <body>
 
 <?php
-    if ($title == 'Dashboard'){
+    //later will be session
+    if ($title == 'Admin-projects'){
         
     
 ?>    

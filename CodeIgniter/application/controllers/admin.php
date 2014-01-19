@@ -10,11 +10,35 @@ class Admin extends CI_Controller {
 		// Whoops, we don't have a page for that!
 		show_404();
 	}
+    
+    
 
 	$data['title'] = ucfirst($page); // Capitalize the first letter
     
-    $this->load->model('m_pages');
-    
+    if ($page == 'admin-projects'){
+        $this->load->model('m_admin');
+        //check user (must be admin)
+        $id_user = $this->session->userdata('id_user');
+        $type = $this->m_admin->user_type($id_user);
+        if($type != "admin"){
+            show_404();
+        }
+        
+        $this->load->library('pagination');
+        //count the total rows of projects
+        $getData = $this->db->get('project');
+        $count_images = $getData->num_rows();
+        $config['base_url'] = base_url().'index.php/pages/view/projects/';
+        $config['total_rows'] = $count_images; //total rows
+        $config['per_page'] = '10'; //the number of per page for pagination
+        $config['uri_segment'] = 4; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $this->pagination->initialize($config); //initialize pagination
+        
+       	$data['list_project'] = $this->m_admin->list_project($config['per_page'],$this->uri->segment(4));
+        $this->load->library('user_agent');
+    }
     
 	$this->load->view('admin/templates/header', $data);
 	$this->load->view('admin/'.$page, $data);
@@ -46,12 +70,12 @@ class Admin extends CI_Controller {
             $this->view();
         }else{
             $this->load->helper('cookie');
-            $this->load->model('m_pages');
+            $this->load->model('m_admin');
             
             $username=$this->input->post('username');
             $password=$this->input->post('password');
             
-            $login =$this->m_pages->login_admin($username);
+            $login =$this->m_admin->login_admin($username);
             if ($login['sukses'] == 1 )
             {
                 $user_credentials = array();
@@ -83,7 +107,7 @@ class Admin extends CI_Controller {
                 		//set cookie to browser
                 		$this->input->set_cookie($cookieUsername);
                 		$this->input->set_cookie($cookiePassword);
-                        redirect('admin/view/projects', 'refresh');
+                        redirect('admin/view/admin-projects', 'refresh');
                     }
                     else
                     {
