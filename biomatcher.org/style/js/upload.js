@@ -5,7 +5,7 @@ $(function() {
 var progressbox     = $('#progressbox');
 var progressbar     = $('#progressbar');
 var statustxt       = $('#statustxt p');
-var myform          = $("#upload_file");
+var uploadform      = $("#upload_file");
 var output          = $(".errorbox");
 var input           = $("input");
 var button          = $('#box_button');
@@ -13,7 +13,7 @@ var report          = $('#report');
 var completed       = '0%';
 progressbar.progressbar({value: 0});
 
-$(myform).ajaxForm({
+$(uploadform).ajaxForm({
     dataType:  'json',
     beforeSend: function() { //brfore sending form
         output.empty();

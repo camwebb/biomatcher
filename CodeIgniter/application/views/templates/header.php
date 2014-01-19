@@ -30,6 +30,7 @@
     
     <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shBrushJScript.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shBrushPhp.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shBrushXml.js"></script>
     <!-- syntax highlighter -->
     
     <script type="text/javascript">

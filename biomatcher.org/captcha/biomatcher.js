@@ -1,7 +1,7 @@
 function biomatcher(yourURL,token){
-    $('body').append('<div class="overlay"></div><div id="biomatcher_captcha" class="popup shadow"><a title="Close" class="popup_close" onclick="biomatcherClose()"></a></div>');
-    $('#biomatcher_captcha').append('<iframe src="http://biomatcher/biomatcher.org/index.php/captcha/frame?token='+token+'&yoururl='+yourURL+'" height="630px" width="761px" frameborder="0" ></iframe>');
-    $('.overlay').css({
+    $('body').append('<div class="biomatcher_overlay"></div><div id="biomatcher_captcha" class="popup shadow"><a title="Close" class="popup_close" onclick="biomatcherClose()"></a></div>');
+    $('#biomatcher_captcha').append('<iframe src="http://biomatcher.org/index.php/captcha/frame?token='+token+'&yoururl='+yourURL+'" height="630px" width="761px" frameborder="0" ></iframe>');
+    $('.biomatcher_overlay').css({
         position: "fixed",
         top: "0px",
         bottom: "0px",
@@ -9,7 +9,7 @@ function biomatcher(yourURL,token){
         opacity: "0.7",
         width: "100%"
     });
-    $('.overlay').css("zIndex", 27);
+    $('.biomatcher_overlay').css("zIndex", 27);
     $('.popup').css({
         height: "auto",
         position: "absolute",
@@ -31,6 +31,6 @@ function biomatcher(yourURL,token){
 }
     
 function biomatcherClose(){
-    $('.overlay').remove();
+    $('.biomatcher_overlay').remove();
     $('#biomatcher_captcha').remove();
 }

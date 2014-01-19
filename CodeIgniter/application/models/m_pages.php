@@ -572,6 +572,19 @@ GROUP BY pair_id");
             return $return_type;
         }
     }
+    
+    //get_url_by_site_id
+    function get_url_by_site_id($site_id){
+        $this->db->select('url');
+        $get_url = $this->db->get_where('site', array('id' => $site_id));
+        $url = $get_url->result();
+        if(!empty($url)){
+            foreach ($url as $result_url){
+                $return_url = $result_url->url;
+            }
+            return $return_url;
+        }
+    }
 }
 
 

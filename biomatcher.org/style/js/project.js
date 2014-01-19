@@ -199,6 +199,7 @@ function regenerate_token(site_id){
         success: function(data){
             $('#myToken').html('');
             $('#myToken').append(data);
+            location.reload();
         }
     });
 }

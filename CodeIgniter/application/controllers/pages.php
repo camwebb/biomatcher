@@ -187,6 +187,7 @@ class Pages extends CI_Controller {
         if($site_id){
             $user_id = $this->session->userdata('id_user');
             $get_token = $this->m_pages->get_token($user_id, $site_id);
+            $url = $this->m_pages->get_url_by_site_id($site_id);
             
             if (!empty($get_token)){
                 $token = $get_token;
@@ -200,6 +201,7 @@ class Pages extends CI_Controller {
         }
         
     	$data['title'] = ucfirst("Get Token"); // Capitalize the first letter
+        $data['url'] = $url;
     	
         $this->load->library('Auth');
         $this->load->model('m_pages');
