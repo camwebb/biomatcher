@@ -1,7 +1,7 @@
 <div class="wrapper">
 <div id="content">
     
-    <h1 style="float: left;">All Projects</h1>
+    <h1 style="float: left;">All Project</h1>
     <div id="pagination" style="float: right;"> <?php echo $this->pagination->create_links(); ?> </div>
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
@@ -14,7 +14,7 @@
                         <p>Project Name</p>
                     </td>
                     <td>
-                        <p>Username</p>
+                        <p>Owner</p>
                     </td>
                     <td>
                         <p>Action</p>

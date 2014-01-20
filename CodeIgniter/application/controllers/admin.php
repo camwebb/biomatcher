@@ -11,11 +11,9 @@ class Admin extends CI_Controller {
 		show_404();
 	}
     
+    $data['title'] = ucfirst($page); // Capitalize the first letter
     
-
-	$data['title'] = ucfirst($page); // Capitalize the first letter
-    
-    if ($page == 'admin-projects'){
+    if ($page == 'projects'){
         $this->load->model('m_admin');
         //check user (must be admin)
         $id_user = $this->session->userdata('id_user');
@@ -27,9 +25,9 @@ class Admin extends CI_Controller {
         $this->load->library('pagination');
         //count the total rows of projects
         $getData = $this->db->get('project');
-        $count_images = $getData->num_rows();
+        $count_projects = $getData->num_rows();
         $config['base_url'] = base_url().'index.php/pages/view/projects/';
-        $config['total_rows'] = $count_images; //total rows
+        $config['total_rows'] = $count_projects; //total rows
         $config['per_page'] = '10'; //the number of per page for pagination
         $config['uri_segment'] = 4; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
         $config['full_tag_open'] = '<p>';
@@ -37,6 +35,56 @@ class Admin extends CI_Controller {
         $this->pagination->initialize($config); //initialize pagination
         
        	$data['list_project'] = $this->m_admin->list_project($config['per_page'],$this->uri->segment(4));
+        $this->load->library('user_agent');
+    }
+    
+    if ($page == 'users'){
+        $this->load->model('m_admin');
+        //check user (must be admin)
+        $id_user = $this->session->userdata('id_user');
+        $type = $this->m_admin->user_type($id_user);
+        if($type != "admin"){
+            show_404();
+        }
+        
+        $this->load->library('pagination');
+        //count the total rows of projects
+        $getData = $this->db->get('user');
+        $count_users = $getData->num_rows();
+        $config['base_url'] = base_url().'index.php/pages/view/users/';
+        $config['total_rows'] = $count_users; //total rows
+        $config['per_page'] = '10'; //the number of per page for pagination
+        $config['uri_segment'] = 4; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $this->pagination->initialize($config); //initialize pagination
+        
+       	$data['list_user'] = $this->m_admin->list_user($config['per_page'],$this->uri->segment(4));
+        $this->load->library('user_agent');
+    }
+    
+    if ($page == 'websites'){
+        $this->load->model('m_admin');
+        //check user (must be admin)
+        $id_user = $this->session->userdata('id_user');
+        $type = $this->m_admin->user_type($id_user);
+        if($type != "admin"){
+            show_404();
+        }
+        
+        $this->load->library('pagination');
+        //count the total rows of projects
+        $getData = $this->db->get('site');
+        $count_websites = $getData->num_rows();
+        $config['base_url'] = base_url().'index.php/pages/view/users/';
+        $config['total_rows'] = $count_websites; //total rows
+        $config['per_page'] = '10'; //the number of per page for pagination
+        $config['uri_segment'] = 4; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $this->pagination->initialize($config); //initialize pagination
+        
+       	$data['list_website'] = $this->m_admin->list_website($config['per_page'],$this->uri->segment(4));
         $this->load->library('user_agent');
     }
     
@@ -90,7 +138,7 @@ class Admin extends CI_Controller {
                         //login success
                         $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'type' => $login['type']));
             			$cookieUsername = array(
-            				'name'   => 'user',
+            				'name'   => 'user_admin',
             				'value'  => $login['username'],
             				'expire' => time()+2592000,
             				'path'   => '/',
@@ -98,7 +146,7 @@ class Admin extends CI_Controller {
             			);
             
             			$cookiePassword = array(
-            				'name'   => 'pass',
+            				'name'   => 'pass_admin',
             				'value'  => $login['password'],
             				'expire' => time()+2592000,
             				'path'   => '/',
@@ -107,7 +155,7 @@ class Admin extends CI_Controller {
                 		//set cookie to browser
                 		$this->input->set_cookie($cookieUsername);
                 		$this->input->set_cookie($cookiePassword);
-                        redirect('admin/view/admin-projects', 'refresh');
+                        redirect('admin/view/projects', 'refresh');
                     }
                     else
                     {
@@ -128,6 +176,15 @@ class Admin extends CI_Controller {
         }
 		
     }
+    
+    public function logout()
+	{
+		$this->load->helper('cookie');
+        $this->session->sess_destroy();
+		delete_cookie("user_admin");
+		delete_cookie("pass_admin");
+        redirect('admin/view/login', 'refresh');
+	}
     
 }
 

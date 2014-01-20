@@ -44,6 +44,18 @@ class M_admin extends CI_Model {
         $query = $this->db->get('project', $perPage, $uri);
         return $query->result();
     }
+    
+    function list_user($perPage,$uri){
+        $query = $this->db->get('user', $perPage, $uri);
+        return $query->result();
+    }
+    
+    function list_website($perPage,$uri){
+        $this->db->order_by('site.id','ASC');
+        $this->db->join('user', 'site.userID = user.id','left');
+        $query = $this->db->get('site', $perPage, $uri);
+        return $query->result();
+    }
 }
 
 
