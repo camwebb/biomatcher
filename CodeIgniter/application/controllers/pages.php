@@ -186,21 +186,30 @@ class Pages extends CI_Controller {
         $site_id = $this->uri->segment(4);
         if($site_id){
             $user_id = $this->session->userdata('id_user');
-            $get_token = $this->m_pages->get_token($user_id, $site_id);
             $url = $this->m_pages->get_url_by_site_id($site_id);
-            
-            if (!empty($get_token)){
-                $token = $get_token;
+            if($url){
+                $check_user = $this->m_pages->check_url_owner($user_id, $site_id);
+                if($check_user){
+                    $get_token = $this->m_pages->get_token($user_id, $site_id);
+                    
+                    if (!empty($get_token)){
+                        $token = $get_token;
+                    }else{
+                        $token = $this->get_token();
+                    }
+                    
+                    $data['token'] = $token;
+                }else{
+                    show_404();
+                }
             }else{
-                $token = $this->get_token();
+                show_404();
             }
-            
-            $data['token'] = $token;
         }else{
-            show_404();
+            redirect('pages/view/my_website', 'refresh');
         }
         
-    	$data['title'] = ucfirst("Get Token"); // Capitalize the first letter
+    	$data['title'] = ucfirst("Get Code"); // Capitalize the first letter
         $data['url'] = $url;
     	
         $this->load->library('Auth');

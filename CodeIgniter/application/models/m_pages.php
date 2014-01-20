@@ -515,9 +515,23 @@ GROUP BY pair_id");
         }
     }
     
-    function check_token($token){
+    function check_url($url){
+        $this->db->select('id');
+        $get = $this->db->get_where('site', array('url' => $url));
+        $get_detail = $get->result();
+        if(!empty($get_detail)){
+            foreach ($get_detail as $result_id){
+                $return_id = $result_id->id;
+            }
+            return $return_id;
+        }else{
+            return false;
+        }
+    }
+    
+    function check_token($token, $url_id){
         $this->db->select('activate_token_user_id');
-        $get = $this->db->get_where('activate_tokens', array('activate_token_hash' => $token));
+        $get = $this->db->get_where('activate_tokens', array('activate_token_hash' => $token, 'activate_token_site_id' => $url_id));
         $get_id = $get->result();
         if(!empty($get_id)){
             return true;
@@ -565,6 +579,17 @@ GROUP BY pair_id");
                 $return_url = $result_url->url;
             }
             return $return_url;
+        }
+    }
+    
+    function check_url_owner($user_id, $site_id){
+        $this->db->select('url');
+        $get = $this->db->get_where('site', array('userID' => $user_id, 'id' => $site_id));
+        $get_id = $get->result();
+        if(!empty($get_id)){
+            return true;
+        }else{
+            return false;
         }
     }
 }

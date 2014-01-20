@@ -28,57 +28,38 @@ class Captcha extends CI_Controller {
     		show_404();
     	}
         $this->load->model('m_pages');
+        
         $token = $_GET['token'];
-        $check = $this->m_pages->check_token($token);
-        if(!$check){
+        $url = $_GET['yoururl'];
+        
+        $check_url_id = $this->m_pages->check_url($url);
+        if(!$check_url_id){
             $page = 'invalid_token';
-        }
-        
-        $this->load->library('biomatcher_lib');
-        /*$pair_mode[0] = "same";
-        $pair_mode[1] = "different";
-        
-        shuffle($pair_mode);
-        
-        $project_pre_match = $this->biomatcher_lib->selectQC();
-        
-        if(!empty($project_pre_match)){
-            $userID_pre = $project_pre_match[0]->userID;
-            $get_username_pre = $this->m_pages->get_user($userID_pre);
-            $username_pre = $get_username_pre[0]->username;
-            $image_pre = $this->m_pages->selectImagePre($project_pre_match[0]->id);
-            
-            if(!empty($image_pre)){
-                shuffle($image_pre);
-            //print_r($pair_mode[0]);
-            
-                if ($pair_mode[0] == "same"){ // for same pair
-                    $image_preB = $this->m_pages->getImagePreSame($project_pre_match[0]->id,$image_pre[0]['id'], $image_pre[0]['label']);
-                    $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_preB[0]);
-                }elseif ($pair_mode[0] == "different"){ // for different pair
-                    $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_pre[1]);
-                } 
-            }else{
-                show_404();
-            }         
-                                    
+            $data['message'] = "You have not register your site or your token is invalid. Please register and check your code at <a href='http://www.biomatcher.org/'>http://www.biomatcher.org/</a>";
         }else{
-            show_404();
-        }
-        */
         
-        //send image captcha (not a QC Set, random from 1 project)
-        $project_pre_match = $this->biomatcher_lib->selectProjectCaptcha();
-        
-        if(!empty($project_pre_match)){
-            $userID_pre = $project_pre_match[0]->userID;
-            $get_username_pre = $this->m_pages->get_user($userID_pre);
-            $username_pre = $get_username_pre[0]->username;
-            $image_pre = $this->m_pages->selectImage($project_pre_match[0]->id);
+            $check = $this->m_pages->check_token($token, $check_url_id);
+            if(!$check){
+                $page = 'invalid_token';
+                $data['message'] = "You have not register your site or your token is invalid. Please register and check your code at <a href='http://www.biomatcher.org/'>http://www.biomatcher.org/</a>";
+            }else{
             
-            if(!empty($image_pre)){
-                shuffle ($image_pre);
-                $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_pre[1]);
+                $this->load->library('biomatcher_lib');
+                
+                //send image captcha (random from 1 project)
+                $project_pre_match = $this->biomatcher_lib->selectProjectCaptcha();
+                
+                if(!empty($project_pre_match)){
+                    $userID_pre = $project_pre_match[0]->userID;
+                    $get_username_pre = $this->m_pages->get_user($userID_pre);
+                    $username_pre = $get_username_pre[0]->username;
+                    $image_pre = $this->m_pages->selectImage($project_pre_match[0]->id);
+                    
+                    if(!empty($image_pre)){
+                        shuffle ($image_pre);
+                        $data['pair_match'] = array('projectID_pre' => $project_pre_match[0]->id , 'username_pre' => $username_pre,'shuffled_image_pre_A' => $image_pre[0], 'shuffled_image_pre_B' => $image_pre[1]);
+                    }
+                }
             }
         }
     
@@ -92,19 +73,6 @@ class Captcha extends CI_Controller {
     function test_frame()
     {
         $page = 'iframe_captcha_testing';
-        if ( ! file_exists('../CodeIgniter/application/views/captcha/'.$page.'.php'))
-    	{
-    		// Whoops, we don't have a page for that!
-    		show_404();
-    	}
-    
-    	$data['title'] = ucfirst($page); // Capitalize the first letter
-    	
-    	$this->load->view('captcha/'.$page, $data);
-    }
-    
-    function form_no_ajax(){
-        $page = 'form_no_ajax';
         if ( ! file_exists('../CodeIgniter/application/views/captcha/'.$page.'.php'))
     	{
     		// Whoops, we don't have a page for that!
