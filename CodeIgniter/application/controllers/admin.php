@@ -88,6 +88,27 @@ class Admin extends CI_Controller {
         $this->load->library('user_agent');
     }
     
+    if ($page == 'user_projects'){
+        $this->load->model('m_admin');
+        //check user (must be admin)
+        $id_user = $this->session->userdata('id_user');
+        $type = $this->m_admin->user_type($id_user);
+        if($type != 'admin'){
+            show_404();
+        }
+        
+        $user_id = $this->uri->segment(4,0);
+        $type_project = $this->m_admin->user_type($user_id);
+        if($type_project == 'supplier'){
+            $data['user_projects'] = $this->m_admin->project_supplier($user_id);
+        }
+        else if($type_project == 'consumer'){
+            $data['user_projects'] = $this->m_admin->project_consumer($user_id);
+        }
+        
+        
+    }
+    
 	$this->load->view('admin/templates/header', $data);
 	$this->load->view('admin/'.$page, $data);
 	$this->load->view('admin/templates/footer', $data);

@@ -6,7 +6,7 @@
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
     
-    <div class="project_table" id="files">
+    <div class="project_table">
         <table style="width: 100%;" id="projectTable">
             <thead>
                 <tr>
