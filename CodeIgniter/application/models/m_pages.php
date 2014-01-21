@@ -540,12 +540,20 @@ GROUP BY pair_id");
         }
     }
     
-    function get_website($user_id){
-        $site = $this->db->get_where('site', array('userID' => $user_id));
-        $user_site = $site->result();
-        if(!empty($user_site)){
-            return $user_site;
+    function list_website($user_id,$perPage,$uri){
+        $this->db->where('userID',$user_id);
+        $this->db->order_by('id','DESC');
+        $query = $this->db->get('site', $perPage, $uri);
+        if (!empty($query)){
+            return $query->result();
         }
+    }
+    
+    function count_website($user_id){
+        $this->db->where('userID',$user_id);
+        $getData = $this->db->get('site');
+        $count = $getData->num_rows();
+        return $count;
     }
     
     function activate_site($site_id) {

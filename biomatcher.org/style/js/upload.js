@@ -44,7 +44,7 @@ $(uploadform).ajaxForm({
         output.html(message.msg); //update element with received data                                              
         statustxt.html('Done');
         report.html(message.report);
-        myform.resetForm();  // reset form
+        uploadform.resetForm();  // reset form
         input.prop('disabled', false);
         button.slideDown();
         if(message.status != 'error')

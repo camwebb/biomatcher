@@ -15,6 +15,8 @@
         <div class="separator" style="float: left;"></div>
         <div class="clear"></div>
         
+        <div id="pagination" style="margin-bottom: 5px;"> <?php echo $this->pagination->create_links(); ?> </div>
+        
         <?php echo form_error('url', '<div class="errorbox">', '</div>'); ?>
         
         <div class="project_table" id="files">

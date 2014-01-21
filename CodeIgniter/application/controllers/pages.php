@@ -228,9 +228,24 @@ class Pages extends CI_Controller {
         
         $user_id = $this->session->userdata('id_user');
         
-        $data_website = $this->m_pages->get_website($user_id);
+        $this->load->library('pagination');
+        $list = "list_website";
+        //count the total rows of images
         
-        $data['site'] = $data_website;
+        $count = $this->m_pages->count_website($user_id);
+        
+        $config['base_url'] = base_url().'index.php/pages/view/my_website/';
+        $config['total_rows'] = $count; //total rows
+        $config['per_page'] = '10'; //the number of per page for pagination
+        $config['uri_segment'] = 4; //see from base_url. biomatcher.org/index.php/pages/view/my_website/pagination
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $this->pagination->initialize($config); //initialize pagination
+        
+        //$data_website = $this->m_pages->get_website($user_id);
+        //$data['site'] = $data_website;
+        
+        $data['site'] = $this->m_pages->$list($user_id,$config['per_page'],$this->uri->segment(4));
     	$data['title'] = ucfirst("My Website"); // Capitalize the first letter
     	
         $this->load->library('Auth');
