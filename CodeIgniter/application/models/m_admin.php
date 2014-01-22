@@ -72,15 +72,6 @@ class M_admin extends CI_Model {
         $query = $this->db->get('user');
         return $query->result();
     }
-    
-    function user_detail($user_id){
-        $this->db->select('project.id as project_id, project.name as project_name, project.qcSet as project_qcSet, site.id as site_id, site.url as site_url, site.url_activated as url_activated, user.username as username, user.name as name, user.type as type, user.email as email');
-        $this->db->join('project', 'project.userID = user.id');
-        $this->db->join('site', 'site.userID = user.id');
-        $this->db->where('user.id',$user_id);
-        $query = $this->db->get('user');
-        return $query->result();
-    }
 }
 
 

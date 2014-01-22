@@ -101,10 +101,14 @@ class Admin extends CI_Controller {
         $type_project = $this->m_admin->user_type($user_id);
         if($type_project == 'supplier'){
             $data['user_projects'] = $this->m_admin->project_supplier($user_id);
+            $for_type[] = array('type_project' => 'supplier');
         }
         else if($type_project == 'consumer'){
             $data['user_projects'] = $this->m_admin->project_consumer($user_id);
+            $for_type[] = array('type_project' => 'consumer');
         }
+        
+        $data['for_type'] = $for_type;
         
         
     }
