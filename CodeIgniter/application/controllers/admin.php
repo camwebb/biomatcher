@@ -202,6 +202,29 @@ class Admin extends CI_Controller {
 		
     }
     
+    public function QC_report(){
+        //still on my mind
+        foreach ($users as $user){
+            $sites = $user->url();
+            foreach ($sites as $site){
+                foreach ($match_QC as $match){
+                    $user_decision = $match->match();
+                    if ($imageA->label == $imageB->label){
+                        $real_decision = "yes";
+                    }else{
+                        $real_decision = "no";
+                    }
+                    
+                    if ($user_decision==$real_decision){
+                        $argument += 1;
+                    }
+                    $case +=1;
+                }
+            }
+        }
+        echo $case;
+    }
+    
     public function logout()
 	{
 		$this->load->helper('cookie');

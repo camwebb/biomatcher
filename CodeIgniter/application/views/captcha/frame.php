@@ -81,7 +81,7 @@
             
             var token = "<?php echo $_GET['token']; ?>";
             var yourURL = "<?php echo $_GET['yoururl']; ?>";
-            var dataMatching = {'imageIDA' : imageIDA, 'imageIDB' : imageIDB, 'same' : match, 'token' : token};
+            var dataMatching = {'imageIDA' : imageIDA, 'imageIDB' : imageIDB, 'same' : match, 'token' : token,'site' : yourURL};
             
             if($('input:radio[name=match]').is(':checked')){
                 $.ajax({

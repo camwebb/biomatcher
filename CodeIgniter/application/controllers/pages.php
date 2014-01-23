@@ -945,15 +945,26 @@ class Pages extends CI_Controller {
         $imageIDB = $this->input->post('imageIDB');
         $same     = $this->input->post('same');
         $token    = $this->input->post('token');
-        $matcher  = $this->m_pages->get_id_byToken($token);
-        $date     = date("Y-m-d H:i:s");
+        $site     = $this->input->post('site');
         
-        if (!empty($imageIDA) && !empty($imageIDB) && !empty($matcher)){
-            $data     = array('id' => '', 'imageA' => $imageIDA, 'imageB' => $imageIDB, 'time' => $date, 'matcher' => $matcher, 'same' => $same);
-            $this->m_pages->insert_match($data);
-            $status = 'success';
-        }else{
-            $status = 'error';
+        //authenticate site & token
+        $site_id  = $this->m_pages->check_url($site);
+        if($site_id){
+            $check_token = $this->m_pages->check_token($token, $site_id);
+            if($check_token){
+                //get user data
+                $matcher  = $this->m_pages->get_id_byToken($token);
+                $date     = date("Y-m-d H:i:s");
+                
+                if (!empty($imageIDA) && !empty($imageIDB) && !empty($matcher)){
+                    //insert match data
+                    $data     = array('id' => '', 'imageA' => $imageIDA, 'imageB' => $imageIDB, 'time' => $date, 'matcher' => $matcher, 'same' => $same, 'siteID'=> $site_id);
+                    $this->m_pages->insert_match($data);
+                    $status = 'success';
+                }else{
+                    $status = 'error';
+                }
+            }
         }
         
         echo json_encode($status);

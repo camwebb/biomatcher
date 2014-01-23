@@ -224,12 +224,12 @@ class M_pages extends CI_Model {
     
     function match_images($projectID){
         $query = $this->db->query("SELECT m.imageA,m.imageB,projectID, CONCAT (GREATEST(m.imageA,m.imageB),',',LEAST(m.imageA,m.imageB)) as pair_id,
-sum(case when m.same = 'yes' then 1 else 0 end) as same_match,
-sum(case when m.same = 'no' then 1 else 0 end) as diff_match,
-COUNT(*) as match_sum
-FROM `match` m
-JOIN `image` i ON m.`imageA` = i.`id` WHERE i.`projectID` = '$projectID'
-GROUP BY pair_id");
+                    sum(case when m.same = 'yes' then 1 else 0 end) as same_match,
+                    sum(case when m.same = 'no' then 1 else 0 end) as diff_match,
+                    COUNT(*) as match_sum
+                    FROM `match` m
+                    JOIN `image` i ON m.`imageA` = i.`id` WHERE i.`projectID` = '$projectID'
+                    GROUP BY pair_id");
         $stat=$query->result();
         
         return $stat;
