@@ -108,9 +108,17 @@ class Admin extends CI_Controller {
             $for_type[] = array('type_project' => 'consumer');
         }
         
-        $data['for_type'] = $for_type;
-        
-        
+        $data['for_type'] = $for_type;  
+    }
+    
+    if ($page == 'setting'){
+        $this->load->model('m_admin');
+        //check user (must be admin)
+        $id_user = $this->session->userdata('id_user');
+        $type = $this->m_admin->user_type($id_user);
+        if($type != 'admin'){
+            show_404();
+        }
     }
     
 	$this->load->view('admin/templates/header', $data);
@@ -233,6 +241,19 @@ class Admin extends CI_Controller {
 		delete_cookie("pass_admin");
         redirect('admin/view/login', 'refresh');
 	}
+    
+    public function do_setting()
+    {
+        $id_user = $this->session->userdata('id_user');
+        $username=$this->input->post('username');
+        $old_pass= md5($this->input->post('old_pass'));
+        $new_pass=md5($this->input->post('old_pass'));
+        $re_new_pass=md5($this->input->post('old_pass'));
+        
+        $this->load->model('m_admin');
+        $change_info = $this->m_admin->setting_admin($id_user,$username,$old_pass,$new_pass,$re_new_pass);
+        redirect('admin/view/setting');
+    }
     
 }
 
