@@ -8,6 +8,11 @@
     <?php echo form_open('admin/do_setting'); ?>
     <table>
         <tr>
+            <td>Name</td>
+            <td>:</td>
+            <td><input class="inputtext-admin" type="text" name="name" value="<?php echo $this->session->userdata('name') ?>"/></td>
+        </tr>
+        <tr>
             <td>Username</td>
             <td>:</td>
             <td><input class="inputtext-admin" type="text" name="username" value="<?php echo $this->session->userdata('username') ?>"/></td>

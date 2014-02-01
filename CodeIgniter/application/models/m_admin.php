@@ -25,8 +25,15 @@ class M_admin extends CI_Model {
         return $hasil;
     }
     
-    function setting_admin($id_user,$username,$old_pass,$new_pass,$re_new_pass){
-        $query = $this->db->query("UPDATE user SET username = '".$username."' WHERE id = '".$id_user."';");
+    function setting_admin($id_user,$name,$username,$old_pass,$new_pass,$re_new_pass){
+        $data = array(
+               'name' => $name,
+               'username' => $username
+            );
+        
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data); 
+        $this->session->set_userdata(array('name' =>$name,'username' => $username, 'id_user' => $id_user));                               
     }
     
     function user_type($id){

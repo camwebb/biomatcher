@@ -245,14 +245,23 @@ class Admin extends CI_Controller {
     public function do_setting()
     {
         $id_user = $this->session->userdata('id_user');
+        $name=$this->input->post('name');
         $username=$this->input->post('username');
         $old_pass= md5($this->input->post('old_pass'));
         $new_pass=md5($this->input->post('old_pass'));
         $re_new_pass=md5($this->input->post('old_pass'));
         
-        $this->load->model('m_admin');
-        $change_info = $this->m_admin->setting_admin($id_user,$username,$old_pass,$new_pass,$re_new_pass);
-        redirect('admin/view/setting');
+        $query = $this->db->query("SELECT password FROM user where id = '".$id_user."' ");
+        $check_pass = $query->result();
+        if ($old_pass == $check_pass[0]->password){
+            $this->load->model('m_admin');
+            $change_info = $this->m_admin->setting_admin($id_user,$name,$username,$old_pass,$new_pass,$re_new_pass);
+            redirect('admin/view/setting','refresh');
+        }
+        
+        //$this->load->model('m_admin');
+        //$change_info = $this->m_admin->setting_admin($id_user,$name,$username,$old_pass,$new_pass,$re_new_pass);
+        //redirect('admin/view/setting','refresh');
     }
     
 }
