@@ -242,7 +242,7 @@ class Admin extends CI_Controller {
         redirect('admin/view/login', 'refresh');
 	}
     
-    public function do_setting()
+    public function profile_admin()
     {
         $id_user = $this->session->userdata('id_user');
         $name=$this->input->post('name');
