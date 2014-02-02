@@ -18,6 +18,7 @@ class M_admin extends CI_Model {
         {
             $hasil['id']=$data[0]->id;
             $hasil['username']=$data[0]->username;
+            $hasil['email']=$data[0]->email;
 			$hasil['password']=$data[0]->password;
             $hasil['name']=$data[0]->name;
             $hasil['type']=$data[0]->type;
@@ -25,15 +26,29 @@ class M_admin extends CI_Model {
         return $hasil;
     }
     
-    function setting_admin($id_user,$name,$username,$old_pass,$new_pass,$re_new_pass){
+    function check_password($id_user,$key){
+        $query = $this->db->query("SELECT * FROM user where id = '".$id_user."' and password ='".$key."' ");
+        if ($query->num_rows() > 0){
+            return TRUE;
+        }
+        else{
+            return FALSE;
+        }
+    }
+    
+    function profile_admin($id_user,$name,$username,$email){
         $data = array(
                'name' => $name,
-               'username' => $username
+               'username' => $username,
+               'email' => $email
             );
         
         $this->db->where('id', $id_user);
-        $this->db->update('user', $data); 
-        $this->session->set_userdata(array('name' =>$name,'username' => $username, 'id_user' => $id_user));                               
+        $this->db->update('user', $data);    
+        
+        $data_admin = $this->db->get_where('user', array('id' => $id_user));
+        $get_admin = $data_admin->result();  
+        $this->session->set_userdata(array('name' =>$get_admin[0]->name,'username' => $get_admin[0]->username, 'id_user' => $get_admin[0]->id, 'email' => $get_admin[0]->email, 'type' => $get_admin[0]->type));
     }
     
     function user_type($id){

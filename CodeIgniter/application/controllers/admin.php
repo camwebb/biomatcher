@@ -169,7 +169,7 @@ class Admin extends CI_Controller {
                     if(md5($password) == $user_credentials[$username]['password'])
                     {
                         //login success
-                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'type' => $login['type']));
+                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'email' => $login['email'], 'type' => $login['type']));
             			$cookieUsername = array(
             				'name'   => 'user_admin',
             				'value'  => $login['username'],
@@ -247,21 +247,60 @@ class Admin extends CI_Controller {
         $id_user = $this->session->userdata('id_user');
         $name=$this->input->post('name');
         $username=$this->input->post('username');
+        $email=$this->input->post('email');
         $old_pass= md5($this->input->post('old_pass'));
-        $new_pass=md5($this->input->post('old_pass'));
-        $re_new_pass=md5($this->input->post('old_pass'));
+        $new_pass=md5($this->input->post('new_pass'));
+        $re_new_pass=md5($this->input->post('re_new_pass'));
         
-        $query = $this->db->query("SELECT password FROM user where id = '".$id_user."' ");
-        $check_pass = $query->result();
-        if ($old_pass == $check_pass[0]->password){
-            $this->load->model('m_admin');
-            $change_info = $this->m_admin->setting_admin($id_user,$name,$username,$old_pass,$new_pass,$re_new_pass);
-            redirect('admin/view/setting','refresh');
+        
+        $this->load->library('form_validation');
+        // field name, error message, validation rules
+        $config = array(
+                array(
+                     'field'   => 'name', 
+                     'label'   => 'Name', 
+                     'rules'   => 'trim|required|min_length[4]|xss_clean'
+                  ),
+                array(
+                     'field'   => 'username', 
+                     'label'   => 'Username', 
+                     'rules'   => 'trim|required|min_length[4]|alpha_numeric|xss_clean'
+                  ),
+               array(
+                     'field'   => 'email', 
+                     'label'   => 'Email', 
+                     'rules'   => 'trim|required|valid_email'
+                  ),
+                array(
+                     'field'   => 'password', 
+                     'label'   => 'Password', 
+                     'rules'   => 'required|md5|callback_check_pass'
+                  )
+                );
+        $this->form_validation->set_rules($config);
+        if($this->form_validation->run() == FALSE){
+            $this->view($page = 'setting');
         }
         
-        //$this->load->model('m_admin');
-        //$change_info = $this->m_admin->setting_admin($id_user,$name,$username,$old_pass,$new_pass,$re_new_pass);
-        //redirect('admin/view/setting','refresh');
+        else{
+            $this->load->model('m_admin');
+            $change_info = $this->m_admin->profile_admin($id_user,$name,$username,$email);
+            redirect('admin/view/setting','refresh');
+        }
+    }
+    
+    public function check_pass($key){
+        $id_user = $this->session->userdata('id_user');
+        $this->load->model('m_admin');
+        if($this->m_admin->check_password($id_user,$key))
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->form_validation->set_message('check_pass', 'Wrong Password');
+            return FALSE;
+        }     
     }
     
 }

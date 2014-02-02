@@ -11,26 +11,25 @@
             <td>Name</td>
             <td>:</td>
             <td><input class="inputtext-admin" type="text" name="name" value="<?php echo $this->session->userdata('name') ?>"/></td>
+            <td><?php echo form_error('name', '<div class="errorbox">', '</div>'); ?></td>
         </tr>
         <tr>
             <td>Username</td>
             <td>:</td>
             <td><input class="inputtext-admin" type="text" name="username" value="<?php echo $this->session->userdata('username') ?>"/></td>
+            <td><?php echo form_error('username', '<div class="errorbox">', '</div>'); ?></td>
         </tr>
         <tr>
-            <td>Old Password</td>
+            <td>Email</td>
             <td>:</td>
-            <td><input class="inputtext-admin" type="text" name="old_pass" value=""/></td>
+            <td><input class="inputtext-admin" type="text" name="email" value="<?php echo $this->session->userdata('email') ?>"/></td>
+            <td><?php echo form_error('email', '<div class="errorbox">', '</div>'); ?></td>
         </tr>
         <tr>
-            <td>New Password</td>
+            <td>Password</td>
             <td>:</td>
-            <td><input class="inputtext-admin" type="text" name="new_pass" value=""/></td>
-        </tr>
-        <tr>
-            <td>Retype New Password</td>
-            <td>:</td>
-            <td><input class="inputtext-admin" type="text" name="re_new_pass" value=""/></td>
+            <td><input class="inputtext-admin" type="password" name="password" value=""/></td>
+            <td><?php echo form_error('password', '<div class="errorbox">', '</div>'); ?></td>
         </tr>
         <tr>
             <td></td>
