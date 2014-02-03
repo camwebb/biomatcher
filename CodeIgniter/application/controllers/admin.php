@@ -2,6 +2,11 @@
 
 class Admin extends CI_Controller {
     
+    public function index()
+	{
+        redirect('admin/view/projects');
+	}
+    
 	public function view($page = 'dashboard')
 	{
 
@@ -104,8 +109,17 @@ class Admin extends CI_Controller {
             $for_type[] = array('type_project' => 'supplier');
         }
         else if($type_project == 'consumer'){
-            $data['user_projects'] = $this->m_admin->project_consumer($user_id);
+            $sites = $this->m_admin->project_consumer($user_id);
+            $data_sites_QC = array();
+            foreach ($sites as $site){
+                //get QC matches data
+                //count the algorithm
+                $data_sites_QC[] = array('site_url'=>$site->site_url, 'url_activated'=>$site->url_activated, 'success_QC'=>'');
+            }
+            
+            $data['user_projects'] = $data_sites_QC;
             $for_type[] = array('type_project' => 'consumer');
+            print_r($data['user_projects']);
         }
         
         $data['for_type'] = $for_type;  
@@ -231,6 +245,20 @@ class Admin extends CI_Controller {
             }
         }
         echo $case;
+        
+        //per url
+        // get site id
+        // get all QC matches by siteID
+        // foreach QC_matches as QC_match{
+        // get image_label
+        // get $user_decision ("yes"/"no" on match)
+        // if QC_match->imageA->label == QC_match_imageB->label{
+        // then $real_decision == "yes"
+        // else $real_decision == "no"}
+        // if $user_decision == $real_decision{
+        // then $success + = 1}
+        // $case + = 1
+        // } closing in foreach QC_matches
     }
     
     public function logout()

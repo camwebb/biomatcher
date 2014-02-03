@@ -63,8 +63,9 @@
                         <p>Site URL</p>
                     </td>
                     <td>
-                        <p>URL Activated</p>
+                        <p>Activated</p>
                     </td>
+                    <td>Success of QC</td>
                 </tr>
             </thead>
             <tbody>
@@ -72,10 +73,18 @@
                 foreach($user_projects as $projects){
             ?>
                 <tr>
-                    <td>
-                        <p><?php echo $projects->site_url; ?></p>
+                    <td style="width: 50%;">
+                        <p><?php echo $projects['site_url']; ?></p>
                     </td>
-                    <td><?php echo $projects->url_activated; ?></td>
+                    <td>
+                        <?php if ($projects['url_activated'] == '1'){
+                            $activated = "Yes";
+                        }else{
+                            $activated = "No";
+                        } ?>
+                        <p><?php echo $activated; ?></p>
+                    </td>
+                    <td><p></p></td>
                    
                 </tr>
              <?php
