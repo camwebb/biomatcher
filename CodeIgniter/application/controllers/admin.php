@@ -342,7 +342,7 @@ class Admin extends CI_Controller {
                 );
         $this->form_validation->set_rules($config);
         if($this->form_validation->run() == FALSE){
-            $this->view('setting');
+            echo form_error('old_pass').form_error('new_pass').form_error('renew_pass');    
         }
         
         else{

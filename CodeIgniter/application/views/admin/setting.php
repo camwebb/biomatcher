@@ -51,25 +51,26 @@
       </div>
       
       <div id="password">
-        <?php echo form_open('admin/pass_admin'); ?>
+        <?php echo form_open('admin/pass_admin',array('id'=>'form_pass_admin')); ?>
         <table>
+            <div id="error" class="errorbox"></div>
             <tr>
                 <td>Old Password</td>
                 <td>:</td>
                 <td><input class="inputtext-admin" type="password" name="old_pass" value=""/></td>
-                <td><?php echo form_error('old_pass', '<div class="errorbox">', '</div>'); ?></td>
+                <td><div id="error-old_pass" class="errorbox"></div></td>
             </tr>
             <tr>
                 <td>New Password</td>
                 <td>:</td>
                 <td><input class="inputtext-admin" type="password" name="new_pass" value=""/></td>
-                <td><?php echo form_error('new_pass', '<div class="errorbox">', '</div>'); ?></td>
+                <td><div id="error-new_pass" class="errorbox"></td>
             </tr>
             <tr>
                 <td>Re-New Password</td>
                 <td>:</td>
                 <td><input class="inputtext-admin" type="password" name="renew_pass" value=""/></td>
-                <td><?php echo form_error('renew_pass', '<div class="errorbox">', '</div>'); ?></td>
+                <td><div id="error-renew_pass" class="errorbox"></td>
             </tr>
             <tr>
                 <td></td>
@@ -81,12 +82,28 @@
         
         <?php echo form_close(); ?>
       </div>
-      
+      <div id="asd"></div>
     </div>
-    
-    
-    
     
     <div class="separator"></div>
 
 </div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(function(){
+        var url = '<?php echo base_url() ?>';
+    $('#form_pass_admin').submit(function(evnt){
+        evnt.preventDefault(); //Avoid that the event 'submit' continues with its normal execution, so that, we avoid to reload the whole page
+        $.post(url+"index.php/admin/pass_admin", //The variable 'url' must store the base_url() of our application
+        $("form#form_pass_admin").serialize(), //Serialize all the content of our form to URL format
+        function (data) {
+            console.log(data); //Add the AJAX response to some div that is going to show the message
+            $("div#error").empty();
+            $("div#error").prepend(data);
+        });
+    });
+});    
+});        
+
+</script>
