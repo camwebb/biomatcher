@@ -51,7 +51,35 @@
       </div>
       
       <div id="password">
-      sd
+        <?php echo form_open('admin/pass_admin'); ?>
+        <table>
+            <tr>
+                <td>Old Password</td>
+                <td>:</td>
+                <td><input class="inputtext-admin" type="password" name="old_pass" value=""/></td>
+                <td><?php echo form_error('old_pass', '<div class="errorbox">', '</div>'); ?></td>
+            </tr>
+            <tr>
+                <td>New Password</td>
+                <td>:</td>
+                <td><input class="inputtext-admin" type="password" name="new_pass" value=""/></td>
+                <td><?php echo form_error('new_pass', '<div class="errorbox">', '</div>'); ?></td>
+            </tr>
+            <tr>
+                <td>Re-New Password</td>
+                <td>:</td>
+                <td><input class="inputtext-admin" type="password" name="renew_pass" value=""/></td>
+                <td><?php echo form_error('renew_pass', '<div class="errorbox">', '</div>'); ?></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input class="box-button" type="submit" value="Save" /></td>
+            </tr>
+        </table>
+        
+        
+        <?php echo form_close(); ?>
       </div>
       
     </div>

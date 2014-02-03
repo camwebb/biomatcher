@@ -276,10 +276,6 @@ class Admin extends CI_Controller {
         $name=$this->input->post('name');
         $username=$this->input->post('username');
         $email=$this->input->post('email');
-        $old_pass= md5($this->input->post('old_pass'));
-        $new_pass=md5($this->input->post('new_pass'));
-        $re_new_pass=md5($this->input->post('re_new_pass'));
-        
         
         $this->load->library('form_validation');
         // field name, error message, validation rules
@@ -313,6 +309,45 @@ class Admin extends CI_Controller {
         else{
             $this->load->model('m_admin');
             $change_info = $this->m_admin->profile_admin($id_user,$name,$username,$email);
+            redirect('admin/view/setting','refresh');
+        }
+    }
+    
+    public function pass_admin()
+    {
+        $id_user = $this->session->userdata('id_user');
+        $old_pass= md5($this->input->post('old_pass'));
+        $new_pass=md5($this->input->post('new_pass'));
+        $renew_pass=md5($this->input->post('renew_pass'));
+        
+        
+        $this->load->library('form_validation');
+        // field name, error message, validation rules
+        $config = array(
+                array(
+                     'field'   => 'old_pass', 
+                     'label'   => 'Old Password', 
+                     'rules'   => 'required|md5|callback_check_pass'
+                  ),
+                array(
+                     'field'   => 'new_pass', 
+                     'label'   => 'New Password', 
+                     'rules'   => 'trim|min_length[4]|max_length[32]'
+                  ),
+                array(
+                     'field'   => 'renew_pass', 
+                     'label'   => 'Re-New Password', 
+                     'rules'   => 'trim|matches[new_pass]'
+                  )
+                );
+        $this->form_validation->set_rules($config);
+        if($this->form_validation->run() == FALSE){
+            $this->view('setting');
+        }
+        
+        else{
+            $this->load->model('m_admin');
+            $change_info = $this->m_admin->pass_admin($id_user,$new_pass);
             redirect('admin/view/setting','refresh');
         }
     }

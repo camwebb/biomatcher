@@ -51,6 +51,15 @@ class M_admin extends CI_Model {
         $this->session->set_userdata(array('name' =>$get_admin[0]->name,'username' => $get_admin[0]->username, 'id_user' => $get_admin[0]->id, 'email' => $get_admin[0]->email, 'type' => $get_admin[0]->type));
     }
     
+    function pass_admin($id_user,$new_pass){
+        $data = array(
+               'password' => $new_pass
+            );
+        
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data); 
+    }
+    
     function user_type($id){
         $this->db->select('type');
         $user = $this->db->get_where('user', array('id' => $id));
