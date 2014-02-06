@@ -80,11 +80,11 @@
                         <?php if ($projects['url_activated'] == '1'){
                             $activated = "Yes";
                         }else{
-                            $activated = "No";
+                            $activated = "No"; 
                         } ?>
                         <p><?php echo $activated; ?></p>
                     </td>
-                    <td><p></p></td>
+                    <td><p><?php echo $projects['success_QC'] ?></p></td>
                    
                 </tr>
              <?php

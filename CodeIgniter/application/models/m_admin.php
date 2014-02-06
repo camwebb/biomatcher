@@ -107,6 +107,38 @@ class M_admin extends CI_Model {
         $query = $this->db->get('user');
         return $query->result();
     }
+    
+    function matches_data($siteID){
+        $this->db->select('*');
+        $matches = $this->db->get_where('match', array('siteID' => $siteID));
+        $matches_data = $matches->result();
+        if(!empty($matches_data)){
+            return $matches_data;
+        }
+    }
+    
+    function image_data($imageID){
+        $this->db->select('*');
+        $this->db->limit(1);
+        $image_query = $this->db->get_where('image', array('id' => $imageID));
+        $image_data = $image_query->result();
+        if(!empty($image_data)){
+            return $image_data;
+        }
+    }
+    
+    function isQC($projectID){
+        $this->db->select('qcSet');
+        $query = $this->db->get_where('project', array('id' => $projectID));
+        $dataQC = $query->result(); 
+        foreach ($dataQC as $data){
+            if($data->qcSet == 'yes'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 }
 
 

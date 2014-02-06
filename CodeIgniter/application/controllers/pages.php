@@ -960,7 +960,7 @@ class Pages extends CI_Controller {
         if($site_id){
             $check_token = $this->m_pages->check_token($token, $site_id);
             if($check_token){
-                //get user data
+                //get user data 
                 $matcher  = $this->m_pages->get_id_byToken($token);
                 $date     = date("Y-m-d H:i:s");
                 

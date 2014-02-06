@@ -4,7 +4,14 @@ class Admin extends CI_Controller {
     
     public function index()
 	{
-        redirect('admin/view/projects');
+        $this->load->model('m_admin');
+        $id_user = $this->session->userdata('id_user');
+        $type = $this->m_admin->user_type($id_user);
+        if($type == ''){
+            redirect('admin/view/login');
+        }else{
+            redirect('admin/view/projects');
+        }
 	}
     
 	public function view($page = 'dashboard')
@@ -73,6 +80,7 @@ class Admin extends CI_Controller {
         //check user (must be admin)
         $id_user = $this->session->userdata('id_user');
         $type = $this->m_admin->user_type($id_user);
+        
         if($type != "admin"){
             show_404();
         }
@@ -113,13 +121,14 @@ class Admin extends CI_Controller {
             $data_sites_QC = array();
             foreach ($sites as $site){
                 //get QC matches data
+                $QC_matches_data = $this->QC_report($site->site_id);
+                
                 //count the algorithm
-                $data_sites_QC[] = array('site_url'=>$site->site_url, 'url_activated'=>$site->url_activated, 'success_QC'=>'');
+                $data_sites_QC[] = array('site_url'=>$site->site_url, 'url_activated'=>$site->url_activated, 'success_QC'=>$QC_matches_data);
             }
             
             $data['user_projects'] = $data_sites_QC;
             $for_type[] = array('type_project' => 'consumer');
-            print_r($data['user_projects']);
         }
         
         $data['for_type'] = $for_type;  
@@ -139,6 +148,43 @@ class Admin extends CI_Controller {
 	$this->load->view('admin/'.$page, $data);
 	$this->load->view('admin/templates/footer', $data);
     
+    }
+    
+    private function QC_report($siteID){
+        $matches_data = $this->m_admin->matches_data($siteID);
+                
+        //get image data
+        if (is_array($matches_data)){
+            foreach ($matches_data as $matches){
+                $imageA_data = $this->m_admin->image_data($matches->imageA);
+                $imageB_data = $this->m_admin->image_data($matches->imageB);
+                //print_r($imageA_data);
+                
+                //check is image in a QC project
+                $isQC = $this->m_admin->isQC($imageA_data[0]->projectID);
+                
+                if($isQC){
+                    //cek the label (same or not)
+                    
+                }
+            }
+        }
+        
+        return '100';
+        
+        //per url
+        // get site id
+        // get all QC matches by siteID
+        // foreach QC_matches as QC_match{
+        // get image_label
+        // get $user_decision ("yes"/"no" on match)
+        // if QC_match->imageA->label == QC_match_imageB->label{
+        // then $real_decision == "yes"
+        // else $real_decision == "no"}
+        // if $user_decision == $real_decision{
+        // then $success + = 1}
+        // $case + = 1
+        // } closing in foreach QC_matches
     }
     
     public function do_login()
@@ -222,43 +268,6 @@ class Admin extends CI_Controller {
             }
         }
 		
-    }
-    
-    public function QC_report(){
-        //still on my mind
-        foreach ($users as $user){
-            $sites = $user->url();
-            foreach ($sites as $site){
-                foreach ($match_QC as $match){
-                    $user_decision = $match->match();
-                    if ($imageA->label == $imageB->label){
-                        $real_decision = "yes";
-                    }else{
-                        $real_decision = "no";
-                    }
-                    
-                    if ($user_decision==$real_decision){
-                        $argument += 1;
-                    }
-                    $case +=1;
-                }
-            }
-        }
-        echo $case;
-        
-        //per url
-        // get site id
-        // get all QC matches by siteID
-        // foreach QC_matches as QC_match{
-        // get image_label
-        // get $user_decision ("yes"/"no" on match)
-        // if QC_match->imageA->label == QC_match_imageB->label{
-        // then $real_decision == "yes"
-        // else $real_decision == "no"}
-        // if $user_decision == $real_decision{
-        // then $success + = 1}
-        // $case + = 1
-        // } closing in foreach QC_matches
     }
     
     public function logout()

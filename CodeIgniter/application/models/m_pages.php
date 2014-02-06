@@ -454,8 +454,9 @@ class M_pages extends CI_Model {
     function selectImage($projectID){
         $query = $this->db->query("SELECT id, md5sum, label FROM image WHERE projectID=$projectID");
         $result_project=$query->result_array();
-        
-        return $result_project;
+        if(!empty($result_project)){
+            return $result_project;
+        }
     }
     
     function get_user_id($email){
@@ -529,7 +530,7 @@ class M_pages extends CI_Model {
         }
     }
     
-    function check_token($token, $url_id){
+    function check_token($token, $url_id){ 
         $this->db->select('activate_token_user_id');
         $get = $this->db->get_where('activate_tokens', array('activate_token_hash' => $token, 'activate_token_site_id' => $url_id));
         $get_id = $get->result();
