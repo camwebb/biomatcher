@@ -30,7 +30,7 @@
         </div>
         <div id="page_menu">
             <div style="float: left; padding-top: 13px;">
-                <p>Welcome, <?php echo $this->session->userdata('name'); ?></p>
+                <p id="welcome_user">Welcome, <?php echo $this->session->userdata('name'); ?></p>
             </div>
             <div id="cmenu">
             <!-- menu -->

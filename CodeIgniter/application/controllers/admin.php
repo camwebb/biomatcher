@@ -312,7 +312,11 @@ class Admin extends CI_Controller {
                 );
         $this->form_validation->set_rules($config);
         if($this->form_validation->run() == FALSE){
-            $this->view($page = 'setting');
+            $name = form_error('name');
+            $username = form_error('username');
+            $email = form_error('email');
+            $password = form_error('password');
+            echo json_encode(array('result' => 'failed','name' => $name, 'username' => $username, 'email' => $email, 'password' => $password)); 
         }
         
         else{
@@ -341,23 +345,26 @@ class Admin extends CI_Controller {
                 array(
                      'field'   => 'new_pass', 
                      'label'   => 'New Password', 
-                     'rules'   => 'trim|min_length[4]|max_length[32]'
+                     'rules'   => 'required|trim|min_length[4]|max_length[32]'
                   ),
                 array(
                      'field'   => 'renew_pass', 
                      'label'   => 'Re-New Password', 
-                     'rules'   => 'trim|matches[new_pass]'
+                     'rules'   => 'required|trim|matches[new_pass]'
                   )
                 );
         $this->form_validation->set_rules($config);
         if($this->form_validation->run() == FALSE){
-            echo form_error('old_pass').form_error('new_pass').form_error('renew_pass');    
+            //echo form_error('old_pass').form_error('new_pass').form_error('renew_pass');
+            $old_pass = form_error('old_pass');
+            $new_pass = form_error('new_pass');
+            $renew_pass = form_error('renew_pass');
+            echo json_encode(array('result' => 'failed','old_pass' => $old_pass, 'new_pass' => $new_pass, 'renew_pass' => $renew_pass));    
         }
         
         else{
             $this->load->model('m_admin');
             $change_info = $this->m_admin->pass_admin($id_user,$new_pass);
-            redirect('admin/view/setting','refresh');
         }
     }
     

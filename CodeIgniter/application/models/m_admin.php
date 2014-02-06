@@ -49,6 +49,7 @@ class M_admin extends CI_Model {
         $data_admin = $this->db->get_where('user', array('id' => $id_user));
         $get_admin = $data_admin->result();  
         $this->session->set_userdata(array('name' =>$get_admin[0]->name,'username' => $get_admin[0]->username, 'id_user' => $get_admin[0]->id, 'email' => $get_admin[0]->email, 'type' => $get_admin[0]->type));
+        echo json_encode(array('result' => 'Success')); 
     }
     
     function pass_admin($id_user,$new_pass){
@@ -57,7 +58,8 @@ class M_admin extends CI_Model {
             );
         
         $this->db->where('id', $id_user);
-        $this->db->update('user', $data); 
+        $this->db->update('user', $data);
+        echo json_encode(array('result' => 'Success')); 
     }
     
     function user_type($id){

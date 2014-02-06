@@ -13,31 +13,32 @@
       </ul>
       
       <div id="profile">
-        <?php echo form_open('admin/profile_admin'); ?>
+        <?php echo form_open('admin/profile_admin',array('id'=>'form_profile_admin')); ?>
         <table>
+            <div id="success-profile" style="color: blue;"></div>
             <tr>
                 <td>Name</td>
                 <td>:</td>
                 <td><input class="inputtext-admin" type="text" name="name" value="<?php echo $this->session->userdata('name') ?>"/></td>
-                <td><?php echo form_error('name', '<div class="errorbox">', '</div>'); ?></td>
+                <td><div id="error-name" class="errorbox"></div></td>
             </tr>
             <tr>
                 <td>Username</td>
                 <td>:</td>
                 <td><input class="inputtext-admin" type="text" name="username" value="<?php echo $this->session->userdata('username') ?>"/></td>
-                <td><?php echo form_error('username', '<div class="errorbox">', '</div>'); ?></td>
+                <td><div id="error-username" class="errorbox"></div></td>
             </tr>
             <tr>
                 <td>Email</td>
                 <td>:</td>
                 <td><input class="inputtext-admin" type="text" name="email" value="<?php echo $this->session->userdata('email') ?>"/></td>
-                <td><?php echo form_error('email', '<div class="errorbox">', '</div>'); ?></td>
+                <td><div id="error-email" class="errorbox"></div></td>
             </tr>
             <tr>
                 <td>Password</td>
                 <td>:</td>
                 <td><input class="inputtext-admin" type="password" name="password" value=""/></td>
-                <td><?php echo form_error('password', '<div class="errorbox">', '</div>'); ?></td>
+                <td><div id="error-password" class="errorbox"></div></td>
             </tr>
             <tr>
                 <td></td>
@@ -53,7 +54,7 @@
       <div id="password">
         <?php echo form_open('admin/pass_admin',array('id'=>'form_pass_admin')); ?>
         <table>
-            <div id="error" class="errorbox"></div>
+            <div id="success-pass" style="color: blue;"></div>
             <tr>
                 <td>Old Password</td>
                 <td>:</td>
@@ -93,14 +94,46 @@
 $(document).ready(function() {
     $(function(){
         var url = '<?php echo base_url() ?>';
+    
+    $('#form_profile_admin').submit(function(evnt){
+        evnt.preventDefault(); //Avoid that the event 'submit' continues with its normal execution, so that, we avoid to reload the whole page
+        $.post(url+"index.php/admin/profile_admin", //The variable 'url' must store the base_url() of our application
+        $("form#form_profile_admin").serialize(), //Serialize all the content of our form to URL format
+        function (data) {
+            //console.log(data); //Add the AJAX response to some div that is going to show the message
+            var get_data = $.parseJSON(data);
+            var name_value = $('input[name="name"').val();
+            //console.log(get_data.result);
+            $('#error-name, #error-username ,#error-email,#error-password,#success-profile').empty();
+            $('#error-name').prepend(get_data.name);
+            $('#error-username').prepend(get_data.username);
+            $('#error-email').prepend(get_data.email);
+            $('#error-password').prepend(get_data.password);
+            $('input[name="password"]').val('');
+            if(get_data.result=='Success'){
+                $('#success-profile').prepend(get_data.result);
+                $('#welcome_user').empty();
+                $('#welcome_user').prepend('Welcome, '+name_value);
+            }
+        });
+    });
+    
     $('#form_pass_admin').submit(function(evnt){
         evnt.preventDefault(); //Avoid that the event 'submit' continues with its normal execution, so that, we avoid to reload the whole page
         $.post(url+"index.php/admin/pass_admin", //The variable 'url' must store the base_url() of our application
         $("form#form_pass_admin").serialize(), //Serialize all the content of our form to URL format
         function (data) {
-            console.log(data); //Add the AJAX response to some div that is going to show the message
-            $("div#error").empty();
-            $("div#error").prepend(data);
+            //console.log(data); //Add the AJAX response to some div that is going to show the message
+            var get_data = $.parseJSON(data);
+            //console.log(get_data.old_pass);
+            $('#error-old_pass, #error-new_pass ,#error-renew_pass,#success-pass').empty();
+            $('#error-old_pass').prepend(get_data.old_pass);
+            $('#error-new_pass').prepend(get_data.new_pass);
+            $('#error-renew_pass').prepend(get_data.renew_pass);
+            $('input.inputtext-admin').val('');
+            if(get_data.result=='Success'){
+                $('#success-pass').prepend(get_data.result);
+            }
         });
     });
 });    
