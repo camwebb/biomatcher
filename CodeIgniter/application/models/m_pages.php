@@ -396,17 +396,7 @@ class M_pages extends CI_Model {
         foreach ($result as $row){
             echo $row->id.'<br />';
             echo $row->imageB.'<br/>';
-        }
-        
-        
-        
-        
-        //$test[] = array($a);
-        
-        //echo '<pre>';
-        //print_r($test);
-        //echo '</hr>';
-        
+        }        
     }
     
     function check_QCSet($project_id){

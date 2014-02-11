@@ -46,6 +46,16 @@ class Biomatcher_lib {
         return $shuffled_project;
     
     }
+    
+    /**
+     * count percentage
+     * @param $sum sumarize of posibility matches condition
+     * @param $case total posibility
+     * */
+    function percentage($sum,$case){
+        $percentage = ($sum/$case)*100;
+        return $percentage;
+    }
 }
 
 /* End of file Biomatcher_lib.php */

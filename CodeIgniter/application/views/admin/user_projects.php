@@ -84,7 +84,7 @@
                         } ?>
                         <p><?php echo $activated; ?></p>
                     </td>
-                    <td><p><?php echo $projects['success_QC'] ?></p></td>
+                    <td><p><?php echo $projects['success_QC'] ?> %</p></td>
                    
                 </tr>
              <?php

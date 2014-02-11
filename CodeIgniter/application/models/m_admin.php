@@ -121,13 +121,22 @@ class M_admin extends CI_Model {
     
     function image_data($imageID){
         $this->db->select('*');
+        $this->db->from('image');
+        $this->db->join('project', 'image.projectID=project.id');
         $this->db->limit(1);
-        $image_query = $this->db->get_where('image', array('id' => $imageID));
-        $image_data = $image_query->result();
+        $this->db->where(array('image.id' => $imageID, 'qcSet' => 'yes'));
+        $image_query = $this->db->get();
+        $image_data = $image_query->result_array();
         if(!empty($image_data)){
             return $image_data;
         }
     }
+    
+    /**
+     * isQC
+     * check a project is Quality Control Set or not
+     * @param projectID
+     **/
     
     function isQC($projectID){
         $this->db->select('qcSet');

@@ -152,39 +152,39 @@ class Admin extends CI_Controller {
     
     private function QC_report($siteID){
         $matches_data = $this->m_admin->matches_data($siteID);
-                
+        $success = 0;
+        $case = 0;
+        $percentage = '0';
         //get image data
         if (is_array($matches_data)){
             foreach ($matches_data as $matches){
                 $imageA_data = $this->m_admin->image_data($matches->imageA);
                 $imageB_data = $this->m_admin->image_data($matches->imageB);
-                //print_r($imageA_data);
                 
-                //check is image in a QC project
-                $isQC = $this->m_admin->isQC($imageA_data[0]->projectID);
-                
-                if($isQC){
-                    //cek the label (same or not)
+                if($imageA_data){
+                    //get user decision
+                    $user_decision = $matches->same;
                     
+                    //check real decision
+                    if($imageA_data[0]['label'] == $imageB_data[0]['label']){
+                        $real_decision = 'yes';
+                    }else{
+                        $real_decision = 'no';
+                    }
+                    
+                    if($user_decision == $real_decision){
+                        $success +=1;
+                    }
+                    $case +=1;
                 }
             }
+            
+            //count the percentage
+            $this->load->library('biomatcher_lib');
+            $percentage = $this->biomatcher_lib->percentage($success,$case);
         }
         
-        return '100';
-        
-        //per url
-        // get site id
-        // get all QC matches by siteID
-        // foreach QC_matches as QC_match{
-        // get image_label
-        // get $user_decision ("yes"/"no" on match)
-        // if QC_match->imageA->label == QC_match_imageB->label{
-        // then $real_decision == "yes"
-        // else $real_decision == "no"}
-        // if $user_decision == $real_decision{
-        // then $success + = 1}
-        // $case + = 1
-        // } closing in foreach QC_matches
+        return $percentage;
     }
     
     public function do_login()
