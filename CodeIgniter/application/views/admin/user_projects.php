@@ -2,6 +2,16 @@
 <div id="content">
     
     <h1 style="float: left;">User Project</h1>
+    
+    <div style="float: right;">
+        <span>
+            <a href="<?php echo base_url(); ?>index.php/admin/view/users" style="float: right;">
+                <img style="height: 36px; float:left" src="<?php echo base_url(); ?>style/img/arrow-left.png" />
+                <p style="float: right; margin-top: 7px;">Back to users</p>
+            </a>
+        </span>
+    </div>
+    
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
     

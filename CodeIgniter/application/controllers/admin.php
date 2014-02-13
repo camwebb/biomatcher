@@ -144,6 +144,44 @@ class Admin extends CI_Controller {
         }
     }
     
+    if ($page == 'statistic'){
+        $this->load->model('m_admin');
+        $project_id = $this->uri->segment(4, 0);
+
+        $matches = array();
+        $total = array();
+        
+        $images = $this->m_admin->match_images($project_id);
+        
+        $totalMatches = 0;
+        
+        foreach ($images as $image){
+            $A = $this->m_admin->get_name_image($image->imageA);
+            $B = $this->m_admin->get_name_image($image->imageB);
+            
+            $totalMatches += $image->match_sum;
+            
+            $filenameA = $A[0]->nameOri;
+            $filenameB = $B[0]->nameOri;
+            
+            $same = $this->m_admin->same($image->imageA, $image->imageB, 'yes');
+            $different = $this->m_admin->same($image->imageA, $image->imageB, 'no');
+            $same_probability = round(($image->same_match/($image->same_match+$image->diff_match))*100,2);
+            $different_probability = round(($image->diff_match/($image->same_match+$image->diff_match))*100,2);
+            $total_per_images = $image->same_match + $image->diff_match;
+            
+            $matches[] = array('filenameA' => $filenameA, 'filenameB' => $filenameB, 'same' => $image->same_match, 'different' => $image->diff_match, 'same_probability' => $same_probability, 'different_probability' => $different_probability, 'total_per_images' => $total_per_images );
+
+        }
+        
+        $matches_send = array_map("unserialize", array_unique(array_map("serialize", $matches)));
+        
+        $data['project_title'] = $this->m_admin->project_title();
+        $data['matches'] = $matches_send;
+        $data['project_id'] = $project_id;
+        $data['totalMatches'] = $totalMatches;
+    }
+    
 	$this->load->view('admin/templates/header', $data);
 	$this->load->view('admin/'.$page, $data);
 	$this->load->view('admin/templates/footer', $data);
@@ -380,6 +418,21 @@ class Admin extends CI_Controller {
             $this->form_validation->set_message('check_pass', 'Wrong Password');
             return FALSE;
         }     
+    }
+    
+    public function download_stats(){
+        $project_id = $this->uri->segment(3, 0);
+        $percent = $this->uri->segment(5, 0);
+        $this->load->model('m_admin');
+        $check_match = $this->uri->segment(4, 0);
+        if($check_match == 'same'){
+            $same = 'yes';
+        }
+        else if($check_match == 'different'){
+            $same = 'no';
+        }
+        
+        $this->m_admin->download_statistic($project_id,$same,$percent);
     }
     
 }

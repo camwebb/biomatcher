@@ -31,8 +31,8 @@
                     </td>
                     <td><?php echo $list->user_name; ?></td>
                     <td style="width: 33%; text-align: center;">
-                        <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->project_id; ?>" class="box-button">Go</a>
-                        <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->project_id; ?>" class="box-button">Statistic</a>
+                        <a href="<?php echo base_url(); ?>index.php/admin/view/project/<?php echo $list->project_id; ?>" class="box-button">Go</a>
+                        <a href="<?php echo base_url(); ?>index.php/admin/view/statistic/<?php echo $list->project_id; ?>" class="box-button">Statistic</a>
                     </td>
                    
                 </tr>

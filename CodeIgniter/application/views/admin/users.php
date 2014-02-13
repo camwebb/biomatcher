@@ -31,12 +31,15 @@
             <?php
                 foreach($list_user as $list){
                     if($list->type == 'supplier'){
+                        $link = base_url().'index.php/admin/view/user_projects/'.$list->id;
                         $action = 'List Projetcs';
                     }
                     else if($list->type == 'consumer'){
+                        $link = base_url().'index.php/admin/view/user_projects/'.$list->id;
                         $action = 'List Websites';
                     } 
                     else{
+                        $link = base_url().'index.php/admin/view/setting';
                         $action = 'Setting';
                     }
                     
@@ -46,7 +49,7 @@
                     <td><p><?php echo $list->username; ?></p></td>
                     <td><p><?php echo $list->email; ?></p></td>
                     <td><p><?php echo $list->type; ?></p></td>
-                    <td style="text-align: center;"><a href="<?php echo base_url(); ?>index.php/admin/view/user_projects/<?php echo $list->id; ?>" class="box-button" style="min-width: 113px;"><?php echo $action; ?></a></td>
+                    <td style="text-align: center;"><a href="<?php echo $link; ?>" class="box-button" style="min-width: 113px;"><?php echo $action; ?></a></td>
                 </tr>
              <?php
                 }
