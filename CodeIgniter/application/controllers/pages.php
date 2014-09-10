@@ -619,6 +619,10 @@ class Pages extends CI_Controller {
     		}
     		else
     		{
+                $size_image_medium = '400px';
+                $size_image_thumbnail = '100px';
+                
+                
     			$data = $this->upload->data();
             	$file = $data['full_path'];
                 $file_name = $data['raw_name'];
@@ -628,8 +632,8 @@ class Pages extends CI_Controller {
                 $path_project = $path_user.'/'.$project_id;
                 $path_img = $path_project.'/img';
                 $path_img_ori = $path_img.'/ori';
-                $path_img_500px = $path_img.'/500px';
-                $path_img_100px = $path_img.'/100px';
+                $path_img_medium = $path_img.'/'.$size_image_medium;
+                $path_img_thumbnail = $path_img.'/'.$size_image_thumbnail;
                 $num = 0;                                
                 
                 mkdir($path_extract, 0755);
@@ -639,7 +643,7 @@ class Pages extends CI_Controller {
                 unlink($file);
                 
                 //create folder if not exist
-                $toCreate = array($path_user, $path_project, $path_img, $path_img_ori, $path_img_500px, $path_img_100px);
+                $toCreate = array($path_user, $path_project, $path_img, $path_img_ori, $path_img_medium, $path_img_thumbnail);
                 $permissions = 0755;
                 foreach ($toCreate as $dir) {
                     if (!is_dir($dir)){
@@ -656,7 +660,8 @@ class Pages extends CI_Controller {
                         if(preg_match('#\.(jpg|jpeg)$#i', $entry))
                         {
                             //$num +=1;
-                            $image_name_encrypt = md5($entry);
+                            $now = date("Y-m-d H:i:s");
+                            $image_name_encrypt = md5($entry.$now);
                             
                             $fileinfo = getimagesize($path_extract."/".$entry);
                             if(!$fileinfo) {
@@ -698,7 +703,7 @@ class Pages extends CI_Controller {
                                         $config['library_path'] = '/usr/bin/';
                                         $config['quality'] = "100%";
                                         $config['source_image'] = $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg';
-                                        $config['new_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
+                                        $config['new_image'] = $path_img_medium.'/'.$image_name_encrypt.'.'.$size_image_medium.'.jpg';
                                         $config['maintain_ratio'] = false;
                                         
                                         //Set cropping for y or x axis, depending on image orientation
@@ -728,11 +733,11 @@ class Pages extends CI_Controller {
                                         // resize image after cropping to square
                                         $config['image_library'] = 'gd2';
                                         $config['quality'] = "100%";
-                                        $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
+                                        $config['source_image'] = $path_img_medium.'/'.$image_name_encrypt.'.'.$size_image_medium.'.jpg';
                                         $config['maintain_ratio'] = TRUE; 
                                         $config['master_dim'] = 'width';
-                                        $config['width'] = 500; 
-                                        $config['height'] = 500; 
+                                        $config['width'] = 400; 
+                                        $config['height'] = 400; 
                                         
                                         $this->load->library('image_lib');
                                         $this->image_lib->resize();
@@ -750,8 +755,8 @@ class Pages extends CI_Controller {
                                         // create thumbnail
                                         $config['image_library'] = 'gd2';
                                         $config['quality'] = "100%";
-                                        $config['source_image'] = $path_img_500px.'/'.$image_name_encrypt.'.500px.jpg';
-                                        $config['new_image'] = $path_img_100px.'/'.$image_name_encrypt.'.100px.jpg';
+                                        $config['source_image'] = $path_img_medium.'/'.$image_name_encrypt.'.'.$size_image_medium.'.jpg';
+                                        $config['new_image'] = $path_img_thumbnail.'/'.$image_name_encrypt.'.'.$size_image_thumbnail.'.jpg';
                                         $config['maintain_ratio'] = TRUE; 
                                         $config['master_dim'] = 'width';
                                         $config['width'] = 100; 
@@ -776,8 +781,8 @@ class Pages extends CI_Controller {
             				                $msg = "File successfully uploaded";
                                             
                                             shell_exec("chmod 644 $path_img_ori/$image_name_encrypt.ori.jpg");
-                                            shell_exec("chmod 644 $path_img_500px/$image_name_encrypt.500px.jpg");
-                                            shell_exec("chmod 644 $path_img_100px/$image_name_encrypt.100px.jpg");
+                                            shell_exec("chmod 644 $path_img_medium/$image_name_encrypt.$size_image_medium.jpg");
+                                            shell_exec("chmod 644 $path_img_thumbnail/$image_name_encrypt.$size_image_thumbnail.jpg");
                                         }
                                     }
                                 }
@@ -866,7 +871,7 @@ class Pages extends CI_Controller {
                 foreach ($file as $md5sum)
                 
                 $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
-                $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/500px/'.$md5sum->md5sum.'.500px.jpg';
+                $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/400px/'.$md5sum->md5sum.'.400px.jpg';
                 $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
                 
                 $toDelete = array($ori, $converted, $thumbnail);

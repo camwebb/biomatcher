@@ -20,11 +20,11 @@
         <h2 align="center">See images below, and choose Same or Different.</h2>
     
         <ul class="biomatcher-ul-image" style="float: left;">
-            <li><img class="biomatcher-image" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_A.'.500px.jpg' ?>" /></li>
+            <li><img class="biomatcher-image" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/400px/'.$image_A.'.400px.jpg' ?>" /></li>
         </ul>
         
         <ul class="biomatcher-ul-image" style="float: right;">
-            <li><img class="biomatcher-image" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_B.'.500px.jpg' ?>" /></li>
+            <li><img class="biomatcher-image" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/400px/'.$image_B.'.400px.jpg' ?>" /></li>
         </ul>
         
         <input id="imageIDA" type="hidden" name="imageA" value="<?php echo $imageIDA; ?>" />

@@ -43,12 +43,12 @@ $(document).ready(function() {
         
         <div id="image1">
             <a href="" style="float: left;">
-                <img style="height: 410px; width:410px;" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_A.'.500px.jpg' ?>" />
+                <img style="height: 410px; width:410px;" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/400px/'.$image_A.'.400px.jpg' ?>" />
             </a>
         </div>
         <div id="image2">
             <a href="" style="float: right;">
-                <img style="height: 410px; width:410px;" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/500px/'.$image_B.'.500px.jpg' ?>" />
+                <img style="height: 410px; width:410px;" src="<?php echo base_url().'data/'.$user.'/'.$pid.'/img/400px/'.$image_B.'.400px.jpg' ?>" />
             </a>
         </div>
         
