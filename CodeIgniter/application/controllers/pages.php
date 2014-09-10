@@ -888,7 +888,7 @@ class Pages extends CI_Controller {
                 echo json_encode(array('status' => "success"));
             }
         }else{
-            $this->session->set_flashdata('message', 'Found No file(s) to delete!');
+            $this->session->set_flashdata('message', 'Found No file(s) to delete! Perhaps your image(s) has been matched!');
             echo json_encode(array('status' => "success"));
         }
         

@@ -36,7 +36,7 @@
             <div class="group"><p>STEP 2</p></div>
             <p>Include biomatcher script to your site!</p>
             <script type="syntaxhighlighter" class="brush: js"><![CDATA[
-              <script type="text/javascript" src="http://biomatcher.org/style/js/biomatcher.js">
+              <script type="text/javascript" src="http://biomatcher.org/captcha/biomatcher.js">
             ]]>
             </script>
         </div>

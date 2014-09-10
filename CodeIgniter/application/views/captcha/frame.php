@@ -45,10 +45,15 @@
                 
                 <a tabindex="-1" style="border-style: none;" href="#" title="Refresh Image" onclick="document.getElementById('captcha').src = '<?php echo base_url();?>index.php/captcha/securimage?sid=' + Math.random(); this.blur(); return false"><img src="<?php echo base_url().'securimage_files/'; ?>images/refresh.png" alt="Reload Image" height="32" width="32" onclick="this.blur()" align="top" border="0" /></a>
                 
+                <!--
                 <object align="top" type="application/x-shockwave-flash" data="<?php echo base_url().'securimage_files/'; ?>securimage_play.swf?bgcol=#ffffff&amp;icon_file=<?php echo base_url().'securimage_files/'; ?>images/audio_icon.png&amp;audio_file=<?php echo base_url().'securimage_files/'; ?>securimage_play.php" height="32" width="32"></object>
                 
                 
-                <param name="movie" value="<?php base_url().'securimage_files/'; ?>securimage_play.swf?bgcol=#ffffff&amp;icon_file=<?php echo base_url().'securimage_files/'; ?>images/audio_icon.png&amp;audio_file=<?php echo base_url().'securimage_files/'; ?>securimage_play.php" /><br />
+                <param name="movie" value="<?php base_url().'securimage_files/'; ?>securimage_play.swf?bgcol=#ffffff&amp;icon_file=<?php echo base_url().'securimage_files/'; ?>images/audio_icon.png&amp;audio_file=<?php echo base_url().'securimage_files/'; ?>securimage_play.php" />
+                -->
+                
+                <br />
+
                 <?php
                 echo form_input(array('name' => 'captcha', 'class' => 'biomatcher-inputtext-reg', 'type' => 'text', 'maxlength' => '8', 'size' => '12'));
                 ?>
@@ -68,11 +73,8 @@
     <script type="text/javascript">
         $(document).ready(function(){
             
-            //var url = 'http://localhost/biomatcher/biomatcher.org/index.php/captcha/si_test';
-            var url = '<?php echo base_url(); ?>'+'index.php/captcha/si_test';
+        var url = '<?php echo base_url(); ?>'+'index.php/captcha/si_test';
             
-            
-        //$('#testajax').submit(function(e){
         $('#sendMatch').bind( "click",function(e){
             var match = $('input:radio[name="match"]:checked').val();
             var captcha = $('input:text[name="captcha"]').val();
