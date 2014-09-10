@@ -94,6 +94,14 @@ class M_admin extends CI_Model {
         return $query->result();
     }
     
+    function list_image($perPage,$uri){
+        $project_id = $this->uri->segment(4, 0);
+        $this->db->where('projectID',$project_id);
+        $this->db->order_by('id','DESC');
+        $query = $this->db->get('image', $perPage, $uri);
+        return $query->result();
+    }
+    
     function project_supplier($user_id){
         $this->db->select('project.id as project_id, project.name as project_name, project.qcSet as project_qcSet, user.username as username, user.name as name, user.type as type, user.email as email');
         $this->db->join('project', 'project.userID = user.id');
@@ -110,10 +118,25 @@ class M_admin extends CI_Model {
         return $query->result();
     }
     
-    function project_title(){
-        $project_id = $this->uri->segment(4, 0);
+    function project_data($project_id){
         $query=$this->db->query("SELECT * FROM project where id='$project_id'");
         return $query->result();            
+    }
+    
+    function user_data($user_id){
+        $query=$this->db->query("SELECT * FROM user where id='$user_id'");
+        return $query->result();            
+    }
+    
+    function get_csv(){
+        $this->load->dbutil();
+        $project_id = $this->uri->segment(4, 0);
+        $query = $this->db->query("SELECT nameOri,label FROM image where projectID='$project_id' order by id DESC");
+        return $query->result();  
+        $delimiter = ",";
+        $newline = "\r\n";
+
+      // echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
     }
     
     function matches_data($siteID){

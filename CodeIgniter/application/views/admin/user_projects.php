@@ -1,8 +1,10 @@
 <div class="wrapper">
 <div id="content">
-    
-    <h1 style="float: left;">User Project</h1>
-    
+    <?php
+    foreach($user_data as $p_title){
+    ?>
+    <h2 style="float: left;"><?php echo $p_title->name; ?></h2>
+    <? } ?>
     <div style="float: right;">
         <span>
             <a href="<?php echo base_url(); ?>index.php/admin/view/users" style="float: right;">
@@ -40,12 +42,12 @@
             ?>
                 <tr>
                     <td>
-                        <p><?php echo $projects->project_name; ?></p>
+                        <p><?php echo $projects->project_name;?></p>
                     </td>
-                    <td><?php echo $projects->project_name; ?></td>
+                    <td><?php echo $projects->name; ?></td>
                     <td style="width: 33%; text-align: center;">
-                        <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php //echo $list->project_id; ?>" class="box-button">Go</a>
-                        <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php //echo $list->project_id; ?>" class="box-button">Statistic</a>
+                        <a href="<?php echo base_url(); ?>index.php/admin/view/project/<?php echo $projects->project_id; ?>" class="box-button">Go</a>
+                        <a href="<?php echo base_url(); ?>index.php/admin/view/statistic/<?php echo $projects->project_id; ?>" class="box-button">Statistic</a>
                     </td>
                    
                 </tr>

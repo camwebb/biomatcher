@@ -1,7 +1,7 @@
 <div class="wrapper">
 <div id="content">
     <?php
-    foreach($project_title as $p_title){
+    foreach($project_data as $p_title){
     ?>
     <h2 style="float: left;"><?php echo $p_title->name; ?></h2>  
     

@@ -33,6 +33,7 @@ $(document).ready(function() {
         });
 
         var pID=$("#pid").val();
+        var project_link=$("#project_link").val();
         var pagination=$("#pagination").val();
         var data_img = { 'id_image' : arr_img, 'pid' : pID, 'pagination' : pagination};
         $.ajax({
@@ -47,7 +48,7 @@ $(document).ready(function() {
                     if(pagination==0){
                         pagination = "";
                     }
-                    var url = CI_ROOT+"index.php/pages/view/project/"+pID+"/"+pagination;
+                    var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
                     redirect(url);
                 }
             }

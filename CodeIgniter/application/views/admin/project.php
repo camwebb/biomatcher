@@ -1,13 +1,13 @@
 <div class="wrapper">
 <div id="content">
     <?php
-    foreach($project_title as $p_title){
+    foreach($project_data as $p_title){
     ?>
     <h2 style="float: left;"><?php echo $p_title->name; ?></h2>
     
     <div style="float: right;">
         <span>
-            <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">
+            <a href="<?php echo base_url(); ?>index.php/admin/view/projects" style="float: right;">
                 <img style="height: 36px; float:left" src="<?php echo base_url(); ?>style/img/arrow-left.png" />
                 <p style="float: right; margin-top: 7px;">Back to project</p>
             </a>
@@ -46,6 +46,7 @@
             <?php //echo form_open('pages/do_getIdLabel');?>
             <tbody id="test">
             <?php
+            foreach($user_data as $u_title)
             foreach ($list_images as $images){
             ?>
                 
@@ -59,7 +60,7 @@
                         </div>
                     </td>
                     <td style="width: 100px; height: 112px;">
-                        <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$this->session->userdata('username').'/'.$this->uri->segment(4, 0).'/img/100px/'.$images->md5sum.'.100px.jpg'; ?>" /></p>
+                        <p><img style="width: 100px; height: 100px;" src="<?php echo base_url().'data/'.$u_title->username.'/'.$this->uri->segment(4, 0).'/img/100px/'.$images->md5sum.'.100px.jpg'; ?>" /></p>
                     </td>
                     <td style="text-align: center;">
                         <input type="radio" name="id_label" value="<?php echo $images->id; ?>"/>
@@ -76,14 +77,14 @@
             
             <div id="pagination" style="float: left;"> <?php echo $this->pagination->create_links(); ?> </div>
             <div class="clear"></div>
-            <div style="float: right;">
+            <!--<div style="float: right;">
                 <span>
                     <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">
                         <img style="float:left; margin-right: 8px; margin-bottom: 5px;" src="<?php echo base_url(); ?>style/img/setting.png" />
                         <p style="float: right; margin-top: 7px;">Setting</p>
                     </a>
                 </span>
-            </div>
+            </div>-->
 
             <tfoot>
                 <tr style="height: 50px;">
@@ -101,7 +102,7 @@
                     </td>
                     <td>
                         <input class="inputtext-upload" id="pid" type="hidden" name="pid_del" value="<?php echo $this->uri->segment(4, 0); ?>"/>
-                        <input class="inputtext-upload" id="project_link" type="hidden" name="project_link" value="project"/>
+                        <input class="inputtext-upload" id="project_link" type="hidden" name="project_link" value="admin"/>
                         <input class="inputtext-upload" id="pagination" type="hidden" name="pagination" value="<?php echo $this->uri->segment(5, 0); ?>"/>
                         <button class="box-button" id="delete">Delete</button>
                     </td>

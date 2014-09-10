@@ -58,19 +58,19 @@
             <tr>
                 <td>Old Password</td>
                 <td>:</td>
-                <td><input class="inputtext-admin" type="password" name="old_pass" value=""/></td>
+                <td><input class="inputtext-admin pass" type="password" name="old_pass" value=""/></td>
                 <td><div id="error-old_pass" class="errorbox"></div></td>
             </tr>
             <tr>
                 <td>New Password</td>
                 <td>:</td>
-                <td><input class="inputtext-admin" type="password" name="new_pass" value=""/></td>
+                <td><input class="inputtext-admin pass" type="password" name="new_pass" value=""/></td>
                 <td><div id="error-new_pass" class="errorbox"></td>
             </tr>
             <tr>
                 <td>Re-New Password</td>
                 <td>:</td>
-                <td><input class="inputtext-admin" type="password" name="renew_pass" value=""/></td>
+                <td><input class="inputtext-admin pass" type="password" name="renew_pass" value=""/></td>
                 <td><div id="error-renew_pass" class="errorbox"></td>
             </tr>
             <tr>
@@ -130,7 +130,7 @@ $(document).ready(function() {
             $('#error-old_pass').prepend(get_data.old_pass);
             $('#error-new_pass').prepend(get_data.new_pass);
             $('#error-renew_pass').prepend(get_data.renew_pass);
-            $('input.inputtext-admin').val('');
+            $('input.pass').val('');
             if(get_data.result=='Success'){
                 $('#success-pass').prepend(get_data.result);
             }

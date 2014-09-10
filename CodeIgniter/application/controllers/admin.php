@@ -132,6 +132,7 @@ class Admin extends CI_Controller {
         }
         
         $data['for_type'] = $for_type;  
+        $data['user_data'] = $this->m_admin->user_data($user_id);
     }
     
     if ($page == 'setting'){
@@ -142,6 +143,32 @@ class Admin extends CI_Controller {
         if($type != 'admin'){
             show_404();
         }
+    }
+    
+    if ($page == 'project'){
+        $project_id = $this->uri->segment(4, 0);
+        $this->load->model('m_admin');
+        $this->load->library('pagination');
+        //count the total rows of images
+        
+        $this->db->where('projectID',$project_id);
+        $getData = $this->db->get('image');
+        $list_image = "list_image";
+        
+        $count_images = $getData->num_rows();
+        
+        $config['base_url'] = base_url().'index.php/admin/view/project/'.$project_id.'/';
+        $config['total_rows'] = $count_images; //total rows
+        $config['per_page'] = '10'; //the number of per page for pagination
+        $config['uri_segment'] = 5; //see from base_url. biomatcher.org/index.php/pages/view/project/pid/pagination
+        $config['full_tag_open'] = '<p>';
+        $config['full_tag_close'] = '</p>';
+        $this->pagination->initialize($config); //initialize pagination
+        
+        $data['project_data'] = $this->m_admin->project_data($project_id);
+        $data['user_data'] = $this->m_admin->user_data($data['project_data'][0]->userID);
+       	$data['list_images'] = $this->m_admin->$list_image($config['per_page'],$this->uri->segment(5));
+        $data['get_csv'] = $this->m_admin->get_csv(); 
     }
     
     if ($page == 'statistic'){
@@ -176,7 +203,7 @@ class Admin extends CI_Controller {
         
         $matches_send = array_map("unserialize", array_unique(array_map("serialize", $matches)));
         
-        $data['project_title'] = $this->m_admin->project_title();
+        $data['project_data'] = $this->m_admin->project_data($project_id);
         $data['matches'] = $matches_send;
         $data['project_id'] = $project_id;
         $data['totalMatches'] = $totalMatches;

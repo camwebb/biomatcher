@@ -1,7 +1,7 @@
 <div class="wrapper">
 <div id="content">
     
-    <h1 style="float: left;">All Websites</h1>
+    <h1 style="float: left;">All Website</h1>
     <div id="pagination" style="float: right;"> <?php echo $this->pagination->create_links(); ?> </div>
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
