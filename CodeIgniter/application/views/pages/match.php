@@ -60,7 +60,7 @@ $(document).ready(function() {
             <input id="imageIDB" type="hidden" name="imageB" value="<?php echo $imageIDB; ?>" />
             <button class="box-button" id="sameMatch">Same</button>
             <button class="box-button" id="differentMatch">Different</button>
-            <p>Dev. info : <?php if($this->session->userdata('count_match')=="15"){ echo "pre-known";}else{ echo $this->session->userdata('count_match');} ?></p>
+            <!--<p>Dev. info : <?php //if($this->session->userdata('count_match')=="15"){ echo "pre-known";}else{ echo $this->session->userdata('count_match');} ?></p>-->
         </div>
         
         <?php
