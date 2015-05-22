@@ -296,7 +296,7 @@ class Admin extends CI_Controller {
                         //login success
                         $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'email' => $login['email'], 'type' => $login['type']));
             			$cookieUsername = array(
-            				'name'   => 'user_admin',
+            				'name'   => 'user',
             				'value'  => $login['username'],
             				'expire' => time()+2592000,
             				'path'   => '/',
@@ -304,7 +304,7 @@ class Admin extends CI_Controller {
             			);
             
             			$cookiePassword = array(
-            				'name'   => 'pass_admin',
+            				'name'   => 'pass',
             				'value'  => $login['password'],
             				'expire' => time()+2592000,
             				'path'   => '/',
@@ -339,8 +339,6 @@ class Admin extends CI_Controller {
 	{
 		$this->load->helper('cookie');
         $this->session->sess_destroy();
-		delete_cookie("user_admin");
-		delete_cookie("pass_admin");
         delete_cookie("user");
 		delete_cookie("pass");
         redirect('admin/view/login', 'refresh');
