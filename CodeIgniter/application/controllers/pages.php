@@ -363,7 +363,12 @@ class Pages extends CI_Controller {
                 		//set cookie to browser
                 		$this->input->set_cookie($cookieUsername);
                 		$this->input->set_cookie($cookiePassword);
-                        redirect('', 'refresh');
+                        if ($login['type'] == 'admin'){
+                            redirect('admin', 'refresh');
+                        }else{
+                            redirect('', 'refresh');
+                        }
+                        
                     }
                     else
                     {

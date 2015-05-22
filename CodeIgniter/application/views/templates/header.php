@@ -130,7 +130,7 @@
             redirect('');
         }
         }elseif ($this->session->userdata('username') !=""){
-            if ($this->session->userdata('type') == 'supplier' ){
+            if ($this->session->userdata('type') == 'supplier' || $this->session->userdata('type') == 'admin'){
                 
         ?>
         <div id="page_menu">
