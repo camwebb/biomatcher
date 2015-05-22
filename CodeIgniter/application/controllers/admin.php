@@ -341,6 +341,8 @@ class Admin extends CI_Controller {
         $this->session->sess_destroy();
 		delete_cookie("user_admin");
 		delete_cookie("pass_admin");
+        delete_cookie("user");
+		delete_cookie("pass");
         redirect('admin/view/login', 'refresh');
 	}
     
