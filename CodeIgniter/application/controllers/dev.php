@@ -51,7 +51,6 @@ class Dev extends CI_Controller {
                 $num = 0;                                
                 
                 $this->zip->unzip($file, $path_extract);
-                exit;
                 
                 //create folder if not exist
                 $toCreate = array($path_user, $path_project, $path_img, $path_img_ori, $path_img_medium, $path_img_thumbnail);
@@ -62,24 +61,23 @@ class Dev extends CI_Controller {
                     }
                 }
                 
-                $list = count(glob($path_extract.'/'. "*.{jpg,jpeg}",GLOB_BRACE));
-                print_r($list);
-                exit;
-                if ($handle = opendir($path_extract)) {
-                    // loop over the directory.
-                    while (false !== ($entry = readdir($handle))) {
-                        //print_r($entry);
-                        if(preg_match('#\.(jpg|jpeg)$#i', $entry))
-                        {
-                            //$num +=1;
-                            $now = date("Y-m-d H:i:s");
-                            $image_name_encrypt = md5($entry.$now);
-                            
-                            $fileinfo = getimagesize($path_extract."/".$entry);
-                            if(!$fileinfo) {
-                                $status = "error";
-                                $msg = "No file type info";
-                            }else{
+                $images = $this->GetContents($path_extract);
+                $list = count($images);
+                
+                foreach ($images as $image){
+                    $entry = $image['filename'];
+                    //print_r($entry);
+                    if(preg_match('#\.(jpg|jpeg)$#i', $entry))
+                    {
+                        //$num +=1;
+                        $now = date("Y-m-d H:i:s");
+                        $image_name_encrypt = md5($entry.$now);
+                        
+                        $fileinfo = getimagesize($path_extract."/".$entry);
+                        if(!$fileinfo) {
+                            $status = "error";
+                            $msg = "No file type info";
+                        }else{
                             $valid_types = array(IMAGETYPE_JPEG);
                         
                             if(in_array($fileinfo[2],  $valid_types)) {
@@ -111,35 +109,36 @@ class Dev extends CI_Controller {
                                     }
                                     else{
                                         //Set config for img library
-                                        $config['image_library'] = 'ImageMagick';
-                                        $config['library_path'] = '/usr/bin/';
-                                        $config['quality'] = "100%";
-                                        $config['source_image'] = $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg';
-                                        $config['new_image'] = $path_img_medium.'/'.$image_name_encrypt.'.'.$size_image_medium.'.jpg';
-                                        $config['maintain_ratio'] = false;
+                                        $src_ori = $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg';
+                                        $dest_medium = $path_img_medium.'/'.$image_name_encrypt.'.'.$size_image_medium.'.jpg';
+                                        $dest_thumbnail = $path_img_thumbnail.'/'.$image_name_encrypt.'.'.$size_image_thumbnail.'.jpg';
                                         
                                         //Set cropping for y or x axis, depending on image orientation
                                         if ($fileinfo[0] > $fileinfo[1]) {
                                             $config['width'] = $fileinfo[1];
                                             $config['height'] = $fileinfo[1];
                                             $config['x_axis'] = (($fileinfo[0] / 2) - ($config['width'] / 2));
+                                            $config['y_axis'] = 0;
                                         }
                                         else {
-                                            $config['height'] = $fileinfo[0];
                                             $config['width'] = $fileinfo[0];
+                                            $config['height'] = $fileinfo[0];
+                                            $config['x_axis'] = 0;
                                             $config['y_axis'] = (($fileinfo[1] / 2) - ($config['height'] / 2));
                                         }
+        
+                                        $this->cropToSquare($src_ori, $dest_medium, $config);
+                                        unset($config);
                                         
-                                        //Load image library and crop
-                                        $this->load->library('image_lib', $config);
-                                        $this->image_lib->initialize($config);
-                                        if ($this->image_lib->crop()) {
-                                            $status = "error";
-                                            $msg = $this->image_lib->display_errors();
-                                        }
+                                        //set new config
+                                        $config['width'] = 500;
+                                        $config['height'] = 500;
+                                        $this->resize_pic($dest_medium, $dest_medium, $config);
+                                        unset($config);
                                         
-                                        //Clear image library settings
-                                        $this->image_lib->clear();
+                                        $config['width'] = 100;
+                                        $config['height'] = 100;
+                                        $this->resize_pic($dest_medium, $dest_thumbnail, $config);
                                         unset($config);
                                         
                                         // resize image after cropping to square
@@ -151,51 +150,18 @@ class Dev extends CI_Controller {
                                         $config['width'] = 400; 
                                         $config['height'] = 400; 
                                         
-                                        $this->load->library('image_lib');
-                                        $this->image_lib->resize();
-                                        $this->image_lib->clear();
-                                        $this->image_lib->initialize($config); 
-                                        if(!$this->image_lib->resize()){
-                                            $status = "error";
-                                            $msg = $this->image_lib->display_errors();
-                                        }
-                                        
-                                        //Clear image library settings
-                                        $this->image_lib->clear();
-                                        unset($config);
-                                        
-                                        // create thumbnail
-                                        $config['image_library'] = 'gd2';
-                                        $config['quality'] = "100%";
-                                        $config['source_image'] = $path_img_medium.'/'.$image_name_encrypt.'.'.$size_image_medium.'.jpg';
-                                        $config['new_image'] = $path_img_thumbnail.'/'.$image_name_encrypt.'.'.$size_image_thumbnail.'.jpg';
-                                        $config['maintain_ratio'] = TRUE; 
-                                        $config['master_dim'] = 'width';
-                                        $config['width'] = 100; 
-                                        $config['height'] = 100; 
-                                        
-                                        $this->load->library('image_lib');
-                                        $this->image_lib->resize();
-                                        $this->image_lib->clear();
-                                        $this->image_lib->initialize($config); 
-                                        if(!$this->image_lib->resize()){
-                                            $status = "error";
-                                            $msg = $this->image_lib->display_errors();
-                                        }
-                                        else{
                                             // add file info to database
-                                            $this->load->model('m_pages');
-                                            
-                                            $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
-                                            $this->m_pages->upload_image($data_image);
-                                            
-                                            $status = "success";
-            				                $msg = "File successfully uploaded";
-                                            
-                                            shell_exec("chmod 644 $path_img_ori/$image_name_encrypt.ori.jpg");
-                                            shell_exec("chmod 644 $path_img_medium/$image_name_encrypt.$size_image_medium.jpg");
-                                            shell_exec("chmod 644 $path_img_thumbnail/$image_name_encrypt.$size_image_thumbnail.jpg");
-                                        }
+                                        $this->load->model('m_pages');
+                                        
+                                        $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
+                                        $this->m_pages->upload_image($data_image);
+                                        
+                                        $status = "success";
+        				                $msg = "File successfully uploaded";
+                                        
+                                        //shell_exec("chmod 644 $path_img_ori/$image_name_encrypt.ori.jpg");
+                                        //shell_exec("chmod 644 $path_img_medium/$image_name_encrypt.$size_image_medium.jpg");
+                                        //shell_exec("chmod 644 $path_img_thumbnail/$image_name_encrypt.$size_image_thumbnail.jpg");
                                     }
                                 }
                             }
@@ -204,12 +170,11 @@ class Dev extends CI_Controller {
                                 $status = "error";
                                 $msg = "File type error";
                             }
-                            }                              
                         }
                     }
-                    closedir($handle);
-                    shell_exec("rm -r $path_extract");
                 }
+                
+                $this->deleteDir($path_extract);
                 
     		}
     	}
@@ -223,6 +188,114 @@ class Dev extends CI_Controller {
             $report_file_exist = "Some files can not be processed due to duplicate";
         }
         echo json_encode(array('status' => $status, 'msg' => $msg, 'processed' => 'done', 'report' => $report_file_exist, 'pID' => $project_id));
+    }
+    
+    /**
+     * @todo get all files in a folder and it's subfolder
+     * 
+     * @param string $dir = path to directory
+     * @var array $files = array to store file information
+     * 
+     * @return array([0] => array('path' => 'string path to file', 'filename' => 'filename'))
+     * 
+     * */
+    function GetContents($dir,$files=array()) { 
+        if(!($res=opendir($dir))) exit("$dir doesn't exist!"); 
+            while(($file=readdir($res))==TRUE) 
+            if($file!="." && $file!="..")
+                if(is_dir("$dir/$file")){
+                    $files=$this->GetContents("$dir/$file",$files); 
+                }else{
+                    $file_info = array('path' => $dir, 'filename' => $file);
+                    array_push($files,$file_info); 
+                }
+        
+        closedir($res); 
+        return $files; 
+    }
+    
+    /**
+     * @todo crop image to square from center
+     * 
+     * @param string $src = full image path with file name
+     * @param string $dest = path destination for new image
+     * @param array $config = array contain configuration to crop image
+     * 
+     * @param int $config['width']
+     * @param int $config['height']
+     * @param int $config['x_axis']
+     * @param int $config['y_axis']
+     * 
+     * @return bool Returns TRUE on success, FALSE on failure
+     * 
+     * */
+    function cropToSquare($src, $dest, $config){
+        list($current_width, $current_height) = getimagesize($src);
+        $canvas = imagecreatetruecolor($config['width'], $config['height']);
+        $current_image = imagecreatefromjpeg($src);
+        if (!@ imagecopy($canvas, $current_image, 0, 0, $config['x_axis'], $config['y_axis'], $current_width, $current_height)){
+            return false;
+        }else{
+            if (!@ imagejpeg($canvas, $dest, 100)){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+    
+    /**
+     * @todo resize image
+     * 
+     * @param string $src = full image path with file name
+     * @param string $dest = path destination for new image
+     * @param array $config = array contain configuration to crop image
+     * 
+     * @param int $config['width']
+     * @param int $config['height']
+     * 
+     * @return bool Returns TRUE on success, FALSE on failure
+     * 
+     * */
+    function resize_pic($src, $dest, $config){
+        list($current_width, $current_height) = getimagesize($src);
+        $canvas = imagecreatetruecolor($config['width'], $config['height']);
+        $current_image = imagecreatefromjpeg($src);
+        
+        // Resize
+        if (!@ imagecopyresized($canvas, $current_image, 0, 0, 0, 0, $config['width'], $config['height'], $current_width, $current_height)){
+            return false;
+        }else{
+            // Output
+            if (!@ imagejpeg($canvas, $dest, 100)){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+    
+    /**
+    * @todo Delete a file, or a folder and its contents
+    * @param string $dirPath Directory to delete
+    * @return bool Returns TRUE on success, FALSE on failure
+    */
+    function deleteDir($dirPath) {
+        if (! is_dir($dirPath)) {
+            throw new InvalidArgumentException("$dirPath must be a directory");
+        }
+        if (substr($dirPath, strlen($dirPath) - 1, 1) != '/') {
+            $dirPath .= '/';
+        }
+        $files = glob($dirPath . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                deleteDir($file);
+            } else {
+                unlink($file);
+            }
+        }
+        return rmdir($dirPath);
     }
     
 }
