@@ -129,7 +129,7 @@
      
    
   <div id="addProject_panel">
-        <?php echo form_open_multipart('pages/upload_file/?pid='.$this->uri->segment(4, 0).'&unid='.uniqid(),array('id'=>'upload_file')); ?>
+        <?php echo form_open_multipart($link_upload.'/?pid='.$this->uri->segment(4, 0).'&unid='.uniqid(),array('id'=>'upload_file')); ?>
             
             <div class="inputbox_Upload">
                 <label class="labelinput-upload" for="zipped_file">Zipped File</label>

@@ -24,6 +24,7 @@ class Pages extends CI_Controller {
     $this->load->model('m_pages');
     
     if ($page == 'project'){
+        $os = $this->config->item('os');
         
         $id_project = $this->uri->segment(4, 0);
         if(!$this->m_pages->check_user_project($id_project)){
@@ -49,7 +50,12 @@ class Pages extends CI_Controller {
         
         $data['project_title'] = $this->m_pages->project_title();
        	$data['list_images'] = $this->m_pages->$list_image($config['per_page'],$this->uri->segment(5));
-        $data['get_csv'] = $this->m_pages->get_csv(); 
+        $data['get_csv'] = $this->m_pages->get_csv();
+        
+        $data['link_upload'] = 'pages/upload_file';
+        if($os == 'windows'){
+            $data['link_upload'] = 'dev/upload_file';
+        }
     }
     
     if ($page == 'projects'){
