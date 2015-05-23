@@ -66,14 +66,15 @@ class Dev extends CI_Controller {
                 
                 foreach ($images as $image){
                     $entry = $image['filename'];
-                    //print_r($entry);
+                    $path_entry = $image['path'];
+                    
                     if(preg_match('#\.(jpg|jpeg)$#i', $entry))
                     {
                         //$num +=1;
                         $now = date("Y-m-d H:i:s");
                         $image_name_encrypt = md5($entry.$now);
                         
-                        $fileinfo = getimagesize($path_extract."/".$entry);
+                        $fileinfo = getimagesize($path_entry."/".$entry);
                         if(!$fileinfo) {
                             $status = "error";
                             $msg = "No file type info";
@@ -101,8 +102,8 @@ class Dev extends CI_Controller {
                                 }else{
                                     $num += 1;
                                     //echo json_encode(array('num_process' => $num));
-                                    copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg');
-                                    if(!@ copy($path_extract."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg'))
+                                    copy($path_entry."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg');
+                                    if(!@ copy($path_entry."/".$entry, $path_img_ori.'/'.$image_name_encrypt.'.ori.jpg'))
                                     {
                                         $status = "error";
                                         $msg= error_get_last();
@@ -131,8 +132,8 @@ class Dev extends CI_Controller {
                                         unset($config);
                                         
                                         //set new config
-                                        $config['width'] = 500;
-                                        $config['height'] = 500;
+                                        $config['width'] = 400;
+                                        $config['height'] = 400;
                                         $this->resize_pic($dest_medium, $dest_medium, $config);
                                         unset($config);
                                         
@@ -141,16 +142,7 @@ class Dev extends CI_Controller {
                                         $this->resize_pic($dest_medium, $dest_thumbnail, $config);
                                         unset($config);
                                         
-                                        // resize image after cropping to square
-                                        $config['image_library'] = 'gd2';
-                                        $config['quality'] = "100%";
-                                        $config['source_image'] = $path_img_medium.'/'.$image_name_encrypt.'.'.$size_image_medium.'.jpg';
-                                        $config['maintain_ratio'] = TRUE; 
-                                        $config['master_dim'] = 'width';
-                                        $config['width'] = 400; 
-                                        $config['height'] = 400; 
-                                        
-                                            // add file info to database
+                                        // add file info to database
                                         $this->load->model('m_pages');
                                         
                                         $data_image=array('id'=>'', 'projectID'=> $project_id, 'nameOri' => $entry, 'md5sum' => $image_name_encrypt);
@@ -290,7 +282,7 @@ class Dev extends CI_Controller {
         $files = glob($dirPath . '*', GLOB_MARK);
         foreach ($files as $file) {
             if (is_dir($file)) {
-                deleteDir($file);
+                $this->deleteDir($file);
             } else {
                 unlink($file);
             }

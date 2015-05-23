@@ -101,7 +101,7 @@
                     </td>
                     <td>
                         <input class="inputtext-upload" id="pid" type="hidden" name="pid_del" value="<?php echo $this->uri->segment(4, 0); ?>"/>
-                        <input class="inputtext-upload" id="project_link" type="hidden" name="project_link" value="project"/>
+                        <input class="inputtext-upload" id="project_link" type="hidden" name="project_link" value="pages"/>
                         <input class="inputtext-upload" id="pagination" type="hidden" name="pagination" value="<?php echo $this->uri->segment(5, 0); ?>"/>
                         <button class="box-button" id="delete">Delete</button>
                     </td>
