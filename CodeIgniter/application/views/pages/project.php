@@ -76,14 +76,14 @@
             
             <div id="pagination" style="float: left;"> <?php echo $this->pagination->create_links(); ?> </div>
             <div class="clear"></div>
-            <div style="float: right;">
+            <!--<div style="float: right;">
                 <span>
                     <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">
                         <img style="float:left; margin-right: 8px; margin-bottom: 5px;" src="<?php echo base_url(); ?>style/img/setting.png" />
                         <p style="float: right; margin-top: 7px;">Setting</p>
                     </a>
                 </span>
-            </div>
+            </div>-->
 
             <tfoot>
                 <tr style="height: 50px;">

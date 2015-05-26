@@ -861,17 +861,19 @@ class Pages extends CI_Controller {
         $id_label = $this->input->post('id_label');
         $this->load->model('m_pages');
         $this->m_pages->id_label($id_label);
-     }
-     
-     function do_editLabel(){
+    }
+    
+    function do_editLabel(){
         $id_label2 = $this->input->post('id_label2');
         $new_label = $this->input->post('new_label');
         $new_label = $this->security->xss_clean($new_label);
         $this->load->model('m_pages');
         $this->m_pages->edit_label($id_label2,$new_label);
-     }
+    }
     
     function deleteImage(){
+        $os = $this->config->item('os');
+        
         $img_id = $this->input->post('id_image');
         $pid = $this->input->post('pid');
         $this->load->model('m_pages');
@@ -880,8 +882,17 @@ class Pages extends CI_Controller {
 
         foreach ($img_id as $id){
             /* checking table match */
-            
-            if(!$this->m_pages->check_match($id)){
+            if($this->m_pages->check_match($id)){
+                $query="id='$id' AND projectID='$pid'";
+                $this->db->where($query, NULL, FALSE);
+                $img_file = $this->db->get('image');
+                $file = $img_file->result();
+                
+                foreach ($file as $files)
+                
+                $matches[] = $files;
+                
+            }else{
                 $dbtoDelete[] = $id;
             
                 $this->db->where('id',$id);
@@ -897,9 +908,18 @@ class Pages extends CI_Controller {
                 
                 $toDelete = array($ori, $converted, $thumbnail);
                 foreach ($toDelete as $file_to_del) {
-                    shell_exec("rm $file_to_del");
+                    if($os == 'windows'){
+                        unlink($file_to_del);
+                    }else{
+                        shell_exec("rm $file_to_del");
+                    }
                 }
             }
+        }
+        
+        $count = count($matches);
+        if($count > 0){
+            $message = 'This image(s) has been matched. Do you want to delete?';
         }
         
         if (!empty($dbtoDelete)){
