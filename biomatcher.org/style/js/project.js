@@ -38,18 +38,23 @@ $(document).ready(function() {
         var data_img = { 'id_image' : arr_img, 'pid' : pID, 'pagination' : pagination};
         $.ajax({
             type: "POST",
-            url: CI_ROOT+"index.php/pages/deleteImage",
+            url: CI_ROOT+"index.php/project/deleteImage",
             dataType: "json",
             data: data_img,
             cache:false,
-            success: function(status){
-                if(status != 'error')
+            success: function(data){
+                if(data.status != 'error')
         		{
                     if(pagination==0){
                         pagination = "";
                     }
+                    
+                    if(data.matched == true){
+                        console.log('test');
+                    }
+                    
                     var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
-                    redirect(url);
+                    //redirect(url);
                 }
             }
         });

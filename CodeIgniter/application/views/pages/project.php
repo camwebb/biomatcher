@@ -128,7 +128,7 @@
    </div>
      
    
-  <div id="addProject_panel">
+    <div id="addProject_panel" class="custom_panel">
         <?php echo form_open_multipart($link_upload.'/?pid='.$this->uri->segment(4, 0).'&unid='.uniqid(),array('id'=>'upload_file')); ?>
             
             <div class="inputbox_Upload">
@@ -143,11 +143,24 @@
                 <div id="report"></div>
             </div>         
             <div class="inputbox_Upload" id="box_button">
-                <input id="button_Upload" type="submit" name="submit" class="box-button" value="Upload" />
-                <input class="box-button" type="button" id="button_cancelUpload" style="margin-right: 5px;" value="Cancel" />
+                <input id="button_Upload" type="submit" name="submit" class="box-button button_Upload" value="Upload" />
+                <input class="box-button button_cancelUpload" type="button" id="button_cancelUpload" style="margin-right: 5px;" value="Cancel" />
             </div>
         <?php echo form_close(); ?>
-    </div>   
+    </div>
+    
+    <div id="" class="custom_panel">
+        <?php //echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>
+            <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
+            <div class="inputbox_addProject">
+            </div>
+            <div class="inputbox_addProject">
+                <input type="submit" name="Submit" class="box-button" value="Yes" />
+                <input class="box-button button_cancelProject" type="button" style="margin-right: 5px;" value="No" />
+            </div>
+        <?php //echo form_close(); ?>
+    </div>
+    
     <div class="separator"></div>
     
 </div>

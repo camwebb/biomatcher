@@ -871,70 +871,6 @@ class Pages extends CI_Controller {
         $this->m_pages->edit_label($id_label2,$new_label);
     }
     
-    function deleteImage(){
-        $os = $this->config->item('os');
-        
-        $img_id = $this->input->post('id_image');
-        $pid = $this->input->post('pid');
-        $this->load->model('m_pages');
-        
-        $path = 'data/';
-
-        foreach ($img_id as $id){
-            /* checking table match */
-            if($this->m_pages->check_match($id)){
-                $query="id='$id' AND projectID='$pid'";
-                $this->db->where($query, NULL, FALSE);
-                $img_file = $this->db->get('image');
-                $file = $img_file->result();
-                
-                foreach ($file as $files)
-                
-                $matches[] = $files;
-                
-            }else{
-                $dbtoDelete[] = $id;
-            
-                $this->db->where('id',$id);
-                $query="id='$id' AND projectID='$pid'";
-                $this->db->where($query, NULL, FALSE);
-                $img_file = $this->db->get('image');
-                $file = $img_file->result();
-                foreach ($file as $md5sum)
-                
-                $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
-                $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/400px/'.$md5sum->md5sum.'.400px.jpg';
-                $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
-                
-                $toDelete = array($ori, $converted, $thumbnail);
-                foreach ($toDelete as $file_to_del) {
-                    if($os == 'windows'){
-                        unlink($file_to_del);
-                    }else{
-                        shell_exec("rm $file_to_del");
-                    }
-                }
-            }
-        }
-        
-        $count = count($matches);
-        if($count > 0){
-            $message = 'This image(s) has been matched. Do you want to delete?';
-        }
-        
-        if (!empty($dbtoDelete)){
-        
-            if($this->m_pages->delete_image($dbtoDelete)){
-            //if($this->m_pages->delete_image($img_id)){  //image delete without confirm
-                echo json_encode(array('status' => "success"));
-            }
-        }else{
-            $this->session->set_flashdata('message', 'Found No file(s) to delete! Perhaps your image(s) has been matched!');
-            echo json_encode(array('status' => "success"));
-        }
-        
-    }
-    
     function selectRandom(){
         $time_start = $this->microtime_float();
         if($this->session->userdata('username_pid')!= ""){
@@ -960,14 +896,6 @@ class Pages extends CI_Controller {
     {
        list($usec, $sec) = explode(" ", microtime());
        return ((float)$usec + (float)$sec);
-    }
-    
-    function test(){
-        $this->load->model('m_pages');
-        $te = $this->m_pages->get_user('7');
-        foreach ($te as $a){
-            echo $a->username;
-        }
     }
     
     function insert_match(){

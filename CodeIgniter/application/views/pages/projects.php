@@ -43,7 +43,7 @@
     <button class="box-button" id="addProject">Add Project</button>
     <br /><br />
     
-    <div id="addProject_panel">
+    <div id="addProject_panel" class="custom_panel">
         <?php echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>
             
             <div class="inputbox_addProject">
@@ -59,7 +59,7 @@
             </div>
             <div class="inputbox_addProject">
                 <input id="button_addProject" type="submit" name="Submit" class="box-button" value="Add Project" />
-                <input class="box-button" type="button" id="button_cancelProject" style="margin-right: 5px;" value="Cancel" />
+                <input class="box-button button_cancelProject" type="button" id="button_cancelProject" style="margin-right: 5px;" value="Cancel" />
             </div>
         <?php echo form_close(); ?>
     </div>

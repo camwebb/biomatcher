@@ -91,7 +91,7 @@ input:hover, input:focus, textarea:hover, textarea:focus, select:hover, select:f
 #page_title{
     float: left;
     width: 435px;
-    padding: 10px 0 10px 0;   
+    padding: 8px 0 10px 0;   
 }
 
 #page_title h1{
@@ -122,7 +122,7 @@ input:hover, input:focus, textarea:hover, textarea:focus, select:hover, select:f
 #page_menu{
     float: right;
     width: 428px;
-    padding-top:30px;
+    padding-top:28px;
     position: relative;
 }
 
@@ -352,7 +352,12 @@ ul.tabs li.selected{
     padding-top: 15px;
 }
 
-#button_login, #button_register, #button_addProject,#button_cancelProject, #button_Upload{
+#button_login, #button_register, #button_addProject{
+    float:right;
+    cursor:pointer;
+}
+
+.button_cancelProject, .button_Upload{
     float:right;
     cursor:pointer;
 }
@@ -417,7 +422,7 @@ ul.tabs li.selected{
 	text-align: left;
 }
 
-#addProject_panel{
+.custom_panel{
     position: fixed;
     display:none;
     margin:-30px 0 0 -22%;
