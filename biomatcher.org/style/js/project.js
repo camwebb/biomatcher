@@ -1,4 +1,12 @@
 $(document).ready(function() {
+    
+    $('#del-image-matched').dataTable({
+        "bLengthChange": false,
+        "bFilter": false,
+        "pageLength": 2,
+        "pagingType": "simple"        
+    });
+    
     $("div#toppanel-disable").hide();
     
     function addProject(){
@@ -13,6 +21,21 @@ $(document).ready(function() {
     
     function cancelProject(){
         $("div#addProject_panel").fadeOut("normal"); 
+        $("div#toppanel-disable").hide();       
+    }
+    
+    function is_del_matched(){
+        $("div#matched_image").fadeIn("normal");
+        $("div#toppanel-disable").show();
+        $("div.progressbox").hide();
+        $("div.errorbox").empty();
+        $("div#panel").animate({
+			height: "0px"
+		}, "fast");
+    }
+    
+    function cancel_del(){
+        $("div#matched_image").fadeOut("normal"); 
         $("div#toppanel-disable").hide();       
     }
     
@@ -50,7 +73,7 @@ $(document).ready(function() {
                     }
                     
                     if(data.matched == true){
-                        console.log('test');
+                        is_del_matched();
                     }
                     
                     var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
@@ -58,6 +81,10 @@ $(document).ready(function() {
                 }
             }
         });
+        
+    }
+    
+    function del_img_cascade(){
         
     }
     
@@ -89,6 +116,10 @@ $(document).ready(function() {
     $('#delete').click(function() {
         del_img();
     });
+    
+    $('#img_keep').click(function(){
+        cancel_del();
+    })
     
     $('#sameMatch').click(function(){
         $('#sameMatch').attr("disabled", true);

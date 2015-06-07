@@ -434,6 +434,10 @@ ul.tabs li.selected{
     z-index: 30;
 }
 
+#matched_image{
+    top: 15%;
+}
+
 /* END POPUP JS*/
 
 #cmenu{

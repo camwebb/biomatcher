@@ -149,14 +149,29 @@
         <?php echo form_close(); ?>
     </div>
     
-    <div id="" class="custom_panel">
+    <div id="matched_image" class="custom_panel" style="width:450px;" >
         <?php //echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>
-            <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
-            <div class="inputbox_addProject">
-            </div>
             <div class="inputbox_addProject">
                 <input type="submit" name="Submit" class="box-button" value="Yes" />
-                <input class="box-button button_cancelProject" type="button" style="margin-right: 5px;" value="No" />
+                <input id="img_keep" class="box-button button_cancelProject" type="button" style="margin-right: 5px;" value="No" />
+            </div>
+            <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
+            <div style="padding-top: 15px;" >
+                <table id="del-image-matched" class="display" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th>Image</th>
+                        </tr>
+                    </thead>
+             
+                    <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td><img src="http://localhost/biomatcher/biomatcher.org/data/fitri/1/img/100px/bb366880c8389a097baacd564284a20f.100px.jpg" /></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         <?php //echo form_close(); ?>
     </div>
