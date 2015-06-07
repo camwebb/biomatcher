@@ -28,9 +28,12 @@ class Project extends CI_Controller {
                 $img_file = $this->db->get('image');
                 $file = $img_file->result();
                 
-                foreach ($file as $files)
+                foreach ($file as $files){
+                    $thumbnail = base_url($path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$files->md5sum.'.100px.jpg');
+                    $files->thumbnail = $thumbnail;
+                    $matches[] = $files;
+                }
                 
-                $matches[] = $files;
                 $id_matches[] = $id;
                 
             }else{

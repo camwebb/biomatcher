@@ -1,11 +1,11 @@
 $(document).ready(function() {
     
-    $('#del-image-matched').dataTable({
+    /*$('#del-image-matched').dataTable({
         "bLengthChange": false,
         "bFilter": false,
         "pageLength": 2,
         "pagingType": "simple"        
-    });
+    });*/
     
     $("div#toppanel-disable").hide();
     
@@ -68,15 +68,36 @@ $(document).ready(function() {
             success: function(data){
                 if(data.status != 'error')
         		{
+                    var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
+                    
                     if(pagination==0){
                         pagination = "";
                     }
                     
                     if(data.matched == true){
+                        $("#message_matched").html(data.message);
                         is_del_matched();
+                        
+                        var images = data.data;
+                        
+                        $("#list-matched").html('');
+                        
+                        images.forEach(function(entry) {
+                            $("#list-matched").append(
+                                '<tr><td>' + entry.nameOri + '</td>' +
+                                '<td><img src="' + entry.thumbnail + '" /></td></tr>'
+                            );
+                        });
+                        
+                        $('#del-image-matched').dataTable().fnDestroy();
+                        $('#del-image-matched').dataTable({
+                            "bLengthChange": false,
+                            "bFilter": false,
+                            "pageLength": 2,
+                            "pagingType": "simple"        
+                        });
                     }
                     
-                    var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
                     //redirect(url);
                 }
             }

@@ -12,9 +12,9 @@
     <link href="<?php echo base_url(); ?>syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
     <!-- syntax highlighter -->
     
-    <!-- Bootstrap Datatable -->
+    <!-- Datatable -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>plugin/datatables/css/jquery.dataTables.min.css" />
-    <!-- Bootstrap Datatable -->
+    <!-- Datatable -->
 
 </head>
 <body>

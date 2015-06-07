@@ -19,9 +19,9 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>syntaxhighlighter/scripts/shBrushXml.js"></script>
     <!-- syntax highlighter -->
     
-    <!-- Bootstrap Datatables -->
+    <!-- Datatables -->
     <script type="text/javascript" src="<?php echo base_url(); ?>plugin/datatables/js/jquery.dataTables.min.js"></script>
-    <!-- Bootstrap Datatables -->
+    <!-- Datatables -->
     
     <script type="text/javascript">
     function show_mask(){

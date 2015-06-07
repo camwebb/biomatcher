@@ -88,6 +88,10 @@ input:hover, input:focus, textarea:hover, textarea:focus, select:hover, select:f
     margin: 5px 0 5px 0;
 }
 
+.black{
+    background-color: black;
+}
+
 #page_title{
     float: left;
     width: 435px;
@@ -247,6 +251,12 @@ ul.tabs li.selected{
 .errorbox{
     padding-left: 15px;
     color:red;
+    font-family: sans-serif;
+}
+
+.messagebox{
+    padding-left: 15px;
+    color: red;
     font-family: sans-serif;
 }
 
