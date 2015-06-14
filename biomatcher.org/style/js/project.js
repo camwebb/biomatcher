@@ -49,10 +49,10 @@ $(document).ready(function() {
         var arr_img = $.map($("input[name='id_image']:checked"), function(e,i) {
             return +e.value;
         });
-
+        
         var pID=$("#pid").val();
         var project_link=$("#project_link").val();
-        var pagination=$("#pagination").val();
+        var pagination=$("#paging").val();
         var data_img = { 'id_image' : arr_img, 'pid' : pID, 'pagination' : pagination};
         $.ajax({
             type: "POST",
@@ -67,16 +67,16 @@ $(document).ready(function() {
                         pagination = "";
                     }
                     var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
-                    
+                    console.log(url);
                     if(data.matched == true){
                         $("#message_matched").html(data.message);
                         is_del_matched();
                         
                         var images = data.data;
                         
-                        $("#global-hidden-input").html('');
+                        $("#hidden-input").html('');
                         
-                        $("#global-hidden-input").append(
+                        $("#hidden-input").append(
                             '<input type="hidden" name="project_id" value="' + data.projectID + '" />' +
                             '<input type="hidden" name="url_direct" value="' + url + '" />'
                         );
@@ -87,8 +87,11 @@ $(document).ready(function() {
                                 '<tr>' +
                                 '<td>' + entry.nameOri + '</td>' +
                                 '<td><img src="' + entry.thumbnail + '" />' +
-                                    '<input type="hidden" name="ids" value="' + entry.id + '" /></td>' +
                                 '</tr>'
+                            );
+                               
+                            $("#hidden-input").append(
+                                '<input type="hidden" name="ids[]" value=' + entry.id + ' /></td>'
                             );
                         });
                         
@@ -99,9 +102,10 @@ $(document).ready(function() {
                             "pageLength": 2,
                             "pagingType": "simple"        
                         });
+                    }else{
+                        redirect(url);
                     }
                     
-                    //redirect(url);
                 }
             }
         });
@@ -109,13 +113,27 @@ $(document).ready(function() {
     }
     
     function cancel_del(){
-        var url_direct=$("form#form_delImgCascade input[name=url_direct]").val();
-        redirect(url_direct);      
+        var url_direct = $("form#form_delImgCascade input[name=url_direct]").val();
+        redirect(url_direct);
     }
     
     function del_img_cascade(){
-        $("div#matched_image").fadeOut("normal"); 
-        $("div#toppanel-disable").hide();   
+        var pID = $("form#form_delImgCascade input[name=project_id]").val();
+        var ids = $("form#form_delImgCascade input[name='ids[]']").map(function(){return $(this).val();}).get();
+        var url_direct = $("form#form_delImgCascade input[name=url_direct]").val(); 
+        console.log(ids);
+        
+        var data_img = { 'id_image' : ids, 'pid' : pID };
+        $.ajax({
+            type: "POST",
+            url: CI_ROOT+"index.php/project/delImgCascade",
+            dataType: "json",
+            data: data_img,
+            cache:false,
+            success: function(data){
+                redirect(url_direct);
+            }
+        });
     }
     
     function insert_match(same){

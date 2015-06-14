@@ -179,6 +179,13 @@ class M_pages extends CI_Model {
         echo $new_label;
     }
     
+    function get_img_by_id($id){
+        $this->db->where('id',$id);
+        $img_file = $this->db->get('image');
+        $return = $img_file->result();
+        return $return;
+    }
+    
     function check_match($img_id){
         $this->db->where('imageA =', $img_id);
         $this->db->or_where('imageB =', $img_id); 

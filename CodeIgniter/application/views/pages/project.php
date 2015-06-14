@@ -21,6 +21,10 @@
     <div class="errorbox" style="padding: 0;"><?php echo $this->session->flashdata('message'); ?></div>
     <?php endif; ?>
     
+    <?php if($this->session->flashdata('success')) : ?>
+    <div class="successbox" style="padding: 0;"><?php echo $this->session->flashdata('success'); ?></div>
+    <?php endif; ?>
+    
     <div class="project_table" id="files">
         <table style="width: 100%;" id="projectTable">
             <thead>
@@ -102,7 +106,7 @@
                     <td>
                         <input class="inputtext-upload" id="pid" type="hidden" name="pid_del" value="<?php echo $this->uri->segment(4, 0); ?>"/>
                         <input class="inputtext-upload" id="project_link" type="hidden" name="project_link" value="pages"/>
-                        <input class="inputtext-upload" id="pagination" type="hidden" name="pagination" value="<?php echo $this->uri->segment(5, 0); ?>"/>
+                        <input class="inputtext-upload" id="paging" type="hidden" name="pagination" value="<?php echo $this->uri->segment(5, 0); ?>"/>
                         <button class="box-button" id="delete">Delete</button>
                     </td>
                 </tr>
@@ -153,7 +157,7 @@
         <?php echo form_open('project/',array('id'=>'form_delImgCascade')); ?>
         
             <div id="message_matched" class="messagebox" style="padding: 0 !important; width:450px;"></div>
-            <div id="global-hidden-input">
+            <div id="hidden-input">
             </div>
             <div class="inputbox_addProject">
                 <input id="img_del" type="button" class="box-button" value="Yes" />

@@ -18,7 +18,7 @@ class Project extends CI_Controller {
         
         $arr_matched = array();
         $message = '';
-        $matches = '';
+        $matches = array();
 
         foreach ($img_id as $id){
             /* checking table match */
@@ -60,7 +60,7 @@ class Project extends CI_Controller {
                 }
             }
         }
-        
+        $matched = false;
         $count = count($matches);
         if($count > 0){
             $arr_matched = $id_matches;
@@ -72,6 +72,7 @@ class Project extends CI_Controller {
         
             if($this->m_pages->delete_image($dbtoDelete)){
             //if($this->m_pages->delete_image($img_id)){  //image delete without confirm
+                $this->session->set_flashdata('success', 'Delete file(s) success.');
                 echo json_encode(array('status' => "success", 'projectID' => $pid, 'matched' => $matched, 'message' => $message, 'id_matched' => $arr_matched, 'data' => $matches));
             }
         }else{
@@ -82,6 +83,40 @@ class Project extends CI_Controller {
     }
     
     function delImgCascade(){
+        $post = $this->input->post();
+        
+        $pid = $post['pid'];
+        $path = 'data/';
+        
+        $os = $this->config->item('os');
+        $this->load->model('m_pages');
+        
+        if($this->m_pages->delete_image($post['id_image'])){
+            foreach ($post['id_image'] as $id){
+                $file = $this->m_pages->get_img_by_id($id);
+                
+                foreach ($file as $md5sum){
+                    
+                    $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
+                    $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/400px/'.$md5sum->md5sum.'.400px.jpg';
+                    $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
+                    
+                    $toDelete = array($ori, $converted, $thumbnail);
+                    foreach ($toDelete as $file_to_del) {
+                        if($os == 'windows'){
+                            unlink($file_to_del);
+                        }else{
+                            shell_exec("rm $file_to_del");
+                        }
+                    }
+                }
+            }
+            $this->session->set_flashdata('success', 'Delete file(s) success.');
+            echo json_encode(array('status' => 'success'));
+        }else{
+            $this->session->set_flashdata('message', 'Delete unsuccessful! Please try again.');
+            echo json_encode(array('status' => 'error'));
+        }
         
     }
     

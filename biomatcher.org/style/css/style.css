@@ -254,6 +254,12 @@ ul.tabs li.selected{
     font-family: sans-serif;
 }
 
+.successbox{
+    padding-left: 15px;
+    color:green;
+    font-family: sans-serif;
+}
+
 .messagebox{
     padding-left: 15px;
     color: red;
