@@ -34,11 +34,6 @@ $(document).ready(function() {
 		}, "fast");
     }
     
-    function cancel_del(){
-        $("div#matched_image").fadeOut("normal"); 
-        $("div#toppanel-disable").hide();       
-    }
-    
     function cancelAllLabel(){
         $("#draggable").fadeOut("normal");
     }
@@ -68,11 +63,10 @@ $(document).ready(function() {
             success: function(data){
                 if(data.status != 'error')
         		{
-                    var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
-                    
                     if(pagination==0){
                         pagination = "";
                     }
+                    var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
                     
                     if(data.matched == true){
                         $("#message_matched").html(data.message);
@@ -80,12 +74,21 @@ $(document).ready(function() {
                         
                         var images = data.data;
                         
-                        $("#list-matched").html('');
+                        $("#global-hidden-input").html('');
                         
+                        $("#global-hidden-input").append(
+                            '<input type="hidden" name="project_id" value="' + data.projectID + '" />' +
+                            '<input type="hidden" name="url_direct" value="' + url + '" />'
+                        );
+                        
+                        $("#list-matched").html('');
                         images.forEach(function(entry) {
                             $("#list-matched").append(
-                                '<tr><td>' + entry.nameOri + '</td>' +
-                                '<td><img src="' + entry.thumbnail + '" /></td></tr>'
+                                '<tr>' +
+                                '<td>' + entry.nameOri + '</td>' +
+                                '<td><img src="' + entry.thumbnail + '" />' +
+                                    '<input type="hidden" name="ids" value="' + entry.id + '" /></td>' +
+                                '</tr>'
                             );
                         });
                         
@@ -105,8 +108,14 @@ $(document).ready(function() {
         
     }
     
+    function cancel_del(){
+        var url_direct=$("form#form_delImgCascade input[name=url_direct]").val();
+        redirect(url_direct);      
+    }
+    
     function del_img_cascade(){
-        
+        $("div#matched_image").fadeOut("normal"); 
+        $("div#toppanel-disable").hide();   
     }
     
     function insert_match(same){
@@ -140,6 +149,10 @@ $(document).ready(function() {
     
     $('#img_keep').click(function(){
         cancel_del();
+    })
+    
+    $('#img_del').click(function(){
+        del_img_cascade();
     })
     
     $('#sameMatch').click(function(){

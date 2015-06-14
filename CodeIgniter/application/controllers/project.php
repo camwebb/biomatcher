@@ -72,14 +72,18 @@ class Project extends CI_Controller {
         
             if($this->m_pages->delete_image($dbtoDelete)){
             //if($this->m_pages->delete_image($img_id)){  //image delete without confirm
-                echo json_encode(array('status' => "success", 'matched' => $matched, 'message' => $message, 'id_matched' => $arr_matched, 'data' => $matches));
+                echo json_encode(array('status' => "success", 'projectID' => $pid, 'matched' => $matched, 'message' => $message, 'id_matched' => $arr_matched, 'data' => $matches));
             }
         }else{
-            $this->session->set_flashdata('message', 'Found No file(s) to delete! Perhaps your image(s) has been matched!');
-            echo json_encode(array('status' => "success", 'matched' => $matched, 'message' => $message, 'id_matched' => $arr_matched, 'data' => $matches));
+            //$this->session->set_flashdata('message', 'Found No file(s) to delete! Perhaps your image(s) has been matched!');
+            echo json_encode(array('status' => "success", 'projectID' => $pid, 'matched' => $matched, 'message' => $message, 'id_matched' => $arr_matched, 'data' => $matches));
         }
         
-    }        
+    }
+    
+    function delImgCascade(){
+        
+    }
     
 }
 

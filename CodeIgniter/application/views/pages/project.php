@@ -150,12 +150,13 @@
     </div>
     
     <div id="matched_image" class="custom_panel" style="width:450px;" >
-        <?php //echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>
+        <?php echo form_open('project/',array('id'=>'form_delImgCascade')); ?>
         
             <div id="message_matched" class="messagebox" style="padding: 0 !important; width:450px;"></div>
-            
+            <div id="global-hidden-input">
+            </div>
             <div class="inputbox_addProject">
-                <input type="submit" name="Submit" class="box-button" value="Yes" />
+                <input id="img_del" type="button" class="box-button" value="Yes" />
                 <input id="img_keep" class="box-button button_cancelProject" type="button" style="margin-right: 5px;" value="No" />
             </div>
             <div class="separator black"></div>
@@ -177,7 +178,7 @@
                     </tbody>
                 </table>
             </div>
-        <?php //echo form_close(); ?>
+        <?php echo form_close(); ?>
     </div>
     
     <div class="separator"></div>
