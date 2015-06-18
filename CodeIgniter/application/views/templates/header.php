@@ -101,6 +101,7 @@
                 <ul class="dropdown2">
                     <li><a href="javascript:void(0)"><span><img style="padding: 8px 10px;" src="<?php echo base_url(); ?>style/img/arrow.png"/></span></a>
                     <ul class="sub_menu">
+                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/setting">Setting</a></li>
                         <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
                     </ul>
                     </li>

@@ -1,5 +1,5 @@
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-ui-1.8.21.custom.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url(); ?>style/js/jquery-ui.js"></script>
     <script type="text/javascript" src="<?php echo base_url(); ?>style/js/project.js"></script>
     <script src="<?php echo base_url()?>style/js/jquery.form.js"></script>
     <script src="<?php echo base_url()?>style/js/upload.js"></script>
@@ -45,6 +45,58 @@
             $('#menu li').removeClass('addLogout');
         }
     });
+    </script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $(function(){
+            var url = '<?php echo base_url() ?>';
+            $( "#tabs" ).tabs();
+        
+        $('#form_profile_admin').submit(function(evnt){
+            evnt.preventDefault(); //Avoid that the event 'submit' continues with its normal execution, so that, we avoid to reload the whole page
+            $.post(url+"index.php/admin/profile_admin", //The variable 'url' must store the base_url() of our application
+            $("form#form_profile_admin").serialize(), //Serialize all the content of our form to URL format
+            function (data) {
+                //console.log(data); //Add the AJAX response to some div that is going to show the message
+                var get_data = $.parseJSON(data);
+                var name_value = $('input[name="name"').val();
+                //console.log(get_data.result);
+                $('#error-name, #error-username ,#error-email,#error-password,#success-profile').empty();
+                $('#error-name').prepend(get_data.name);
+                $('#error-username').prepend(get_data.username);
+                $('#error-email').prepend(get_data.email);
+                $('#error-password').prepend(get_data.password);
+                $('input[name="password"]').val('');
+                if(get_data.result=='Success'){
+                    $('#success-profile').prepend(get_data.result);
+                    $('#welcome_user').empty();
+                    $('#welcome_user').prepend('Welcome, '+name_value);
+                }
+            });
+        });
+        
+        $('#form_pass_admin').submit(function(evnt){
+            evnt.preventDefault(); //Avoid that the event 'submit' continues with its normal execution, so that, we avoid to reload the whole page
+            $.post(url+"index.php/admin/pass_admin", //The variable 'url' must store the base_url() of our application
+            $("form#form_pass_admin").serialize(), //Serialize all the content of our form to URL format
+            function (data) {
+                //console.log(data); //Add the AJAX response to some div that is going to show the message
+                var get_data = $.parseJSON(data);
+                //console.log(get_data.old_pass);
+                $('#error-old_pass, #error-new_pass ,#error-renew_pass,#success-pass').empty();
+                $('#error-old_pass').prepend(get_data.old_pass);
+                $('#error-new_pass').prepend(get_data.new_pass);
+                $('#error-renew_pass').prepend(get_data.renew_pass);
+                $('input.pass').val('');
+                if(get_data.result=='Success'){
+                    $('#success-pass').prepend(get_data.result);
+                }
+            });
+        });
+    });    
+    });        
+
     </script>
 </body>
 </html>

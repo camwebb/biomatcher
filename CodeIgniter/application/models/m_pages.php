@@ -18,6 +18,7 @@ class M_pages extends CI_Model {
         {
             $hasil['id']=$data[0]->id;
             $hasil['username']=$data[0]->username;
+            $hasil['email']=$data[0]->email;
 			$hasil['password']=$data[0]->password;
             $hasil['name']=$data[0]->name;
             $hasil['type']=$data[0]->type;

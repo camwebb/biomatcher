@@ -360,7 +360,7 @@ class Pages extends CI_Controller {
                     if(md5($password) == $user_credentials[$username]['password'])
                     {
                         //login success
-                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'type' => $login['type']));
+                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'email' => $login['email'], 'type' => $login['type']));
             			$cookieUsername = array(
             				'name'   => 'user',
             				'value'  => $login['username'],
