@@ -13,7 +13,7 @@
       </ul>
       
       <div id="profile">
-        <?php echo form_open('admin/profile_admin',array('id'=>'form_profile_admin')); ?>
+        <?php echo form_open('setting/do_profile',array('id'=>'form_profile')); ?>
         <table>
             <div id="success-profile" style="color: blue;"></div>
             <tr>

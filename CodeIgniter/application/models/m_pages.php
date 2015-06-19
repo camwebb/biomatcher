@@ -49,6 +49,22 @@ class M_pages extends CI_Model {
             return false;
         }
     }
+
+    function edit_profile($id_user,$name,$username,$email){
+        $data = array(
+               'name' => $name,
+               'username' => $username,
+               'email' => $email
+            );
+        
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data);    
+        
+        $data_admin = $this->db->get_where('user', array('id' => $id_user));
+        $get_admin = $data_admin->result();  
+        $this->session->set_userdata(array('name' =>$get_admin[0]->name,'username' => $get_admin[0]->username, 'id_user' => $get_admin[0]->id, 'email' => $get_admin[0]->email, 'type' => $get_admin[0]->type));
+        echo json_encode(array('result' => 'Success')); 
+    }
     
     function project_exists($nameProject)
     {
