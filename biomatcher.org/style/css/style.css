@@ -908,7 +908,7 @@ fieldset
 }
 
 /*------------- END LOGIN-ADMIN STYLE ---------------*/
-.inputtext-admin{
+.inputtext-admin, .inputtext-setting{
     float:left;
     height: 36px;
     width: 200px;
