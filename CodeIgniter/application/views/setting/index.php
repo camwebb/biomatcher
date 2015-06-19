@@ -1,7 +1,7 @@
 <div class="wrapper">
 <div id="content">
     
-    <h1 style="float: left;">Administrator Setting</h1>
+    <h1 style="float: left;">Setting</h1>
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
     
@@ -52,7 +52,7 @@
       </div>
       
       <div id="password">
-        <?php echo form_open('admin/pass_admin',array('id'=>'form_pass_admin')); ?>
+        <?php echo form_open('setting/do_pass',array('id'=>'form_pass')); ?>
         <table>
             <div id="success-pass" style="color: blue;"></div>
             <tr>

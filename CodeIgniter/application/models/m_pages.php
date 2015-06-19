@@ -66,6 +66,16 @@ class M_pages extends CI_Model {
         echo json_encode(array('result' => 'Success')); 
     }
     
+    function edit_pass($id_user,$new_pass){
+        $data = array(
+               'password' => $new_pass
+            );
+        
+        $this->db->where('id', $id_user);
+        $this->db->update('user', $data);
+        echo json_encode(array('result' => 'Success')); 
+    }
+
     function project_exists($nameProject)
     {
         $id_user = $this->session->userdata('id_user');
