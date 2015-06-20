@@ -160,8 +160,8 @@
             <div id="hidden-input">
             </div>
             <div class="inputbox_addProject">
-                <input id="img_del" type="button" class="box-button button_cancelProject" value="Yes" />
                 <input id="img_keep" class="box-button" type="button" style="margin-right: 5px;" value="No" />
+                <input id="img_del" type="button" class="box-button button_cancelProject" value="Delete" />
             </div>
             <div class="separator black"></div>
             

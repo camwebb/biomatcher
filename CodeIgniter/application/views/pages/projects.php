@@ -88,7 +88,7 @@
             <div id="alert_delete" class="messagebox" style="padding: 0 !important; width:400px;">Test</div>
             <div class="inputbox_addProject" style="width: 400px;">
                 <input id="project_cancel_del" class="box-button" type="button" value="No" />
-                <input id="project_del_cascade" class="box-button button_cancelProject" type="submit" name="Submit" value="Yes" />
+                <input id="project_del_cascade" class="box-button button_cancelProject" type="submit" name="Submit" value="Delete" />
             </div>
         <?php //echo form_close(); ?>
     </div>
