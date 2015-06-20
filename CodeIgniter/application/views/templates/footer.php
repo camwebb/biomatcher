@@ -47,6 +47,8 @@
     });
     </script>
 
+    <?php if($title == 'Setting'){ ?>
+
     <script type="text/javascript">
     $(document).ready(function() {
         $(function(){
@@ -94,9 +96,12 @@
                 }
             });
         });
-    });    
+
+        });    
     });        
 
     </script>
+    <?php }?>
+    
 </body>
 </html>

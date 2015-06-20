@@ -22,36 +22,58 @@
             $top_btn_del = "4";
         }
     ?>
-    <ol start="<?php echo $number;?>">
-        <?php
-            foreach($list_project as $list){
-        ?>
-        <li style="height: 45px;">
-            <div class="projects" style="float: left; position: relative; top:<?php echo $top; ?>;">
-                <p><?php echo $list->name; ?></p>
-            </div>
-            <div class="projects" style="float: left; position: relative; top:<?php echo $top_btn; ?>; padding-left:20px;">
-                <a class="project-btn-edit hvr-bounce-in" >
-                    <img title="Rename Project" src="<?php echo base_url(); ?>style/img/edit.png" />
-                </a>
-            </div>
-            <div class="projects" style="float: left; position: relative; top:<?php echo $top_btn_del; ?>; padding-left:10px;">
-                <!-- project_delete class is used in javascript -->
-                <a class="project-btn-edit hvr-bounce-in project_delete" title="<?php echo $list->id; ?>">
-                    <img title="Delete Project" src="<?php echo base_url(); ?>style/img/delete.png" />
-                </a>
-            </div>
-            <div class="projects" style="float: right; position: relative; top:<?php echo $top; ?>;">
-                <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 10px 0 20px;">Go</a>
-                <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 10px 0 10px;">Statistic</a>
-            </div>
-            <div class="clear"></div>
-        </li>
-        
-        <?php
+
+    <div class="project_table" id="files">
+        <table style="width: 100%;" id="projectTable">
+            <thead>
+                <tr>
+                    <td>
+                        <p>PROJECT NAME</p>
+                    </td>
+                    <td colspan = "4" style="text-align: center;">
+                        <p>ACTION</p>
+                    </td>
+                </tr>
+            </thead>
+            
+            <tbody id="test">
+            <?php
+                foreach($list_project as $list){
+            ?>
+                
+                <tr>
+                    <td>
+                        <?php echo $list->name; ?>
+                    </td>
+                    <td style="width: 50px; text-align: center;">
+                        <a class="project-btn-edit hvr-bounce-in" >
+                            <img title="Rename Project" src="<?php echo base_url(); ?>style/img/edit.png" />
+                        </a>
+                    </td>
+                    <td style="width: 50px; text-align: center;">
+                        <!-- project_delete class is used in javascript -->
+                        <a class="project-btn-edit hvr-bounce-in project_delete" title="<?php echo $list->id; ?>">
+                            <img title="Delete Project" src="<?php echo base_url(); ?>style/img/delete.png" />
+                        </a>
+                    </td>
+                    <td style="width: 50px; text-align: center;">
+                        <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->id; ?>" class="project-btn-edit hvr-bounce-in" >
+                            <img title="View Project" src="<?php echo base_url(); ?>style/img/view.png" />
+                        </a>
+                    </td>
+                    <td style="width: 50px; text-align: center;">
+                        <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->id; ?>" class="project-btn-edit hvr-bounce-in" >
+                            <img title="Statistic Project" src="<?php echo base_url(); ?>style/img/statistic.png" />
+                        </a>
+                    </td>
+                </tr>
+                
+            <?php
             }
-        ?>
-    </ol>
+            ?>
+            </tbody>  
+        </table>
+    </div>
     
     <br />
     
