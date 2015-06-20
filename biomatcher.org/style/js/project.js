@@ -53,6 +53,21 @@ $(document).ready(function() {
 			height: "0px"
 		}, "fast");
     }
+
+    function renameProject(){
+        $("div#renameProject_panel").fadeIn("normal");
+        $("div#toppanel-disable").show();
+        $("div#progressbox").hide();
+        $("div.errorbox").empty();
+        $("div#panel").animate({
+            height: "0px"
+        }, "fast");
+    }
+
+    function cancelRename(){
+        $("div#renameProject_panel").fadeOut("normal"); 
+        $("div#toppanel-disable").hide();       
+    }
     
     function cancelAllLabel(){
         $("#draggable").fadeOut("normal");
@@ -239,7 +254,9 @@ $(document).ready(function() {
     
     $("#addProject, #upl_img, #site_reg").bind("click",addProject);
     $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);
+    $("#button_cancelRename").bind("click",cancelRename);
     $("#project_cancel_del").bind("click", project_cancel_del);
+    $(".renameProject").bind("click",renameProject);
     
     /*editLabel function*/	
     $("#editAll").bind("click",editAll);
@@ -249,27 +266,27 @@ $(document).ready(function() {
 $(function() {
     $("#buttonLabel").click(function() {
     
-    var form_data = {
-        csv: $("textarea#labelProject").val(),
-        user_id: $("input[name='user_id']").val(),
-        project_address: $("input#project_address").val(),
-        project_name: $("input#project_name").val()
-    };
-    
-    $.ajax({
-    type: "POST",
-    url: CI_ROOT+"index.php/pages/do_editAllLabel",
-    data: form_data,
-    success: function(data){
-        //alert(data); 
-        $("#draggable").fadeOut("normal");
-        //$("#label").html(data);
-        location.reload();
-        }                  
+        var form_data = {
+            csv: $("textarea#labelProject").val(),
+            user_id: $("input[name='user_id']").val(),
+            project_address: $("input#project_address").val(),
+            project_name: $("input#project_name").val()
+        };
+        
+        $.ajax({
+        type: "POST",
+        url: CI_ROOT+"index.php/pages/do_editAllLabel",
+        data: form_data,
+        success: function(data){
+            //alert(data); 
+            $("#draggable").fadeOut("normal");
+            //$("#label").html(data);
+            location.reload();
+            }                  
+        });
+        return false;
     });
-    return false;
-    });
-    });
+});
     
 $(function(){
    $("#editLabel").click(function(){

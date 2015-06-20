@@ -46,7 +46,7 @@
                         <?php echo $list->name; ?>
                     </td>
                     <td style="width: 50px; text-align: center;">
-                        <a class="project-btn-edit hvr-bounce-in" >
+                        <a class="project-btn-edit hvr-bounce-in renameProject">
                             <img title="Rename Project" src="<?php echo base_url(); ?>style/img/edit.png" />
                         </a>
                     </td>
@@ -109,6 +109,21 @@
             <div class="inputbox_addProject" style="width: 400px;">
                 <input id="project_cancel_del" class="box-button" type="button" value="Cancel" />
                 <input id="project_del_cascade" class="box-button button_cancelProject" type="submit" name="Submit" value="Delete" />
+            </div>
+        <?php //echo form_close(); ?>
+    </div>
+
+    <div id="renameProject_panel" class="custom_panel">
+        <?php //echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>
+            
+            <div class="inputbox_renameProject">
+                <label class="labelinput-renameProject" for="input_renameProject">Name of Project</label>
+                <input class="inputtext-renameProject" id="input_renameProject" type="text" name="renameProject"/><br />
+            </div>
+            <br>
+            <div class="inputbox_addProject">
+                <input id="button_renameProject" type="submit" name="Submit" class="box-button" value="Rename Project" />
+                <input class="box-button button_cancelProject" type="button" id="button_cancelRename" style="margin-right: 5px;" value="Cancel" />
             </div>
         <?php //echo form_close(); ?>
     </div>
