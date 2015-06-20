@@ -625,6 +625,27 @@ class M_pages extends CI_Model {
             return false;
         }
     }
+    
+    function delete_project($data)
+    {
+        $query = $this->db->delete('project', $data);
+        
+        return($query);
+    }
+    
+    function delete_project_cascade()
+    {
+        
+    }
+    
+    function deleteData($table=false, $data=array()){
+        if (!$table and empty($data)) return false;
+
+		$query = $this->db->delete($table, $data);
+        
+        return($query);
+        
+    }
 }
 
 

@@ -28,20 +28,16 @@
         ?>
         <li style="height: 45px;">
             <div class="projects" style="float: left; position: relative; top:<?php echo $top; ?>;">
-                <p><?php echo $list->name; ?>
-                    
-                </p>
-                
-                
+                <p><?php echo $list->name; ?></p>
             </div>
             <div class="projects" style="float: left; position: relative; top:<?php echo $top_btn; ?>; padding-left:20px;">
-                <a class="project-btn-edit hvr-bounce-in">
+                <a class="project-btn-edit hvr-bounce-in" >
                     <img title="Rename Project" src="<?php echo base_url(); ?>style/img/edit.png" />
                 </a>
             </div>
             <div class="projects" style="float: left; position: relative; top:<?php echo $top_btn_del; ?>; padding-left:10px;">
                 <!-- project_delete class is used in javascript -->
-                <a class="project-btn-edit hvr-bounce-in project_delete">
+                <a class="project-btn-edit hvr-bounce-in project_delete" title="<?php echo $list->id; ?>">
                     <img title="Delete Project" src="<?php echo base_url(); ?>style/img/delete.png" />
                 </a>
             </div>
@@ -84,10 +80,12 @@
     </div>
     
     <div id="del_project_panel" class="custom_panel" >
-        <?php //echo form_open('pages/do_addProject',array('id'=>'form_del_project')); ?>
+        <?php //echo form_open('project/',array('id'=>'form_del_project')); ?>
             <div id="alert_delete" class="messagebox" style="padding: 0 !important; width:400px;">Test</div>
+            <div id="hidden-input">
+            </div>
             <div class="inputbox_addProject" style="width: 400px;">
-                <input id="project_cancel_del" class="box-button" type="button" value="No" />
+                <input id="project_cancel_del" class="box-button" type="button" value="Cancel" />
                 <input id="project_del_cascade" class="box-button button_cancelProject" type="submit" name="Submit" value="Delete" />
             </div>
         <?php //echo form_close(); ?>

@@ -120,6 +120,48 @@ class Project extends CI_Controller {
         
     }
     
+    function delete_project()
+    {
+        $post = $this->input->post();
+        $pid = $post['pid'];
+        
+        $this->load->model('m_pages');
+        
+        $list_images = $this->m_pages->selectImage($pid);
+        
+        if($list_images)
+        {
+            $status = 'not empty';
+            $id_matches = array();
+            foreach($list_images as $image)
+            {
+                if($this->m_pages->check_match($image['id']))
+                {
+                    $id_matches[] = $image['id'];
+                }
+            }
+            
+            $count_matches = count($id_matches);
+            echo $count_matches;
+        }
+        else
+        {
+            $delete = $this->m_pages->delete_project(array('id' => $pid));
+            if($delete)
+            {
+                $status = 'success';
+                $this->session->set_flashdata('success', 'Delete project success.');
+            }
+            else
+            {
+                $status = 'error';
+                $this->session->set_flashdata('message', 'Delete unsuccessful! Please try again.');
+            }
+        }
+        
+        echo json_encode(array('status' => $status));
+    }
+    
 }
 
 ?>

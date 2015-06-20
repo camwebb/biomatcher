@@ -19,6 +19,11 @@ $(document).ready(function() {
 		}, "fast");
     }
     
+    function hide_panel(id_panel){
+        $("div#"+id_panel).fadeOut("normal"); 
+        $("div#toppanel-disable").hide();       
+    }
+    
     function addProject(){
         $("div#addProject_panel").fadeIn("normal");
         $("div#toppanel-disable").show();
@@ -172,7 +177,26 @@ $(document).ready(function() {
     }
     
     $('.project_delete').click(function(){
-        show_panel('del_project_panel');
+        var project_id = $(this).attr('title');
+        
+        var data = {'pid' : project_id};
+        
+        $.ajax({
+            type: "POST",
+            url: CI_ROOT+"index.php/project/delete_project",
+            dataType: "json",
+            data: data,
+            cache:false,
+            success: function(data){
+                if(data.status == 'success')
+        		{
+                    redirect('');
+                    //alert('ok');
+                }
+            }
+        });
+        
+        //show_panel('del_project_panel');
     });
     
     function redirect(url)
