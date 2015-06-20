@@ -49,6 +49,10 @@ input:hover, input:focus, textarea:hover, textarea:focus, select:hover, select:f
     border-radius: 5px;
 }
 
+.project-btn-edit, .project-btn-edit{
+    cursor:pointer;
+}
+
 .box-button {
     background-color: #353535;
     font-weight: bold;
@@ -742,6 +746,26 @@ ul.dropdown2 li:hover > ul {
     color: #515151;
     font-size: 18px;
     font-family: 'Roboto Condensed', sans-serif;
+}
+
+/* Bounce In */
+.hvr-bounce-in {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+.hvr-bounce-in:hover, .hvr-bounce-in:focus, .hvr-bounce-in:active {
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+  transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
 }
 
 /*---------LOGIN-ADMIN STYLE-----------*/

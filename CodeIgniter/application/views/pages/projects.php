@@ -13,9 +13,13 @@
         $number=$page+1;
         if($this->agent->is_browser('Chrome')){
             $top="-21px";
+            $top_btn = "-19";
+            $top_btn_del = "-18";
         }
         else{
             $top="0";
+            $top_btn = "3";
+            $top_btn_del = "4";
         }
     ?>
     <ol start="<?php echo $number;?>">
@@ -23,10 +27,24 @@
             foreach($list_project as $list){
         ?>
         <li style="height: 45px;">
-            <div class="projects" style="float: left; position: relative; top:<?php echo $top; ?>">
-                <p><?php echo $list->name; ?></p>
+            <div class="projects" style="float: left; position: relative; top:<?php echo $top; ?>;">
+                <p><?php echo $list->name; ?>
+                    
+                </p>
+                
+                
             </div>
-            <div class="projects" style="float: right; position: relative; top:<?php echo $top; ?>">
+            <div class="projects" style="float: left; position: relative; top:<?php echo $top_btn; ?>; padding-left:20px;">
+                <a class="project-btn-edit hvr-bounce-in">
+                    <img title="Rename Project" src="<?php echo base_url(); ?>style/img/edit.png" />
+                </a>
+            </div>
+            <div class="projects" style="float: left; position: relative; top:<?php echo $top_btn_del; ?>; padding-left:10px;">
+                <a class="project-btn-del hvr-bounce-in">
+                    <img title="Delete Project" src="<?php echo base_url(); ?>style/img/delete.png" />
+                </a>
+            </div>
+            <div class="projects" style="float: right; position: relative; top:<?php echo $top; ?>;">
                 <a href="<?php echo base_url(); ?>index.php/pages/view/project/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 10px 0 20px;">Go</a>
                 <a href="<?php echo base_url(); ?>index.php/pages/view/statistic/<?php echo $list->id; ?>" class="box-button" style="margin: 5px 10px 0 10px;">Statistic</a>
             </div>
