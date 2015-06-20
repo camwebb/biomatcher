@@ -7,6 +7,7 @@
     <div class="clear"></div>
     
     <?php echo form_error('nameProject', '<div class="errorbox">', '</div>'); ?>
+    <?php echo form_error('renameProject', '<div class="errorbox">', '</div>'); ?>
     <?php echo form_error('qcSet', '<div class="errorbox">', '</div>'); ?>
     <?php 
         $page=$this->uri->segment(4, 0);
@@ -46,7 +47,7 @@
                         <?php echo $list->name; ?>
                     </td>
                     <td style="width: 50px; text-align: center;">
-                        <a class="project-btn-edit hvr-bounce-in renameProject">
+                        <a class="project-btn-edit hvr-bounce-in renameProject" data-name="<?php echo $list->name; ?>" data-id="<?php echo $list->id; ?>">
                             <img title="Rename Project" src="<?php echo base_url(); ?>style/img/edit.png" />
                         </a>
                     </td>
@@ -114,18 +115,19 @@
     </div>
 
     <div id="renameProject_panel" class="custom_panel">
-        <?php //echo form_open('pages/do_addProject',array('id'=>'form_addProject')); ?>
+        <?php echo form_open('pages/do_renameProject',array('id'=>'form_renameProject')); ?>
             
             <div class="inputbox_renameProject">
                 <label class="labelinput-renameProject" for="input_renameProject">Name of Project</label>
                 <input class="inputtext-renameProject" id="input_renameProject" type="text" name="renameProject"/><br />
             </div>
+            <input type="hidden" name="idProject" id="input_idProject">
             <br>
             <div class="inputbox_addProject">
                 <input id="button_renameProject" type="submit" name="Submit" class="box-button" value="Rename Project" />
                 <input class="box-button button_cancelProject" type="button" id="button_cancelRename" style="margin-right: 5px;" value="Cancel" />
             </div>
-        <?php //echo form_close(); ?>
+        <?php echo form_close(); ?>
     </div>
     
     <div class="separator"></div>

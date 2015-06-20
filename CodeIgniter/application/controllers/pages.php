@@ -177,8 +177,8 @@ class Pages extends CI_Controller {
             
             $totalMatches += $image->match_sum;
             
-            $filenameA = $A[0]->nameOri;
-            $filenameB = $B[0]->nameOri;
+            $filenameA = $A['0']->nameOri;
+            $filenameB = $B['0']->nameOri;
             
             $same = $this->m_pages->same($image->imageA, $image->imageB, 'yes');
             $different = $this->m_pages->same($image->imageA, $image->imageB, 'no');
@@ -594,6 +594,34 @@ class Pages extends CI_Controller {
         $this->load->model('m_pages');
         $this->m_pages->add_project();
         redirect('pages/view/projects', 'refresh');
+        }
+    }
+
+    function do_renameProject()
+    {
+        $post = $this->input->post(NULL, TRUE);
+        //print_r($data);exit;
+        //function add project
+        $this->load->library('form_validation');
+        // field name, error message, validation rules
+        $config = array(
+               array(
+                     'field'   => 'renameProject', 
+                     'label'   => 'Project Name', 
+                     'rules'   => 'trim|required|min_length[4]|callback_project_exists|xss_clean' //alpha_numeric|
+                  )
+            );
+        $this->form_validation->set_rules($config);
+        
+        if($this->form_validation->run() == FALSE){
+            $this->view($page = 'projects');
+        }
+        else{
+            $this->load->model('m_general');
+            $where = array('id' => $post['idProject']);
+            $data = array('name' => $post['renameProject']);
+            $this->m_general->updateData('project',$where,$data);
+            redirect('pages/view/projects', 'refresh');
         }
     }
     
