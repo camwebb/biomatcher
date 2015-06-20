@@ -40,7 +40,8 @@
                 </a>
             </div>
             <div class="projects" style="float: left; position: relative; top:<?php echo $top_btn_del; ?>; padding-left:10px;">
-                <a class="project-btn-del hvr-bounce-in">
+                <!-- project_delete class is used in javascript -->
+                <a class="project-btn-edit hvr-bounce-in project_delete">
                     <img title="Delete Project" src="<?php echo base_url(); ?>style/img/delete.png" />
                 </a>
             </div>
@@ -80,6 +81,16 @@
                 <input class="box-button button_cancelProject" type="button" id="button_cancelProject" style="margin-right: 5px;" value="Cancel" />
             </div>
         <?php echo form_close(); ?>
+    </div>
+    
+    <div id="del_project_panel" class="custom_panel">
+        <?php //echo form_open('pages/do_addProject',array('id'=>'form_del_project')); ?>
+            
+            <div class="inputbox_addProject">
+                <input id="button_addProject" type="submit" name="Submit" class="box-button" value="Add Project" />
+                <input class="box-button button_cancelProject" type="button" id="project_cancel_del" style="margin-right: 5px;" value="Cancel" />
+            </div>
+        <?php //echo form_close(); ?>
     </div>
     
     <div class="separator"></div>

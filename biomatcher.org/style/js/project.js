@@ -24,6 +24,11 @@ $(document).ready(function() {
         $("div#toppanel-disable").hide();       
     }
     
+    function project_cancel_del(){
+        $("div#del_project_panel").fadeOut("normal"); 
+        $("div#toppanel-disable").hide();       
+    }
+    
     function is_del_matched(){
         $("div#matched_image").fadeIn("normal");
         $("div#toppanel-disable").show();
@@ -67,7 +72,7 @@ $(document).ready(function() {
                         pagination = "";
                     }
                     var url = CI_ROOT+"index.php/"+project_link+"/view/project/"+pID+"/"+pagination;
-                    console.log(url);
+                    
                     if(data.matched == true){
                         $("#message_matched").html(data.message);
                         is_del_matched();
@@ -167,11 +172,21 @@ $(document).ready(function() {
     
     $('#img_keep').click(function(){
         cancel_del();
-    })
+    });
     
     $('#img_del').click(function(){
         del_img_cascade();
-    })
+    });
+    
+    $('.project_delete').click(function(){
+        $("div#del_project_panel").fadeIn("normal");
+        $("div#toppanel-disable").show();
+        $("div#progressbox").hide();
+        $("div.errorbox").empty();
+        $("div#panel").animate({
+			height: "0px"
+		}, "fast");
+    });
     
     $('#sameMatch').click(function(){
         $('#sameMatch').attr("disabled", true);
@@ -196,6 +211,7 @@ $(document).ready(function() {
     
     $("#addProject, #upl_img, #site_reg").bind("click",addProject);
     $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);
+    $("#project_cancel_del").bind("click", project_cancel_del);
     
     /*editLabel function*/	
     $("#editAll").bind("click",editAll);

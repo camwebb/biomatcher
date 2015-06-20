@@ -49,7 +49,7 @@ input:hover, input:focus, textarea:hover, textarea:focus, select:hover, select:f
     border-radius: 5px;
 }
 
-.project-btn-edit, .project-btn-edit{
+.project-btn-edit{
     cursor:pointer;
 }
 
