@@ -9,6 +9,16 @@ $(document).ready(function() {
     
     $("div#toppanel-disable").hide();
     
+    function show_panel(id_panel){
+        $("div#"+id_panel).fadeIn("normal");
+        $("div#toppanel-disable").show();
+        $("div.progressbox").hide();
+        $("div.errorbox").empty();
+        $("div#panel").animate({
+			height: "0px"
+		}, "fast");
+    }
+    
     function addProject(){
         $("div#addProject_panel").fadeIn("normal");
         $("div#toppanel-disable").show();
@@ -161,6 +171,10 @@ $(document).ready(function() {
         });
     }
     
+    $('.project_delete').click(function(){
+        show_panel('del_project_panel');
+    });
+    
     function redirect(url)
     {
         window.location.href = url;
@@ -176,16 +190,6 @@ $(document).ready(function() {
     
     $('#img_del').click(function(){
         del_img_cascade();
-    });
-    
-    $('.project_delete').click(function(){
-        $("div#del_project_panel").fadeIn("normal");
-        $("div#toppanel-disable").show();
-        $("div#progressbox").hide();
-        $("div.errorbox").empty();
-        $("div#panel").animate({
-			height: "0px"
-		}, "fast");
     });
     
     $('#sameMatch').click(function(){

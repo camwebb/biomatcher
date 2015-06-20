@@ -83,12 +83,12 @@
         <?php echo form_close(); ?>
     </div>
     
-    <div id="del_project_panel" class="custom_panel">
+    <div id="del_project_panel" class="custom_panel" >
         <?php //echo form_open('pages/do_addProject',array('id'=>'form_del_project')); ?>
-            
-            <div class="inputbox_addProject">
-                <input id="button_addProject" type="submit" name="Submit" class="box-button" value="Add Project" />
-                <input class="box-button button_cancelProject" type="button" id="project_cancel_del" style="margin-right: 5px;" value="Cancel" />
+            <div id="alert_delete" class="messagebox" style="padding: 0 !important; width:400px;">Test</div>
+            <div class="inputbox_addProject" style="width: 400px;">
+                <input id="project_cancel_del" class="box-button" type="button" value="No" />
+                <input id="project_del_cascade" class="box-button button_cancelProject" type="submit" name="Submit" value="Yes" />
             </div>
         <?php //echo form_close(); ?>
     </div>
