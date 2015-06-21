@@ -600,7 +600,11 @@ class Pages extends CI_Controller {
     function do_renameProject()
     {
         $post = $this->input->post(NULL, TRUE);
-        //print_r($data);exit;
+        
+        if($post['oldName'] == $post['renameProject']){
+           redirect('pages/view/projects', 'refresh');
+        }
+
         //function add project
         $this->load->library('form_validation');
         // field name, error message, validation rules
@@ -1052,7 +1056,11 @@ class Pages extends CI_Controller {
     function do_renameWebsite()
     {
         $post = $this->input->post(NULL, TRUE);
-        //print_r($data);exit;
+        
+        if($post['oldName'] == $post['renameProject']){
+           redirect('pages/view/my_website', 'refresh');
+        }
+
         //function add project
         $this->load->library('form_validation');
         // field name, error message, validation rules

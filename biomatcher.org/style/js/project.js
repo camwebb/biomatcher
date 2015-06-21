@@ -297,6 +297,7 @@ $(function() {
         var getID = $(this).data("id");
         $("#input_renameProject").val(getName);
         $("#input_idProject").val(getID);
+        $("#input_oldName").val(getName);
 
     });
 });

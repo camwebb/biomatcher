@@ -122,6 +122,7 @@
                 <input class="inputtext-renameProject" id="input_renameProject" type="text" name="renameProject"/><br />
             </div>
             <input type="hidden" name="idProject" id="input_idProject">
+            <input type="hidden" name="oldName" id="input_oldName">
             <br>
             <div class="inputbox_addProject">
                 <input id="button_renameProject" type="submit" name="Submit" class="box-button" value="Rename Project" />
