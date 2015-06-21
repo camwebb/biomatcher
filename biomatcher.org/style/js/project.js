@@ -196,12 +196,19 @@ $(document).ready(function() {
                 if(data.status == 'success')
         		{
                     redirect('');
-                    //alert('ok');
+                }
+                else
+                {
+                    if(data.status == 'not empty' || data.status == 'matched')
+                    {
+                        $('#alert_delete').html(data.message);
+                    }
+                    
+                    show_panel('del_project_panel');
                 }
             }
         });
         
-        //show_panel('del_project_panel');
     });
     
     function redirect(url)
