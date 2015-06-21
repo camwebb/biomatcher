@@ -35,7 +35,7 @@ class Setting extends CI_Controller {
                 array(
                      'field'   => 'username', 
                      'label'   => 'Username', 
-                     'rules'   => 'trim|required|min_length[4]|alpha_numeric|xss_clean'
+                     'rules'   => 'trim|required|min_length[4]|alpha_numeric|xss_clean|callback_check_username'
                   ),
                array(
                      'field'   => 'email', 
@@ -108,14 +108,28 @@ class Setting extends CI_Controller {
 
     public function check_pass($key){
         $id_user = $this->session->userdata('id_user');
-        $this->load->model('m_admin');
-        if($this->m_admin->check_password($id_user,$key))
+        $this->load->model('m_pages');
+        if($this->m_pages->check_password($id_user,$key))
         {
             return TRUE;
         }
         else
         {
             $this->form_validation->set_message('check_pass', 'Wrong Password');
+            return FALSE;
+        }     
+    }
+
+    public function check_username($key){
+        $id_user = $this->session->userdata('id_user');
+        $this->load->model('m_pages');
+        if($this->m_pages->check_username($id_user,$key))
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->form_validation->set_message('check_username', 'Username already exist');
             return FALSE;
         }     
     }
