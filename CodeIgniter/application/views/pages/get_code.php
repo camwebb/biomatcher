@@ -1,8 +1,3 @@
-<script type="text/javascript">
-    SyntaxHighlighter.defaults['toolbar'] = false;
-    //SyntaxHighlighter.defaults['html-script'] = true;
-    SyntaxHighlighter.all()
-</script>
 <div class="wrapper">
     <div id="content">
         <div style="float: left;">

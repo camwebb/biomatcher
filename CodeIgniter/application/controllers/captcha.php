@@ -142,14 +142,17 @@ class Captcha extends CI_Controller {
 	{
         $this->load->helper('html');
 		$this->load->config('csecurimage');
+        $active = $this->config->item('si_active');
+        
 		$settings['audio_path'] = APPPATH.'libraries/securimage/audio';// If you didn't configure this it will secureimage library path and follow by dir /audio/
         $settings['audio_noise_path'] = APPPATH.'libraries/securimage/audio/noise';//save as above audio path
         $settings['audio_use_noise'] = true; // true or false;
         $settings['degrade_audio'] = true; // true or false; 
         
-        // Then init the secureimage with the options 
+        // Then init the secureimage with the options
+        $this->load->library('securimage/securimage');
         $img = new Securimage($settings);
-        $img->show(); // this will show the image src 
+        //$img->show(); // this will show the image src
         $img->outputAudioFile(); // this will output the audio file to the browser
 	}
     

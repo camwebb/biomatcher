@@ -102,6 +102,13 @@
 
     </script>
     <?php }?>
+    <?php if($title == 'Get Code'){ ?>
+    <script type="text/javascript">
+        SyntaxHighlighter.defaults['toolbar'] = false;
+        //SyntaxHighlighter.defaults['html-script'] = true;
+        SyntaxHighlighter.all()
+    </script>
+    <?php }?>
     
 </body>
 </html>

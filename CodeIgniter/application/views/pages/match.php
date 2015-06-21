@@ -1,11 +1,4 @@
-<script type="text/javascript">
-$(document).ready(function() {
-    $('html,body').animate({scrollTop:$("#menu").offset().top},500);
-    $('#page_menu').remove();
-    $('#page_title').remove();
-    $('#header').css('height', '41px');
-});
-</script>
+
 <div class="wrapper">
 <div id="content" style="margin-top: 5px;">
 

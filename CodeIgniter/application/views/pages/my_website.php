@@ -52,7 +52,7 @@
         </div>
         <br /><br />
         
-        <div id="addProject_panel">
+        <div id="addProject_panel" class="custom_panel">
         <?php echo form_open('pages/add_site'); ?>
             
             <div class="inputbox_addProject">

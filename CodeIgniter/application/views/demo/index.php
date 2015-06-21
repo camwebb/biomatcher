@@ -1,8 +1,8 @@
 <html>
-
+<?php $base_url = 'http://biomatcher.org/' ?>
 <head>
-	<script type="text/javascript" src="http://biomatcher.org/style/js/jquery-2.0.3.js"></script>
-	<script type="text/javascript" src="http://biomatcher.org/captcha/biomatcher.js"></script>
+	<script type="text/javascript" src="<?php echo $base_url; ?>style/js/jquery-2.0.3.js"></script>
+	<script type="text/javascript" src="<?php echo $base_url; ?>captcha/biomatcher.js"></script>
 	<script type="text/javascript">
 	    window.addEventListener( "message",
 	    function (e) {
@@ -18,6 +18,8 @@
 </head>
 
 <body>
+<fieldset>
+    <legend>Example Form</legend>
 	<p>This is an example form to use biomatcher captcha. Do not forget to include jquery and biomatcher.js into your html header.</p>
  
 	<form method="post" action="<?php echo base_url('index.php/demo');?>" id="captcha_form" name="myForm">
@@ -36,6 +38,7 @@
 	  </p>
 	 
 	</form>
+</fieldset>    
 </body>
 
 </html>

@@ -3,8 +3,8 @@
 <head>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     <title>Biomatcher Example Form</title>
-    <script type="text/javascript" src="http://biomatcher.org/style/js/jquery-2.0.3.js"></script>
-    <script type="text/javascript" src="http://biomatcher/biomatcher.org/captcha/biomatcher.js"></script>
+    <script type="text/javascript" src="http://localhost/biomatcher/biomatcher.org/style/js/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="http://localhost/biomatcher/biomatcher.org/captcha/biomatcher.js"></script>
 
     <style>
     body{
@@ -61,11 +61,6 @@
         } 
     },
     false);
-    var yourURL = 'http://localhost/biomatcher/';
-    
-    //token lokal
-    var token = '5327c165b5f74ae23d26847bf43b6a60843258ef83f3806c9bee56b4a3ccea06';
-    
-    //token biomatcher
-    //var token = 'e56e68574f1e8e0412eda16985a1aee1b536eb881a9db981e2f5b2ba0ee4ea4b';
+    var yourURL = 'http://localhost/biomatcher/biomatcher.org/index.php/demo';
+    var token = '661334088daa443cd9d93c0ffaf3ef30ee839b5bf3ba7ade0cb42b548c776b58';
 </script>
