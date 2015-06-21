@@ -27,7 +27,7 @@
 <div class="wrapper">
     <div id="wrap-header">
         <div id="page_title">
-            <h1 style="font-size: 31px; text-align: left; margin-top: 20px;">Biomatcher-Administrator</h1>
+            <h1 style="font-size: 31px; text-align: left; margin-top: 22px;">Biomatcher-Administrator</h1>
             <p style="font-size: 20px; text-align: left;">A tool for matching digital images</p>
         </div>
         <div id="page_menu">
