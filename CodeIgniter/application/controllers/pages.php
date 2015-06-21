@@ -1048,6 +1048,34 @@ class Pages extends CI_Controller {
             }
         }
     }
+
+    function do_renameWebsite()
+    {
+        $post = $this->input->post(NULL, TRUE);
+        //print_r($data);exit;
+        //function add project
+        $this->load->library('form_validation');
+        // field name, error message, validation rules
+        $config = array(
+               array(
+                     'field'   => 'renameProject', 
+                     'label'   => 'Project Website', 
+                     'rules'   => 'trim|required|min_length[4]|url|xss_clean|prep_url|urldecode|callback_site_exists' //alpha_numeric|
+                  )
+            );
+        $this->form_validation->set_rules($config);
+        
+        if($this->form_validation->run() == FALSE){
+            $this->view($page = 'my_website');
+        }
+        else{
+            $this->load->model('m_general');
+            $where = array('id' => $post['idProject']);
+            $data = array('url' => $post['renameProject']);
+            $this->m_general->updateData('site',$where,$data);
+            redirect('pages/view/my_website', 'refresh');
+        }
+    }
     
     function site_exists($key)
     {
