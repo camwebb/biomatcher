@@ -8,7 +8,8 @@
 	    function (e) {
 	        if(e.data == 'verified'){
 	            //do something with your form ex. submit
-	            document.forms["myForm"].submit();    
+                alert('You are human!');
+                biomatcherClose();
 	        } 
 	    },
 	    false);
@@ -24,17 +25,17 @@
  
 	<form method="post" action="<?php echo base_url('index.php/demo');?>" id="captcha_form" name="myForm">
 	  <p>
-	    <strong>Name*:</strong>   <br>
-	    <input type="text" name="name" size="35" value="">
+	    <strong>Name*:</strong>   <br />
+	    <input type="text" name="name" size="35" value="" />
 	  </p>
 	 
 	  <p>
 	    <strong>Email*:</strong>   <br>
-	    <input type="text" name="email" size="35" value="">
+	    <input type="text" name="email" size="35" value="" />
 	  </p>
 	   
 	  <p>
-	    <input type="button" value="Verify" onclick="biomatcher(yourURL,token);"> 
+	    <input type="button" value="Verify" onclick="biomatcher(yourURL,token);" /> 
 	  </p>
 	 
 	</form>
