@@ -129,9 +129,14 @@ class Project extends CI_Controller {
         
         $list_images = $this->m_pages->selectImage($pid);
         
+        $message = '';
+        $data = array();
+        
         if($list_images)
         {
             $status = 'not empty';
+            $message = 'This project is not empty. Do you want to delete?';
+            
             $id_matches = array();
             foreach($list_images as $image)
             {
@@ -142,7 +147,12 @@ class Project extends CI_Controller {
             }
             
             $count_matches = count($id_matches);
-            echo $count_matches;
+            $data['count_matched'] = $count_matches;
+            if($count_matches > 0)
+            {
+                $status = 'matched';
+                $message = 'The image(s) in this project have been matched.<br /> Do you want to delete?';
+            }
         }
         else
         {
@@ -159,7 +169,7 @@ class Project extends CI_Controller {
             }
         }
         
-        echo json_encode(array('status' => $status));
+        echo json_encode(array('status' => $status, 'message' => $message, 'data' => $data));
     }
     
 }

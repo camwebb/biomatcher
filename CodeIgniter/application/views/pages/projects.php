@@ -104,7 +104,7 @@
     
     <div id="del_project_panel" class="custom_panel" >
         <?php //echo form_open('project/',array('id'=>'form_del_project')); ?>
-            <div id="alert_delete" class="messagebox" style="padding: 0 !important; width:400px;">Test</div>
+            <div id="alert_delete" class="messagebox" style="padding: 0 !important; width:400px;"></div>
             <div id="hidden-input">
             </div>
             <div class="inputbox_addProject" style="width: 400px;">
