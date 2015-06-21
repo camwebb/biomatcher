@@ -26,7 +26,7 @@
                         <td style="width: 70%;" >
                             <p>Website</p>
                         </td>
-                        <td>
+                        <td colspan = "3" style="text-align: center;">
                             <p>Action</p>
                         </td>
                     </tr>
@@ -39,10 +39,21 @@
                         <td style="width: 70%;" >
                             <p><?php echo $user_site->url; ?></p>
                         </td>
-                        <td>
-                            <p align="center">
-                                <a href="<?php echo base_url().'index.php/pages/view/get_code/'.$user_site->id; ?>" class="box-button" align="center">Get Code</a>
-                            </p>
+                        <td style="width: 50px; text-align: center;">
+                            <a class="project-btn-edit hvr-bounce-in renameProject" data-name="<?php echo $user_site->url; ?>" data-id="<?php echo $user_site->id; ?>">
+                                <img title="Rename Project" src="<?php echo base_url(); ?>style/img/edit.png" />
+                            </a>
+                        </td>
+                        <td style="width: 50px; text-align: center;">
+                            <!-- project_delete class is used in javascript -->
+                            <a class="project-btn-edit hvr-bounce-in project_delete" title="<?php echo $user_site->id; ?>">
+                                <img title="Delete Project" src="<?php echo base_url(); ?>style/img/delete.png" />
+                            </a>
+                        </td>
+                        <td style="width: 50px; text-align: center;">
+                            <a href="<?php echo base_url().'index.php/pages/view/get_code/'.$user_site->id; ?>" class="project-btn-edit hvr-bounce-in" >
+                                <img title="Get Code" src="<?php echo base_url(); ?>style/img/view.png" />
+                            </a>
                         </td>
                     </tr>
                     <?php } ?>
@@ -65,6 +76,22 @@
             </div>
         <?php echo form_close(); ?>
         </div>
+
+        <div id="renameProject_panel" class="custom_panel">
+        <?php echo form_open('pages/do_renameProject',array('id'=>'form_renameProject')); ?>
+            
+            <div class="inputbox_renameProject">
+                <label class="labelinput-renameProject" for="input_renameProject">Website URL</label>
+                <input class="inputtext-renameProject" id="input_renameProject" type="text" name="renameProject"/><br />
+            </div>
+            <input type="hidden" name="idProject" id="input_idProject">
+            <br>
+            <div class="inputbox_addProject">
+                <input id="button_renameProject" type="submit" name="Submit" class="box-button" value="Rename Project" />
+                <input class="box-button button_cancelProject" type="button" id="button_cancelRename" style="margin-right: 5px;" value="Cancel" />
+            </div>
+        <?php echo form_close(); ?>
+    </div>
     
         <div class="separator"></div>
     </div>
