@@ -35,6 +35,22 @@ class M_admin extends CI_Model {
             return FALSE;
         }
     }
+
+    function check_username($id_user,$key){
+        $query = $this->db->query("SELECT * FROM user where id = '".$id_user."' and username ='".$key."' ");
+        if ($query->num_rows() > 0){
+            return TRUE;
+        }
+        else{
+            $query2 = $this->db->query("SELECT * FROM user where username ='".$key."' ");
+            if ($query2->num_rows() > 0){
+                return FALSE;
+            }
+            else{
+                return TRUE;
+            }
+        }
+    }
     
     function profile_admin($id_user,$name,$username,$email){
         $data = array(
