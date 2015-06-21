@@ -70,11 +70,10 @@
     <script type="text/javascript">
         $(document).ready(function(){
             
-            //var url = 'http://localhost/biomatcher/biomatcher.org/index.php/captcha/si_test';
             var url = '<?php echo base_url(); ?>'+'index.php/captcha/si_test';
             
             
-        //$('#testajax').submit(function(e){
+        
         $('#sendMatch').bind( "click",function(e){
             var match = $('input:radio[name="match"]:checked').val();
             var captcha = $('input:text[name="captcha"]').val();
@@ -91,7 +90,7 @@
                     url: url,
                     data: 'match='+match+'&captcha='+captcha,
                     success: function(status){
-                        //console.log('match='+match+'&captcha='+captcha);
+                        
                         if(status == 'ok'){
                             $.ajax({
                                 type: "POST",

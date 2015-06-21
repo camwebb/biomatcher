@@ -2,12 +2,12 @@
 <?php $base_url = 'http://biomatcher.org/' ?>
 <head>
 	<script type="text/javascript" src="<?php echo $base_url; ?>style/js/jquery-2.0.3.js"></script>
-	<script type="text/javascript" src="<?php echo $base_url; ?>captcha/biomatcher.js"></script>
+	<script type="text/javascript" src="<?php echo $base_url; ?>demo/biomatcher.js"></script>
 	<script type="text/javascript">
 	    window.addEventListener( "message",
 	    function (e) {
 	        if(e.data == 'verified'){
-	            //do something with your form ex. submit
+	            //do something with your form ex. submit or alert
                 alert('You are human!');
                 biomatcherClose();
 	        } 

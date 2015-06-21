@@ -32,6 +32,11 @@ class Captcha extends CI_Controller {
         $token = $_GET['token'];
         $url = $_GET['yoururl'];
         
+        if(isset($_GET['demo']))
+        {
+            if($_GET['demo']) $page = 'frame_demo';
+        }
+        
         $check_url_id = $this->m_pages->check_url($url);
         if(!$check_url_id){
             $page = 'invalid_token';
