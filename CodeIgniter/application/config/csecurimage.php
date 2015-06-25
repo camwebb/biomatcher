@@ -15,8 +15,8 @@ $config['si_general'] = array(
 	'use_wordlist'         => false,
 	'text_transparency_percentage' => 90,
 	'use_transparent_text' => false,
-    'audio_path'           => APPPATH.'libraries/secuimage/audio',
-    'audio_noise_path'     => APPPATH.'libraries/secuimage/audio/noise',
+    'audio_path'           => APPPATH.'libraries/securimage/audio',
+    'audio_noise_path'     => APPPATH.'libraries/securimage/audio/noise',
     'audio_use_noise'      => true,
     'degrade_audio'        => true
 );

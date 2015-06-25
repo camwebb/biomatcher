@@ -91,26 +91,28 @@ class Project extends CI_Controller {
         $os = $this->config->item('os');
         $this->load->model('m_pages');
         
-        if($this->m_pages->delete_image($post['id_image'])){
-            foreach ($post['id_image'] as $id){
-                $file = $this->m_pages->get_img_by_id($id);
+        foreach ($post['id_image'] as $id){
+            $file = $this->m_pages->get_img_by_id($id);
+            
+            foreach ($file as $md5sum){
                 
-                foreach ($file as $md5sum){
-                    
-                    $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
-                    $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/400px/'.$md5sum->md5sum.'.400px.jpg';
-                    $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
-                    
-                    $toDelete = array($ori, $converted, $thumbnail);
-                    foreach ($toDelete as $file_to_del) {
-                        if($os == 'windows'){
-                            unlink($file_to_del);
-                        }else{
-                            shell_exec("rm $file_to_del");
-                        }
+                $ori = $path.$this->session->userdata('username').'/'.$pid.'/img/ori/'.$md5sum->md5sum.'.ori.jpg';
+                $converted = $path.$this->session->userdata('username').'/'.$pid.'/img/400px/'.$md5sum->md5sum.'.400px.jpg';
+                $thumbnail = $path.$this->session->userdata('username').'/'.$pid.'/img/100px/'.$md5sum->md5sum.'.100px.jpg';
+                
+                $toDelete = array($ori, $converted, $thumbnail);
+                
+                foreach ($toDelete as $file_to_del) {
+                    if($os == 'windows'){
+                        unlink($file_to_del);
+                    }else{
+                        shell_exec("rm $file_to_del");
                     }
                 }
             }
+        }
+            
+        if($this->m_pages->delete_image($post['id_image'])){
             $this->session->set_flashdata('success', 'Delete file(s) success.');
             echo json_encode(array('status' => 'success'));
         }else{
@@ -131,6 +133,8 @@ class Project extends CI_Controller {
         
         $message = '';
         $data = array();
+        
+        $data['project_id'] = $pid;
         
         if($list_images)
         {
@@ -170,6 +174,47 @@ class Project extends CI_Controller {
         }
         
         echo json_encode(array('status' => $status, 'message' => $message, 'data' => $data));
+    }
+    
+    function del_pr_cascade()
+    {
+        $post = $this->input->post();
+        
+        $pid = $post['project_id'];
+        $path = 'data/';
+        
+        $os = $this->config->item('os');
+        $this->load->model('m_pages');
+        
+        $images = $this->m_pages->selectImage($pid);
+        if(!empty($pid))
+        {
+            if($this->m_pages->delete_project(array('id' => $pid)))
+            {
+                $username = $this->session->userdata('username');
+                $path_project = $path.$username.'/'.$pid;
+                
+                if(!empty($path) AND !empty($username) AND !empty($pid)){
+                    $files = new RecursiveIteratorIterator(
+                        new RecursiveDirectoryIterator($path_project, RecursiveDirectoryIterator::SKIP_DOTS),
+                        RecursiveIteratorIterator::CHILD_FIRST
+                    );
+                    
+                    foreach ($files as $fileinfo) {
+                        $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+                        $todo($fileinfo->getRealPath());
+                    }
+                    
+                    rmdir($path_project);
+                }
+                $this->session->set_flashdata('success', 'Delete project success.');
+            }else{
+                $this->session->set_flashdata('message', 'Delete unsuccessful! Please try again.');
+            }
+        }else{
+            $this->session->set_flashdata('message', 'Delete unsuccessful! Please try again.');
+        }
+        redirect('pages/view/projects', 'refresh');
     }
     
 }

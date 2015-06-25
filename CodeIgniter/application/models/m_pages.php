@@ -659,11 +659,6 @@ class M_pages extends CI_Model {
         return($query);
     }
     
-    function delete_project_cascade()
-    {
-        
-    }
-    
     function deleteData($table=false, $data=array()){
         if (!$table and empty($data)) return false;
 

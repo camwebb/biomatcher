@@ -146,7 +146,7 @@ $(document).ready(function() {
         var pID = $("form#form_delImgCascade input[name=project_id]").val();
         var ids = $("form#form_delImgCascade input[name='ids[]']").map(function(){return $(this).val();}).get();
         var url_direct = $("form#form_delImgCascade input[name=url_direct]").val(); 
-        console.log(ids);
+        //console.log(ids);
         
         var data_img = { 'id_image' : ids, 'pid' : pID };
         $.ajax({
@@ -202,6 +202,7 @@ $(document).ready(function() {
                     if(data.status == 'not empty' || data.status == 'matched')
                     {
                         $('#alert_delete').html(data.message);
+                        $('#hidden-input').html('<input type="hidden" name="project_id" value="' + data.data.project_id + '" />');
                     }
                     
                     show_panel('del_project_panel');

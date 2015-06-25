@@ -23,6 +23,14 @@
             $top_btn_del = "4";
         }
     ?>
+    
+    <?php if($this->session->flashdata('message')) : ?>
+    <div class="errorbox" style="padding: 0;"><?php echo $this->session->flashdata('message'); ?></div>
+    <?php endif; ?>
+    
+    <?php if($this->session->flashdata('success')) : ?>
+    <div class="successbox" style="padding: 0;"><?php echo $this->session->flashdata('success'); ?></div>
+    <?php endif; ?>
 
     <div class="project_table" id="files">
         <table style="width: 100%;" id="projectTable">
@@ -103,7 +111,7 @@
     </div>
     
     <div id="del_project_panel" class="custom_panel" >
-        <?php //echo form_open('project/',array('id'=>'form_del_project')); ?>
+        <?php echo form_open('project/del_pr_cascade',array('id'=>'form_del_project')); ?>
             <div id="alert_delete" class="messagebox" style="padding: 0 !important; width:400px;"></div>
             <div id="hidden-input">
             </div>
@@ -111,7 +119,7 @@
                 <input id="project_cancel_del" class="box-button" type="button" value="Cancel" />
                 <input id="project_del_cascade" class="box-button button_cancelProject" type="submit" name="Submit" value="Delete" />
             </div>
-        <?php //echo form_close(); ?>
+        <?php echo form_close(); ?>
     </div>
 
     <div id="renameProject_panel" class="custom_panel">
@@ -121,9 +129,9 @@
                 <label class="labelinput-renameProject" for="input_renameProject">Name of Project</label>
                 <input class="inputtext-renameProject" id="input_renameProject" type="text" name="renameProject"/><br />
             </div>
-            <input type="hidden" name="idProject" id="input_idProject">
-            <input type="hidden" name="oldName" id="input_oldName">
-            <br>
+            <input type="hidden" name="idProject" id="input_idProject" />
+            <input type="hidden" name="oldName" id="input_oldName" />
+            <br />
             <div class="inputbox_addProject">
                 <input id="button_renameProject" type="submit" name="Submit" class="box-button" value="Rename Project" />
                 <input class="box-button button_cancelProject" type="button" id="button_cancelRename" style="margin-right: 5px;" value="Cancel" />
