@@ -14,6 +14,8 @@
         </div>
         
         <div class="separator" style="float: left;"></div>
+        <div style="float: left;margin-bottom: 40px;"></div>
+        
         <div class="clear"></div>
         
         <?php echo form_error('url', '<div class="errorbox">', '</div>'); ?>
@@ -22,23 +24,28 @@
             <div class="group"><p>STEP 1</p></div>
             <p>Biomatcher needs jquery to work!</p>
             <script type="syntaxhighlighter" class="brush: js"><![CDATA[
-              <script type="text/javascript" src="http://biomatcher.org/style/js/jquery-2.0.3.js">
+              <script type="text/javascript" src="<?php echo base_url(); ?>captcha/jquery.js">
             ]]>
             </script>
         </div>
         <div class="separator"></div>
+        <div style="margin-bottom: 40px;"></div>
+        
         <div>
             <div class="group"><p>STEP 2</p></div>
-            <p>Include biomatcher script to your site!</p>
+            <p>Include biomatcher script to your site! Download <a href="<?php echo base_url(); ?>captcha/biomatcher.js">here.</a></p><br />
+            <p>If you are in <b>Development</b> mode, please consider to use <b>Development</b> version of biomatcher <a href="<?php echo base_url(); ?>captcha/biomatcher_for_development.js">here.</a></p>
             <script type="syntaxhighlighter" class="brush: js"><![CDATA[
-              <script type="text/javascript" src="http://biomatcher.org/style/js/biomatcher.js">
+              <script type="text/javascript" src="<?php echo base_url(); ?>captcha/biomatcher.js">
             ]]>
             </script>
         </div>
         <div class="separator"></div>
+        <div style="margin-bottom: 40px;"></div>
+        
         <div>
             <div class="group"><p>STEP 3</p></div>
-            <p>Include this script into your html page where you place your form.</p>
+            <p>Include this script into your html page where you placed your form.</p>
             <pre class="brush: js">
                 <script type="text/javascript">
                     window.addEventListener( "message",
@@ -55,6 +62,7 @@
             </pre>
         </div>
         <div class="separator"></div>
+        <div style="margin-bottom: 40px;"></div>
         
         <div>
             <div class="group"><p>STEP 4</p></div>
@@ -64,6 +72,7 @@
             </pre>
         </div>
         <div class="separator"></div>
+        <div style="margin-bottom: 40px;"></div>
         
         <div>
             <div class="group"><p>Example</p></div>
@@ -104,8 +113,8 @@
         </div>
         
         
-        <br /><br />
     
         <div class="separator"></div>
+        <div style="margin-bottom: 40px;"></div>
     </div>
 </div>

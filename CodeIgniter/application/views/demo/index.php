@@ -1,8 +1,8 @@
 <html>
-<?php $base_url = 'http://biomatcher.org/' ?>
+
 <head>
-	<script type="text/javascript" src="<?php echo $base_url; ?>style/js/jquery-2.0.3.js"></script>
-	<script type="text/javascript" src="<?php echo $base_url; ?>demo/biomatcher.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>demo/jquery.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>demo/biomatcher.js"></script>
 	<script type="text/javascript">
 	    window.addEventListener( "message",
 	    function (e) {
