@@ -14,7 +14,8 @@ function biomatcher(yourURL,token){
         height: "auto",
         position: "absolute",
         top: "27px",
-        left: "216px",
+        left: "50%",	
+        "margin-left": "-380px",
         opacity: "1",
         overflow: "visible",
     });

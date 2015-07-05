@@ -1,8 +1,8 @@
 <html>
 
 <head>
-	<script type="text/javascript" src="<?php echo base_url(); ?>demo/jquery.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>demo/biomatcher.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>captcha/jquery.js"></script>
+	<script type="text/javascript" src="<?php echo base_url(); ?>captcha/biomatcher_for_development.js"></script>
 	<script type="text/javascript">
 	    window.addEventListener( "message",
 	    function (e) {

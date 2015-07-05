@@ -5,12 +5,20 @@
         </div>
     
         <div style="float: right;">
+        
             <span>
-                <a href="<?php echo base_url(); ?>index.php/pages/view/my_website" style="float: right;">
+                <a href="<?php echo base_url(); ?>index.php/download" style="float: right;">
+                    <p style="float: left; margin-top: 7px;">Go to Download Page</p>
+                    <img style="height: 36px; float:right" src="<?php echo base_url(); ?>style/img/arrow-right.png" />
+                </a>
+            </span>
+            <span>
+                <a href="<?php echo base_url(); ?>index.php/pages/view/my_website" style="float: right;margin-right: 20px">
                     <img style="height: 36px; float:left" src="<?php echo base_url(); ?>style/img/arrow-left.png" />
                     <p style="float: right; margin-top: 7px;">Back to My Website</p>
                 </a>
             </span>
+            
         </div>
         
         <div class="separator" style="float: left;"></div>

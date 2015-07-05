@@ -147,7 +147,7 @@
             <ul class="tabs">
               <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
               <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
-              <li class="<?php echo $selected == 'My Website'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/my_website">My Website(s)</a></li>
+              <li class="<?php if($selected='My Website' OR $selected='Download') echo 'selected'; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/my_website">My Website(s)</a></li>
               <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
             </ul>
         </div>
