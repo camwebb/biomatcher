@@ -1084,6 +1084,22 @@ class Pages extends CI_Controller {
             redirect('pages/view/my_website', 'refresh');
         }
     }
+
+    function do_deleteWebsite()
+    {
+        $post = $this->input->post(NULL, TRUE);
+        
+        $this->load->model('m_general');
+        //delete token
+        $whereToken = array('activate_token_site_id' => $post['id']);
+        $deleteToken = $this->m_general->deleteData('activate_tokens',$whereToken);
+
+        //delete site
+        $whereSite = array('id' => $post['id']);
+        $deleteSite = $this->m_general->deleteData('site',$whereSite);
+        
+        redirect('pages/view/my_website', 'refresh');
+    }
     
     function site_exists($key)
     {
