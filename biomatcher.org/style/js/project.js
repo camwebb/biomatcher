@@ -58,6 +58,11 @@ $(document).ready(function() {
         $("div#renameProject_panel").fadeOut("normal"); 
         $("div#toppanel-disable").hide();       
     }
+
+    function cancelDelWebsite(){
+        $("div#del_website_panel").fadeOut("normal"); 
+        $("div#toppanel-disable").hide();       
+    }
     
     function cancelAllLabel(){
         $("#draggable").fadeOut("normal");
@@ -253,6 +258,7 @@ $(document).ready(function() {
     $("#addProject, #upl_img, #site_reg").bind("click",addProject);
     $("#button_cancelProject, #button_cancelUpload").bind("click",cancelProject);
     $("#button_cancelRename").bind("click",cancelRename);
+    $("#button_cancelDelWebsite").bind("click",cancelDelWebsite);
     $("#project_cancel_del").bind("click", project_cancel_del);
     
     /*editLabel function*/	
@@ -299,6 +305,25 @@ $(function() {
         $("#input_renameProject").val(getName);
         $("#input_idProject").val(getID);
         $("#input_oldName").val(getName);
+
+    });
+});
+
+$(function() {
+    $(".website_delete").click(function() {
+        //trigger panel box
+        $("div#del_website_panel").fadeIn("normal");
+        $("div#toppanel-disable").show();
+        $("div#progressbox").hide();
+        $("div.errorbox").empty();
+        $("div#panel").animate({
+            height: "0px"
+        }, "fast");
+
+        var getID = $(this).data("id");
+        $("#hidden-input").append(
+            '<input type="hidden" name="id" value="' + getID + '" />'
+        );
 
     });
 });

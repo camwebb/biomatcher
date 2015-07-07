@@ -18,6 +18,7 @@
         <div id="pagination" style="margin-bottom: 5px;"> <?php echo $this->pagination->create_links(); ?> </div>
         
         <?php echo form_error('url', '<div class="errorbox">', '</div>'); ?>
+        <?php echo form_error('renameProject', '<div class="errorbox">', '</div>'); ?>
         
         <div class="project_table" id="files">
             <table style="width: 100%;" id="projectTable">
@@ -46,7 +47,7 @@
                         </td>
                         <td style="width: 50px; text-align: center;">
                             <!-- project_delete class is used in javascript -->
-                            <a class="project-btn-edit hvr-bounce-in project_delete" title="<?php echo $user_site->id; ?>">
+                            <a class="project-btn-edit hvr-bounce-in website_delete" data-id="<?php echo $user_site->id; ?>">
                                 <img title="Delete Project" src="<?php echo base_url(); ?>style/img/delete.png" />
                             </a>
                         </td>
@@ -78,20 +79,34 @@
         </div>
 
         <div id="renameProject_panel" class="custom_panel">
-        <?php echo form_open('pages/do_renameProject',array('id'=>'form_renameProject')); ?>
+        <?php echo form_open('pages/do_renameWebsite',array('id'=>'form_renameProject')); ?>
             
             <div class="inputbox_renameProject">
                 <label class="labelinput-renameProject" for="input_renameProject">Website URL</label>
                 <input class="inputtext-renameProject" id="input_renameProject" type="text" name="renameProject"/><br />
             </div>
             <input type="hidden" name="idProject" id="input_idProject">
+            <input type="hidden" name="oldName" id="input_oldName">
             <br>
             <div class="inputbox_addProject">
+                <input class="box-button button_cancelProject" type="button" id="button_cancelRename" style="margin-left: 5px;" value="Cancel" />
                 <input id="button_renameProject" type="submit" name="Submit" class="box-button" value="Rename Project" />
-                <input class="box-button button_cancelProject" type="button" id="button_cancelRename" style="margin-right: 5px;" value="Cancel" />
             </div>
         <?php echo form_close(); ?>
-    </div>
+        </div>
+
+        <div id="del_website_panel" class="custom_panel" >
+        <?php echo form_open('pages/do_deleteWebsite',array('id'=>'form_del_website')); ?>
+            <div id="alert_delete" class="messagebox" style="padding: 0 !important; width:400px;">
+                Are you sure you want to delete you website URL?
+            </div>
+            <div id="hidden-input"></div>
+            <div class="inputbox_addProject">
+                <input class="box-button button_cancelProject" type="button" id="button_cancelDelWebsite" style="margin-left: 5px;" value="Cancel" />
+                <input id="project_del_cascade" type="submit" name="Submit" class="box-button" value="Delete" />
+            </div>
+        <?php echo form_close(); ?>
+        </div>
     
         <div class="separator"></div>
     </div>
