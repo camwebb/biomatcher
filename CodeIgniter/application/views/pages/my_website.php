@@ -19,6 +19,14 @@
         
         <?php echo form_error('url', '<div class="errorbox">', '</div>'); ?>
         <?php echo form_error('renameProject', '<div class="errorbox">', '</div>'); ?>
+
+        <?php if($this->session->flashdata('message')) : ?>
+        <div class="errorbox" style="padding: 0;"><?php echo $this->session->flashdata('message'); ?></div>
+        <?php endif; ?>
+        
+        <?php if($this->session->flashdata('success')) : ?>
+        <div class="successbox" style="padding: 0;"><?php echo $this->session->flashdata('success'); ?></div>
+        <?php endif; ?>
         
         <div class="project_table" id="files">
             <table style="width: 100%;" id="projectTable">

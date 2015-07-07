@@ -1097,7 +1097,11 @@ class Pages extends CI_Controller {
         //delete site
         $whereSite = array('id' => $post['id']);
         $deleteSite = $this->m_general->deleteData('site',$whereSite);
-        
+
+        if($deleteToken && $deleteSite){
+            $this->session->set_flashdata('success', 'Delete URL website success.');
+        }
+
         redirect('pages/view/my_website', 'refresh');
     }
     
