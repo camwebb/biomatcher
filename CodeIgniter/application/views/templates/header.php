@@ -19,6 +19,11 @@
 </head>
 <body>
 
+<script type="text/javascript">
+function show_mask(){
+}
+</script>
+
 <div id="toppanel-disable"> </div>
 <?php $selected = $title;?>
 
@@ -35,6 +40,12 @@
         ?>
         <div id="page_reg">
             <h1 style="float: right;">Register</h1>
+        </div>        
+        <?php
+        }elseif($title == 'Forgot Password'){
+        ?>
+        <div id="page_reg">
+            <h2 style="float: right;">Request password reset</h2>
         </div>        
         <?php
         }elseif($title == 'Auth_register'){
@@ -75,7 +86,7 @@
                     </div>
                 <?php echo form_close(); ?>
                 <div id="register_link">
-                    <a>Do not have an Account?</a>&nbsp;<a href="<?php echo base_url(); ?>index.php/pages/view/register">Register</a>
+                    <a href="<?php echo base_url(); ?>index.php/pages/view/register">Register</a>&nbsp;|&nbsp;<a href="<?php echo base_url(); ?>index.php/user/forgot_password">Forgot Password?</a>
                 </div>
             </div>
             

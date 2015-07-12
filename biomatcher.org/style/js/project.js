@@ -252,6 +252,10 @@ $(document).ready(function() {
         $('#mask , .popup').fadeOut(300 , function() {
             $('#mask').remove();  
         });
+        
+        $('#toppanel-disable').fadeOut(300 , function() {
+            $('#toppanel-disable').remove();  
+        });
         return false;
 	});
     

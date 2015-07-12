@@ -524,7 +524,7 @@ class Pages extends CI_Controller {
                array(
                      'field'   => 'email', 
                      'label'   => 'Email', 
-                     'rules'   => 'trim|required|valid_email'
+                     'rules'   => 'trim|required|valid_email|callback_email_exists'
                   ),
                array(
                      'field'   => 'password', 
@@ -557,7 +557,21 @@ class Pages extends CI_Controller {
         $this->load->model('m_pages');
         if($this->m_pages->username_exists($key))
         {
-            $this->form_validation->set_message('username_exists', 'Username already Exists');
+            $this->form_validation->set_message('username_exists', 'Username already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }     
+    }
+    
+    function email_exists($key)
+    {
+        $this->load->model('m_pages');
+        if($this->m_pages->email_exists($key))
+        {
+            $this->form_validation->set_message('email_exists', 'Email already exist');
             return FALSE;
         }
         else

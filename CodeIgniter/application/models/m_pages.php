@@ -49,6 +49,18 @@ class M_pages extends CI_Model {
             return false;
         }
     }
+    
+    function email_exists($key)
+    {
+        $this->db->where('email',$key);
+        $query = $this->db->get('user');
+        if ($query->num_rows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     function edit_profile($id_user,$name,$username,$email){
         $data = array(
