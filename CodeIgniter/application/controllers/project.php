@@ -2,6 +2,13 @@
 
 class Project extends CI_Controller {
     
+    public function __construct()
+    {
+        parent::__construct();
+        
+        $this->load->model('m_pages');
+    }
+    
     public function index()
 	{
         
@@ -12,7 +19,6 @@ class Project extends CI_Controller {
         
         $img_id = $this->input->post('id_image');
         $pid = $this->input->post('pid');
-        $this->load->model('m_pages');
         
         $path = 'data/';
         
@@ -89,7 +95,6 @@ class Project extends CI_Controller {
         $path = 'data/';
         
         $os = $this->config->item('os');
-        $this->load->model('m_pages');
         
         foreach ($post['id_image'] as $id){
             $file = $this->m_pages->get_img_by_id($id);
@@ -126,8 +131,6 @@ class Project extends CI_Controller {
     {
         $post = $this->input->post();
         $pid = $post['pid'];
-        
-        $this->load->model('m_pages');
         
         $list_images = $this->m_pages->selectImage($pid);
         
@@ -184,7 +187,6 @@ class Project extends CI_Controller {
         $path = 'data/';
         
         $os = $this->config->item('os');
-        $this->load->model('m_pages');
         
         $images = $this->m_pages->selectImage($pid);
         if(!empty($pid))
