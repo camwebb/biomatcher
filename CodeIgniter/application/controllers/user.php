@@ -9,6 +9,7 @@ class User extends CI_Controller {
         $this->load->model('m_general');
         $this->load->model('m_pages');
         $this->load->library('encrypt');
+        $this->load->library('email');
     }
     
     public function index()
@@ -27,9 +28,6 @@ class User extends CI_Controller {
     function send_reset_link()
     {
         $post= $_POST;
-        
-        //delete old request data
-        //---
         
         $reset_link = 'reset_password';
         
@@ -55,21 +53,51 @@ class User extends CI_Controller {
             $user_id = $this->m_pages->get_user_id($post['email']);
             $token = $this->get_sha256($post['email'].$date, 'activate');
             
+            //check request exist
+            $exist = $this->m_general->getAllData(TRUE,'reset_password',array('user_id' => $user_id));
+            $data_user = $this->m_pages->get_user($user_id);
+            
             //insert requested data
             $data_insert['user_id'] = $user_id;
             $data_insert['token'] = $token;
+            $data_insert['date_request'] = date('Y-m-d H:i:s');
             
-            $this->m_general->insertData('reset_password',$data_insert);
+            if($exist)
+            {
+                $this->m_general->updateData('reset_password',array('user_id' => $user_id),$data_insert);
+            }
+            else
+            {
+                $this->m_general->insertData('reset_password',$data_insert);
+            }
             
             $serial = serialize('email/'.$post['email'].'/token/'.$token);
             $encode = $this->encrypt->encode($serial);
             $link = '/'.$reset_link.'/'.$serial;
             
             //create mail
-            //---
+            $mail_content['username'] = $data_user[0]->username;
+            $mail_content['content'] = array(
+                                            "We've received a request to reset the password for this email address.",
+                                            "We've received a request to reset the password for this email address.",
+                                            "We've received a request to reset the password for this email address."
+                                            );
+            $mail_content['thank_message'] = '';
+            $mail = $this->create_mail($mail_content);
             
+            print_r($mail);exit;
             //send mail
             //---
+
+            $this->email->from('biomatcher@gmail.com', 'Biomatcher');
+            $this->email->to('widiw374@gmail.com');
+            
+            $this->email->subject('Reset Password');
+            $this->email->message('Testing the email class.');	
+            
+            $this->email->send();
+            
+            echo $this->email->print_debugger();
             
             //redirect
             //---
@@ -111,6 +139,11 @@ class User extends CI_Controller {
         $this->load->view('templates/header', $data);
     	$this->load->view('user/'.$page, $data);
     	$this->load->view('templates/footer', $data);
+    }
+    
+    function create_mail($data)
+    {
+        return $this->load->view('templates/mail', $data, TRUE);
     }
     
 }
