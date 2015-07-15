@@ -4,7 +4,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Biomatcher</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link href='http://fonts.googleapis.com/css?family=Noto+Serif' rel='stylesheet' type='text/css'/>
 </head>
 
 <body style="margin: 0; padding: 0;font-family: 'Noto Serif', serif;">
@@ -14,6 +13,7 @@
                 <div id="page_title">
                     <h1 style="font-size: 2.9em;text-align: left;text-shadow: 3px 2px 1px #8E8E8E;">Biomatcher</h1>
                     <p style="font-size: 20px; text-align: left;">A tool for matching digital images</p>
+                    <!--<img src="<?php //echo base_url('style/img/logo-mail.png'); ?>" />-->
                 </div>
             </td>
         </tr>
@@ -37,7 +37,7 @@
                         } ?>
                     <tr>
                         <td style="padding: 10px 0 0 0;">
-                        Thank you
+                        <?php echo $thank_message; ?>
                         </td>
                     </tr>
                 </table>

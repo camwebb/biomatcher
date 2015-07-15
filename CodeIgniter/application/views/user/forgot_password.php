@@ -10,6 +10,15 @@
     </div>
     <div class="separator" style="float: left;"></div>
     <div class="clear"></div>
+    
+    <?php if($this->session->flashdata('message')) : ?>
+    <div class="errorbox" style="padding: 0;"><?php echo $this->session->flashdata('message'); ?></div>
+    <?php endif; ?>
+    
+    <?php if($this->session->flashdata('success')) : ?>
+    <div class="successbox" style="padding: 0;"><?php echo $this->session->flashdata('success'); ?></div>
+    <?php endif; ?>
+    
     <div id="registerbox">
         <div id="registerform">
             <?php echo form_open('user/send_reset_link', array('style'=> 'min-height:387px')); ?>

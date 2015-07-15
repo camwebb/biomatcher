@@ -29,8 +29,6 @@ class User extends CI_Controller {
     {
         $post= $_POST;
         
-        $reset_link = 'reset_password';
-        
         $this->load->library('form_validation');
         // field name, error message, validation rules
         
@@ -71,37 +69,47 @@ class User extends CI_Controller {
                 $this->m_general->insertData('reset_password',$data_insert);
             }
             
-            $serial = serialize('email/'.$post['email'].'/token/'.$token);
-            $encode = $this->encrypt->encode($serial);
-            $link = '/'.$reset_link.'/'.$serial;
+            $reset_data = array('email' => $post['email'], 'token' => $token);
+            $serial = serialize($reset_data);
+            $encode = base64_encode($serial);
+            $url_param = rtrim($encode, '=');
+            
+            $reset_link = 'user/reset_password';
+            
+            $link = site_url($reset_link.'/'.$url_param);
             
             //create mail
             $mail_content['username'] = $data_user[0]->username;
             $mail_content['content'] = array(
                                             "We've received a request to reset the password for this email address.",
-                                            "We've received a request to reset the password for this email address.",
-                                            "We've received a request to reset the password for this email address."
+                                            "If you did not request to have your password reset, you can safely ignore this email. Your current password will continue to work.",
+                                            "<strong>Click the link below to reset your password</strong>",
+                                            "<a href='".$link."'>".$link."</a>",
+                                            "If clicking the link doesn't work, you can copy and paste the link into your browser's address window, or retype it there."
                                             );
-            $mail_content['thank_message'] = '';
+            $mail_content['thank_message'] = 'Thank you for using Biomatcher!';
             $mail = $this->create_mail($mail_content);
             
-            print_r($mail);exit;
             //send mail
-            //---
-
             $this->email->from('biomatcher@gmail.com', 'Biomatcher');
             $this->email->to('widiw374@gmail.com');
             
             $this->email->subject('Reset Password');
-            $this->email->message('Testing the email class.');	
+            $this->email->message($mail);	
             
             $this->email->send();
-            
-            echo $this->email->print_debugger();
+            //echo $this->email->print_debugger();
             
             //redirect
-            //---
+            $this->session->set_flashdata('success', "We've sent a reset link to your email address.");
+            
+            redirect('user/forgot_password', 'refresh');
         }
+    }
+    
+    public function reset_password()
+    {
+        echo 'reset';
     }
     
     /**
