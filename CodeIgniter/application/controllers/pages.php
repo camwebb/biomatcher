@@ -1,6 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Pages extends CI_Controller {
+
+    public function __construct()
+    {
+        parent::__construct();        
+            $this->load->model('m_general'); 
+            $this->load->library('form_validation');
+            //$this->config->load('siteConfig'); 
+    }
     
     public function index()
 	{
@@ -507,9 +515,7 @@ class Pages extends CI_Controller {
     
     function do_register()
     {
-        $this->load->library('form_validation');
         // field name, error message, validation rules
-        
         $config = array(
                array(
                      'field'   => 'name', 
@@ -539,16 +545,25 @@ class Pages extends CI_Controller {
             );
         $this->form_validation->set_rules($config);
         
-        if($this->form_validation->run() == FALSE)
-        {
-        $this->register();
-        }
-        else
-        {
-        $this->load->model('m_pages');
-        $this->m_pages->register_user();
-        
-        $this->view($page = 'register_success');
+        if($this->form_validation->run() == FALSE){
+            $this->register();
+        }else{
+            $post = $this->input->post(NULL, TRUE);
+            $date = date("Y-m-d H:i:s");
+            $token = $this->get_sha256($post['email'].$date, 'activate');
+
+            //Insert to database
+            $dataUser = array(
+                'username' => $post['username'],
+                'password' => md5($post['password']),
+                'type' => $post['type'],
+                'email' => $post['email'],
+                'name' => $post['name'],
+                'date_created' => $date,
+                'token' => $token
+            );
+            $this->m_general->insertData('user',$dataUser);
+            $this->view($page = 'register_success');
         }
     }
     
@@ -1131,6 +1146,20 @@ class Pages extends CI_Controller {
         {
             return TRUE;
         }     
+    }
+
+    /**
+     * Generate sha256 hash for given data.
+     *
+     * @param mixed $to_hash Can be string or array of data
+     * @param string $mode Hash key mode, accepted values are session, password and cookie
+     * @return string 64 characters hash of has_key concat with the given data
+     */
+    protected function get_sha256($to_hash, $mode = 'password') {
+        if(is_array($to_hash))
+            $to_hash = implode('', $to_hash);
+
+        return hash('sha256', $this->config->item('auth_'.$mode.'_hash_key').$to_hash);
     }
     
 }
