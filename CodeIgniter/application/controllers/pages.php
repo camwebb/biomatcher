@@ -7,7 +7,6 @@ class Pages extends CI_Controller {
         parent::__construct();        
             $this->load->model('m_general'); 
             $this->load->library('form_validation');
-            //$this->config->load('siteConfig'); 
     }
     
     public function index()
@@ -563,6 +562,20 @@ class Pages extends CI_Controller {
                 'token' => $token
             );
             $this->m_general->insertData('user',$dataUser);
+
+            //send email verification
+            $link = base_url().'user/do_verify/'.$token;
+            $mail_content['username'] = $post['name'];
+            $mail_content['content'] = array(
+                                            "<strong>Click the link below to verify your account</strong>",
+                                            "<a href='".$link."'>".$link."</a>",
+                                            "If clicking the link doesn't work, you can copy and paste the link into your browser's address window, or retype it there."
+                                            );
+            $mail_content['thank_message'] = 'Thank you for using Biomatcher!';
+            
+            $html_email = $this->load->view('templates/mail', $mail_content, true);
+            $sendEmail = $this->sendEmail('[BIOMATCHER] Account Verification', $post['email'], $html_email);
+
             $this->view($page = 'register_success');
         }
     }
@@ -1160,6 +1173,36 @@ class Pages extends CI_Controller {
             $to_hash = implode('', $to_hash);
 
         return hash('sha256', $this->config->item('auth_'.$mode.'_hash_key').$to_hash);
+    }
+
+    /**
+     * Send Email function
+     *
+     * @param string $subject for email subject
+     * @param string $email recipent email
+     * @return string $html_email email content
+     */
+    private function sendEmail($subject, $email, $html_email){
+        $configEmail = $this->config->load('email_template'); 
+        $config = Array(
+                'protocol' => $this->config->item('protocol'),
+                'smtp_host' => $this->config->item('smtp_host'),
+                'smtp_port' => $this->config->item('smtp_port'),
+                'smtp_user' => $this->config->item('smtp_user'),
+                'smtp_pass' => $this->config->item('smtp_pass'),
+                'mailtype' => $this->config->item('mailtype'),
+                'charset' => $this->config->item('charset'),
+                'wordwrap' => TRUE
+            );
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+        $this->email->from($configEmail['smtp_user'], "Biomatcher Admin Team");
+        $this->email->to($email);  
+        $this->email->subject($subject);
+        $this->email->message($html_email);
+        $send = $this->email->send();
+        //echo $this->email->print_debugger();
+        if($send){return true;}
     }
     
 }
