@@ -6,24 +6,24 @@ class M_pages extends CI_Model {
         // Call the Model constructor
         parent::__construct();
     }
-    
-    function login_user($username)
-    {
-        $query = $this->db->query("SELECT * FROM user where username='$username' limit 1");
 
-        $data=$query->result();
-        $hasil['sukses']=$query->num_rows();
+    function login($data){
+        $this->db->where('username',$data['username']);
+        $query = $this->db->get('user')->result();
+        $postPassword=md5($data['password']);
         
-        if ($query->num_rows() >=1)
-        {
-            $hasil['id']=$data[0]->id;
-            $hasil['username']=$data[0]->username;
-            $hasil['email']=$data[0]->email;
-			$hasil['password']=$data[0]->password;
-            $hasil['name']=$data[0]->name;
-            $hasil['type']=$data[0]->type;
+        if($query[0]->password == $postPassword){
+            $result['id']=$query[0]->id;
+            $result['email']=$query[0]->email;
+            $result['name']=$query[0]->name;
+            $result['username']=$query[0]->username;
+            $result['password']=$query[0]->password;
+            $result['type']=$query[0]->type;
+            return $result;
         }
-        return $hasil;
+        else{
+            return FALSE;
+        }
     }
     
     function username_exists($key)

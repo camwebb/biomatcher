@@ -5,8 +5,11 @@ class Pages extends CI_Controller {
     public function __construct()
     {
         parent::__construct();        
-            $this->load->model('m_general'); 
-            $this->load->library('form_validation');
+            $this->load->model('m_general');
+            $this->load->model('m_pages'); 
+            $this->load->library(array('encrypt', 'form_validation', 'session'));
+            $this->load->helper(array('form', 'url','cookie'));
+            
     }
     
     public function index()
@@ -327,8 +330,6 @@ class Pages extends CI_Controller {
   
     public function do_login()
     {
-        $this->load->library(array('encrypt', 'form_validation', 'session'));
-        $this->load->helper(array('form', 'url'));
         // field name, error message, validation rules
         $config = array(
                array(
@@ -344,66 +345,58 @@ class Pages extends CI_Controller {
             );
         $this->form_validation->set_rules($config);
         
-        if($this->form_validation->run() == FALSE)
-        {
+        if($this->form_validation->run() == FALSE){
             $this->view();
         }else{
-            $this->load->helper('cookie');
-            $this->load->model('m_pages');
-            
-            $username=$this->input->post('username');
-            $password=$this->input->post('password');
-            
-            $login =$this->m_pages->login_user($username);
-            if ($login['sukses'] == 1 )
-            {
-                $user_credentials = array();
-        		$user_credentials[$username] = array(
-        			'username' => $login['username'],
-        			'password' => $login['password']
-        		);
-                if(array_key_exists($username, $user_credentials))
-                {
-                    if(md5($password) == $user_credentials[$username]['password'])
-                    {
+            $post = $this->input->post(NULL, TRUE);
+            $where = array('username' => $post['username']);
+            $checkStatus = $this->m_general->getAllData(TRUE,'user',$where);
+
+            if ($checkStatus) {
+                if($checkStatus['0']->status == '1'){
+                    $login=$this->m_pages->login($post);
+                    if($login){
                         //login success
                         $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'email' => $login['email'], 'type' => $login['type']));
-            			$cookieUsername = array(
-            				'name'   => 'user',
-            				'value'  => $login['username'],
-            				'expire' => time()+2592000,
-            				'path'   => '/',
-            				'secure' => FALSE
-            			);
+                        $cookieUsername = array(
+                            'name'   => 'user',
+                            'value'  => $login['username'],
+                            'expire' => time()+2592000,
+                            'path'   => '/',
+                            'secure' => FALSE
+                        );
             
-            			$cookiePassword = array(
-            				'name'   => 'pass',
-            				'value'  => $login['password'],
-            				'expire' => time()+2592000,
-            				'path'   => '/',
-            				'secure' => FALSE
-            			);
-                		//set cookie to browser
-                		$this->input->set_cookie($cookieUsername);
-                		$this->input->set_cookie($cookiePassword);
+                        $cookiePassword = array(
+                            'name'   => 'pass',
+                            'value'  => $login['password'],
+                            'expire' => time()+2592000,
+                            'path'   => '/',
+                            'secure' => FALSE
+                        );
+                        //set cookie to browser
+                        $this->input->set_cookie($cookieUsername);
+                        $this->input->set_cookie($cookiePassword);
                         if ($login['type'] == 'admin'){
                             redirect('admin', 'refresh');
                         }else{
                             redirect('', 'refresh');
                         }
-                        
                     }
-                    else
-                    {
+                    else{
                         //incorrect password
                         $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
                         $this->session->set_flashdata('message', 'Incorrect password.');
                         redirect('');
                     }
                 }
+                else{
+                    //Unverified user
+                    $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
+                    $this->session->set_flashdata('message', 'Your account has not been verified, please check your email to verify.');
+                    redirect('');
+                }
             }
-            else
-            {
+            else{
                 //login failed
                 $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
                 $this->session->set_flashdata('message', 'A user does not exist for the username specified.');
