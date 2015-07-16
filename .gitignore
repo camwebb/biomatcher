@@ -99,3 +99,4 @@ CodeIgniter/user_guide
 !CodeIgniter/README.md
 tmp/*
 data/*
+CodeIgniter/application/config/email.php
