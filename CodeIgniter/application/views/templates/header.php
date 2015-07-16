@@ -36,16 +36,10 @@ function show_mask(){
         </div>
         <?php
         if ($this->session->userdata('username') ==""){
-            if($title == 'Register'){
+            if($title == 'Register' OR $title == 'Forgot Password' OR $title == 'Reset Password'){
         ?>
         <div id="page_reg">
-            <h1 style="float: right;">Register</h1>
-        </div>        
-        <?php
-        }elseif($title == 'Forgot Password'){
-        ?>
-        <div id="page_reg">
-            <h2 style="float: right;">Request password reset</h2>
+            <h1 style="float: right;"><?php echo $title; ?></h1>
         </div>        
         <?php
         }elseif($title == 'Auth_register'){
