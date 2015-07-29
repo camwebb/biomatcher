@@ -1,0 +1,6 @@
+User
+
+ALTER TABLE  `user` ADD  `date_created` DATETIME NOT NULL ,
+ADD  `date_verified` DATETIME NOT NULL ,
+ADD  `token` VARCHAR( 100 ) NOT NULL ,
+ADD  `status` INT( 1 ) NOT NULL DEFAULT  '0'
