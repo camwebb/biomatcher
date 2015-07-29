@@ -36,7 +36,8 @@ class User extends CI_Controller {
         $this->form_validation->set_rules($config);
         
         if($this->form_validation->run() == FALSE){
-            $this->view();
+            $this->session->set_flashdata('message', validation_errors());
+            redirect('', 'refresh');
         }else{
             $post = $this->input->post(NULL, TRUE);
             $where = array('username' => $post['username']);
