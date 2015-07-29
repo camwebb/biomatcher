@@ -18,6 +18,288 @@ class User extends CI_Controller {
         
 	}
     
+    public function do_login()
+    {
+        // field name, error message, validation rules
+        $config = array(
+               array(
+                     'field'   => 'username', 
+                     'label'   => 'Username', 
+                     'rules'   => 'trim|required|xss_clean'
+                  ),
+               array(
+                     'field'   => 'password', 
+                     'label'   => 'Password', 
+                     'rules'   => 'trim|required'
+                  )
+            );
+        $this->form_validation->set_rules($config);
+        
+        if($this->form_validation->run() == FALSE){
+            $this->view();
+        }else{
+            $post = $this->input->post(NULL, TRUE);
+            $where = array('username' => $post['username']);
+            $checkStatus = $this->m_general->getAllData(TRUE,'user',$where);
+
+            if ($checkStatus) {
+                if($checkStatus['0']->status == '1'){
+                    $login=$this->m_pages->login($post);
+                    if($login){
+                        //login success
+                        $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'email' => $login['email'], 'type' => $login['type']));
+                        $cookieUsername = array(
+                            'name'   => 'user',
+                            'value'  => $login['username'],
+                            'expire' => time()+2592000,
+                            'path'   => '/',
+                            'secure' => FALSE
+                        );
+            
+                        $cookiePassword = array(
+                            'name'   => 'pass',
+                            'value'  => $login['password'],
+                            'expire' => time()+2592000,
+                            'path'   => '/',
+                            'secure' => FALSE
+                        );
+                        //set cookie to browser
+                        $this->input->set_cookie($cookieUsername);
+                        $this->input->set_cookie($cookiePassword);
+                        if ($login['type'] == 'admin'){
+                            redirect('admin', 'refresh');
+                        }else{
+                            redirect('', 'refresh');
+                        }
+                    }
+                    else{
+                        //incorrect password
+                        $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
+                        $this->session->set_flashdata('message', 'Incorrect password.');
+                        redirect('');
+                    }
+                }
+                else{
+                    //Unverified user
+                    $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
+                    $this->session->set_flashdata('message', 'Your account has not been verified, please check your email to verify.');
+                    redirect('');
+                }
+            }
+            else{
+                //login failed
+                $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
+                $this->session->set_flashdata('message', 'A user does not exist for the username specified.');
+                redirect('');
+            }
+        }
+		
+    }
+    
+    /**
+     * Auto Login function
+     * uses browser's cookie
+     * */
+    function userlog()
+    {
+        $this->load->helper('cookie');
+        $this->load->model('m_pages');
+        
+        $username = $this->input->cookie('user');
+        $password = $this->input->cookie('pass');        
+                
+        $login =$this->m_pages->login_user($username);
+        if ($login['sukses'] == 1 )
+        {
+            $user_credentials = array();
+    		$user_credentials[$username] = array(
+    			'username' => $login['username'],
+    			'password' => $login['password']
+    		);
+            if(array_key_exists($username, $user_credentials))
+            {
+                if($password == $user_credentials[$username]['password'])
+                {
+                    //login success
+                    $this->session->set_userdata(array('name' =>$login['name'],'username' => $login['username'], 'id_user' => $login['id'], 'type' => $login['type']));
+        			$cookieUsername = array(
+        				'name'   => 'user',
+        				'value'  => $login['username'],
+        				'expire' => time()+2592000,
+        				'path'   => '/',
+        				'secure' => FALSE
+        			);
+        
+        			$cookiePassword = array(
+        				'name'   => 'pass',
+        				'value'  => $login['password'],
+        				'expire' => time()+2592000,
+        				'path'   => '/',
+        				'secure' => FALSE
+        			);
+            		//set cookie to browser
+            		$this->input->set_cookie($cookieUsername);
+            		$this->input->set_cookie($cookiePassword);
+                    redirect('', 'refresh');
+                }
+                else
+                {
+                    //incorrect password
+                    $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => "", 'shuffled_pid' => ""));
+                    $this->session->set_flashdata('message', 'Incorrect password.');
+                    redirect('');
+                }
+            }
+        }
+        else
+        {
+            //login failed
+            $this->session->set_userdata(array('name' => "", 'username' => "", 'id_user' => ""));
+            $this->session->set_flashdata('message', 'A user does not exist for the username specified.');
+            redirect('');
+        }
+    }
+    
+    public function logout()
+	{
+		$this->load->helper('cookie');
+        $this->session->sess_destroy();
+		delete_cookie("user");
+		delete_cookie("pass");
+        redirect('', 'refresh');
+	}
+    
+    function register($page = 'register')
+    {
+        if ( ! file_exists('../CodeIgniter/application/views/user/'.$page.'.php'))
+    	{
+    		// Whoops, we don't have a page for that!
+    		show_404();
+    	}
+    
+    	$data['title'] = ucfirst($page); // Capitalize the first letter
+    	
+    	$this->template($page,$data);
+    }
+    
+    //unused
+    function auth_register($page = 'auth_register')
+    {
+        if ( ! file_exists('../CodeIgniter/application/views/pages/'.$page.'.php'))
+    	{
+    		// Whoops, we don't have a page for that!
+    		show_404();
+    	}
+    
+    	$data['title'] = ucfirst($page); // Capitalize the first letter
+    	
+    	$this->template($page,$data);
+    }
+    
+    function do_register()
+    {
+        // field name, error message, validation rules
+        $config = array(
+               array(
+                     'field'   => 'name', 
+                     'label'   => 'Name', 
+                     'rules'   => 'trim|required|min_length[4]|xss_clean'
+                  ),
+               array(
+                     'field'   => 'username', 
+                     'label'   => 'Username', 
+                     'rules'   => 'trim|required|min_length[4]|callback_username_exists|alpha_numeric|xss_clean'
+                  ),
+               array(
+                     'field'   => 'email', 
+                     'label'   => 'Email', 
+                     'rules'   => 'trim|required|valid_email|callback_email_exists'
+                  ),
+               array(
+                     'field'   => 'password', 
+                     'label'   => 'Password', 
+                     'rules'   => 'trim|required|min_length[4]|max_length[32]'
+                  ),
+               array(
+                     'field'   => 'conpassword', 
+                     'label'   => 'Password Confirmation', 
+                     'rules'   => 'trim|required|matches[password]'
+                  )
+            );
+        $this->form_validation->set_rules($config);
+        
+        if($this->form_validation->run() == FALSE){
+            $this->register();
+        }else{
+            $post = $this->input->post(NULL, TRUE);
+            $date = date("Y-m-d H:i:s");
+            $token = $this->get_sha256($post['email'].$date, 'activate');
+
+            //Insert to database
+            $dataUser = array(
+                'username' => $post['username'],
+                'password' => md5($post['password']),
+                'type' => $post['type'],
+                'email' => $post['email'],
+                'name' => $post['name'],
+                'date_created' => $date,
+                'token' => $token
+            );
+            $this->m_general->insertData('user',$dataUser);
+
+            //send email verification
+            $link = base_url().'user/do_verify/'.$token;
+            $mail_content['username'] = $post['name'];
+            $mail_content['content'] = array(
+                                            "<strong>Click the link below to verify your account</strong>",
+                                            "<a href='".$link."'>".$link."</a>",
+                                            "If clicking the link doesn't work, you can copy and paste the link into your browser's address window, or retype it there."
+                                            );
+            $mail_content['thank_message'] = 'Thank you for using Biomatcher!';
+            
+            $html_email = $this->load->view('templates/mail', $mail_content, true);
+            $sendEmail = $this->sendEmail('[BIOMATCHER] Account Verification', $post['email'], $html_email);
+
+            redirect('user/register_success', 'refresh');
+        }
+    }
+    
+    function register_success()
+    {
+        $page = 'register_success';
+        $data['title'] = ucfirst("Register Success");
+        
+        $this->template($page,$data);
+    }
+    
+    function username_exists($key)
+    {
+        $this->load->model('m_pages');
+        if($this->m_pages->username_exists($key))
+        {
+            $this->form_validation->set_message('username_exists', 'Username already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }     
+    }
+    
+    function email_exists($key)
+    {
+        $this->load->model('m_pages');
+        if($this->m_pages->email_exists($key))
+        {
+            $this->form_validation->set_message('email_exists', 'Email already exist');
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }     
+    }
+    
     public function forgot_password()
     {
         $page = 'forgot_password';
@@ -28,6 +310,8 @@ class User extends CI_Controller {
     
     function send_reset_link()
     {
+        $configEmail = $this->config->load('email');
+        
         $post= $_POST;
         // field name, error message, validation rules
         
@@ -91,12 +375,10 @@ class User extends CI_Controller {
             $mail = $this->create_mail($mail_content);
             
             //send mail
-            $this->email->from('biomatcher@gmail.com', 'Biomatcher');
-            $this->email->to('widiw374@gmail.com');
-            
-            $this->email->subject('Reset Password');
-            $this->email->message($mail);	
-            
+            $this->email->from($this->config->item('smtp_user'), 'Biomatcher');
+            $this->email->to($post['email']);
+            $this->email->subject('[BIOMATCHER] Reset Password');
+            $this->email->message($mail);
             $this->email->send();
             //echo $this->email->print_debugger();
             
@@ -229,6 +511,25 @@ class User extends CI_Controller {
     function create_mail($data)
     {
         return $this->load->view('templates/mail', $data, TRUE);
+    }
+    
+    /**
+     * Send Email function
+     *
+     * @param string $subject for email subject
+     * @param string $email recipent email
+     * @return string $html_email email content
+     */
+    private function sendEmail($subject, $email, $html_email){
+        $configEmail = $this->config->load('email');
+        
+        $this->email->from($this->config->item('smtp_user'), "Biomatcher Admin Team");
+        $this->email->to($email);  
+        $this->email->subject($subject);
+        $this->email->message($html_email);
+        $send = $this->email->send();
+        //echo $this->email->print_debugger();
+        if($send){return true;}
     }
     
 }

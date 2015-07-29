@@ -50,7 +50,7 @@ function show_mask(){
         <?php
         }elseif($title == 'Home'){
             if($this->input->cookie('user') !== FALSE){
-                redirect('pages/userlog');
+                redirect('user/userlog');
             }
             //session is empty, show login box.
         ?>
@@ -68,7 +68,7 @@ function show_mask(){
                 </script>
                 <div id="login-box" class="popup" style="display: block;"><?php echo validation_errors(); ?><a class="box-button" id="close" style="background-color: red !important; margin-left: 38%; cursor: pointer;">OK</a></div>
                 <?php endif; ?>
-                <?php echo form_open('pages/do_login',array('id'=>'form_login')); ?>
+                <?php echo form_open('user/do_login',array('id'=>'form_login')); ?>
                     <div class="inputbox">                
                         <input class="inputtext" id="input_username" type="text" name="username" value="<?php echo set_value('username'); ?>"/>
                     </div>
@@ -80,16 +80,16 @@ function show_mask(){
                     </div>
                 <?php echo form_close(); ?>
                 <div id="register_link">
-                    <a href="<?php echo base_url(); ?>index.php/pages/view/register">Register</a>&nbsp;|&nbsp;<a href="<?php echo base_url(); ?>index.php/user/forgot_password">Forgot Password?</a>
+                    <a href="<?php echo base_url(); ?>index.php/user/register">Register</a>&nbsp;|&nbsp;<a href="<?php echo base_url(); ?>index.php/user/forgot_password">Forgot Password?</a>
                 </div>
             </div>
             
         </div>
         
         <?php
-        }elseif($title == 'Register_success'){
+        }elseif($title == 'Register Success'){
 
-        }elseif ($title != 'Register' && $title != 'Home' && $title != 'Register_success'){
+        }elseif ($title != 'Register' && $title != 'Home' && $title != 'Register Success'){
             $this->session->set_flashdata('message', 'Please login first.');
             redirect('');
         }
@@ -107,7 +107,7 @@ function show_mask(){
                     <li><a href="javascript:void(0)"><span><img style="padding: 8px 10px;" src="<?php echo base_url(); ?>style/img/arrow.png"/></span></a>
                     <ul class="sub_menu">
                         <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/setting">Setting</a></li>
-                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/user/logout">Logout</a></li>
                     </ul>
                     </li>
                 </ul>
@@ -118,7 +118,7 @@ function show_mask(){
         <div class="clear"></div>
         <div id="menu">
             <ul class="tabs">
-              <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+              <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/user/logout">Logout</a></li>
               <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
               <li class="<?php echo $selected == 'Projects'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/projects">My Project(s)</a></li>
               <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
@@ -139,7 +139,7 @@ function show_mask(){
                     <li><a href="javascript:void(0)"><span><img style="padding: 8px 10px;" src="<?php echo base_url(); ?>style/img/arrow.png"/></span></a>
                     <ul class="sub_menu">
                         <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/setting">Setting</a></li>
-                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+                        <li><a style="padding-left: 15px;" href="<?php echo base_url(); ?>index.php/user/logout">Logout</a></li>
                     </ul>
                     </li>
                 </ul>
@@ -150,7 +150,7 @@ function show_mask(){
         <div class="clear"></div>
         <div id="menu">
             <ul class="tabs">
-              <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/pages/logout">Logout</a></li>
+              <li id="scroll_logout" style="display: none;"><a href="<?php echo base_url(); ?>index.php/user/logout">Logout</a></li>
               <li class="<?php echo $selected == 'Match'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/match">Match Now!</a></li>
               <li class="<?php if($selected=='My Website' OR $selected=='Download' OR $selected=='Get Code')echo 'selected'; ?>"><a href="<?php echo base_url(); ?>index.php/pages/view/my_website">My Website(s)</a></li>
               <li class="<?php echo $selected == 'Home'?'selected':''; ?>"><a href="<?php echo base_url(); ?>">Home</a></li>
