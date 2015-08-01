@@ -249,7 +249,12 @@ class User extends CI_Controller {
             $this->m_general->insertData('user',$dataUser);
 
             //send email verification
-            $link = base_url().'user/do_verify/'.$token;
+            $reset_data = array('username' => $post['username'], 'email' => $post['email'], 'token' => $token);
+            $serial = serialize($reset_data);
+            $encode = base64_encode($serial);
+            $url_param = rtrim($encode, '=');
+            
+            $link = site_url().'/user/do_verify/'.$url_param;
             $mail_content['username'] = $post['name'];
             $mail_content['content'] = array(
                                             "<strong>Click the link below to verify your account</strong>",
@@ -271,6 +276,14 @@ class User extends CI_Controller {
         $data['title'] = ucfirst("Register Success");
         
         $this->template($page,$data);
+    }
+
+    function do_verify(){
+        $url = $this->uri->segment(3);
+        
+        $base_64 = $url . str_repeat('=', strlen($url) % 4);
+        $serial = base64_decode($base_64);
+        $data_user = unserialize($serial);
     }
     
     function username_exists($key)
