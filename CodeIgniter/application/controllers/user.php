@@ -289,7 +289,7 @@ class User extends CI_Controller {
         $where = array('username' => $data_user['username'], 'email' => $data_user['email'], 'token' => $data_user['token']);
         $check_user = $this->m_general->getAllData(TRUE,'user',$where);
         
-        if($check_user){
+        if($check_user && $check_user['0']->status == '0'){
             //update database
             $data_update = array('date_verified' => $date, 'status' => '1'); 
             $update_user = $this->m_general->updateData('user',$where,$data_update);
@@ -316,6 +316,12 @@ class User extends CI_Controller {
             $this->input->set_cookie($cookiePassword);
 
             $data['result'] = 'success';
+            $page = 'verify_result';
+            $data['title'] = ucfirst('Verify Page');
+            $this->template($page,$data);
+        }
+        elseif($check_user && $check_user['0']->status == '1'){
+            $data['result'] = 'verified';
             $page = 'verify_result';
             $data['title'] = ucfirst('Verify Page');
             $this->template($page,$data);
