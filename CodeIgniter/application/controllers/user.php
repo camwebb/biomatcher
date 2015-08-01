@@ -284,6 +284,44 @@ class User extends CI_Controller {
         $base_64 = $url . str_repeat('=', strlen($url) % 4);
         $serial = base64_decode($base_64);
         $data_user = unserialize($serial);
+
+        //check data
+        $where = array('username' => $data_user['username'], 'email' => $data_user['email'], 'token' => $data_user['token']);
+        $check_user = $this->m_general->getAllData(TRUE,'user',$where);
+        
+        if($check_user){
+            //login user
+            $this->session->set_userdata(array('name' =>$check_user['0']->name,'username' => $check_user['0']->username, 'id_user' => $check_user['0']->id, 'type' => $check_user['0']->type));
+            $cookieUsername = array(
+                'name'   => 'user',
+                'value'  => $check_user['0']->username,
+                'expire' => time()+2592000,
+                'path'   => '/',
+                'secure' => FALSE
+            );
+
+            $cookiePassword = array(
+                'name'   => 'pass',
+                'value'  => $check_user['0']->password,
+                'expire' => time()+2592000,
+                'path'   => '/',
+                'secure' => FALSE
+            );
+            //set cookie to browser
+            $this->input->set_cookie($cookieUsername);
+            $this->input->set_cookie($cookiePassword);
+
+            $data['result'] = 'success';
+            $page = 'verify';
+            $data['title'] = ucfirst('Verify Page');
+            $this->template($page,$data);
+        }
+        else{
+            $data['result'] = 'failed';
+            $page = 'verify';
+            $data['title'] = ucfirst('Verify Page');
+            $this->template($page,$data);
+        }
     }
     
     function username_exists($key)

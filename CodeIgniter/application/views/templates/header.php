@@ -89,6 +89,8 @@ function show_mask(){
         <?php
         }elseif($title == 'Register Success'){
 
+        }elseif($title == 'Verify Page'){
+
         }elseif ($title != 'Register' && $title != 'Home' && $title != 'Register Success'){
             $this->session->set_flashdata('message', 'Please login first.');
             redirect('');
