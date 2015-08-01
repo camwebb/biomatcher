@@ -6,7 +6,7 @@
         <p>Alternatively, click <a href="<?php echo base_url();?>user/profile">here</a> to go directly.</p>
         <script type="text/javascript">
             var redirect = function() {
-                window.location = "<?php echo site_url();?>user/profile";
+                window.location = "<?php echo site_url();?>/setting";
             };
             setTimeout(redirect, 5000);
         </script>
