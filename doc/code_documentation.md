@@ -14,7 +14,7 @@ While this document is to explain classes and functions are created by programme
 
 All configuration off CodeIgniter framework is contained in the "config" folder of application. 
 
-Configuration - Basic
+### Configuration - Basic
 
 "config.php" file is the basic configuration of the application. This file contained basic configuration such as base url, session name, encryption key, and others.
 
