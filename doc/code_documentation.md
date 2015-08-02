@@ -80,7 +80,7 @@ access public
 
 #### function - QC_report
 
-count success rate of quality control per user
+count success rate of quality control by site id
 
 access private
 
