@@ -133,7 +133,6 @@ class Admin extends CI_Controller {
         
         $data['for_type'] = $for_type;  
         $data['user_data'] = $this->m_admin->user_data($user_id);
-        
     }
     
     if ($page == 'setting'){

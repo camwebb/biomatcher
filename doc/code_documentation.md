@@ -36,6 +36,54 @@ used to check session of a user and redirect user to project page if session val
 	
 access public
 
+#### function - check_pass
+
+check validity password of a user, used username session.
+
+access public
+
+#### function - check_username
+
+check username availability.
+
+access public
+
+#### function - download_stats
+
+generate match statistic document of a project and send it to client
+
+access public
+
+#### function - do_login
+
+check validity of user data and set user session if data valid
+
+access public
+
+#### function - logout
+
+delete user session
+
+access public
+
+#### function - pass_admin
+
+update password
+
+access public
+
+#### function - profile_admin
+
+update admin profile
+
+access public
+
+#### function - QC_report
+
+count success rate of quality control per user
+
+access private
+
 #### function - view
 
 used to display view and it's data.
@@ -48,10 +96,6 @@ used to display view and it's data.
 - view statistic - display match statistic of a project by project id
 
 access public
-
-#### function QC_report
-
-access private
 
 ### Controller - captcha
 ### Controller - demo
