@@ -52,7 +52,7 @@
         <div id="menu">
             <ul class="tabs">
               <li id="scroll_logout" style="display: none;"><a href="#">Logout</a></li>
-              <li class="<?php echo $selected == 'Websites'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/admin/view/websites">Web Pages</a></li>
+              <li class="<?php echo $selected == 'Websites'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/admin/view/websites">Websites</a></li>
               <li class="<?php echo $selected == 'Users'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/admin/view/users">Users</a></li>
               <li class="<?php echo $selected == 'Projects'?'selected':''; ?>"><a href="<?php echo base_url(); ?>index.php/admin/view/projects">Projects</a></li>
             </ul>

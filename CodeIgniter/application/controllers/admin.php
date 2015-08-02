@@ -14,7 +14,7 @@ class Admin extends CI_Controller {
         }
 	}
     
-	public function view($page = 'dashboard')
+	public function view($page = 'projects')
 	{
 
 	if ( ! file_exists('../CodeIgniter/application/views/admin/'.$page.'.php'))
@@ -133,6 +133,7 @@ class Admin extends CI_Controller {
         
         $data['for_type'] = $for_type;  
         $data['user_data'] = $this->m_admin->user_data($user_id);
+        
     }
     
     if ($page == 'setting'){

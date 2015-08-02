@@ -89,7 +89,7 @@
             <tfoot>
                 <tr style="height: 50px;">
                     <td>
-                        <button class="box-button" id="upl_img">Upload Image</button>
+                        
                     </td>
                     <td>
                         <button class="box-button" id="editAll">Edit All</button>  
@@ -127,28 +127,7 @@
         <div class="clear"></div>
     <?php echo form_close();?>                                   
    </div>
-     
    
-  <div id="addProject_panel">
-        <?php echo form_open_multipart('pages/upload_file/?pid='.$this->uri->segment(4, 0).'&unid='.uniqid(),array('id'=>'upload_file')); ?>
-            
-            <div class="inputbox_Upload">
-                <label class="labelinput-upload" for="zipped_file">Zipped File</label>
-                <input class="inputtext-upload" id="zipped_file" type="file" name="zipped_file"/><br />
-                <input class="inputtext-upload" id="project_id" type="hidden" name="project_id" value="<?php echo $this->uri->segment(4, 0); ?>"/>                
-                <input type="hidden" id="unid" value="<?php echo uniqid(); ?>"/>
-            </div>
-            <div class="errorbox" style="padding: 0 !important; width:450px;"></div>
-            <div id="progressbox">
-                <div id="progressbar"><div id="statustxt"><p>0%</p></div ></div>
-                <div id="report"></div>
-            </div>         
-            <div class="inputbox_Upload" id="box_button">
-                <input id="button_Upload" type="submit" name="submit" class="box-button" value="Upload" />
-                <input class="box-button" type="button" id="button_cancelUpload" style="margin-right: 5px;" value="Cancel" />
-            </div>
-        <?php echo form_close(); ?>
-    </div>   
     <div class="separator"></div>
     
 </div>

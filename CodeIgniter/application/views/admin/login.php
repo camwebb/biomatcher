@@ -10,3 +10,10 @@
         </fieldset>
     <?php echo form_close(); ?>
 </div>
+
+<?php if($this->session->flashdata('message')) : ?>
+<div id="login-box" class="popup" style="display: block;"><?php echo $this->session->flashdata('message'); ?><br /><a class="box-button" id="close" style="background-color: red !important; margin-left: 38%; cursor: pointer;">OK</a></div>
+<?php endif; ?>
+<?php if(validation_errors()) : ?>
+<div id="login-box" class="popup" style="display: block;"><?php echo validation_errors(); ?><a class="box-button" id="close" style="background-color: red !important; margin-left: 38%; cursor: pointer;">OK</a></div>
+<?php endif; ?>

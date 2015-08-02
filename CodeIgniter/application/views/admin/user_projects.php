@@ -4,7 +4,7 @@
     foreach($user_data as $p_title){
     ?>
     <h2 style="float: left;"><?php echo $p_title->name; ?></h2>
-    <? } ?>
+    <?php } ?>
     <div style="float: right;">
         <span>
             <a href="<?php echo base_url(); ?>index.php/admin/view/users" style="float: right;">
@@ -62,6 +62,7 @@
                 </tr>
             </tfoot>
         </table>
+        </div>
         <?php
             }
             else if ($type['type_project']=='consumer'){
@@ -96,7 +97,7 @@
                         } ?>
                         <p><?php echo $activated; ?></p>
                     </td>
-                    <td><p><?php echo $projects['success_QC'] ?> %</p></td>
+                    <td><p><?php echo $projects['success_QC']; ?> %</p></td>
                    
                 </tr>
              <?php
@@ -110,10 +111,11 @@
                 </tr>
             </tfoot>
         </table>
+        </div>
         <?php
             }
         ?>
-        
+    
     <br />
     
     <div class="separator"></div>

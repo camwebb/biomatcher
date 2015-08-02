@@ -47,6 +47,7 @@
                 </tr>
             </tfoot>
         </table>
+    </div>
     <br />
     
     <div class="separator"></div>
