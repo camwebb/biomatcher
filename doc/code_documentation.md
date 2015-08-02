@@ -1,3 +1,4 @@
+# Biomatcher Code Documentation
 ## Introduction
 
 biomatcher.com applications created using CodeIgniter framework. This framework is used to simplify the creation of applications.
