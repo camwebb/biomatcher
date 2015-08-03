@@ -32,7 +32,9 @@ All configuration off CodeIgniter framework is contained in the "config" folder 
 
 #### function - index
 	
-used to check session of a user and redirect user to project page if session valid or login page if session invalid.
+used to check session of a user
+redirect user to project page if session valid
+redirect user to login page if session invalid.
 	
 access public
 
@@ -98,8 +100,55 @@ used to display view and it's data.
 access public
 
 ### Controller - captcha
+
+#### function - _check_captcha
+
+check validity of captcha
+
+return boolean TRUE/FALSE
+access private
+
+#### function - frame
+
+display captcha page
+
+access public
+
+#### function - securimage
+
+generate image captcha
+
+return captcha image
+access public
+
+#### function - securimage_audio
+
+generate audio captcha
+
+return audio file
+access public
+
+#### function - si_test
+
+process captcha sent by user and chec it's validity
+
+see _check_captcha
+access public
+
 ### Controller - demo
+
+#### function - index
+
+display demo captcha page
+
+access public
+
 ### Controller - download
+
+display download page for captcha resource
+
+access public
+
 ### Controller - pages
 ### Controller - project
 ### Controller - setting

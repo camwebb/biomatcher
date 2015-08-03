@@ -109,8 +109,8 @@ class User extends CI_Controller {
         $username = $this->input->cookie('user');
         $password = $this->input->cookie('pass');        
                 
-        $login =$this->m_pages->login_user($username);
-        if ($login['sukses'] == 1 )
+        $login =$this->m_pages->login($username);
+        if ($login)
         {
             $user_credentials = array();
     		$user_credentials[$username] = array(
