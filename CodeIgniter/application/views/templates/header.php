@@ -49,9 +49,6 @@ function show_mask(){
         </div>
         <?php
         }elseif($title == 'Home'){
-            if($this->input->cookie('user') !== FALSE){
-                redirect('user/userlog');
-            }
             //session is empty, show login box.
         ?>
         <div id="page_menu">
