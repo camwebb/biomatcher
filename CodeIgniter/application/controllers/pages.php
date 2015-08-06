@@ -285,23 +285,6 @@ class Pages extends CI_Controller {
         $this->load->library('Auth');
         $this->load->model('m_pages');
         
-    }   
-    
-    if ($page == 'download_statistic'){
-        $project_id = $this->uri->segment(4, 0);
-        
-        if(!$this->m_pages->check_user_project($project_id)){
-            show_404();
-        }
-        
-        $same = $this->m_pages->count_same($project_id);
-        $diff = $this->m_pages->count_diff($project_id);
-        
-        $count = array();
-        $count[] = array('same' => $same, 'diff' => $diff);
-        
-        $data['project_title'] = $this->m_pages->project_title();
-        $data['count_condition'] = $count;
     }
     
 	$this->load->view('templates/header', $data);
