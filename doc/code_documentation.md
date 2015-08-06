@@ -88,15 +88,17 @@ access private
 
 #### function - view
 
-used to display view and it's data.
-- view projects - display all projects created with 10 projects limit per page
-- view users - display all users registered with 10 users limit per page
-- view websites - display all websites registered with 10 websites limit per page
-- view user_projects - display all projects from a spesific user by user id
-- view setting - display user data and change password form
-- view project - display images and it's labels from a project by project id
-- view statistic - display match statistic of a project by project id
+display view and it's data.
 
+- view project - display images and it's labels from a project by project id with 10 images limit per page
+- view projects - display all projects created with 10 projects limit per page
+- view setting - display user data and change password form
+- view statistic - display match statistic of a project by project id
+- view users - display all users registered with 10 users limit per page
+- view user_projects - display all projects from a spesific user by user id
+- view websites - display all websites registered with 10 websites limit per page
+
+param string page = name of html file to be load
 access public
 
 ### Controller - captcha
@@ -145,11 +147,148 @@ access public
 
 ### Controller - download
 
+#### function - index
+
 display download page for captcha resource
 
 access public
 
 ### Controller - pages
+
+#### function - index
+
+display home page
+
+access public
+
+#### function - add_site
+
+add site function
+
+access public
+
+#### function - do_addProject
+
+add project function
+
+access public
+
+#### function - do_deleteWebsite
+
+delete website function
+
+access public
+
+#### function - do_editAllLabel
+
+edit multiple image label function with csv style
+
+access public
+
+#### function - do_editLabel
+
+edit one image label function
+
+access public
+
+#### function - do_renameProject
+
+rename project function
+
+access public
+
+#### function - do_renameWebsite
+
+rename website function
+
+access public
+
+#### function - download_stats
+
+generate csv file for same or different statistic of a project
+
+access public
+
+#### function - find_IDLabel
+
+find image id from a label
+
+access public
+
+#### function - get_token
+
+get site token by site id from GET method
+
+return string token = site token
+access public
+
+#### function - insert_match
+
+insert match image function 
+
+access public
+
+#### function - insert_match_byToken
+
+insert match wiht token. used from another site
+
+access public
+
+#### function - install_auth
+
+install site authentication database
+
+access public
+
+#### function - microtime_float
+
+get current microtime
+
+access public
+
+#### function - project_exists
+
+check project name availability
+
+return bolean TRUE/FALSE
+access public
+
+#### function - selectRandom
+
+get 2 random images from a project
+
+return array image data
+access public
+
+#### function - site_exists
+
+check site exist
+
+return bolean TRUE/FALSE
+access public
+
+#### function - upload_file
+
+upload function for zip file images, convert each image with 3 different size (100px, 400px, 1000px)
+
+see image_lib library
+access public
+
+#### function - view
+
+display view and it's data.
+
+- view get_code - display page contain code and instruction to use biomatcher captcha
+- view home - display home page (welcome page)
+- view match - display matching page for user to match images on server
+- view project - display images and it's labels from a project by project id with 10 images limit per page
+- view projects - display all projects (per user) created with 10 projects limit per page
+- view statistic - display match statistic of a project by project id
+- view my_website - display all websites registered (per user) with 10 websites limit per page
+
+param string page = name of html file to be load
+access public
+
 ### Controller - project
 ### Controller - setting
 ### Controller - user
