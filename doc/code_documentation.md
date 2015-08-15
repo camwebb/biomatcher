@@ -341,6 +341,14 @@ check username availability.
 return boolean TRUE/FALSE
 access public
 
+#### function - create_mail
+
+create mail function.
+
+return mail template code html/text
+
+access private
+
 #### function - do_pass
 
 change user data function.
@@ -356,6 +364,124 @@ This function will change password of a user trought post method.
 access public
 
 ### Controller - user
+
+#### function - do_login
+
+check validity of user data and set user session if data valid
+
+access public
+
+#### function - do_register
+
+insert user data function
+
+access public
+
+#### function - do_reset_password
+
+reset password function.
+This function will check validity of the link and user data, and change user password if data provided is valid.
+
+access public
+
+#### function - do_verify
+
+verify user function
+
+access public
+
+#### function - email_exists
+
+check email existance function
+
+return boolean TRUE/FALSE
+access private
+
+#### function - email_not_exists
+
+check email existance function
+
+return boolean TRUE/FALSE
+access private
+
+#### function - forgot_password
+
+display forgot password page
+
+access public
+
+#### function - get_sha256
+
+Generate sha256 hash for given data.
+
+parameter mixed $to_hash. Can be string or array of data.
+parameter string $mode Hash key mode, accepted values are session, password and cookie.
+return string 64 characters hash of has_key concat with the given data
+
+access protected
+
+#### function - logout
+
+delete user session
+
+access public
+
+#### function - register
+
+display register page
+
+access public
+
+#### function - register_success
+
+display register success page.
+
+access public
+
+#### function - reset_password
+
+display reset password page.
+
+access public
+
+#### function - sendEmail
+
+send email function
+
+parameter string $subject for email subject
+parameter string $email recipent email
+
+return boolean TRUE if success
+access private
+
+#### function - send_reset_link
+
+send password reset link password by email.
+
+acccess public
+
+#### function - template
+
+display page.
+
+parameter string $page. Filename of a page
+parameter array $data. Data to be accessed in view page
+
+access private
+
+#### function - userlog
+
+auto login using browser cookies.
+This function is not used.
+
+access public
+
+#### function - username_exists
+
+check username availability.
+
+return boolean TRUE/FALSE
+access private
 
 ## Model
 
