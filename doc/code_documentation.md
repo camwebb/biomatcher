@@ -262,7 +262,7 @@ access public
 
 #### function - site_exists
 
-check site exist
+check existance of a site
 
 return bolean TRUE/FALSE
 access public
@@ -290,7 +290,71 @@ param string page = name of html file to be load
 access public
 
 ### Controller - project
+
+#### function - deleteImage
+
+delete image function.
+This function will delete image files and data, and send warning to user if image has been match.
+
+access public
+
+#### function - delete_project
+
+delete project function.
+This function will delete project data and images, and send warning to user if the project is not empty or it's images has been matched.
+
+access public
+
+#### function - delImgCascade
+
+delete image function.
+This function will delete image file and data without checking match data.
+
+access public
+
+#### function - del_pr_cascade
+
+delete project function.
+This function will delete project data and images without checking if the project is not empty or it's images has been matched.
+
+access public
+
 ### Controller - setting
+
+#### function - index
+
+display setting page
+
+access public
+
+#### function - check_pass
+
+match password function.
+
+return boolean TRUE/FALSE
+access public
+
+#### function - check_username
+
+check username availability.
+
+return boolean TRUE/FALSE
+access public
+
+#### function - do_pass
+
+change user data function.
+This function will change name, username, and email of a user trought post method.
+
+access public
+
+#### function - do_profile
+
+change password function.
+This function will change password of a user trought post method.
+
+access public
+
 ### Controller - user
 
 ## Model
