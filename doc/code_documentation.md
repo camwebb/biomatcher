@@ -486,5 +486,174 @@ access private
 ## Model
 
 ### Model - m_admin
+
+#### function - check_password
+
+check password match in database
+
+parameter integer $id_user. id of user
+parameter string $key. Encrypted password
+return boolean TRUE/FALSE. Return TRUE if password match and return FALSE if password does not match.
+
+#### function - check_username
+
+check username exist in database
+
+parameter integer $id_user. id of user
+parameter string $key. username of user
+return boolean TRUE/FALSE. Return TRUE if username does not exist and return FALSE if username exist.
+
+#### function - download_statistic
+
+get matches data of a project and convert it to csv file
+
+parameter $project_id. id of a project
+parameter $same. attribute of match (same/different)
+parameter $percent. yes/no. determined wether return percentage of matches data or not
+return file download
+
+#### function - get_csv
+
+get list images by project id
+
+array $result. List images's data
+
+#### function - get_name_image
+
+get original name of an image by image id
+
+parameter $id. id of an image
+return array original name of an image
+
+#### function - image_data
+
+get image's data with it's project's data by image id in QCSet project
+
+parameter integer $imageID. image id
+return array $result. image's data
+
+#### function - isQC
+
+check a project type is Quality Control Set or not
+
+parameter integer $projectID. id of a project
+return boolean TRUE/FALSE. Return TRUE if a project is a Quality Control Set, and return FALSE if a project is not a Quality Control Set.
+
+#### function - list_image
+
+get image per page by project id
+
+parameter integer $perPage. Number of images's data to return per page
+parameter integer $uri. Start index of images's data to return
+return array $result. List images's data
+
+#### function - list_project
+
+get project per page
+
+parameter integer $perPage. Number of project's data to return per page
+parameter integer $uri. Start index of project's data to return
+return array $result. List project's data
+
+#### function - list_user
+
+get user per page
+
+parameter integer $perPage. Number of users's data to return per page
+parameter integer $uri. Start index of users's data to return
+return array $result. List users's data
+
+#### function - list_website
+
+get site per page with it's owner's data
+
+parameter integer $perPage. Number of sites's data to return per page
+parameter integer $uri. Start index of sites's data to return
+return array $result. List sites's data
+
+#### function - login_admin
+
+login function for admin user
+
+parameter string $username. Username used for login
+return array userdata
+
+#### function - matches_data
+
+get a matches data by site id
+
+parameter integer $siteID. site id
+return array $result. Matches's data
+
+#### function - match_images
+
+get matches data by project id
+
+parameter $projectID. id of a project
+return array matches data
+
+#### function - profile_admin
+
+update admin userdata
+
+parameter integer $id_user. id of user
+parameter string $name. name of user
+parameter string $username. username of user
+parameter string $email. user's email
+return json array(). success message
+
+#### function - project_consumer
+
+get list sites of a user with type consumer
+
+parameter integer $user_id. id of user
+return array $result. List sites data
+
+#### function - project_data
+
+get a project's data by project id
+
+parameter integer $project_id. id of s project
+return array $result. Project's data
+
+#### function - project_supplier
+
+get list projects of a user with type supplier
+
+parameter integer $user_id. id of user
+return array $result. List projects data
+
+#### function - same
+
+count matches data with same/different attribute
+
+parameter $imageA. image id
+parameter $imageB. image id
+parameter $same. attribute of match (same/different)
+
+return integer sum of matches data
+
+#### function - total_matches
+
+count total matches data of an image
+
+parameter $imageA. image id
+
+return integer sum of matches data
+
+#### function - user_data
+
+get a user's data by project id
+
+parameter integer $user_id. id of a user
+return array $result. User's data
+
+#### function - user_type
+
+check user type by user id
+
+parameter integer $id_user. id of user
+return string user type
+
 ### Model - m_general
 ### Model - m_pages

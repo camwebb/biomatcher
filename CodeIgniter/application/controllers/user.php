@@ -13,11 +13,6 @@ class User extends CI_Controller {
         $this->load->library('form_validation');
     }
     
-    public function index()
-	{
-        
-	}
-    
     public function do_login()
     {
         // field name, error message, validation rules
@@ -561,6 +556,12 @@ class User extends CI_Controller {
         }     
     }
     
+    /**
+     * Display page.
+     * 
+     * @param string $page filename of a page
+     * @param array $data data to be accessed in view page     * 
+     * */    
     function template($page, $data=NULL)
     {
         if(!$page) return FALSE;
@@ -580,7 +581,7 @@ class User extends CI_Controller {
      *
      * @param string $subject for email subject
      * @param string $email recipent email
-     * @return string $html_email email content
+     * @return boolean TRUE if success
      */
     private function sendEmail($subject, $email, $html_email){
         $configEmail = $this->config->load('email');

@@ -7,6 +7,12 @@ class M_admin extends CI_Model {
         parent::__construct();
     }
     
+    /**
+     * login function for admin
+     * 
+     * @param string $username = username used for login
+     * @return array userdata = array(id,username,email,password,name,type)
+     * */
     function login_admin($username)
     {
         $query = $this->db->query("SELECT * FROM user where username='$username' and type='admin' limit 1");
@@ -26,6 +32,14 @@ class M_admin extends CI_Model {
         return $hasil;
     }
     
+    /**
+     * check password match in database
+     * 
+     * @param integer $id_user = id of user
+     * @param string $key = encrypted password
+     * 
+     * @return boolean TRUE/FALSE
+     * */
     function check_password($id_user,$key){
         $query = $this->db->query("SELECT * FROM user where id = '".$id_user."' and password ='".$key."' ");
         if ($query->num_rows() > 0){
@@ -36,6 +50,14 @@ class M_admin extends CI_Model {
         }
     }
 
+    /**
+     * check username exist in database
+     * 
+     * @param integer $id_user = id of user
+     * @param string $key = username of user
+     * 
+     * @return boolean TRUE/FALSE
+     * */
     function check_username($id_user,$key){
         $query = $this->db->query("SELECT * FROM user where id = '".$id_user."' and username ='".$key."' ");
         if ($query->num_rows() > 0){
@@ -52,6 +74,16 @@ class M_admin extends CI_Model {
         }
     }
     
+    /**
+     * update admin userdata
+     * 
+     * @param integer $id_user = id of user
+     * @param string $name = name of user
+     * @param string $username = username of user
+     * @param string $email = user's email
+     * 
+     * @return json array = array(result)
+     * */
     function profile_admin($id_user,$name,$username,$email){
         $data = array(
                'name' => $name,
@@ -68,6 +100,16 @@ class M_admin extends CI_Model {
         echo json_encode(array('result' => 'Success')); 
     }
     
+    /**
+     * update admin userdata
+     * 
+     * @param integer $id_user = id of user
+     * @param string $name = name of user
+     * @param string $username = username of user
+     * @param string $email = user's email
+     * 
+     * @return json array = array(result)
+     * */
     function pass_admin($id_user,$new_pass){
         $data = array(
                'password' => $new_pass
@@ -78,6 +120,13 @@ class M_admin extends CI_Model {
         echo json_encode(array('result' => 'Success')); 
     }
     
+    /**
+     * check user type
+     * 
+     * @param integer $id_user = id of user
+     * 
+     * @return string user type. user type
+     * */
     function user_type($id){
         $this->db->select('type');
         $user = $this->db->get_where('user', array('id' => $id));
@@ -90,6 +139,14 @@ class M_admin extends CI_Model {
         }
     }
     
+    /**
+     * get project per page
+     * 
+     * @param integer $perPage = number of project's data to return per page
+     * @param integer $uri = start index of project's data to return
+     * 
+     * @return array $result = list project's data
+     * */
     function list_project($perPage,$uri){
         $this->db->select('project.name as project_name,user.name as user_name,project.id as project_id,project.userID as project_userID');
         $this->db->order_by('project.id','ASC');
@@ -98,11 +155,27 @@ class M_admin extends CI_Model {
         return $query->result();
     }
     
+    /**
+     * get user per page
+     * 
+     * @param integer $perPage = number of users's data to return per page
+     * @param integer $uri = start index of users's data to return
+     * 
+     * @return array $result = list users's data
+     * */
     function list_user($perPage,$uri){
         $query = $this->db->get('user', $perPage, $uri);
         return $query->result();
     }
     
+    /**
+     * get site per page with it's owner's data
+     * 
+     * @param integer $perPage = number of sites's data to return per page
+     * @param integer $uri = start index of sites's data to return
+     * 
+     * @return array $result = list sites's data
+     * */
     function list_website($perPage,$uri){
         $this->db->order_by('site.id','ASC');
         $this->db->join('user', 'site.userID = user.id','left');
@@ -110,6 +183,14 @@ class M_admin extends CI_Model {
         return $query->result();
     }
     
+    /**
+     * get image per page by project id
+     * 
+     * @param integer $perPage = number of images's data to return per page
+     * @param integer $uri = start index of images's data to return
+     * 
+     * @return array $result = list images's data
+     * */
     function list_image($perPage,$uri){
         $project_id = $this->uri->segment(4, 0);
         $this->db->where('projectID',$project_id);
@@ -118,6 +199,13 @@ class M_admin extends CI_Model {
         return $query->result();
     }
     
+    /**
+     * get list project of a user with supplier type
+     * 
+     * @param integer $user_id = id of user
+     * 
+     * @return array $result = list project's data
+     * */
     function project_supplier($user_id){
         $this->db->select('project.id as project_id, project.name as project_name, project.qcSet as project_qcSet, user.username as username, user.name as name, user.type as type, user.email as email');
         $this->db->join('project', 'project.userID = user.id');
@@ -126,6 +214,13 @@ class M_admin extends CI_Model {
         return $query->result();
     }
     
+    /**
+     * get list site of a user with consumer type
+     * 
+     * @param integer $user_id = id of user
+     * 
+     * @return array $result = list sites's data
+     * */
     function project_consumer($user_id){
         $this->db->select('site.id as site_id, site.url as site_url, site.url_activated as url_activated, user.username as username, user.name as name, user.type as type, user.email as email');
         $this->db->join('site', 'site.userID = user.id');
@@ -134,16 +229,35 @@ class M_admin extends CI_Model {
         return $query->result();
     }
     
+    /**
+     * get a project's data by project id
+     * 
+     * @param integer $project_id = id of project
+     * 
+     * @return array $result = project's data
+     * */
     function project_data($project_id){
         $query=$this->db->query("SELECT * FROM project where id='$project_id'");
         return $query->result();            
     }
     
+    /**
+     * get a user's data by user id
+     * 
+     * @param integer $user_id = id of user
+     * 
+     * @return array $result = user's data
+     * */
     function user_data($user_id){
         $query=$this->db->query("SELECT * FROM user where id='$user_id'");
         return $query->result();            
     }
     
+    /**
+     * get list images by project id
+     * 
+     * @return array $result = list images's data
+     * */
     function get_csv(){
         $this->load->dbutil();
         $project_id = $this->uri->segment(4, 0);
@@ -155,6 +269,13 @@ class M_admin extends CI_Model {
       // echo $this->dbutil->csv_from_result($query, $delimiter, $newline);
     }
     
+    /**
+     * get a matches data by site id
+     * 
+     * @param integer $siteID = site id
+     * 
+     * @return array $result = matches's data
+     * */
     function matches_data($siteID){
         $this->db->select('*');
         $matches = $this->db->get_where('match', array('siteID' => $siteID));
@@ -164,6 +285,13 @@ class M_admin extends CI_Model {
         }
     }
     
+    /**
+     * get image's data with it's project's data by image id in QCSet project
+     * 
+     * @param integer $imageID = image id
+     * 
+     * @return array $result = image's data
+     * */
     function image_data($imageID){
         $this->db->select('*');
         $this->db->from('image');
@@ -182,7 +310,6 @@ class M_admin extends CI_Model {
      * check a project is Quality Control Set or not
      * @param projectID
      **/
-    
     function isQC($projectID){
         $this->db->select('qcSet');
         $query = $this->db->get_where('project', array('id' => $projectID));
@@ -196,6 +323,13 @@ class M_admin extends CI_Model {
         }
     }
     
+    /**
+     * get matches data by project id
+     * 
+     * @param projectID
+     * 
+     * @return array query result
+     **/
     function match_images($projectID){
         $query = $this->db->query("SELECT m.imageA,m.imageB,projectID, CONCAT (GREATEST(m.imageA,m.imageB),',',LEAST(m.imageA,m.imageB)) as pair_id,
                     sum(case when m.same = 'yes' then 1 else 0 end) as same_match,
@@ -209,6 +343,13 @@ class M_admin extends CI_Model {
         return $stat;
     }
     
+    /**
+     * get original name of an image by image id
+     * 
+     * @param $id = image id
+     * 
+     * @return array original name of an image
+     **/
     function get_name_image($id){
         $this->db->select('nameOri');
         $this->db->where('id',$id);
@@ -216,18 +357,43 @@ class M_admin extends CI_Model {
         return $query->result();
     }
     
+    /**
+     * count matches data with same/different attribute
+     * 
+     * @param $imageA = image id
+     * @param $imageB = image id
+     * @param $same = attribute of match (same/different)
+     * 
+     * @return integer sum of matches data
+     **/
     function same($imageA, $imageB, $same){
         $where = array('imageA'=> $imageA, 'imageB' => $imageB, 'same' => $same);        
         $query = $this->db->get_where('match', $where);
         return $query->num_rows();
     }
     
+    /**
+     * count total matches data of an image
+     * 
+     * @param $imageA = image id
+     * 
+     * @return integer sum of matches data
+     **/
     function total_matches($imageA){
         $this->db->where('imageA IN ('.implode(',',$imageA).')', NULL, FALSE);
         $query = $this->db->get('match');
         return $query->num_rows();
     }
     
+    /**
+     * get matches data of a project and convert it to csv file
+     * 
+     * @param $project_id = project id
+     * @param $same = attribute of match (same/different)
+     * @param $percent = yes/no. determined wether return percentage of matches data or not
+     * 
+     * @return file download
+     **/
     function download_statistic($project_id,$same,$percent){
         $list_image_a = array();
         $list_image_a[] = "imageA/imageB";
