@@ -1,45 +1,28 @@
-<html>
-
-<head>
-	<script type="text/javascript" src="<?php echo base_url(); ?>captcha/jquery.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>captcha/biomatcher_for_development.js"></script>
-	<script type="text/javascript">
-	    window.addEventListener( "message",
-	    function (e) {
-	        if(e.data == 'verified'){
-	            //do something with your form ex. submit or alert
-                alert('You are human!');
-                biomatcherClose();
-	        } 
-	    },
-	    false);
-	    var yourURL = 'http://biomatcher.org/index.php/demo'; //this is used to send a message to your site.
-	    var token = '7e50ff0667c82da61df46f6d824045f7cf78896130cb1f78067de67e425dcabc'; //this token will allow you to use biomatcher captcha.
-	</script>
-</head>
-
-<body>
-<fieldset>
-    <legend>Example Form</legend>
-	<p>This is an example form to use biomatcher captcha. Do not forget to include jquery and biomatcher.js into your html header.</p>
- 
-	<form method="post" action="<?php echo base_url('index.php/demo');?>" id="captcha_form" name="myForm">
-	  <p>
-	    <strong>Name*:</strong>   <br />
-	    <input type="text" name="name" size="35" value="" />
-	  </p>
+<div class="wrapper">
+    <div id="content">
+        <h2 style="float: left;">My Website</h2>  
+        <div class="separator" style="float: left;"></div>
+        <div class="clear"></div>
+	    <h3>Example Form</h3><br>
+		<p>This is an example form to use biomatcher captcha.</p><br>
 	 
-	  <p>
-	    <strong>Email*:</strong>   <br>
-	    <input type="text" name="email" size="35" value="" />
-	  </p>
-	   
-	  <p>
-	    <input type="button" value="Verify" onclick="biomatcher(yourURL,token);" /> 
-	  </p>
-	 
-	</form>
-</fieldset>    
-</body>
-
-</html>
+		<form method="post" action="<?php echo base_url('index.php/demo');?>" id="captcha_form" name="myForm">
+		  
+		  <table>
+		  	<tr>
+		  		<td style="width: 100px;"><strong>Name <sup>*</sup></strong></td>
+		  		<td><input type="text" class="inputtext" name="name" style="width: 225px;" required/></td>
+		  	</tr>
+		  	<tr>
+		  		<td><strong>Email <sup>*</sup></strong></td>
+		  		<td><input type="text" class="inputtext" name="email" style="width: 225px;" required/></td>
+		  	</tr>
+		  	<tr>
+		  		<td></td>
+		  		<td style="padding-top: 10px;"><input type="button" class="box-button" value="Verify" onclick="biomatcher(yourURL,token);" /> </td>
+		  	</tr>
+		  </table>
+		 
+		</form>
+	</div>
+</div>

@@ -16,6 +16,28 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>plugin/datatables/css/jquery.dataTables.min.css" />
     <!-- Datatable -->
 
+    <?php 
+        $demo = $this->uri->segment(1);
+        if($demo == 'demo'){
+    ?>
+        <!-- Demo Head -->
+        <script type="text/javascript" src="<?php echo base_url(); ?>captcha/jquery.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); ?>captcha/biomatcher_for_development.js"></script>
+        <script type="text/javascript">
+            window.addEventListener( "message",
+            function (e) {
+                if(e.data == 'verified'){
+                    //do something with your form ex. submit or alert
+                    alert('You are human!');
+                    biomatcherClose();
+                } 
+            },
+            false);
+            var yourURL = 'http://biomatcher.org/index.php/demo'; //this is used to send a message to your site.
+            var token = '7e50ff0667c82da61df46f6d824045f7cf78896130cb1f78067de67e425dcabc'; //this token will allow you to use biomatcher captcha.
+        </script>
+    <?php } ?>
+
 </head>
 <body>
 
