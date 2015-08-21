@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div id="content">
-        <h2 style="float: left;">My Website</h2>  
+        <h2 style="float: left;">Demo Page</h2>  
         <div class="separator" style="float: left;"></div>
         <div class="clear"></div>
 	    <h3>Example Form</h3><br>

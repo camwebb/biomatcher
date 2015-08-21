@@ -52,10 +52,12 @@ function show_mask(){
 <div id="header">
 <div class="wrapper">
     <div id="wrap-header">
+        <a href="<?php echo base_url();?>" style="color: #111;">
         <div id="page_title">
             <h1 style="font-size: 2.9em; text-align: left;">Biomatcher</h1>
             <p style="font-size: 20px; text-align: left;">A tool for matching digital images</p>
         </div>
+        </a>
         <?php
         if ($this->session->userdata('username') ==""){
             if($title == 'Register' OR $title == 'Forgot Password' OR $title == 'Reset Password'){
@@ -70,7 +72,7 @@ function show_mask(){
             <h1 style="float: right;">Login</h1>
         </div>
         <?php
-        }elseif($title == 'Home'){
+        }elseif($title == 'Home' || $title == 'Demo'){
             //session is empty, show login box.
         ?>
         <div id="page_menu">
