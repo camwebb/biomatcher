@@ -4,6 +4,7 @@
     
         <div style="float: right;">
             <button class="box-button" id="site_reg">Register My Website</button>
+            <a href="<?php echo base_url();?>index.php/demo" class="box-button">Demo Page</a>
             <!--<span>
                 <a href="<?php echo base_url(); ?>index.php/pages/view/projects" style="float: right;">
                     <img style="height: 36px; float:left" src="<?php echo base_url(); ?>style/img/arrow-left.png" />
